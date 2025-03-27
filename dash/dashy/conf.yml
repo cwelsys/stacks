@@ -1,0 +1,90 @@
+---
+# Page meta info
+pageInfo:
+  title: NASDSAQ Dashboard
+  description: Personal self-hosted services dashboard
+  navLinks:
+    - title: GitHub
+      path: https://github.com/Lissy93/dashy
+    - title: Documentation
+      path: https://dashy.to/docs
+
+# Optional app settings
+appConfig:
+  theme: colorful
+  layout: auto
+  iconSize: medium
+
+# Main content - An array of sections, each containing an array of items
+sections:
+  - name: Media
+    icon: fas fa-play-circle
+    items:
+      - title: Plex
+        icon: fas fa-play
+        url: https://plex.cwel.sh
+        statusCheck: true
+      - title: Jellyfin
+        icon: fas fa-film
+        url: https://jellyfin.cwel.sh
+        statusCheck: true
+      - title: JellySeerr
+        icon: fas fa-ticket-alt
+        url: https://jellyseerr.cwel.sh
+        statusCheck: true
+
+  - name: Media Management
+    icon: fas fa-download
+    items:
+      - title: Sonarr
+        icon: fas fa-tv
+        url: https://sonarr.cwel.sh
+        statusCheck: true
+      - title: Radarr
+        icon: fas fa-film
+        url: https://radarr.cwel.sh
+        statusCheck: true
+      - title: Lidarr
+        icon: fas fa-music
+        url: https://lidarr.cwel.sh
+        statusCheck: true
+      - title: Calibre Web
+        icon: fas fa-book
+        url: https://calibre.cwel.sh
+        statusCheck: true
+
+  - name: Downloading
+    icon: fas fa-cloud-download-alt
+    items:
+      - title: qBittorrent
+        icon: fas fa-download
+        url: https://qbittorrent.cwel.sh
+        statusCheck: true
+      - title: Prowlarr
+        icon: fas fa-search
+        url: https://prowlarr.cwel.sh
+        statusCheck: true
+      - title: SABnzbd
+        icon: fas fa-newspaper
+        url: https://sabnzbd.cwel.sh
+        statusCheck: true
+
+  - name: System
+    icon: fas fa-server
+    items:
+      - title: Portainer
+        icon: fab fa-docker
+        url: https://portainer.cwel.sh
+        statusCheck: true
+      - title: Traefik
+        icon: fas fa-network-wired
+        url: https://traefik.cwel.sh
+        statusCheck: true
+      - title: Scrutiny
+        icon: fas fa-hdd
+        url: https://scrutiny.cwel.sh
+        statusCheck: true
+      - title: Profilarr
+        icon: fas fa-sliders-h
+        url: https://profilarr.cwel.sh
+        statusCheck: true

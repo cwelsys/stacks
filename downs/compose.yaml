@@ -1,0 +1,108 @@
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:libtorrentv1
+    container_name: qbittorrent
+    environment:
+      - PUID=${DUID}
+      - PGID=${DGID}
+      - TZ=${TZ}
+      - WEBUI_PORT=8080
+      - DOCKER_MODS=ghcr.io/gabe565/linuxserver-mod-vuetorrent
+    volumes:
+      - ./qbittorrent:/config
+      - ${TORRENT}:/data/tor
+    restart: always
+    healthcheck:
+      # Container may fail if the PIA's token expired, so mark as unhealthy when there is no internet connection
+      # see: https://github.com/qdm12/gluetun/issues/641#issuecomment-933856220
+      test:
+        - CMD
+        - curl
+        - --fail
+        - http://127.0.0.1:8080
+        - https://google.com
+      interval: 30s
+      retries: 10
+    network_mode: service:vpn
+    depends_on:
+      vpn:
+        condition: service_healthy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.cwel.sh`)
+      - traefik.http.routers.qbittorrent.tls=true
+      - traefik.http.routers.qbittorrent.tls.certresolver=le
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+      - homepage.group=Download
+      - homepage.name=qBittorrent
+      - homepage.icon=qbittorrent.png
+      - homepage.href=https://qbittorrent.cwel.sh
+      - homepage.description=Bittorrent client
+      - homepage.weight=2
+      - homepage.widget.type=qbittorrent
+      - homepage.widget.url=http://vpn:8080
+      - homepage.widget.username=${QBITTORRENT_USERNAME}
+      - homepage.widget.password=${QBITTORRENT_PASSWORD}
+  vpn:
+    image: ghcr.io/thrnz/docker-wireguard-pia:latest
+    container_name: vpn
+    volumes:
+      - ./pia:/pia
+      - ./pia/shared:/pia-shared
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - LOC=${PIA_LOCATION}
+      - USER=${PIA_USER}
+      - PASS=${PIA_PASS}
+      - QBT_USER=${QBITTORRENT_USERNAME}
+      - QBT_PASS=${QBITTORRENT_PASSWORD}
+      - LOCAL_NETWORK=${PIA_LOCAL_NETWORK}
+      - PORT_FORWARDING=1
+      - PORT_PERSIST=1
+      - PORT_SCRIPT=/pia-shared/portupdate-qbittorrent.sh
+    networks:
+      - proxy
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.default.disable_ipv6=1
+      - net.ipv6.conf.all.disable_ipv6=1
+      - net.ipv6.conf.lo.disable_ipv6=1
+    healthcheck:
+      test: ping -c 1 www.google.com || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: always
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=${DUID}
+      - PGID=${DGID}
+      - TZ=${TZ}
+    volumes:
+      - ./sabnzbd:/config
+      - ${RUST}:/data
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.cwel.sh`)
+      - traefik.http.routers.sabnzbd.tls=true
+      - traefik.http.routers.sabnzbd.tls.certresolver=le
+      - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
+      - homepage.group=Download
+      - homepage.name=Sabnzbd
+      - homepage.icon=sabnzbd.png
+      - homepage.href=https://sabnzbd.cwel.sh
+      - homepage.description=Usenet
+      - homepage.weigqt=3
+      - homepage.widget.type=sabnzbd
+      - homepage.widget.url=https://sabnzbd.cwel.sh
+      - homepage.widget.key=${SABNZBD_API_KEY}
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true

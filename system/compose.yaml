@@ -1,0 +1,59 @@
+services:
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:master-omnibus
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    privileged: true
+    volumes:
+      - /run/udev:/run/udev:ro
+      - /dev:/dev:ro
+      - ./scrutiny/data:/opt/scrutiny/config
+      - ./scrutiny/influxdb2:/opt/scrutiny/influxdb
+      - ./scrutiny/data/scrutiny.yaml:/opt/scrutiny/config/scrutiny.yaml
+    restart: always
+    healthcheck:
+      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8080/health' ]
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.scrutiny.rule=Host(`scrutiny.cwel.sh`)
+      - traefik.http.routers.scrutiny.tls=true
+      - traefik.http.routers.scrutiny.tls.certresolver=le
+      - traefik.http.services.scrutiny.loadbalancer.server.port=8080
+      - homepage.group=System
+      - homepage.name=Scrutiny
+      - homepage.icon=scrutiny.png
+      - homepage.href=https://scrutiny.cwel.sh
+      - homepage.description=SMART Monitoring
+      - homepage.weight=0
+    networks:
+      - proxy
+
+  watchtower:
+    image: ghcr.io/containrrr/watchtower:latest
+    container_name: watchtower
+    restart: always
+    environment:
+      - WATCHTOWER_CLEANUP=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
+
+  autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: autoheal
+    restart: always
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
