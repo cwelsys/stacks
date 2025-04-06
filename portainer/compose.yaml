@@ -13,7 +13,7 @@ services:
       # Frontend
       - traefik.enable=true
       - traefik.http.routers.portainer.rule=Host(`portainer.cwel.sh`)
-      - traefik.http.routers.portainer.entrypoints=websecure
+      - traefik.http.routers.portainer.entrypoints=web-secure
       - traefik.http.services.portainer.loadbalancer.server.port=9000
       - traefik.http.routers.portainer.service=portainer
       - traefik.http.routers.portainer.tls.certresolver=le
@@ -25,7 +25,7 @@ services:
       - homepage.description=Docker container management
       - homepage.weight=1
       # - traefik.http.routers.edge.rule=Host(`edge.cwel.sh`)
-      # - traefik.http.routers.edge.entrypoints=websecure
+      # - traefik.http.routers.edge.entrypoints=web-secure
       # - traefik.http.services.edge.loadbalancer.server.port=8000
       # - traefik.http.routers.edge.service=edge
       # - traefik.http.routers.edge.tls.certresolver=le

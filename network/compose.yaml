@@ -16,13 +16,17 @@ services:
       - --ping=true
       - --accesslog=false
       - --log.level=INFO
+      - --providers.file.directory=./cfg/
+      - --providers.file.watch=true
       - --api=true
       - --api.dashboard=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web-secure.address=:443
+      - --entrypoints.matrix-federation.address=:8448 # Uncomment this
+      - --entrypoints.matrix-client.address=:8008 # Uncomment this
+      - --entrypoints.web.http.redirections.entryPoint.to=web-secure
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
       - --entrypoints.web.http.redirections.entrypoint.permanent=true
       - --certificatesresolvers.le.acme.dnschallenge=${DNS_CHALLENGE:-true}
@@ -38,11 +42,19 @@ services:
       - traefik.http.routers.traefik-secure.middlewares=traefik-auth
       - traefik.http.routers.traefik-secure.tls=true
       - traefik.http.routers.dashboard.service=api@internal
-      - traefik.http.routers.dashboard.entrypoints=websecure
+      - traefik.http.routers.dashboard.entrypoints=web-secure
       - traefik.http.routers.dashboard.tls.certresolver=le
+      - homepage.name=Traefik
+      - homepage.icon=traefik.png
+      - homepage.group=Network
+      - homepage.description=Reverse Proxy & Load Balancer
+      - homepage.href=https://traefik.cwel.sh
+      - homepage.statusStyle=dot
     ports:
       - 80:80
       - 443:443
+      - 8448:8448 # Federation port
+      - 8008:8008 # Client API port
     volumes:
       - ./cert:/cert
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -61,7 +73,7 @@ services:
     container_name: cloudflared
     restart: unless-stopped
     networks:
-      - public
+      - proxy
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     environment:
       - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
@@ -76,6 +88,4 @@ services:
 
 networks:
   proxy:
-    external: true
-  public:
     external: true

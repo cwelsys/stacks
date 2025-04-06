@@ -13,20 +13,13 @@ services:
       - ${TORRENT}:/data/tor
     restart: always
     healthcheck:
-      # Container may fail if the PIA's token expired, so mark as unhealthy when there is no internet connection
-      # see: https://github.com/qdm12/gluetun/issues/641#issuecomment-933856220
-      test:
-        - CMD
-        - curl
-        - --fail
-        - http://127.0.0.1:8080
-        - https://google.com
+      test: ['CMD-SHELL', 'curl -sf https://api.ipify.org || exit 1']
       interval: 30s
-      retries: 10
-    network_mode: service:vpn
+      timeout: 10s
+      retries: 3
+    network_mode: service:gluetun
     depends_on:
-      vpn:
-        condition: service_healthy
+      - gluetun
     labels:
       - traefik.enable=true
       - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.cwel.sh`)
@@ -40,41 +33,65 @@ services:
       - homepage.description=Bittorrent client
       - homepage.weight=2
       - homepage.widget.type=qbittorrent
-      - homepage.widget.url=http://vpn:8080
+      - homepage.widget.url=http://gluetun:8080
       - homepage.widget.username=${QBITTORRENT_USERNAME}
       - homepage.widget.password=${QBITTORRENT_PASSWORD}
-  vpn:
-    image: ghcr.io/thrnz/docker-wireguard-pia:latest
-    container_name: vpn
-    volumes:
-      - ./pia:/pia
-      - ./pia/shared:/pia-shared
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    environment:
-      - LOC=${PIA_LOCATION}
-      - USER=${PIA_USER}
-      - PASS=${PIA_PASS}
-      - QBT_USER=${QBITTORRENT_USERNAME}
-      - QBT_PASS=${QBITTORRENT_PASSWORD}
-      - LOCAL_NETWORK=${PIA_LOCAL_NETWORK}
-      - PORT_FORWARDING=1
-      - PORT_PERSIST=1
-      - PORT_SCRIPT=/pia-shared/portupdate-qbittorrent.sh
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    restart: unless-stopped
     networks:
       - proxy
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv6.conf.default.disable_ipv6=1
-      - net.ipv6.conf.all.disable_ipv6=1
-      - net.ipv6.conf.lo.disable_ipv6=1
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8080:8080
+      # - 8000:8000
+    volumes:
+      - ./gluetun/config.toml:/gluetun/auth/config.toml
+    environment:
+      VPN_SERVICE_PROVIDER: protonvpn
+      VPN_TYPE: wireguard
+      VPN_PORT_FORWARDING: on
+      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
+      WIREGUARD_ADDRESSES: '10.2.0.2/32'
+      GLUETUN_HTTP_CONTROL_SERVER_ENABLE: on
+      SERVER_COUNTRIES: US,CANADA
+      # SERVER_REGIONS: US
+      # VPN_CITIES: Secaucus,New York,Philadelphia,Toronto,Montreal
+      # GLUETUN_HTTP_CONTROL_SERVER_PORT: 8000
+      # GLUETUN_HTTP_CONTROL_SERVER_LOG: on
+      # GLUETUN_HTTP_CONTROL_SERVER_ADDRESS: 0.0.0.0:8000
+  qsticky:
+    image: ghcr.io/monstermuffin/qsticky:latest
+    container_name: qsticky
+    environment:
+      # qBittorrent settings
+      QBITTORRENT_HOST: gluetun
+      QBITTORRENT_HTTPS: false
+      QBITTORRENT_PORT: 8080
+      QBITTORRENT_USER: ${QBITTORRENT_USERNAME}
+      QBITTORRENT_PASS: ${QBITTORRENT_PASSWORD}
+
+      # Gluetun control server
+      GLUETUN_HOST: gluetun
+      GLUETUN_PORT: 8000
+      GLUETUN_AUTH_TYPE: apikey
+      GLUETUN_APIKEY: ${GLUETUN_APIKEY}
+      LOG_LEVEL: INFO
+
     healthcheck:
-      test: ping -c 1 www.google.com || exit 1
+      test:
+        ['CMD', 'python3', '-c', "import json; exit(0 if json.load(open('/app/health/status.json'))['healthy'] else 1)"]
       interval: 30s
       timeout: 10s
       retries: 3
     restart: always
+    networks:
+      - proxy
+
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
@@ -85,6 +102,7 @@ services:
     volumes:
       - ./sabnzbd:/config
       - ${RUST}:/data
+      - ./sabnzbd/custom-cont-init.d:/custom-cont-init.d
     restart: always
     labels:
       - traefik.enable=true
@@ -103,6 +121,40 @@ services:
       - homepage.widget.key=${SABNZBD_API_KEY}
     networks:
       - proxy
+
+  # vpn:
+  #   image: ghcr.io/thrnz/docker-wireguard-pia:latest
+  #   container_name: vpn
+  #   volumes:
+  #     - ./pia:/pia
+  #     - ./pia/shared:/pia-shared
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #   environment:
+  #     - LOC=${PIA_LOCATION}
+  #     - USER=${PIA_USER}
+  #     - PASS=${PIA_PASS}
+  #     - QBT_USER=${QBITTORRENT_USERNAME}
+  #     - QBT_PASS=${QBITTORRENT_PASSWORD}
+  #     - LOCAL_NETWORK=${PIA_LOCAL_NETWORK}
+  #     - PORT_FORWARDING=1
+  #     - PORT_PERSIST=1
+  #     - PORT_SCRIPT=/pia-shared/portupdate-qbittorrent.sh
+  #   networks:
+  #     - proxy
+  #   sysctls:
+  #     - net.ipv4.conf.all.src_valid_mark=1
+  #     - net.ipv6.conf.default.disable_ipv6=1
+  #     - net.ipv6.conf.all.disable_ipv6=1
+  #     - net.ipv6.conf.lo.disable_ipv6=1
+  #   healthcheck:
+  #     test: ping -c 1 www.google.com || exit 1
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   restart: always
+
 networks:
   proxy:
     external: true

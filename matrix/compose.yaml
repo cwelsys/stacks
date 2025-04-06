@@ -1,0 +1,108 @@
+services:
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: postgres:15-alpine
+    restart: always
+    volumes:
+      - ./config/postgres:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: dendrite
+      POSTGRES_DATABASE: dendrite
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U dendrite']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - proxy
+
+  monolith:
+    container_name: monolith
+    hostname: monolith
+    image: ghcr.io/element-hq/dendrite-monolith:latest
+    volumes:
+      - ./config/dendrite:/etc/dendrite
+      - /etc/localtime:/etc/localtime:ro
+      - ./config/media:/var/dendrite/media
+      - ./config/jetstream:/var/dendrite/jetstream
+      - ./config/search_index:/var/dendrite/searchindex
+      - ./config/discord:/etc/discord
+      - ./config/imsg:/etc/imsg
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - proxy
+    restart: unless-stopped
+    labels:
+      - 'traefik.enable=true'
+      # Client API endpoint (for Element and other clients)
+      - 'traefik.http.services.matrix.loadbalancer.server.port=8008'
+      - 'traefik.http.routers.matrix.rule=Host(`m.cwel.sh`)'
+      - 'traefik.http.routers.matrix.entrypoints=matrix-client' # Use dedicated entrypoint
+      - 'traefik.http.routers.matrix.tls.certresolver=le'
+      # Federation endpoint
+      - 'traefik.http.routers.matrix-fed.rule=Host(`m.cwel.sh`)'
+      - 'traefik.http.routers.matrix-fed.entrypoints=matrix-federation'
+      - 'traefik.http.routers.matrix-fed.service=matrix'
+      - 'traefik.http.routers.matrix-fed.tls.certresolver=le'
+
+  element-web:
+    image: vectorim/element-web:latest
+    restart: always
+    container_name: element-web
+    depends_on:
+      - monolith
+    volumes:
+      - ./element-web/config.json:/app/config.json:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.element-web.loadbalancer.server.port=80'
+      - 'traefik.http.routers.element-web.rule=Host(`im.cwel.sh`)'
+      # Change this to web-secure instead of matrix-client
+      - 'traefik.http.routers.element-web.entrypoints=web-secure'
+      - 'traefik.http.routers.element-web.tls.certresolver=le'
+  mautrix-discord:
+    container_name: discord-bridge
+    hostname: discord
+    image: dock.mau.dev/mautrix/discord:latest
+    restart: no
+    volumes:
+      - ./config/discord:/data
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'test -f /data/config.yaml -a -f /data/registration.yaml']
+      interval: 30s
+      timeout: 10s
+      retries: 1
+      start_period: 5s
+
+  cleanmedia:
+    hostname: cleanmedia
+    image: rogsme/cleanmedia
+    volumes:
+      - ./config/dendrite:/etc/dendrite
+      - ./config/media:/var/dendrite/media
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy
+    environment:
+      - CRON=0 0 * * *
+      - CLEANMEDIA_OPTS=-c /etc/dendrite/dendrite.yaml -t 30 -l
+    depends_on:
+      - monolith
+
+networks:
+  proxy:
+    external: true
