@@ -36,7 +36,7 @@ TAUTULLI_API_KEY="op://Secrets/Tautulli/credential"
 name = "dash"
 [stack.config]
 server = "pbox"
-run_directory = "docker/dash"
+run_directory = "dash"
 additional_env_files = ["global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
@@ -109,7 +109,7 @@ POSTGRES_PASSWORD="op://Secrets/Matrix Postgres/password"
 name = "media"
 [stack.config]
 server = "pbox"
-run_directory = "dmedia"
+run_directory = "media"
 additional_env_files = ["global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
