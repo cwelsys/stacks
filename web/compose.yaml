@@ -1,16 +1,57 @@
-## 🦎 Hello Komodo 🦎
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    container_name: umami
+    environment:
+      DATABASE_URL: postgresql://umami:umami@db:5432/umami
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${APP_SECRET}
+    depends_on:
+      db:
+        condition: service_healthy
+    init: true
+    restart: always
+    ports:
+      - '3000:3000'
+    networks:
+      - proxy
+    healthcheck:
+      test: ['CMD-SHELL', 'curl http://localhost:3000/api/heartbeat']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    labels:
+      # - traefik.enable=true
+      # - traefik.http.routers.umami.rule=Host(`anal.cwel.sh`)
+      # - traefik.http.routers.umami.tls=true
+      # - traefik.http.routers.umami.tls.certresolver=le
+      # - traefik.http.services.umami.loadbalancer.server.port=3000
+      - homepage.group=Analytics
+      - homepage.name=Umami
+      - homepage.icon=umami.png
+      - homepage.href=https://anal.cwel.sh
+      - homepage.description=Website analytics
 
-# networks:
-#   default: {}
+  db:
+    image: postgres:15-alpine
+    container_name: umami-db
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: umami
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - proxy
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-# volumes:
-#   data:
+networks:
+  proxy:
+    external: true
+volumes:
+  umami-db-data:
