@@ -11,7 +11,7 @@ name = "arr"
 [stack.config]
 server = "pbox"
 run_directory = "arr"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 pre_deploy.command = """
@@ -37,7 +37,7 @@ name = "dash"
 [stack.config]
 server = "pbox"
 run_directory = "dash"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 environment = """
@@ -53,7 +53,7 @@ name = "downs"
 [stack.config]
 server = "pbox"
 run_directory = "downs"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 pre_deploy.command = """
@@ -76,7 +76,7 @@ name = "home"
 [stack.config]
 server = "pbox"
 run_directory = "home"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 pre_deploy.command = """
@@ -93,7 +93,7 @@ name = "matrix"
 [stack.config]
 server = "pbox"
 run_directory = "matrix"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 pre_deploy.command = """
@@ -110,7 +110,7 @@ name = "media"
 [stack.config]
 server = "pbox"
 run_directory = "media"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 pre_deploy.command = """
@@ -128,7 +128,7 @@ name = "monitor"
 [stack.config]
 server = "pbox"
 run_directory = "monitor"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 pre_deploy.command = """
@@ -145,7 +145,7 @@ name = "network"
 [stack.config]
 server = "pbox"
 run_directory = "network"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 pre_deploy.command = """
@@ -164,7 +164,7 @@ name = "osx"
 [stack.config]
 server = "pbox"
 run_directory = "osx"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 
@@ -175,7 +175,7 @@ name = "pgadmin"
 [stack.config]
 server = "pbox"
 run_directory = "pgadmin"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 
@@ -186,7 +186,7 @@ name = "web"
 [stack.config]
 server = "pbox"
 run_directory = "web"
-additional_env_files = ["global.env"]
+additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 pre_deploy.command = """
