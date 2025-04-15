@@ -189,6 +189,12 @@ run_directory = "docker/web"
 additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+APP_SECRET="op://Secrets/Umami/credential"
+"""
 
 ##
 
