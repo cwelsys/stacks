@@ -1,16 +1,161 @@
-## 🦎 Hello Komodo 🦎
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
+  qbittorrent:
+    image: ghcr.io/hotio/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=${DUID}
+      - PGID=${DGID}
+      - TZ=${TZ}
+      - WEBUI_PORTS=8080/tcp,8080/udp
+    volumes:
+      - ${DOCKERDIR}/qbittorrent:/config
+      - ${TORRENT}:/data/tor
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -sf https://api.ipify.org || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+      # - vpn
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.cwel.sh`)
+      - traefik.http.routers.qbittorrent.tls=true
+      - traefik.http.routers.qbittorrent.tls.certresolver=le
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+      - homepage.group=Download
+      - homepage.name=qBittorrent
+      - homepage.icon=qbittorrent.png
+      - homepage.href=https://qbittorrent.cwel.sh
+      - homepage.description=Bittorrent client
+      - homepage.weight=2
+      - homepage.widget.type=qbittorrent
+      - homepage.widget.url=http://gluetun:8080
+      - homepage.widget.username=${QBITTORRENT_USERNAME}
+      - homepage.widget.password=${QBITTORRENT_PASSWORD}
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    restart: unless-stopped
+    networks:
+      - proxy
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8080:8080
+      # - 8000:8000
+    volumes:
+      - ${DOCKERDIR}/gluetun/config.toml:/gluetun/auth/config.toml
+    environment:
+      VPN_SERVICE_PROVIDER: protonvpn
+      VPN_TYPE: wireguard
+      VPN_PORT_FORWARDING: on
+      # PORT_FORWARD_ONLY: on
+      WIREGUARD_PRIVATE_KEY: '${WIREGUARD_PRIVATE_KEY}'
+      WIREGUARD_ADDRESSES: '10.2.0.2/32'
+      GLUETUN_HTTP_CONTROL_SERVER_ENABLE: on
+      # FIREWALL_OUTBOUND_SUBNETS: 192.168.1.0/24,192.168.4.0/22,10.0.0.0/16,172.21.0.0/16
+      # SERVER_COUNTRIES: CANADA
 
-# networks:
-#   default: {}
+  qsticky:
+    image: ghcr.io/monstermuffin/qsticky:latest
+    container_name: qsticky
+    networks:
+      - proxy
+    environment:
+      # qBittorrent settings
+      QBITTORRENT_HOST: gluetun
+      QBITTORRENT_HTTPS: false
+      QBITTORRENT_PORT: 8080
+      QBITTORRENT_USER: ${QBITTORRENT_USERNAME}
+      QBITTORRENT_PASS: ${QBITTORRENT_PASSWORD}
 
-# volumes:
-#   data:
+      # Gluetun control server
+      GLUETUN_HOST: gluetun
+      GLUETUN_PORT: 8000
+      GLUETUN_AUTH_TYPE: apikey
+      GLUETUN_APIKEY: ${GLUETUN_APIKEY}
+
+      # qSticky poll rate/logs
+      CHECK_INTERVAL: 30
+      LOG_LEVEL: INFO
+
+    healthcheck:
+      test:
+        ['CMD', 'python3', '-c', "import json; exit(0 if json.load(open('/app/health/status.json'))['healthy'] else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: always
+
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=${DUID}
+      - PGID=${DGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERDIR}/sabnzbd:/config
+      - ${RUST}:/data
+      - ${DOCKERDIR}/sabnzbd/custom-cont-init.d:/custom-cont-init.d
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.cwel.sh`)
+      - traefik.http.routers.sabnzbd.tls=true
+      - traefik.http.routers.sabnzbd.tls.certresolver=le
+      - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
+      - homepage.group=Download
+      - homepage.name=Sabnzbd
+      - homepage.icon=sabnzbd.png
+      - homepage.href=https://sabnzbd.cwel.sh
+      - homepage.description=Usenet
+      - homepage.weigqt=3
+      - homepage.widget.type=sabnzbd
+      - homepage.widget.url=https://sabnzbd.cwel.sh
+      - homepage.widget.key=${SABNZBD_API_KEY}
+    networks:
+      - proxy
+
+  # vpn:
+  #   image: ghcr.io/thrnz/docker-wireguard-pia:latest
+  #   container_name: vpn
+  #   volumes:
+  #     - ${DOCKERDIR}/pia:/pia
+  #     - ${DOCKERDIR}/pia/shared:/pia-shared
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #   environment:
+  #     - LOC=ca
+  #     - USER=${PIA_USER}
+  #     - PASS=${PIA_PASS}
+  #     - QBT_USER=${QBITTORRENT_USERNAME}
+  #     - QBT_PASS=${QBITTORRENT_PASSWORD}
+  #     - LOCAL_NETWORK="192.168.0.0/16"
+  #     - PORT_FORWARDING=1
+  #     - PORT_PERSIST=1
+  #     - PORT_SCRIPT=/pia-shared/portupdate-qbittorrent.sh
+  #   networks:
+  #     - proxy
+  #   sysctls:
+  #     - net.ipv4.conf.all.src_valid_mark=1
+  #     - net.ipv6.conf.default.disable_ipv6=1
+  #     - net.ipv6.conf.all.disable_ipv6=1
+  #     - net.ipv6.conf.lo.disable_ipv6=1
+  #   healthcheck:
+  #     test: ping -c 1 www.google.com || exit 1
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   restart: always
+
+networks:
+  proxy:
+    external: true
