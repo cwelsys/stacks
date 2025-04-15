@@ -1,16 +1,89 @@
-## 🦎 Hello Komodo 🦎
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
+  traefik:
+    image: ghcr.io/traefik/traefik:latest
+    container_name: traefik
+    restart: always
+    networks:
+      - proxy
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - CLOUDFLARE_EMAIL=${EMAIL}
+      - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
+      - CLOUDFLARE_ZONE_API_TOKEN=${CLOUDFLARE_ZONE_API_TOKEN}
+      - LETS_ENCRYPT_EMAIL=${EMAIL}
+    command:
+      - --ping=true
+      - --accesslog=false
+      - --log.level=INFO
+      - --api=true
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.matrix-federation.address=:8448
+      - --entrypoints.matrix-client.address=:8008 
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --certificatesresolvers.le.acme.dnschallenge=${DNS_CHALLENGE:-true}
+      - --certificatesresolvers.le.acme.dnschallenge.provider=${DNS_CHALLENGE_PROVIDER:-cloudflare}
+      - --certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
+      - --certificatesresolvers.le.acme.caserver=${LETS_ENCRYPT_CA_SERVER:-https://acme-v02.api.letsencrypt.org/directory}
+      - --certificatesresolvers.le.acme.email=${EMAIL}
+      - --certificatesresolvers.le.acme.storage=/cert/acme.json
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dashboard.rule=Host(`traefik.cwel.sh`)
+      - traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}
+      - traefik.http.routers.traefik-secure.middlewares=traefik-auth
+      - traefik.http.routers.traefik-secure.tls=true
+      - traefik.http.routers.dashboard.service=api@internal
+      - traefik.http.routers.dashboard.entrypoints=websecure
+      - traefik.http.routers.dashboard.tls.certresolver=le
+      - homepage.name=Traefik
+      - homepage.icon=traefik.png
+      - homepage.group=Network
+      - homepage.description=Reverse Proxy & Load Balancer
+      - homepage.href=https://traefik.cwel.sh
+      - homepage.statusStyle=dot
+    ports:
+      - 80:80
+      - 443:443
+      - 8448:8448 # Federation port
+      - 8008:8008 # Client API port
+    volumes:
+      - ${DOCKERDIR}/traefik/cert:/cert
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    extra_hosts:
+      - host.docker.internal:172.17.0.1
+    healthcheck:
+      test:
+        - CMD
+        - traefik
+        - healthcheck
+        - --ping
+      interval: 30s
+      retries: 10
+  cloudflare:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare
+    restart: unless-stopped
+    networks:
+      - proxy
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    healthcheck:
+      test:
+        - CMD
+        - cloudflared
+        - --version
+      interval: 60s
+      timeout: 10s
+      retries: 3
 
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+networks:
+  proxy:
+    external: true
