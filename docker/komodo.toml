@@ -182,7 +182,7 @@ repo = "cwelsys/stacks"
 ##
 
 [[stack]]
-name = "umami"
+name = "web"
 [stack.config]
 server = "pbox"
 run_directory = "docker/web"
