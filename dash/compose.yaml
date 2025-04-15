@@ -1,16 +1,57 @@
-## 🦎 Hello Komodo 🦎
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    environment:
+      - HOMEPAGE_VAR_TITLE="Sup Ma'"
+      - HOMEPAGE_VAR_SEARCH_PROVIDER=duckduckgo
+      - HOMEPAGE_VAR_HEADER_STYLE=minimal
+      - HOMEPAGE_VAR_WEATHER_CITY=${HOMEPAGE_VAR_WEATHER_CITY}
+      - HOMEPAGE_VAR_WEATHER_LAT=${HOMEPAGE_VAR_WEATHER_LAT}
+      - HOMEPAGE_VAR_WEATHER_LONG=${HOMEPAGE_VAR_WEATHER_LONG}
+      - HOMEPAGE_VAR_WEATHER_TIME=${TZ}
+      - HOMEPAGE_VAR_WEATHER_UNIT=imperial
+      - HOMEPAGE_ALLOWED_HOSTS=home.cwel.sh
+    volumes:
+      - ${DOCKERDIR}/homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${RUST}:/data
+    restart: always
+    command: [sh, -c, 'cp -n /app/config/tpl/*.yaml /app/config && node server.js']
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.homepage.rule=Host(`home.cwel.sh`)
+      - traefik.http.routers.homepage.tls=true
+      - traefik.http.routers.homepage.tls.certresolver=le
+      - traefik.http.services.homepage.loadbalancer.server.port=3000
+    networks:
+      - proxy
 
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  dashy:
+    image: lissy93/dashy
+    container_name: dashy
+    environment:
+      - NODE_ENV=production
+      - PUID=${DUID}
+      - PGID=${DGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERDIR}/dashy:/app/user-data
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'node', '/app/services/healthcheck']
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dashy.rule=Host(`dash.cwel.sh`)
+      - traefik.http.routers.dashy.tls=true
+      - traefik.http.routers.dashy.tls.certresolver=le
+      - traefik.http.services.dashy.loadbalancer.server.port=8080
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
