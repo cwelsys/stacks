@@ -2,8 +2,6 @@
 !README.md
 !CHANGELOG.md
 !LICENSE
-.sops/**
-.githooks/post-checkout
 !.env.example
 .bak/
 *.bak
@@ -11,7 +9,8 @@ logs/
 *.log
 docker-compose.override.yml
 .dockerignore
-.env
+*.env
+!global.env
 tmp/
 temp/
 *.tmp
@@ -23,7 +22,3 @@ appdata/
 !*/compose*.yaml
 !*/docker-compose*.yml
 !*/docker-compose*.yaml
-
-# Ignore decrypted secrets files but keep encrypted ones
-!*.enc.yaml
-!*.enc.yml
