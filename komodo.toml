@@ -198,6 +198,16 @@ APP_SECRET="op://Secrets/Umami/credential"
 
 ##
 
+[[repo]]
+name = "stacks"
+[repo.config]
+server = "pbox"
+builder = "local"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+
+##
+
 [[builder]]
 name = "local"
 [builder.config]
