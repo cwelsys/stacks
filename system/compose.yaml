@@ -79,7 +79,7 @@ services:
       EXCLUDED_DIRS: temp,downloads,cache,tor,incomplete
       NOTIFICATIONS_ENABLED: True
       NOTIFY_THRESHOLD: True
-      NOTIFICATION_URLS: ${DISCORDURL}
+      NOTIFICATION_URLS: '${DISCORDURL}'
     volumes:
       - /mnt/cache-disks:/mnt/cache-disks:rw
       - /mnt/media-cold:/mnt/media-cold:rw
