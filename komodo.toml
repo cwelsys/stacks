@@ -1,0 +1,215 @@
+[[server]]
+name = "pbox"
+[server.config]
+address = "https://192.168.4.89:8120"
+enabled = true
+
+##
+
+[[stack]]
+name = "arr"
+[stack.config]
+server = "pbox"
+run_directory = "arr"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+SONARR_API_KEY="op://Secrets/Sonarr/credential"
+RADARR_API_KEY="op://Secrets/Radarr/credential"
+LIDARR_API_KEY="op://Secrets/Lidarr/credential"
+PROWLARR_API_KEY="op://Secrets/Prowlarr/credential"
+OVERSEERR_API_KEY="op://Secrets/Overseerr/credential"
+QBITTORRENT_USERNAME=admin
+QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
+DOPLARR_TOKEN="op://Secrets/Doplarr/credential"
+MEMBARR_TOKEN="op://Secrets/Membarr/credential"
+TAUTULLI_API_KEY="op://Secrets/Tautulli/credential"
+"""
+
+##
+
+[[stack]]
+name = "dash"
+[stack.config]
+server = "pbox"
+run_directory = "docker/dash"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+environment = """
+HOMEPAGE_VAR_WEATHER_CITY=Arlington
+HOMEPAGE_VAR_WEATHER_LAT=38.8816
+HOMEPAGE_VAR_WEATHER_LONG=-77.0910
+"""
+
+##
+
+[[stack]]
+name = "downs"
+[stack.config]
+server = "pbox"
+run_directory = "downs"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+PIA_USER="op://Secrets/pia/username"
+PIA_PASS="op://Secrets/pia/password"
+QBITTORRENT_USERNAME=admin
+QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
+SABNZBD_API_KEY="op://Secrets/Sabnzbd/credential"
+WIREGUARD_PRIVATE_KEY="op://Secrets/Wireguard/credential"
+GLUETUN_APIKEY="op://Secrets/Gluetun/credential"
+"""
+
+##
+
+[[stack]]
+name = "home"
+[stack.config]
+server = "pbox"
+run_directory = "home"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+ACCESS_TOKEN="op://Secrets/Homeassistant/credential"
+"""
+
+##
+
+[[stack]]
+name = "matrix"
+[stack.config]
+server = "pbox"
+run_directory = "matrix"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+POSTGRES_PASSWORD="op://Secrets/Matrix Postgres/password"
+"""
+
+##
+
+[[stack]]
+name = "media"
+[stack.config]
+server = "pbox"
+run_directory = "dmedia"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+PLEX_TOKEN="op://Secrets/Plex/credential"
+JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
+"""
+
+##
+
+[[stack]]
+name = "monitor"
+[stack.config]
+server = "pbox"
+run_directory = "monitor"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+GRAFANAPW="op://Secrets/Grafana/password"
+"""
+
+##
+
+[[stack]]
+name = "network"
+[stack.config]
+server = "pbox"
+run_directory = "network"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+CLOUDFLARE_API=op://Secrets/Cloudflare/credential
+CLOUDFLARE_TUNNEL_TOKEN=op://Secrets/Cloudflare/boneyards
+DASHBOARD_CREDENTIAL=op://Secrets/Traefik/password
+"""
+
+##
+
+[[stack]]
+name = "osx"
+[stack.config]
+server = "pbox"
+run_directory = "osx"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+
+##
+
+[[stack]]
+name = "pgadmin"
+[stack.config]
+server = "pbox"
+run_directory = "pgadmin"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+
+##
+
+[[stack]]
+name = "web"
+[stack.config]
+server = "pbox"
+run_directory = "web"
+additional_env_files = ["global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+APP_SECRET="op://Secrets/Umami/credential"
+"""
+
+##
+
+[[builder]]
+name = "local"
+[builder.config]
+type = "Server"
+params = {}
+
+##
+
+[[resource_sync]]
+name = "pbox"
+[resource_sync.config]
+repo = "cwelsys/stacks"
+git_account = "cwelsys"
+resource_path = ["komodo.toml"]
+managed = true
