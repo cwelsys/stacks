@@ -34,9 +34,9 @@ services:
     depends_on:
       - postgres2
     environment:
-      PGADMIN_DEFAULT_EMAIL: data@cwel.sh
-      PGADMIN_DEFAULT_PASSWORD: password
-      # PGADMIN_LISTEN_PORT: 80
+      PGADMIN_DEFAULT_EMAIL: ${EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - ${DOCKERDIR}/pgadmin:/var/lib/pgadmin
     labels:
