@@ -1,27 +1,58 @@
 services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TZ=${TZ}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ${DOCKERDIR}/postgres/init:/docker-entrypoint-initdb.d
+    networks:
+      - proxy
+      - pbox
+    ports:
+      - "5432:5432"  # Optional for external access
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
     restart: always
+    ports:
+      - 15432:80
     networks:
       - proxy
+      - pbox
+    depends_on:
+      - postgres
     environment:
       PGADMIN_DEFAULT_EMAIL: data@cwel.sh
-      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 80
     volumes:
       - ${DOCKERDIR}/pgadmin:/var/lib/pgadmin
     labels:
       - traefik.enable=true
-      - traefik.http.routers.pgadmin.rule=Host(`pgadmin.cwel.sh`)
+      - traefik.http.routers.pgadmin.rule=Host(`db.cwel.sh`)
       - traefik.http.routers.pgadmin.tls=true
       - traefik.http.routers.pgadmin.tls.certresolver=le
       - traefik.http.services.pgadmin.loadbalancer.server.port=80
       - homepage.group=Database
       - homepage.name=pgAdmin
       - homepage.icon=postgres.png
-      - homepage.href=https://pgadmin.cwel.sh
+      - homepage.href=https://db.cwel.sh
       - homepage.description=PostgreSQL Management
 
+volumes:
+  postgres:
 networks:
   proxy:
     external: true
+
