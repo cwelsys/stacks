@@ -31,6 +31,8 @@ services:
       - pbox
     depends_on:
       - postgres2
+    ports:
+      - 5050:80
     environment:
       PGADMIN_DEFAULT_EMAIL: ${EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
