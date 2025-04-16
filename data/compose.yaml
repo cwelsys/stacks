@@ -1,7 +1,7 @@
 services:
-  postgres:
+  postgres2:
     image: postgres:15-alpine
-    container_name: postgres
+    container_name: postgres2
     restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
@@ -31,7 +31,7 @@ services:
       - proxy
       - pbox
     depends_on:
-      - postgres
+      - postgres2
     environment:
       PGADMIN_DEFAULT_EMAIL: data@cwel.sh
       PGADMIN_DEFAULT_PASSWORD: password
