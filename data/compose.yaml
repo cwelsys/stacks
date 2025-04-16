@@ -55,4 +55,6 @@ volumes:
 networks:
   proxy:
     external: true
+  pbox:
+    external: true
 
