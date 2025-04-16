@@ -36,7 +36,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: data@cwel.sh
       PGADMIN_DEFAULT_PASSWORD: password
-      PGADMIN_LISTEN_PORT: 80
+      # PGADMIN_LISTEN_PORT: 80
     volumes:
       - ${DOCKERDIR}/pgadmin:/var/lib/pgadmin
     labels:
