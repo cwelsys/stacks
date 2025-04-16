@@ -38,12 +38,16 @@ services:
     volumes:
       - ${DOCKERDIR}/pgadmin:/var/lib/pgadmin
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.pgadmin.rule=Host(`pgadmin.cwel.sh`)
-      - traefik.http.routers.pgadmin.entrypoints=web
-      - traefik.http.routers.pgadmin.tls=true
-      - traefik.http.routers.pgadmin.tls.certresolver=le
-      - traefik.http.services.pgadmin.loadbalancer.server.port=80
+      - "traefik.enable=true"
+      - "traefik.http.routers.pgadmin-http.entrypoints=web"
+      - "traefik.http.routers.pgadmin-http.rule=Host(`pgadmin.cwel.sh`)"
+      - "traefik.http.routers.pgadmin.entrypoints=websecure"
+      - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.cwel.sh`)"
+      - "traefik.http.routers.pgadmin-http.middlewares=pgadmin-https@docker"
+      - "traefik.http.middlewares.pgadmin-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.pgadmin.tls=true"
+      - "traefik.http.routers.pgadmin.tls.certresolver=le"
+      - "traefik.http.services.pgadmin.loadbalancer.server.port=80"
       - homepage.group=Database
       - homepage.name=pgAdmin
       - homepage.icon=postgres.png
