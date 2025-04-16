@@ -158,7 +158,7 @@ services:
     image: ghcr.io/unpackerr/unpackerr:latest
     container_name: unpackerr
     volumes:
-      - ${TORRENT}:/data/tor
+      - ${RUST}/tor:/data/tor
     restart: always
     user: ${DUID}:${DGID}
     environment:
