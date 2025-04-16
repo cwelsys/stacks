@@ -53,16 +53,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - proxy
-  remote-api:
-    image: kekru/docker-remote-api-tls:v0.5.0
-    environment:
-      - CREATE_CERTS_WITH_PW=${RAPIPASS}
-      - CERT_HOSTNAME=${CERT_HOSTNAME}
-    ports:
-      - 2376:443
-    volumes:
-      - ${DOCKERDIR}/socket/certs:/data/certs
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+  # remote-api:
+  #   image: kekru/docker-remote-api-tls:v0.5.0
+  #   environment:
+  #     - CREATE_CERTS_WITH_PW=${RAPIPASS}
+  #     - CERT_HOSTNAME=${CERT_HOSTNAME}
+  #   ports:
+  #     - 2376:443
+  #   volumes:
+  #     - ${DOCKERDIR}/socket/certs:/data/certs
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
   cache-mover:
     image: ghcr.io/monstermuffin/mergerfs-cache-mover:latest
     container_name: mfscm
