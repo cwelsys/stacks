@@ -36,7 +36,6 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - ${DOCKERDIR}/pgadmin:/var/lib/pgadmin
     labels:
