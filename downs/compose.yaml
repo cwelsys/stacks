@@ -9,7 +9,7 @@ services:
       - WEBUI_PORTS=8080/tcp,8080/udp
     volumes:
       - ${DOCKERDIR}/qbittorrent:/config
-      - ${TORRENT}:/data/tor
+      - ${RUST}/tor:/data/tor
     restart: always
     healthcheck:
       test: ['CMD-SHELL', 'curl -sf https://api.ipify.org || exit 1']

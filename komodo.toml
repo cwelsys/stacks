@@ -182,6 +182,25 @@ repo = "cwelsys/stacks"
 ##
 
 [[stack]]
+name = "system"
+[stack.config]
+server = "pbox"
+run_directory = "system"
+additional_env_files = ["../global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+RAPIPASS="op://Secrets/Socket Remote Api/password"
+CERT_HOSTNAME="op://Secrets/Socket Remote Api/username"
+DISCORDURL="op://Secrets/CM Discord Webhook/credential"
+"""
+
+##
+
+[[stack]]
 name = "web"
 [stack.config]
 server = "pbox"

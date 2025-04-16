@@ -8,10 +8,16 @@ services:
     security_opt:
       - no-new-privileges:true
     environment:
+      - TZ=${TZ}
+      - DOMAINNAME=${DOMAINNAME}
+      - SERVER_IP=${SERVER_IP}
+      - PLEX_TOKEN=${PLEX_TOKEN}
       - CLOUDFLARE_EMAIL=${EMAIL}
       - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
       - CLOUDFLARE_ZONE_API_TOKEN=${CLOUDFLARE_ZONE_API_TOKEN}
       - LETS_ENCRYPT_EMAIL=${EMAIL}
+      - TRAEFIK_LOG=true
+      - TRAEFIK_LOG_FILEPATH=/logs/traefik.log
     command:
       - --ping=true
       - --accesslog=false
@@ -83,6 +89,31 @@ services:
       interval: 60s
       timeout: 10s
       retries: 3
+
+  crowdsec:
+    image: crowdsecurity/crowdsec:v1.6.8
+    container_name: crowdsec
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:9876:8080 # port mapping for local firewall bouncers
+    expose:
+      - 8080 # http api for bouncers
+      - 6060 # metrics endpoint for prometheus
+      - 7422 # appsec waf endpoint
+    volumes:
+      # crowdsec container data
+      - ${DOCKERDIR}/crowdsec/data:/var/lib/crowdsec/data
+      - ${DOCKERDIR}/crowdsec/etc:/etc/crowdsec
+      # log bind mounts into crowdsec
+      - /var/log/auth.log:/var/log/auth.log:ro
+      - /var/log/syslog:/var/log/syslog:ro
+      - ${DOCKERDIR}/traefik/logs:/var/log/traefik:ro
+    environment:
+      - GID=1000
+      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs
+      #- CUSTOM_HOSTNAME=my-crowdsec-host123
+    networks:
+      - proxy
 
 networks:
   proxy:
