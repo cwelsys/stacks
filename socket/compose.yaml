@@ -1,16 +1,69 @@
-## 🦎 Hello Komodo 🦎
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
-
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale-socket
+    hostname: psock
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+      - TS_ENABLE_HEALTH_CHECK=true
+      - TS_LOCAL_ADDR_PORT=127.0.0.1:41234
+      - TS_EXTRA_ARGS=--accept-dns=true
+    volumes:
+      - ${DOCKERDIR}/tailscale/config:/config
+      - ${DOCKERDIR}/tailscale/state:/var/lib/tailscale 
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module 
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz"]
+      interval: 1m 
+      timeout: 10s 
+      retries: 3
+      start_period: 10s 
+    restart: always
+  psock:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: socket-proxy
+    network_mode: service:tailscale
+    depends_on:
+      tailscale:
+        condition: service_healthy
+    environment:
+      - ALLOW_START=0
+      - ALLOW_STOP=0
+      - ALLOW_RESTARTS=0
+      - AUTH=0
+      - BUILD=0
+      - COMMIT=0
+      - CONFIGS=0 
+      - CONTAINERS=1
+      - DISABLE_IPV6=0
+      - DISTRIBUTION=0
+      - EVENTS=1
+      - EXEC=0
+      - IMAGES=0
+      - INFO=0
+      - LOG_LEVEL=info
+      - NETWORKS=1
+      - NODES=0
+      - PING=1 
+      - PLUGINS=0 
+      - POST=0 
+      - SECRETS=0 
+      - SERVICES=1 
+      - SESSION=0 
+      - SWARM=0 
+      - SYSTEM=0 
+      - TASKS=1 
+      - VERSION=1 
+      - VOLUMES=0 
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /run
