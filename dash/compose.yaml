@@ -61,6 +61,8 @@ services:
     volumes:
       - ${DOCKERDIR}/linkding:/etc/linkding/data
     restart: unless-stopped
+    environment:
+      - LD_SUPERUSER_PASSWORD=${LINKDINGPASS}
     labels:
       - traefik.enable=true
       - traefik.http.routers.linkding.rule=Host(`link.cwel.sh`)
