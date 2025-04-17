@@ -55,13 +55,13 @@ services:
     ports:
       - 80:80 # http
       - 443:443 # https
-      - 127.0.0.1:8080:8080 # http api dashboard
+      - 127.0.0.1:8089:8080 # http api dashboard
       - 8448:8448 # Federation port
       - 8008:8008 # Client API port
     expose:
       - 80 # http
       - 443 # https
-      - 8080 # http api dashboard
+      - 8089 # http api dashboard
     environment:
       - TZ=${TZ}
       - CF_DNS_API_TOKEN=${CLOUDFLARE_API}
