@@ -30,7 +30,7 @@ services:
       - proxy
       - pbox
     depends_on:
-      - postgres2
+      - postgres-db
     ports:
       - 5050:80
     environment:
