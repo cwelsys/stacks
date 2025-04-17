@@ -6,9 +6,6 @@ services:
       DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD}@postgres-db:5432/umami
       DATABASE_TYPE: postgresql
       APP_SECRET: ${APP_SECRET}
-    # depends_on:
-    #   db:
-    #     condition: service_healthy
     init: true
     restart: always
     ports:
@@ -32,26 +29,7 @@ services:
       - homepage.href=https://anal.${DOMAIN}
       - homepage.description=Website analytics
 
-  # db:
-  #   image: postgres:15-alpine
-  #   container_name: umami-db
-  #   environment:
-  #     POSTGRES_DB: umami
-  #     POSTGRES_USER: umami
-  #     POSTGRES_PASSWORD: umami
-  #   volumes:
-  #     - umami-db-data:/var/lib/postgresql/data
-  #   restart: always
-  #   networks:
-  #     - proxy
-  #   healthcheck:
-  #     test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
-  #     interval: 5s
-  #     timeout: 5s
-  #     retries: 5
-
 networks:
   proxy:
     external: true
-# volumes:
-#   umami-db-data:
+
