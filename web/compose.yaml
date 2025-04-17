@@ -22,14 +22,14 @@ services:
       retries: 5
     labels:
       # - traefik.enable=true
-      # - traefik.http.routers.umami.rule=Host(`anal.cwel.sh`)
+      # - traefik.http.routers.umami.rule=Host(`anal.${DOMAIN}`)
       # - traefik.http.routers.umami.tls=true
       # - traefik.http.routers.umami.tls.certresolver=le
       # - traefik.http.services.umami.loadbalancer.server.port=3000
       - homepage.group=Analytics
       - homepage.name=Umami
       - homepage.icon=umami.png
-      - homepage.href=https://anal.cwel.sh
+      - homepage.href=https://anal.${DOMAIN}
       - homepage.description=Website analytics
 
   db:
