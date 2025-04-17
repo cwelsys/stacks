@@ -11,7 +11,7 @@ services:
       - HOMEPAGE_VAR_WEATHER_LONG=${HOMEPAGE_VAR_WEATHER_LONG}
       - HOMEPAGE_VAR_WEATHER_TIME=${TZ}
       - HOMEPAGE_VAR_WEATHER_UNIT=imperial
-      - HOMEPAGE_ALLOWED_HOSTS=home.cwel.sh
+      - HOMEPAGE_ALLOWED_HOSTS=home.${DOMAIN}
     volumes:
       - ${DOCKERDIR}/homepage:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -20,7 +20,7 @@ services:
     command: [sh, -c, 'cp -n /app/config/tpl/*.yaml /app/config && node server.js']
     labels:
       - traefik.enable=true
-      - traefik.http.routers.homepage.rule=Host(`home.cwel.sh`)
+      - traefik.http.routers.homepage.rule=Host(`home.${DOMAIN}`)
       - traefik.http.routers.homepage.tls=true
       - traefik.http.routers.homepage.tls.certresolver=le
       - traefik.http.services.homepage.loadbalancer.server.port=3000
@@ -46,7 +46,7 @@ services:
       start_period: 40s
     labels:
       - traefik.enable=true
-      - traefik.http.routers.dashy.rule=Host(`dash.cwel.sh`)
+      - traefik.http.routers.dashy.rule=Host(`dash.${DOMAIN}`)
       - traefik.http.routers.dashy.tls=true
       - traefik.http.routers.dashy.tls.certresolver=le
       - traefik.http.services.dashy.loadbalancer.server.port=8080
