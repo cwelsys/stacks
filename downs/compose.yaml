@@ -22,14 +22,14 @@ services:
       # - vpn
     labels:
       - traefik.enable=true
-      - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.cwel.sh`)
+      - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.${DOMAIN}`)
       - traefik.http.routers.qbittorrent.tls=true
       - traefik.http.routers.qbittorrent.tls.certresolver=le
       - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
       - homepage.group=Download
       - homepage.name=qBittorrent
       - homepage.icon=qbittorrent.png
-      - homepage.href=https://qbittorrent.cwel.sh
+      - homepage.href=https://qbittorrent.${DOMAIN}
       - homepage.description=Bittorrent client
       - homepage.weight=2
       - homepage.widget.type=qbittorrent
@@ -107,18 +107,18 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.cwel.sh`)
+      - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.${DOMAIN}`)
       - traefik.http.routers.sabnzbd.tls=true
       - traefik.http.routers.sabnzbd.tls.certresolver=le
       - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
       - homepage.group=Download
       - homepage.name=Sabnzbd
       - homepage.icon=sabnzbd.png
-      - homepage.href=https://sabnzbd.cwel.sh
+      - homepage.href=https://sabnzbd.${DOMAIN}
       - homepage.description=Usenet
       - homepage.weigqt=3
       - homepage.widget.type=sabnzbd
-      - homepage.widget.url=https://sabnzbd.cwel.sh
+      - homepage.widget.url=https://sabnzbd.${DOMAIN}
       - homepage.widget.key=${SABNZBD_API_KEY}
     networks:
       - proxy
