@@ -116,7 +116,6 @@ services:
       - homepage.icon=sabnzbd.png
       - homepage.href=https://sabnzbd.${DOMAIN}
       - homepage.description=Usenet
-      - homepage.weigqt=3
       - homepage.widget.type=sabnzbd
       - homepage.widget.url=https://sabnzbd.${DOMAIN}
       - homepage.widget.key=${SABNZBD_API_KEY}
