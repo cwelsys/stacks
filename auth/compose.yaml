@@ -1,16 +1,42 @@
-## 🦎 Hello Komodo 🦎
-services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
+services:  
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - ${DOCKERDIR}/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  authelia:
+    image: authelia/authelia:latest
+    container_name: authelia
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - proxy
+    volumes:
+      - ${DOCKERDIR}/authelia/config:/config
+    environment:
+      - TZ=${TZ}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.authelia.rule=Host(`auth.${DOMAIN}`)
+      - traefik.http.routers.authelia.entrypoints=https
+      - traefik.http.routers.authelia.tls=true
+      - traefik.http.routers.authelia.tls.certresolver=le
+      - traefik.http.services.authelia.loadbalancer.server.port=9091
+      - homepage.group=Infrastructure
+      - homepage.name=Authelia
+      - homepage.icon=authelia.png
+      - homepage.href=https://auth.${DOMAIN}
+      - homepage.description=Single Sign-On
+networks:
+  proxy:
+    external: true
