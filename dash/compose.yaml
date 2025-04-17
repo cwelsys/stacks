@@ -52,6 +52,30 @@ services:
       - traefik.http.services.dashy.loadbalancer.server.port=8080
     networks:
       - proxy
+
+  linkding:
+    container_name: linkding
+    image: sissbruecker/linkding:latest
+    # ports:
+    #   - '${LD_HOST_PORT:-9090}:9090'
+    volumes:
+      - ${DOCKERDIR}/linkding:/etc/linkding/data
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.linkding.rule=Host(`link.cwel.sh`)
+      - traefik.http.routers.linkding.tls=true
+      - traefik.http.routers.linkding.tls.certresolver=le
+      - traefik.http.services.linkding.loadbalancer.server.port=9090
+      - 'homepage.group=Productivity'
+      - 'homepage.name=Linkding'
+      - 'homepage.icon=linkding.png'
+      - 'homepage.href=https://link.cwel.sh'
+      - 'homepage.description=Bookmark Manager'
+      - 'homepage.weight=1'
+    networks:
+      - proxy
+
 networks:
   proxy:
     external: true
