@@ -31,14 +31,14 @@ services:
       start_period: 30s
     labels:
       - traefik.enable=true
-      - traefik.http.routers.plex.rule=Host(`plex.cwel.sh`)
-      - traefik.http.routers.plex.entrypoints=websecure
+      - traefik.http.routers.plex.rule=Host(`plex.${DOMAIN}`)
+      - traefik.http.routers.plex.entrypoints=https
       - traefik.http.routers.plex.tls.certresolver=le
       - traefik.http.services.plex.loadbalancer.server.port=32400
       - homepage.group=Media
       - homepage.name=Plex
       - homepage.icon=plex.png
-      - homepage.href=https://plex.cwel.sh
+      - homepage.href=https://plex.${DOMAIN}
       - homepage.description=Media server
       - homepage.weight=-1
       - homepage.widget.type=plex
@@ -54,7 +54,7 @@ services:
       - PUID=${DUID}
       - PGID=${DGID}
       - TZ=${TZ}
-      - JELLYFIN_PublishedServerUrl=jellyfin.cwel.sh
+      - JELLYFIN_PublishedServerUrl=jellyfin.${DOMAIN}
     volumes:
       - ${DOCKERDIR}/jellyfin:/config
       - ${RUST}:/data
@@ -70,14 +70,14 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyfin.rule=Host(`jellyfin.cwel.sh`)
+      - traefik.http.routers.jellyfin.rule=Host(`jellyfin.${DOMAIN}`)
       - traefik.http.routers.jellyfin.tls=true
       - traefik.http.routers.jellyfin.tls.certresolver=le
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
       - homepage.group=Media
       - homepage.name=Jellyfin
       - homepage.icon=jellyfin.png
-      - homepage.href=https://jellyfin.cwel.sh
+      - homepage.href=https://jellyfin.${DOMAIN}
       - homepage.description=Media server
       - homepage.weight=4
       - homepage.widget.type=jellyfin
