@@ -19,14 +19,14 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.scrutiny.rule=Host(`scrutiny.cwel.sh`)
+      - traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN}`)
       - traefik.http.routers.scrutiny.tls=true
       - traefik.http.routers.scrutiny.tls.certresolver=le
       - traefik.http.services.scrutiny.loadbalancer.server.port=8080
       - homepage.group=System
       - homepage.name=Scrutiny
       - homepage.icon=scrutiny.png
-      - homepage.href=https://scrutiny.cwel.sh
+      - homepage.href=https://scrutiny.${DOMAIN}
       - homepage.description=SMART Monitoring
       - homepage.weight=0
     networks:
