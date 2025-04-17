@@ -18,14 +18,14 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`sonarr.cwel.sh`)
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.${DOMAIN}`)
       - traefik.http.routers.sonarr.tls=true
       - traefik.http.routers.sonarr.tls.certresolver=le
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
       - homepage.group=Media
       - homepage.name=Sonarr
       - homepage.icon=sonarr.png
-      - homepage.href=https://sonarr.cwel.sh
+      - homepage.href=https://sonarr.${DOMAIN}
       - homepage.description=Series management
       - homepage.weight=0
       - homepage.widget.type=sonarr
@@ -53,14 +53,14 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.radarr.rule=Host(`radarr.cwel.sh`)
+      - traefik.http.routers.radarr.rule=Host(`radarr.${DOMAIN}`)
       - traefik.http.routers.radarr.tls=true
       - traefik.http.routers.radarr.tls.certresolver=le
       - traefik.http.services.radarr.loadbalancer.server.port=7878
       - homepage.group=Media
       - homepage.name=Radarr
       - homepage.icon=radarr.png
-      - homepage.href=https://radarr.cwel.sh
+      - homepage.href=https://radarr.${DOMAIN}
       - homepage.description=Movies management
       - homepage.weight=1
       - homepage.widget.type=radarr
@@ -88,14 +88,14 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.lidarr.rule=Host(`lidarr.cwel.sh`)
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.${DOMAIN}`)
       - traefik.http.routers.lidarr.tls=true
       - traefik.http.routers.lidarr.tls.certresolver=le
       - traefik.http.services.lidarr.loadbalancer.server.port=8686
       - homepage.group=Media
       - homepage.name=Lidarr
       - homepage.icon=lidarr.png
-      - homepage.href=https://lidarr.cwel.sh
+      - homepage.href=https://lidarr.${DOMAIN}
       - homepage.description=Music management
       - homepage.weight=2
       - homepage.widget.type=lidarr
@@ -120,14 +120,14 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.cwel.sh`)
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${DOMAIN}`)
       - traefik.http.routers.prowlarr.tls=true
       - traefik.http.routers.prowlarr.tls.certresolver=le
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
       - homepage.group=Download
       - homepage.name=Prowlarr
       - homepage.icon=prowlarr.png
-      - homepage.href=https://prowlarr.cwel.sh
+      - homepage.href=https://prowlarr.${DOMAIN}
       - homepage.description=Indexers management
       - homepage.weight=1
       - homepage.widget.type=prowlarr
@@ -147,7 +147,7 @@ services:
       - TZ=${TZ}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.cwel.sh`)
+      - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${DOMAIN}`)
       - traefik.http.routers.flaresolverr.tls=true
       - traefik.http.routers.flaresolverr.tls.certresolver=le
       - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
@@ -184,14 +184,14 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.profilarr.rule=Host(`profilarr.cwel.sh`)
+      - traefik.http.routers.profilarr.rule=Host(`profilarr.${DOMAIN}`)
       - traefik.http.routers.profilarr.tls=true
       - traefik.http.routers.profilarr.tls.certresolver=le
       - traefik.http.services.profilarr.loadbalancer.server.port=6868
       - homepage.group=Media
       - homepage.name=profilarr
       # - homepage.icon=profilarr.png
-      - homepage.href=https://profilarr.cwel.sh
+      - homepage.href=https://profilarr.${DOMAIN}
       - homepage.description=Config management
       # - homepage.widget.url='http://profilarr:6868'
       - homepage.weight=6
@@ -212,7 +212,7 @@ services:
       - 5055:5055
     labels:
       - traefik.enable=true
-      - traefik.http.routers.overseerr.rule=Host(`overseerr.cwel.sh`)
+      - traefik.http.routers.overseerr.rule=Host(`overseerr.${DOMAIN}`)
       - traefik.http.routers.overseerr.entrypoints=https
       - traefik.http.routers.overseerr.tls=true
       - traefik.http.routers.overseerr.tls.certresolver=le
@@ -220,7 +220,7 @@ services:
       - homepage.group=Media
       - homepage.name=Overseerr
       - homepage.icon=overseerr.png
-      - homepage.href=https://overseerr.cwel.sh
+      - homepage.href=https://overseerr.${DOMAIN}
       - homepage.description=Requests management
       - homepage.weight=5
       - homepage.widget.type=overseerr
@@ -249,14 +249,14 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.maintainerr.rule=Host(`maintainerr.cwel.sh`)
+      - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${DOMAIN}`)
       - traefik.http.routers.maintainerr.tls=true
       - traefik.http.routers.maintainerr.tls.certresolver=le
       - traefik.http.services.maintainerr.loadbalancer.server.port=6246
       - homepage.group=Media
       - homepage.name=Maintainerr
       - homepage.icon=maintainerr.png
-      - homepage.href=https://maintainerr.cwel.sh
+      - homepage.href=https://maintainerr.${DOMAIN}
       - homepage.description=Library maintenance
       - homepage.weight=6
 
@@ -299,14 +299,14 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.tautulli.rule=Host(`tautulli.cwel.sh`)
+      - traefik.http.routers.tautulli.rule=Host(`tautulli.${DOMAIN}`)
       - traefik.http.routers.tautulli.tls=true
       - traefik.http.routers.tautulli.tls.certresolver=le
       - traefik.http.services.tautulli.loadbalancer.server.port=8181
       - homepage.group=Media
       - homepage.name=Tautulli
       - homepage.icon=tautulli.png
-      - homepage.href=https://tautulli.cwel.sh
+      - homepage.href=https://tautulli.${DOMAIN}
       - homepage.description=Plex monitoring and statistics
       - homepage.weight=7
       # - homepage.widget.type=tautulli
@@ -323,7 +323,7 @@ services:
       - NODE_ENV=production
       - DOCKER_ENV=false
       - PORT=3000
-      - PUBLIC_URL=https://recommendarr.cwel.sh
+      - PUBLIC_URL=https://recommendarr.${DOMAIN}
       - FORCE_SECURE_COOKIES=true
     volumes:
       - ${DOCKERDIR}/recommendarr/data:/app/server/data
@@ -332,14 +332,14 @@ services:
       - proxy
     labels:
       - traefik.enable=true
-      - traefik.http.routers.recommendarr.rule=Host(`recommendarr.cwel.sh`)
+      - traefik.http.routers.recommendarr.rule=Host(`recommendarr.${DOMAIN}`)
       - traefik.http.routers.recommendarr.tls=true
       - traefik.http.routers.recommendarr.tls.certresolver=le
       - traefik.http.services.recommendarr.loadbalancer.server.port=3000
       - homepage.group=Media
       - homepage.name=Recommendarr
       # - homepage.icon=recommendarr.png
-      - homepage.href=https://recommendarr.cwel.sh
+      - homepage.href=https://recommendarr.${DOMAIN}
       - homepage.description=Media recommendations
       - homepage.weight=8
   plextraktsync:
