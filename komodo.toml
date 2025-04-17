@@ -1,7 +1,7 @@
 [[server]]
 name = "pbox"
 [server.config]
-address = "https://192.168.4.89:8120"
+address = "https://host.docker.internal:8120"
 enabled = true
 
 ##
@@ -49,6 +49,26 @@ HOMEPAGE_VAR_WEATHER_LONG=-77.0910
 ##
 
 [[stack]]
+name = "data"
+[stack.config]
+server = "pbox"
+run_directory = "data"
+additional_env_files = ["../global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+POSTGRES_PASSWORD="op://Secrets/2doyirimsnblvjuilo73gwfvgq/password"
+
+
+
+"""
+
+##
+
+[[stack]]
 name = "downs"
 [stack.config]
 server = "pbox"
@@ -84,23 +104,6 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 """
 environment = """
 ACCESS_TOKEN="op://Secrets/Homeassistant/credential"
-"""
-
-##
-
-[[stack]]
-name = "matrix"
-[stack.config]
-server = "pbox"
-run_directory = "matrix"
-additional_env_files = ["../global.env"]
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-POSTGRES_PASSWORD="op://Secrets/Matrix Postgres/password"
 """
 
 ##
@@ -152,9 +155,10 @@ pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-CLOUDFLARE_API=op://Secrets/Cloudflare/credential
+CLOUDFLARE_API="op://Secrets/Cloudflare/credential"
 CLOUDFLARE_TUNNEL_TOKEN=op://Secrets/Cloudflare/boneyards
-DASHBOARD_CREDENTIAL=op://Secrets/Traefik/password
+DASHBOARD_CREDENTIAL="op://Secrets/Traefik/password"
+PLEX_TOKEN="op://Secrets/Plex/credential"
 """
 
 ##
@@ -171,13 +175,19 @@ repo = "cwelsys/stacks"
 ##
 
 [[stack]]
-name = "pgadmin"
+name = "socket"
 [stack.config]
 server = "pbox"
-run_directory = "pgadmin"
+run_directory = "socket"
 additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+TS_AUTHKEY="op://Secrets/v4xfq7ijumolhvtybuk4hepdfy/password"
+"""
 
 ##
 
@@ -193,7 +203,7 @@ pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-RAPIPASS="op://Secrets/Socket Remote Api/password"
+# RAPIPASS="op://Secrets/Socket Remote Api/password"
 CERT_HOSTNAME="op://Secrets/Socket Remote Api/username"
 DISCORDURL="op://Secrets/CM Discord Webhook/credential"
 """
@@ -213,6 +223,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 """
 environment = """
 APP_SECRET="op://Secrets/Umami/credential"
+UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 """
 
 ##
