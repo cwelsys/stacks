@@ -9,7 +9,6 @@ services:
       - TZ=${TZ}
     volumes:
       - postgres:/var/lib/postgresql/data
-      - ${DOCKERDIR}/postgres/init:/docker-entrypoint-initdb.d
     networks:
       - proxy
       - pbox
