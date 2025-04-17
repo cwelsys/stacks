@@ -7,7 +7,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - TZ=${TZ}
-      - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - postgres:/var/lib/postgresql/data
       - ${DOCKERDIR}/postgres/init:/docker-entrypoint-initdb.d
@@ -42,24 +41,24 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.pgadmin-http.entrypoints=http"
       - "traefik.http.routers.pgadmin-http.rule=Host(`pgadmin.${DOMAIN}`)"
-      - "traefik.http.routers.pgadmin.entrypoints=https
+      - "traefik.http.routers.pgadmin.entrypoints=https"
       - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.${DOMAIN}`)"
       - "traefik.http.routers.pgadmin-http.middlewares=pgadmin-https@docker"
       - "traefik.http.middlewares.pgadmin-https.redirectscheme.scheme=https"
       - "traefik.http.routers.pgadmin.tls=true"
       - "traefik.http.routers.pgadmin.tls.certresolver=le"
       - "traefik.http.services.pgadmin.loadbalancer.server.port=80"
-      - homepage.group=Database
-      - homepage.name=pgAdmin
-      - homepage.icon=postgres.png
-      - homepage.href=https://pgadmin.${DOMAIN}
-      - homepage.description=PostgreSQL Management
+      - "homepage.group=Database"
+      - "homepage.name=pgAdmin"
+      - "homepage.icon=postgres.png"
+      - "homepage.href=https://pgadmin.${DOMAIN}"
+      - "homepage.description=PostgreSQL Management"
 
 volumes:
   postgres:
+
 networks:
   proxy:
     external: true
   pbox:
     external: true
-
