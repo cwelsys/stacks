@@ -21,7 +21,7 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.homeassistant.rule=Host(`ass.cwel.sh`)
+      - traefik.http.routers.homeassistant.rule=Host(`ass.${DOMAIN}`)
       - traefik.http.routers.homeassistant.tls=true
       - traefik.http.routers.homeassistant.tls.certresolver=le
       - traefik.http.services.homeassistant.loadbalancer.server.port=8123
@@ -37,9 +37,9 @@ services:
       - homepage.group=Apps
       - homepage.name=Home Assistant
       - homepage.icon=home-assistant.png
-      - homepage.href=https://ass.cwel.sh
+      - homepage.href=https://ass.${DOMAIN}
       - homepage.description=Open source home automation that puts local control and privacy first
       - homepage.weight=3
       - homepage.widget.type=homeassistant
-      - homepage.widget.url=https://ass.cwel.sh
+      - homepage.widget.url=https://ass.${DOMAIN}
       - homepage.widget.key=${ACCESS_TOKEN}
