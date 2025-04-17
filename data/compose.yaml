@@ -1,7 +1,7 @@
 services:
-  postgres2:
+  postgres-db:
     image: postgres:15-alpine
-    container_name: postgres2
+    container_name: postgres-db
     restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
@@ -35,15 +35,15 @@ services:
       - 5050:80
     environment:
       PGADMIN_DEFAULT_EMAIL: ${EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_DEFAULT_PASSWORD: password
     volumes:
       - ${DOCKERDIR}/pgadmin:/var/lib/pgadmin
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pgadmin-http.entrypoints=web"
-      - "traefik.http.routers.pgadmin-http.rule=Host(`pgadmin.cwel.sh`)"
-      - "traefik.http.routers.pgadmin.entrypoints=websecure"
-      - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.cwel.sh`)"
+      - "traefik.http.routers.pgadmin-http.entrypoints=http"
+      - "traefik.http.routers.pgadmin-http.rule=Host(`pgadmin.${DOMAIN}`)"
+      - "traefik.http.routers.pgadmin.entrypoints=https
+      - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.${DOMAIN}`)"
       - "traefik.http.routers.pgadmin-http.middlewares=pgadmin-https@docker"
       - "traefik.http.middlewares.pgadmin-https.redirectscheme.scheme=https"
       - "traefik.http.routers.pgadmin.tls=true"
@@ -52,7 +52,7 @@ services:
       - homepage.group=Database
       - homepage.name=pgAdmin
       - homepage.icon=postgres.png
-      - homepage.href=https://pgadmin.cwel.sh
+      - homepage.href=https://pgadmin.${DOMAIN}
       - homepage.description=PostgreSQL Management
 
 volumes:
