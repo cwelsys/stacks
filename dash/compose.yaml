@@ -63,6 +63,10 @@ services:
     restart: unless-stopped
     environment:
       - LD_SUPERUSER_PASSWORD=${LINKDINGPASS}
+      - LD_SUPERUSER_NAME=admin
+      # - LD_DISABLE_BACKGROUND_TASKS=False # Option to disable background tasks
+      # - LD_DISABLE_URL_VALIDATION=False # Option to disable URL validation for bookmarks completely
+      # - LD_ENABLE_AUTH_PROXY=False # Enables support for authentication proxies such as Authelia
     labels:
       - traefik.enable=true
       - traefik.http.routers.linkding.rule=Host(`link.cwel.sh`)
