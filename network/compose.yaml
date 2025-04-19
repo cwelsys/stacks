@@ -140,45 +140,11 @@ services:
     networks:
       - proxy
       
-  authelia:
-    image: 'authelia/authelia:4.38'
-    container_name: 'authelia'
-    volumes:
-      - '${DOCKERDIR}/authelia/secrets:/secrets:ro'
-      - '${DOCKERDIR}/authelia/config:/config'
-      - '${DOCKERDIR}/authelia/logs:/var/log/authelia/'
-    networks:
-      authelia: {}
-    labels:
-      ## Expose Authelia through Traefik
-      traefik.enable: 'true'
-      traefik.docker.network: 'authelia'
-      traefik.http.routers.authelia.rule: 'Host(`auth.${DOMAIN}`)'
-      traefik.http.routers.authelia.entrypoints: 'https'
-      ## Setup Authelia ForwardAuth Middlewares
-      traefik.http.middlewares.authelia.forwardAuth.address: 'http://authelia:9091/api/authz/forward-auth'
-      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: 'true'
-      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: 'Remote-User,Remote-Groups,Remote-Name,Remote-Email'
-    environment:
-      TZ: ${TZ}
-      X_AUTHELIA_CONFIG_FILTERS: 'template'
 
-  whoami-secure:
-    image: 'traefik/whoami'
-    restart: 'unless-stopped'
-    container_name: 'whoami-secure'
-    labels:
-      traefik.enable: 'true'
-      traefik.http.routers.whoami-secure.rule: 'Host(`whoami-secure.${DOMAIN}`)'
-      traefik.http.routers.whoami-secure.entrypoints: 'https'
-      traefik.http.routers.whoami-secure.middlewares: 'authelia@docker'
-    networks:
-      proxy: {}
+
 
 networks:
   proxy:
     external: true
   docker-proxynet:
     internal: true
-  authelia:
-    name: 'authelia'
