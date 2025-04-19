@@ -1,42 +1,35 @@
-services:  
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: unless-stopped
-    networks:
-      - proxy
-    volumes:
-      - ${DOCKERDIR}/redis:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
+services:
   authelia:
-    image: authelia/authelia:latest
-    container_name: authelia
-    restart: unless-stopped
-    depends_on:
-      - redis
-    networks:
-      - proxy
+    image: 'authelia/authelia:4.38'
+    container_name: 'authelia'
     volumes:
-      - ${DOCKERDIR}/authelia/config:/config
-    environment:
-      - TZ=${TZ}
+      - '${DOCKERDIR}/authelia/secrets:/secrets:ro'
+      - '${DOCKERDIR}/authelia/config:/config'
+      - '${DOCKERDIR}/authelia/logs:/var/log/authelia/'
+    networks:
+      authelia: {}
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.authelia.rule=Host(`auth.${DOMAIN}`)
-      - traefik.http.routers.authelia.entrypoints=https
-      - traefik.http.routers.authelia.tls=true
-      - traefik.http.routers.authelia.tls.certresolver=le
-      - traefik.http.services.authelia.loadbalancer.server.port=9091
-      - homepage.group=Infrastructure
-      - homepage.name=Authelia
-      - homepage.icon=authelia.png
-      - homepage.href=https://auth.${DOMAIN}
-      - homepage.description=Single Sign-On
-networks:
-  proxy:
-    external: true
+      ## Expose Authelia through Traefik
+      traefik.enable: 'true'
+      traefik.docker.network: 'authelia'
+      traefik.http.routers.authelia.rule: 'Host(`auth.${DOMAIN}`)'
+      traefik.http.routers.authelia.entrypoints: 'https'
+      ## Setup Authelia ForwardAuth Middlewares
+      traefik.http.middlewares.authelia.forwardAuth.address: 'http://authelia:9091/api/authz/forward-auth'
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: 'true'
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: 'Remote-User,Remote-Groups,Remote-Name,Remote-Email'
+    environment:
+      TZ: ${TZ}
+      X_AUTHELIA_CONFIG_FILTERS: 'template'
+
+  whoami-secure:
+    image: 'traefik/whoami'
+    restart: 'unless-stopped'
+    container_name: 'whoami-secure'
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.whoami-secure.rule: 'Host(`whoami-secure.${DOMAIN}`)'
+      traefik.http.routers.whoami-secure.entrypoints: 'https'
+      traefik.http.routers.whoami-secure.middlewares: 'authelia@docker'
+    networks:
+      proxy: {}
