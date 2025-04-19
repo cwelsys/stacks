@@ -49,18 +49,18 @@ services:
       - INFO=1
       - LOG_LEVEL=info
       - NETWORKS=1
-      - NODES=0
+      - NODES=1
       - PING=1 
       - PLUGINS=1
       - POST=1 
-      - SECRETS=0 
+      - SECRETS=1 
       - SERVICES=1 
       - SESSION=1 
       - SWARM=0 
       - SYSTEM=1
       - TASKS=1 
       - VERSION=1 
-      - VOLUMES=0 
+      - VOLUMES=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: unless-stopped
