@@ -33,6 +33,17 @@ TAUTULLI_API_KEY="op://Secrets/Tautulli/credential"
 ##
 
 [[stack]]
+name = "auth"
+[stack.config]
+server = "pbox"
+run_directory = "auth"
+additional_env_files = ["../global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+
+##
+
+[[stack]]
 name = "dash"
 [stack.config]
 server = "pbox"
@@ -40,10 +51,14 @@ run_directory = "dash"
 additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
 environment = """
 HOMEPAGE_VAR_WEATHER_CITY=Arlington
 HOMEPAGE_VAR_WEATHER_LAT=38.8816
 HOMEPAGE_VAR_WEATHER_LONG=-77.0910
+LINKDINGPASS="op://Secrets/Linkding/password"
 """
 
 ##
