@@ -1,35 +1,88 @@
 services:
-  authelia:
-    image: 'authelia/authelia:4.38'
-    container_name: 'authelia'
+  redis:
+    image: docker.io/library/redis:alpine
+    command: --save 60 1 --loglevel warning
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
     volumes:
-      - '${DOCKERDIR}/authelia/secrets:/secrets:ro'
-      - '${DOCKERDIR}/authelia/config:/config'
-      - '${DOCKERDIR}/authelia/logs:/var/log/authelia/'
+      - redis:/data
     networks:
-      authelia: {}
-    labels:
-      ## Expose Authelia through Traefik
-      traefik.enable: 'true'
-      traefik.docker.network: 'authelia'
-      traefik.http.routers.authelia.rule: 'Host(`auth.${DOMAIN}`)'
-      traefik.http.routers.authelia.entrypoints: 'https'
-      ## Setup Authelia ForwardAuth Middlewares
-      traefik.http.middlewares.authelia.forwardAuth.address: 'http://authelia:9091/api/authz/forward-auth'
-      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: 'true'
-      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: 'Remote-User,Remote-Groups,Remote-Name,Remote-Email'
+      - proxy
+      - pbox
+  server:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.2.4}
+    restart: unless-stopped
+    command: server
     environment:
-      TZ: ${TZ}
-      X_AUTHELIA_CONFIG_FILTERS: 'template'
-
-  whoami-secure:
-    image: 'traefik/whoami'
-    restart: 'unless-stopped'
-    container_name: 'whoami-secure'
-    labels:
-      traefik.enable: 'true'
-      traefik.http.routers.whoami-secure.rule: 'Host(`whoami-secure.${DOMAIN}`)'
-      traefik.http.routers.whoami-secure.entrypoints: 'https'
-      traefik.http.routers.whoami-secure.middlewares: 'authelia@docker'
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+    volumes:
+      - ${DOCKERDIR}/auth/media:/media
+      - ${DOCKERDIR}/auth/custom-templates:/templates
     networks:
-      proxy: {}
+      - proxy
+      - pbox
+    ports:
+      - '${COMPOSE_PORT_HTTP:-9000}:9000'
+      - '${COMPOSE_PORT_HTTPS:-9443}:9443'
+    depends_on:
+      redis:
+        condition: service_healthy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.authentik.rule=Host(`auth.${DOMAIN}`)
+      - traefik.http.routers.authentik.tls=true
+      - traefik.http.routers.authentik.tls.certresolver=le
+      - traefik.http.services.authentik.loadbalancer.server.port=9000
+      - homepage.group=Authentication
+      - homepage.name=Authentik
+      - homepage.icon=authentik.png
+      - homepage.href=https://auth.${DOMAIN}
+      - homepage.description=Identity Provider
+  worker:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.2.4}
+    restart: unless-stopped
+    command: worker
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+    # `user: root` and the docker socket volume are optional.
+    # See more for the docker socket integration here:
+    # https://goauthentik.io/docs/outposts/integrations/docker
+    # Removing `user: root` also prevents the worker from fixing the permissions
+    # on the mounted folders, so when removing this make sure the folders have the correct UID/GID
+    # (1000:1000 by default)
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKERDIR}/auth/media:/media
+      - ${DOCKERDIR}/auth/certs:/certs
+      - ${DOCKERDIR}/auth/custom-templates:/templates
+    networks:
+      - proxy
+      - pbox
+    depends_on:
+      redis:
+        condition: service_healthy
+
+volumes:
+  redis:
+    driver: local
+networks:
+  proxy:
+    external: true
+  pbox:
+    external: true
