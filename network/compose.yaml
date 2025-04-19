@@ -4,6 +4,7 @@ services:
     container_name: traefik
     restart: always
     command:
+      - "--ping"
       - "--providers.docker=true" # enable docker provider
       - "--providers.docker.network=proxy" # define default network to monitor for docker provider
       - "--providers.docker.endpoint=tcp://socket-proxy:2375" # define socket-proxy as docker socket
