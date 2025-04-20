@@ -44,7 +44,7 @@ services:
       - traefik.http.routers.authentik.tls=true
       - traefik.http.routers.authentik.tls.certresolver=le
       - traefik.http.services.authentik.loadbalancer.server.port=9000
-      - homepage.group=Authentication
+      - homepage.group=Auth
       - homepage.name=Authentik
       - homepage.icon=authentik.png
       - homepage.href=https://auth.${DOMAIN}
