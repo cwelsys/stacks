@@ -1,5 +1,6 @@
 services:
   redis:
+    container_name: redis
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
@@ -15,6 +16,7 @@ services:
       - proxy
       - pbox
   server:
+    container_name: authentik
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.2.4}
     restart: unless-stopped
     command: server
@@ -58,6 +60,7 @@ services:
       - homepage.href=https://auth.${DOMAIN}
       - homepage.description=Identity Provider
   worker:
+    container_name: auth-worker
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.2.4}
     restart: unless-stopped
     command: worker
