@@ -21,7 +21,7 @@ services:
       - "--entrypoints.https.http.middlewares=security-headers@file,rate-limit@file" # define default middlewares for all proxy entries
       - "--api=true"
       - "--api.dashboard=true" # enable traefik api dashboard
-      - "--api.insecure=true" # expose traefik api dashboard on TCP/8080 without need for router
+      - "--api.insecure=false" # expose traefik api dashboard on TCP/8080 without need for router
       - "--entrypoints.https.http.tls.certresolver=le" # define default cert resolver
       - "--entrypoints.https.http.tls.domains[0].main=cwel.sh" # define main domain, change to your domain
       - "--entrypoints.https.http.tls.domains[0].sans=*.cwel.sh" # define sans domain, change to your domain
