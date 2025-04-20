@@ -45,8 +45,7 @@ services:
       - traefik.enable=true # enable traefik
       - traefik.http.routers.api.rule=Host(`traefik.${DOMAIN}`) # define subdomain for the traefik api dashboard
       - traefik.http.routers.api.service=api@internal # enable traefik api dashboard
-      # - traefik.http.routers.api.middlewares=local-ipwhitelist@file,basic-auth@file
-      - traefik.http.routers.traefik.middlewares=authentik@file 
+      - traefik.http.routers.api.middlewares=local-ipwhitelist@file,authentik@file
       - "homepage.group=Infrastructure"
       - "homepage.name=Traefik"
       - "homepage.icon=traefik.png"
