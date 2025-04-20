@@ -49,7 +49,7 @@ services:
       - "homepage.group=Infrastructure"
       - "homepage.name=Traefik"
       - "homepage.icon=traefik.png"
-      - "homepage.href=http://traefik.${DOMAIN}"
+      - homepage.href=http://traefik.${DOMAIN}/dashboard/#/
       - "homepage.description=Reverse Proxy & Load Balancer"    
     security_opt:
       - no-new-privileges:true
