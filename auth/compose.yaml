@@ -68,7 +68,15 @@ services:
       AUTHENTIK_POSTGRESQL__USER: authentik
       AUTHENTIK_POSTGRESQL__NAME: authentik
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
-      AUTHENTIK_LOG_LEVEL: trace
+      AUTHENTIK_EMAIL__HOST: ${SMTPHOST}
+      AUTHENTIK_EMAIL__PORT: 587
+      AUTHENTIK_EMAIL__USERNAME: ${SMTPUSER}
+      AUTHENTIK_EMAIL__PASSWORD: ${SMTPASS}
+      AUTHENTIK_EMAIL__USE_TLS: true
+      AUTHENTIK_EMAIL__USE_SSL: true
+      AUTHENTIK_EMAIL__TIMEOUT: 10
+      AUTHENTIK_EMAIL__FROM: auth@cwel.sh
+      AUTHENTIK_ERROR_REPORTING__ENABLED: true
     # `user: root` and the docker socket volume are optional.
     # See more for the docker socket integration here:
     # https://goauthentik.io/docs/outposts/integrations/docker
