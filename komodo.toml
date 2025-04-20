@@ -40,6 +40,18 @@ run_directory = "auth"
 additional_env_files = ["../global.env"]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+PG_PASS="op://Secrets/Authentik/db_pass"
+AUTHENTIK_SECRET_KEY="op://Secrets/Authentik/secret_key"
+SMTPHOST=in-v3.mailjet.com
+AUTHENTIK_EMAIL__PORT=25
+SMTPUSER="op://Secrets/SMTP/API Key"
+SMTPASS="op://Secrets/SMTP/Secret Key"
+
+"""
 
 ##
 
