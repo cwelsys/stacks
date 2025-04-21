@@ -255,6 +255,20 @@ UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 
 ##
 
+[[stack]]
+name = "test"
+[stack.config]
+server = "pbox"
+run_directory = "test"
+additional_env_files = ["../global.env"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+
+##
+
 [[repo]]
 name = "stacks"
 [repo.config]
