@@ -26,7 +26,7 @@ services:
       - homepage.name=Sonarr
       - homepage.icon=sonarr.png
       - homepage.href=https://sonarr.${DOMAIN}
-      - homepage.description=Series management
+      - homepage.description=TV Series management
       - homepage.weight=0
       - homepage.widget.type=sonarr
       - homepage.widget.url=http://sonarr:8989
