@@ -77,7 +77,7 @@ services:
       - 'homepage.name=Linkding'
       - 'homepage.icon=linkding.png'
       - 'homepage.href=https://link.cwel.sh'
-      - 'homepage.description=the Bookmark Manager'
+      - 'homepage.description=Bookmark Manager'
       - 'homepage.weight=1'
     networks:
       - proxy
