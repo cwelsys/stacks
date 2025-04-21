@@ -22,20 +22,47 @@ jobs:
       - name: Create GitHub Webhooks
         run: |
           for STACK_ID in ${STACK_IDS//,/ }; do
-            curl -X POST \
+            # Check if webhook already exists
+            WEBHOOK_EXISTS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/hooks" | \
+              jq -r --arg url "https://komo.cwel.sh/listener/github/stack/$STACK_ID/deploy" \
+              '.[] | select(.config.url==$url) | "exists"')
+
+            if [ "$WEBHOOK_EXISTS" = "exists" ]; then
+              echo "Webhook for stack $STACK_ID already exists, skipping..."
+              continue
+            fi
+
+            echo "Creating webhook for stack $STACK_ID..."
+            RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Accept: application/vnd.github.v3+json" \
               "https://api.github.com/repos/${{ github.repository }}/hooks" \
-              -d '{
-                "name": "web",
-                "active": true,
-                "events": ["push"],
-                "config": {
-                  "url": "https://komo.cwel.sh/listener/github/stack/$STACK_ID/deploy",
-                  "content_type": "json",
-                  "secret": "${{ secrets.KOMODO_WEBHOOK_SECRET }}"
-                }
-              }'
+              -d @- << EOF
+            {
+              "name": "web",
+              "active": true,
+              "events": ["push"],
+              "config": {
+                "url": "https://komo.cwel.sh/listener/github/stack/$STACK_ID/deploy",
+                "content_type": "json",
+                "secret": "${{ secrets.KOMODO_WEBHOOK_SECRET }}"
+              }
+            }
+            EOF
+            )
+
+            # Extract status code and response body
+            HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
+            RESPONSE_BODY=$(echo "$RESPONSE" | sed '$ d')
+
+            if [ "$HTTP_STATUS" -ne 201 ]; then
+              echo "Failed to create webhook for stack $STACK_ID. Status: $HTTP_STATUS"
+              echo "Response: $RESPONSE_BODY"
+              exit 1
+            else
+              echo "Successfully created webhook for stack $STACK_ID"
+            fi
           done
         env:
           STACK_IDS: ${{ steps.get_stacks.outputs.STACK_IDS }}
