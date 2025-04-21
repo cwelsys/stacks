@@ -3,8 +3,8 @@ services:
     image: ghcr.io/hotio/qbittorrent
     container_name: qbittorrent
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
       - WEBUI_PORTS=8080/tcp,8080/udp
     volumes:
@@ -97,8 +97,8 @@ services:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/sabnzbd:/config

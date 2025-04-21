@@ -3,8 +3,8 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/sonarr:/config
@@ -38,8 +38,8 @@ services:
     image: lscr.io/linuxserver/radarr
     container_name: radarr
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/radarr:/config
@@ -73,8 +73,8 @@ services:
     image: lscr.io/linuxserver/lidarr
     container_name: lidarr
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/lidarr:/config
@@ -108,8 +108,8 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/prowlarr:/config
@@ -160,7 +160,7 @@ services:
     volumes:
       - ${RUST}/tor:/data/tor
     restart: always
-    user: ${DUID}:${DGID}
+    user: ${ID}:${ID}
     environment:
       - TZ=${TZ}
       - UN_SONARR_0_URL=http://sonarr:8989/
@@ -178,8 +178,8 @@ services:
     volumes:
       - ${DOCKERDIR}/profilarr:/config
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     restart: unless-stopped
     labels:
@@ -202,8 +202,8 @@ services:
     image: sctx/overseerr:latest
     container_name: overseerr
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/overseerr/config:/app/config
@@ -232,7 +232,7 @@ services:
   maintainerr:
     image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
     container_name: maintainerr
-    user: ${DUID}:${DGID}
+    user: ${ID}:${ID}
     networks:
       - proxy
     volumes:
@@ -289,8 +289,8 @@ services:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/tautulli/config:/config
@@ -317,8 +317,8 @@ services:
     image: tannermiddleton/recommendarr:latest
     container_name: recommendarr
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
       - NODE_ENV=production
       - DOCKER_ENV=false
@@ -349,10 +349,9 @@ services:
     volumes:
       - ${DOCKERDIR}/ptraktsync/config:/app/config
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
-
 
 networks:
   proxy:

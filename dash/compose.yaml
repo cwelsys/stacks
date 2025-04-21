@@ -32,8 +32,8 @@ services:
     container_name: dashy
     environment:
       - NODE_ENV=production
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/dashy:/app/user-data

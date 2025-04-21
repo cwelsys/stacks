@@ -3,8 +3,8 @@ services:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
     environment:
-      - PUID=${DUID}
-      - PGID=#{DGID}
+      - PUID=${ID}
+      - PGID=#{ID}
       - TZ=${TZ}
       - VERSION=docker
     ports:
@@ -51,8 +51,8 @@ services:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     environment:
-      - PUID=${DUID}
-      - PGID=${DGID}
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TZ}
       - JELLYFIN_PublishedServerUrl=jellyfin.${DOMAIN}
     volumes:
