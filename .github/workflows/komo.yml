@@ -9,10 +9,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Get stack names
+        id: get_stacks
+        run: |
+          # Find directories that contain compose.yaml files
+          STACKS=$(find . -maxdepth 2 -name "compose.yaml" | sed -e 's|./||' -e 's|/compose.yaml||' | grep -v "^\." | sort | tr '\n' ',' | sed 's/,$//')
+          echo "STACK_NAMES=$STACKS" >> $GITHUB_OUTPUT
+          echo "Found stacks: $STACKS"
+
       - name: Debug STACK_NAMES
-        run: echo "STACK_NAMES=${{ env.STACK_NAMES }}"
-        env:
-          STACK_NAMES: '${{ steps.get_stacks.outputs.STACK_NAMES }}'
+        run: echo "STACK_NAMES=${{ steps.get_stacks.outputs.STACK_NAMES }}"
 
       - name: Create GitHub Webhooks
         run: |
