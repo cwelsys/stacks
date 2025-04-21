@@ -9,16 +9,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Get stack names
-        id: get_stacks
+      - name: Extract stack names from komodo.toml
+        id: komodo_stacks
         run: |
-          # Find directories that contain compose.yaml files
-          STACKS=$(find . -maxdepth 2 -name "compose.yaml" | sed -e 's|./||' -e 's|/compose.yaml||' | grep -v "^\." | sort | tr '\n' ',' | sed 's/,$//')
-          echo "STACK_NAMES=$STACKS" >> $GITHUB_OUTPUT
-          echo "Found stacks: $STACKS"
+          # Use grep to extract stack names from komodo.toml
+          # This pattern looks for lines with name = "stackname" inside [[stack]] sections
+          STACKS=$(grep -A 1 '^\[\[stack\]\]' komodo.toml | grep 'name' | sed -E 's/name = "([^"]*)".*/\1/' | sort | tr '\n' ',' | sed 's/,$//')
+          echo "KOMODO_STACK_NAMES=$STACKS" >> $GITHUB_OUTPUT
+          echo "Found stacks in komodo.toml: $STACKS"
 
-      - name: Debug STACK_NAMES
-        run: echo "STACK_NAMES=${{ steps.get_stacks.outputs.STACK_NAMES }}"
+      - name: Debug KOMODO_STACK_NAMES
+        run: echo "KOMODO_STACK_NAMES=${{ steps.komodo_stacks.outputs.KOMODO_STACK_NAMES }}"
 
       - name: Create GitHub Webhooks
         run: |
@@ -47,9 +48,7 @@ jobs:
               exit 1
             fi
 
-            # Save hooks to file for debugging
-            echo "$HOOKS_RESPONSE" > hooks.json
-
+            # Check if webhook exists
             WEBHOOK_EXISTS=$(echo "$HOOKS_RESPONSE" | jq -r --arg url "$WEBHOOK_URL" \
               'map(select(.config.url == $url)) | length')
 
@@ -97,4 +96,4 @@ jobs:
             fi
           done
         env:
-          STACK_NAMES: '${{ steps.get_stacks.outputs.STACK_NAMES }}'
+          STACK_NAMES: '${{ steps.komodo_stacks.outputs.KOMODO_STACK_NAMES }}'
