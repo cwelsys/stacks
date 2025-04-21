@@ -1,23 +1,25 @@
 name: Sync Komodo Webhooks
 on:
-  workflow_dispatch: # Run manually
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Optional: Daily sync
+    - cron: '0 0 * * *' # Daily sync
 
 jobs:
   sync-webhooks:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch Komodo Stack IDs
+      - uses: actions/checkout@v4
+
+      - name: Fetch Stacks
         id: get_stacks
         env:
           KOMODO_TOKEN: ${{ secrets.KOMODO_TOKEN }}
         run: |
           STACK_IDS=$(curl -s -H "Authorization: Bearer $KOMODO_TOKEN" \
-            "$KOMODO_API_URL/stacks" | jq -r '.[].id')
-          echo "STACK_IDS=$(echo $STACK_IDS | tr ' ' ',')" >> $GITHUB_OUTPUT
+            "https://komo.cwel.sh/api/stacks" | jq -r '.[].id')
+          echo "STACK_IDS=$(echo $STACK_IDS | tr '\n' ',')" >> $GITHUB_OUTPUT
 
-      - name: Create/Update GitHub Webhooks
+      - name: Create GitHub Webhooks
         run: |
           for STACK_ID in ${STACK_IDS//,/ }; do
             curl -X POST \
