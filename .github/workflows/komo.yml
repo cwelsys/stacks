@@ -24,7 +24,7 @@ jobs:
         run: |
           for STACK_NAME in ${STACK_NAMES//,/ }; do
             # Check if webhook already exists
-            WEBHOOK_EXISTS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            WEBHOOK_EXISTS=$(curl -s -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
               "https://api.github.com/repos/${{ github.repository }}/hooks" | \
               jq -r --arg url "https://komo.cwel.sh/listener/github/stack/$STACK_NAME/deploy" \
               '.[] | select(.config.url==$url) | "exists"')
@@ -38,7 +38,7 @@ jobs:
             echo "{\n  \"name\": \"web\",\n  \"active\": true,\n  \"events\": [\"push\"],\n  \"config\": {\n    \"url\": \"https://komo.cwel.sh/listener/github/stack/$STACK_NAME/deploy\",\n    \"content_type\": \"json\",\n    \"secret\": \"${{ secrets.KOMODO_WEBHOOK_SECRET }}\"\n  }\n}" > webhook.json
 
             RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
               -H "Accept: application/vnd.github.v3+json" \
               -H "Content-Type: application/json" \
               "https://api.github.com/repos/${{ github.repository }}/hooks" \
