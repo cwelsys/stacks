@@ -35,7 +35,19 @@ jobs:
             fi
 
             echo "Creating webhook for stack $STACK_NAME..."
-            echo "{\n  \"name\": \"web\",\n  \"active\": true,\n  \"events\": [\"push\"],\n  \"config\": {\n    \"url\": \"https://komo.cwel.sh/listener/github/stack/$STACK_NAME/deploy\",\n    \"content_type\": \"json\",\n    \"secret\": \"${{ secrets.KOMODO_WEBHOOK_SECRET }}\"\n  }\n}" > webhook.json
+            # Create properly formatted JSON using a heredoc
+            cat > webhook.json << EOF
+{
+  "name": "web",
+  "active": true,
+  "events": ["push"],
+  "config": {
+    "url": "https://komo.cwel.sh/listener/github/stack/$STACK_NAME/deploy",
+    "content_type": "json",
+    "secret": "${{ secrets.KOMODO_WEBHOOK_SECRET }}"
+  }
+}
+EOF
 
             RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
               -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
