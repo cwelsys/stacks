@@ -38,17 +38,17 @@ jobs:
               -H "Accept: application/vnd.github.v3+json" \
               "https://api.github.com/repos/${{ github.repository }}/hooks" \
               -d @- << EOF
-            {
-              "name": "web",
-              "active": true,
-              "events": ["push"],
-              "config": {
-                "url": "https://komo.cwel.sh/listener/github/stack/$STACK_NAME/deploy",
-                "content_type": "json",
-                "secret": "${{ secrets.KOMODO_WEBHOOK_SECRET }}"
-              }
-            }
-            EOF
+{
+  "name": "web",
+  "active": true,
+  "events": ["push"],
+  "config": {
+    "url": "https://komo.cwel.sh/listener/github/stack/$STACK_NAME/deploy",
+    "content_type": "json",
+    "secret": "${{ secrets.KOMODO_WEBHOOK_SECRET }}"
+  }
+}
+EOF
             )
 
             # Extract status code and response body
