@@ -154,23 +154,6 @@ JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
 ##
 
 [[stack]]
-name = "monitor"
-[stack.config]
-server = "pbox"
-run_directory = "monitor"
-additional_env_files = ["../global.env"]
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-GRAFANAPW="op://Secrets/Grafana/password"
-"""
-
-##
-
-[[stack]]
 name = "network"
 [stack.config]
 server = "pbox"
