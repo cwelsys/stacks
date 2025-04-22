@@ -24,7 +24,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.komodo.rule=Host(`komo.cwel.sh`)
       - traefik.http.routers.komodo.tls.certresolver=le
-      - traefik.http.routers.komodo.entrypoints=websecure
+      - traefik.http.routers.komodo.entrypoints=https
       - traefik.http.services.komodo.loadbalancer.server.port=9120
       - homepage.name=Komodo
       - homepage.icon=komodo.png
@@ -53,22 +53,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
 
-  postgres:
-    env_file: ./.env
-    image: postgres:15
-    container_name: postgres
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=${KOMODO_DB_PASSWORD}
-      - POSTGRES_DB=komodo
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    networks:
-      - pbox
-
 volumes:
-  postgres-data:
   repo-cache:
 networks:
   pbox:
