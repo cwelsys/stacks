@@ -3,4 +3,5 @@ volumes:
     driver: local
 
 networks:
-  backend:
+  proxy:
+    external: true
