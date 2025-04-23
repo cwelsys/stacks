@@ -1,0 +1,6 @@
+volumes:
+  shared_data:
+    driver: local
+
+networks:
+  backend:
