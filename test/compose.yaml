@@ -2,12 +2,12 @@
 services:
   hello_world:
     image: hello-world
-    # networks:
-    #   - default
+    networks:
+      - backend
     # ports:
     #   - 3000:3000
-    # volumes:
-    #   - data:/data
+    volumes:
+      - shared_data:/data
 
 # networks:
 #   default: {}
