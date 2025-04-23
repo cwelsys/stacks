@@ -2,6 +2,7 @@ services:
   osx:
     container_name: big-mac
     image: sickcodes/docker-osx
+    restart: always
     dns:
       - 1.1.1.1
     devices:
