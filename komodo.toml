@@ -221,6 +221,17 @@ DISCORDURL="op://Secrets/CM Discord Webhook/credential"
 ##
 
 [[stack]]
+name = "test"
+[stack.config]
+server = "pbox"
+run_directory = "test"
+file_paths = ["compose.yaml", "../pbox.yaml"]
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+
+##
+
+[[stack]]
 name = "web"
 [stack.config]
 server = "pbox"
@@ -235,16 +246,6 @@ environment = """
 APP_SECRET="op://Secrets/Umami/credential"
 UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 """
-
-##
-
-[[repo]]
-name = "stacks"
-[repo.config]
-server = "pbox"
-builder = "local"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
 
 ##
 
