@@ -3,7 +3,7 @@ services:
   hello_world:
     image: hello-world
     networks:
-      - backend
+      - proxy
     # ports:
     #   - 3000:3000
     volumes:
