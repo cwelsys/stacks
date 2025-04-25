@@ -72,13 +72,14 @@ additional_env_files = ["../../global.env"]
 ##
 
 [[stack]]
-name = "dash"
+name = "dashboard"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "dash"
 additional_env_files = ["../global.env"]
+file_paths = ["../pbox.yaml", "homepage.yaml"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """

@@ -1,0 +1,28 @@
+  linkding:
+    container_name: linkding
+    image: sissbruecker/linkding:latest
+    # ports:
+    #   - '${LD_HOST_PORT:-9090}:9090'
+    volumes:
+      - ${CONFIGDIR}/linkding:/etc/linkding/data
+    restart: unless-stopped
+    environment:
+      - LD_SUPERUSER_PASSWORD=${LINKDINGPASS}
+      - LD_SUPERUSER_NAME=admin
+      # - LD_DISABLE_BACKGROUND_TASKS=False # Option to disable background tasks
+      # - LD_DISABLE_URL_VALIDATION=False # Option to disable URL validation for bookmarks completely
+      # - LD_ENABLE_AUTH_PROXY=False # Enables support for authentication proxies such as Authelia
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.linkding.rule=Host(`link.cwel.sh`)
+      - traefik.http.routers.linkding.tls=true
+      - traefik.http.routers.linkding.tls.certresolver=le
+      - traefik.http.services.linkding.loadbalancer.server.port=9090
+      - 'homepage.group=Productivity'
+      - 'homepage.name=Linkding'
+      - 'homepage.icon=linkding.png'
+      - 'homepage.href=https://link.cwel.sh'
+      - 'homepage.description=a Bookmark Manager'
+      - 'homepage.weight=1'
+    networks:
+      - internal
