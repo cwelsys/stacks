@@ -1,6 +1,7 @@
 
 services:
   traefik:
+    container_name: traefiki
     image: "traefik:v3.3"
     networks:
       - traefik_internal
