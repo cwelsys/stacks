@@ -66,10 +66,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/crowdsec"
-file_paths = [
-  "../../pbox.yaml",
-  "crowdsec.yaml"
-]
+file_paths = ["../../pbox.yaml", "crowdsec.yaml"]
 additional_env_files = ["../../global.env"]
 
 ##
@@ -251,16 +248,14 @@ file_paths = ["compose.yaml", "../pbox.yaml"]
 ##
 
 [[stack]]
-name = "traefik-external"
+name = "external"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
+additional_env_files = ["../global.env"]
 run_directory = "network/external"
-file_paths = [
-  "../../pbox.yaml",
-  "texternal.yaml"
-]
+file_paths = ["../../pbox.yaml", "texternal.yaml"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
@@ -270,6 +265,36 @@ CF_TRAEFIK_TUNNEL_TOKEN="op://Secrets/Cloudflare/boneyards"
 CS_TRAEFIK_BOUNCER_KEY=CHANGEME_ln3Q3cof5zm9X3SHRpBdkZ
 BOUNCER_HOST=crowdsec:8080
 """
+
+##
+
+[[stack]]
+name = "internal"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+additional_env_files = ["../global.env"]
+run_directory = "network/internal"
+file_paths = ["../../pbox.yaml", "tinternal.yaml"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
+"""
+
+##
+
+[[stack]]
+name = "kop"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network/kop"
+additional_env_files = ["../global.env"]
+file_paths = ["../../pbox.yaml", "kop.yaml"]
 
 ##
 

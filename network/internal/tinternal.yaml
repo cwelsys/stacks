@@ -1,46 +1,42 @@
+
 services:
   traefik:
     image: "traefik:v3.3"
     networks:
-      - public
       - traefik_internal
-      - crowdsec
+      - internal
     depends_on:
-      - traefik-external-redis
+      - traefik-internal-redis
     ports:
-      # - "80:80"
-      # - "443:443"
-      - "8080:8080"
+      - "80:80"
+      - "443:443"
+      # - "8180:8080"
     environment:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
-      CS_TRAEFIK_BOUNCER_KEY: ${CS_TRAEFIK_BOUNCER_KEY}
-      BOUNCER_HOST: ${BOUNCER_HOST}
     volumes:
-      - ${CONFIGDIR}/traefik-external/letsencrypt:/letsencrypt
-      - ${CONFIGDIR}/traefik-external/certificates:/certificates
-      - ${CONFIGDIR}/traefik-external/log:/var/log/traefik:rw
-      - ${CONFIGDIR}/traefik-external/static:/etc/traefik:rw
-      - ${CONFIGDIR}/traefik-external/dynamic:/config/dynamic:rw
-      - ${CONFIGDIR}/traefik-external/ban.html:/config/ban.html:ro
+      - ${CONFIGDIR}/traefik-internal/letsencrypt:/letsencrypt
+      - ${CONFIGDIR}/traefik-internal/certificates:/certificates
+      - ${CONFIGDIR}/traefik-internal/log:/var/log/traefik:rw
+      - ${CONFIGDIR}/traefik-internal/static:/etc/traefik:rw
+      - ${CONFIGDIR}/traefik-internal/dynamic:/config/dynamic:rw
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-dashboard-external.rule: Host(`traefik-external.${DOMAIN}`)
-      traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 8080
-      kop.traefik-dashboard-external.bind.ip: "${SERVER_IP}"
+      traefik.http.routers.traefik-dashboard-internal.rule: Host(`traefik-internal.${DOMAIN}`)
+      traefik.http.routers.traefik-dashboard-internal.service: api@internal
       homepage.group: Monitoring
-      homepage.name: Traefik (External)
+      homepage.name: Traefik (Internal)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
-      homepage.href: "https://traefik-external.${DOMAIN}"
+      homepage.href: "https://traefik-internal.${DOMAIN}"
 
   logrotate:
     image: vegardit/traefik-logrotate:latest
     network_mode: none
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
-      - ${CONFIGDIR}/traefik-external/log:/var/log/traefik:rw # folder containing access.log file
+      - ${CONFIGDIR}/traefik-internal/log:/var/log/traefik:rw # folder containing access.log file
     environment:
-      TZ: ${TZ}
+      TZ: "America/New_York"
       # all environment variables are optional and show the default values:
       LOGROTATE_LOGS: "/var/log/traefik/*.log" # log files to rotate, directory must match volume mount
       LOGROTATE_TRIGGER_INTERVAL: daily  # rotate daily, must be one of: daily, weekly, monthly, yearly
@@ -57,18 +53,17 @@ services:
 
   traefik-access-logs:
     image: alpine
-    container_name: traefik-external-access-logs
     volumes:
-      - ${CONFIGDIR}/traefik-external/log:/var/log:ro
+      - ${CONFIGDIR}/traefik-internal/log:/var/log:ro
     command: >
       sh -c "tail -F /var/log/access.log"
     network_mode: none
     restart: unless-stopped
 
-  traefik-external-redis:
+  traefik-internal-redis:
     restart: always
     image: redis:7-alpine
-    container_name: traefik-external-redis
+    container_name: traefik-internal-redis
     ports:
       - "6379:6379"
     networks:
@@ -77,15 +72,7 @@ services:
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
-      - redis-ext:/data
-  cloudflare_tunnel:
-    image: cloudflare/cloudflared:2025.2.0
-    restart: unless-stopped
-    command: tunnel run --token ${CF_TRAEFIK_TUNNEL_TOKEN}
-    environment:
-        TUNNEL_METRICS: 0.0.0.0:20241
-    networks:
-        - traefik_internal
+      - redis-int:/data
 
   logdy:
     build:
@@ -93,8 +80,9 @@ services:
     read_only: true
     networks:
       - internal
+      - traefik_internal
     volumes:
-      - ${CONFIGDIR}/traefik-external/log:/var/log:ro
+      - ${CONFIGDIR}/traefik-internal/log:/var/log:ro
       - ${CONFIGDIR}/logdy/logdy.json:/config/logdy.json
     command:
       - "--config"
@@ -103,33 +91,18 @@ services:
       #- "--full-read"
       - "/var/log/access.log"
     restart: unless-stopped
+    # ports:
+    #   - "8333:8080"
     security_opt:
       - no-new-privileges=true
     labels:
       traefik.enable: true
-      traefik.http.routers.logdy-traefik-external.rule: Host(`traefik-log-external.${DOMAIN}`)
-      traefik.http.services.logdy-traefik-external.loadbalancer.server.port: 8080
-      traefik.docker.network: internal
+      traefik.http.routers.logdy-traefik-internal.rule: Host(`traefik-log-internal.${DOMAIN}`)
+      traefik.http.services.logdy-traefik-internal.loadbalancer.server.port: 8080
       homepage.group: Monitoring
-      homepage.name: Traefik Logs (External)
+      homepage.name: Traefik Logs (Internal)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
-      homepage.href: "https://traefik-log-external.${DOMAIN}"
+      homepage.href: "https://traefik-log-internal.${DOMAIN}"
 
-  socket-proxy:
-    image: lscr.io/linuxserver/socket-proxy:latest
-    container_name: traefik-ext-socket-proxy
-    networks:
-      - crowdsec
-    environment:
-      - CONTAINERS=1
-      - POST=0
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - 2375:2375
-    restart: always
-    read_only: true
-    tmpfs:
-      - /run
 volumes:
-  redis-ext:
+  redis-int:
