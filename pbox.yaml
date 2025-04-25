@@ -8,8 +8,6 @@
 #   shared_data:
 #     driver: local
 
-env_file: ./global.env
-
 networks:
   default:
     internal: true
