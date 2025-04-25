@@ -39,13 +39,17 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "auth"
+file_paths = ["authentik.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
+AUTHENTIK_TAG=2025.2
 PG_PASS="op://Secrets/Authentik/db_pass"
 AUTHENTIK_SECRET_KEY="op://Secrets/Authentik/secret_key"
+AUTHENTIK_TRAEFIK_OUTPUT_TOKEN=
+AUTHENTIK_TRAEFIK_EXT_OUTPOST_TOKEN=
 SMTPHOST=in-v3.mailjet.com
 AUTHENTIK_EMAIL__PORT=25
 SMTPUSER="op://Secrets/SMTP/API Key"
