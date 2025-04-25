@@ -1,7 +1,39 @@
-volumes:
-  shared_data:
-    driver: local
+# docker network create --driver=bridge --attachable internal
+# docker network create --driver=bridge --attachable --subnet=10.99.0.0/24 public
+# docker network create --driver=bridge --internal --attachable kop
+# docker network create --driver=bridge --internal --attachable crowdsec
+# docker network create --driver=bridge --internal --attachable db
+
+# volumes:
+#   shared_data:
+#     driver: local
+
+environment:
+  CONFIGDIR: /home/cwel/.config/pbox
+  RUST: /mnt/media
+  TZ: America/New_York
+  ID: 1001
+  EMAIL: cwel@cwel.sh
+  DOMAIN: cwel.sh
+  CLOUDFLARE_IPS: 173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22
+  SERVER_IP: 192.168.4.89
+  LOCAL_NETWORK: 127.0.0.1/32,192.168.1.0/24,192.168.4.0/22,172.29.0.0/16
 
 networks:
-  proxy:
+  default:
+    internal: true
+  internal:
     external: true
+  public:
+    external: true
+  kop:
+    external: true
+  crowdsec:
+    external: true
+  db:
+    external: true
+  traefik_internal:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
