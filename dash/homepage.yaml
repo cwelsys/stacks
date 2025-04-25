@@ -2,6 +2,8 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
+    networks:
+      - internal
     environment:
       - HOMEPAGE_VAR_TITLE="Sup Ma'"
       - HOMEPAGE_VAR_SEARCH_PROVIDER=duckduckgo
