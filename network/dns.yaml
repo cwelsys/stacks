@@ -10,6 +10,11 @@ services:
     volumes:
       - config:/etc/dns
     restart: unless-stopped
+    labels:
+      homepage.group: Network
+      homepage.name: DNS Server
+      homepage.icon: technitium.png
+      homepage.href: "https://dns.${DOMAIN}"
 
 volumes:
     config:
