@@ -37,7 +37,7 @@ services:
       - traefik.docker.network=internal
       - homepage.group=Media
       - homepage.name=Plex
-      - homepage.icon=plex.png
+      - homepage.icon=images/plex3.png
       - homepage.href=https://plex.${DOMAIN}
       - homepage.description=Media server
       - homepage.weight=-1
