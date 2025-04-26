@@ -16,8 +16,8 @@ services:
     restart: "always"
     volumes:
       - ${CONFIGDIR}/crowdsec/config:/etc/crowdsec
-      - crowdsec:/var/lib/crowdsec/data
-      - crowdsec-logs:/var/log/crowdsec
+      - data:/var/lib/crowdsec/data
+      - logs:/var/log/crowdsec
   crowdsec-ingest:
     image: "crowdsecurity/crowdsec:latest"
     networks:
@@ -40,10 +40,10 @@ services:
     restart: "always"
     volumes:
       - ${CONFIGDIR}/crowdsec-ingest/config:/etc/crowdsec
-      - crowdsec-ingest:/var/lib/crowdsec/data
-      - crowdsec-ingest-logs:/var/log/crowdsec
+      - ingest:/var/lib/crowdsec/data
+      - ingest-logs:/var/log/crowdsec
 volumes:
-  crowdsec:
-  crowdsec-logs:
-  crowdsec-ingest:
-  crowdsec-ingest-logs:
+  data:
+  logs:
+  ingest:
+  ingest-logs:
