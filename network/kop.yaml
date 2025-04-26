@@ -13,7 +13,7 @@ services:
       - socket-proxy
     networks:
       - kop
-      - default
+      - stack
   traefik-kop-internal:
     container_name: traefik-kop-internal
     image: "ghcr.io/jittering/traefik-kop:latest"
@@ -27,11 +27,11 @@ services:
       - socket-proxy
     networks:
       - kop
-      - default
+      - stack
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     networks:
-      - default
+      - stack
     environment:
       - ALLOW_START=0
       - ALLOW_STOP=0
