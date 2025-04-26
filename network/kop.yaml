@@ -40,7 +40,7 @@ services:
       - EVENTS=1
       - INFO=1
       - NETWORKS=1
-      - POST=0
+      - POST=1
       - SERVICES=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
