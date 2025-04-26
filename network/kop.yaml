@@ -1,5 +1,6 @@
 services:
   traefik-kop-public:
+    container_name: traefik-kop-public
     image: "ghcr.io/jittering/traefik-kop:latest"
     restart: unless-stopped
     environment:
@@ -14,6 +15,7 @@ services:
       - kop
       - default
   traefik-kop-internal:
+    container_name: traefik-kop-internal
     image: "ghcr.io/jittering/traefik-kop:latest"
     restart: unless-stopped
     environment:
