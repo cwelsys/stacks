@@ -66,10 +66,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/crowdsec"
-file_paths = [
-  "../../pbox.yaml",
-  "crowdsec.yaml"
-]
+file_paths = ["../../pbox.yaml", "crowdsec.yaml"]
 additional_env_files = ["../../global.env"]
 
 ##
@@ -144,11 +141,8 @@ name = "external"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network/external"
-file_paths = [
-  "../../pbox.yaml",
-  "texternal.yaml"
-]
+run_directory = "network"
+file_paths = ["../pbox.yaml", "traefik-external.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -156,7 +150,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
 CF_TRAEFIK_TUNNEL_TOKEN="op://Secrets/Cloudflare/boneyards"
-CS_TRAEFIK_BOUNCER_KEY=CHANGEME_ln3Q3cof5zm9X3SHRpBdkZ
+CS_TRAEFIK_BOUNCER_KEY="op://Secrets/Crowdsec/credential"
 BOUNCER_HOST=crowdsec:8080
 """
 
@@ -185,12 +179,9 @@ name = "internal"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network/internal"
-file_paths = [
-  "../../pbox.yaml",
-  "tinternal.yaml"
-]
-additional_env_files = ["../../global.env"]
+run_directory = "network"
+file_paths = ["../pbox.yaml", "traefik-internal.yaml"]
+additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
@@ -206,8 +197,8 @@ name = "kop"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network/kop"
-file_paths = ["../../pbox.yaml", "kop.yaml"]
+run_directory = "network"
+file_paths = ["../pbox.yaml", "kop.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
