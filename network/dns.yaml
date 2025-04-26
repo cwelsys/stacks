@@ -5,7 +5,7 @@ services:
     image: technitium/dns-server:latest
     network_mode: "host"
     environment:
-      - DNS_SERVER_DOMAIN=dns-server #The primary domain name used by this DNS Server to identify itself.
+      - DNS_SERVER_DOMAIN=dns.cwel.sh #The primary domain name used by this DNS Server to identify itself.
       - DNS_SERVER_LOG_USING_LOCAL_TIME=true #Enable this option to use local time instead of UTC for logging.
     volumes:
       - config:/etc/dns
