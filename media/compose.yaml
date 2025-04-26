@@ -20,7 +20,7 @@ services:
       - '32414:32414/udp'
     restart: unless-stopped
     volumes:
-      - ${CONFIGDIR}/plex/library/config:/config
+      - plex_data:/config
       - ${RUST}/tv:/tv
       - ${RUST}/movie:/movie
       - ${RUST}/anime:/anime
@@ -86,6 +86,5 @@ services:
   #   networks:
   #     - proxy
 
-networks:
-  proxy:
-    external: true
+volumes:
+  plex_data:
