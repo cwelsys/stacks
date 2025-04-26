@@ -87,4 +87,4 @@ services:
   #     - proxy
 
 volumes:
-  plex_data:
+  plex-data:
