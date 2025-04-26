@@ -4,7 +4,7 @@ services:
     container_name: traefiki
     image: "traefik:v3.3"
     networks:
-      - traefik_internal
+      - traefik
       - internal
     depends_on:
       - traefik-internal-redis
@@ -69,7 +69,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - traefik_internal
+      - traefik
       - kop
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
@@ -82,7 +82,7 @@ services:
     read_only: true
     networks:
       - internal
-      - traefik_internal
+      - traefik
     volumes:
       - ${CONFIGDIR}/traefik-internal/log:/var/log:ro
       - ${CONFIGDIR}/logdy/logdy.json:/config/logdy.json

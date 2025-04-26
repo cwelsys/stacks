@@ -3,7 +3,7 @@ services:
     image: "traefik:v3.3"
     networks:
       - public
-      - traefik_internal
+      - traefik
       - crowdsec
     depends_on:
       - traefik-external-redis
@@ -72,7 +72,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - traefik_internal
+      - traefik
       - kop
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
@@ -85,7 +85,7 @@ services:
     environment:
         TUNNEL_METRICS: 0.0.0.0:20241
     networks:
-        - traefik_internal
+        - traefik
 
   logdy:
     build:
