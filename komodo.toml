@@ -65,9 +65,9 @@ name = "crowdsec"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network/crowdsec"
-file_paths = ["../../pbox.yaml", "crowdsec.yaml"]
-additional_env_files = ["../../global.env"]
+run_directory = "network"
+file_paths = ["../pbox.yaml", "crowdsec.yaml"]
+additional_env_files = ["../global.env"]
 
 ##
 
@@ -113,6 +113,18 @@ POSTGRES_PASSWORD="op://Secrets/2doyirimsnblvjuilo73gwfvgq/password"
 ##
 
 [[stack]]
+name = "dns"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network"
+file_paths = ["../pbox.yaml", "dns.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
 name = "downs"
 [stack.config]
 server = "pbox"
@@ -142,14 +154,17 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["../pbox.yaml", "traefik-external.yaml"]
+file_paths = [
+  "../pbox.yaml",
+  "traefik-external.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
 CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
-CF_TRAEFIK_TUNNEL_TOKEN="op://Secrets/Cloudflare/boneyards"
+CF_TRAEFIK_TUNNEL_TOKEN=op://Secrets/Cloudflare/boneyards
 CS_TRAEFIK_BOUNCER_KEY="op://Secrets/Crowdsec/credential"
 BOUNCER_HOST=crowdsec:8080
 """
@@ -180,7 +195,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["../pbox.yaml", "traefik-internal.yaml"]
+file_paths = [
+  "../pbox.yaml",
+  "traefik-internal.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -217,26 +235,6 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 PLEX_TOKEN="op://Secrets/Plex/credential"
 JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
-"""
-
-##
-
-[[stack]]
-name = "network"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "network"
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-CLOUDFLARE_API="op://Secrets/Cloudflare/credential"
-CLOUDFLARE_TUNNEL_TOKEN=op://Secrets/Cloudflare/boneyards
-DASHBOARD_CREDENTIAL="op://Secrets/Traefik/password"
-PLEX_TOKEN="op://Secrets/Plex/credential"
 """
 
 ##
@@ -314,18 +312,6 @@ environment = """
 APP_SECRET="op://Secrets/Umami/credential"
 UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 """
-
-##
-
-[[stack]]
-name = "dns"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "network"
-additional_env_files = ["../global.env"]
-file_paths = ["../pbox.yaml", "dns.yaml"]
 
 ##
 
