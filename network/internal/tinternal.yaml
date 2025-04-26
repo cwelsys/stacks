@@ -73,7 +73,7 @@ services:
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
-      - redis-int:/data
+      - redis:/data
 
   logdy:
     build:
@@ -106,4 +106,4 @@ services:
       homepage.href: "https://traefik-log-internal.${DOMAIN}"
 
 volumes:
-  redis-int:
+  redis:
