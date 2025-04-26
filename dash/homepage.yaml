@@ -8,6 +8,7 @@ services:
       - HOMEPAGE_ALLOWED_HOSTS=hp.${DOMAIN}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
+      - ${CONFIGDIR}/homepage/images:/app/public/images
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - homepage:/data
     restart: always
