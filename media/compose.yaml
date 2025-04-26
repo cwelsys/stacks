@@ -20,7 +20,7 @@ services:
       - '32414:32414/udp'
     restart: unless-stopped
     volumes:
-      - plex_data:/config
+      - plex-data:/config
       - ${RUST}/tv:/tv
       - ${RUST}/movie:/movie
       - ${RUST}/anime:/anime
