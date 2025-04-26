@@ -1,5 +1,6 @@
 services:
   traefik:
+    container_name: traefike
     image: "traefik:v3.3"
     networks:
       - public
@@ -88,6 +89,7 @@ services:
         - traefik
 
   logdy:
+    container_name: logdy-external
     build:
       context: https://github.com/logdyhq/logdy-core.git
     read_only: true
