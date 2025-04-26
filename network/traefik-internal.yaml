@@ -31,6 +31,7 @@ services:
       homepage.href: "https://traefik-internal.${DOMAIN}"
 
   logrotate:
+    container_name: logrotate-internal
     image: vegardit/traefik-logrotate:latest
     network_mode: none
     volumes:
@@ -77,6 +78,7 @@ services:
       - redis:/data
 
   logdy:
+    container_name: logdy-internal
     build:
       context: https://github.com/logdyhq/logdy-core.git
     read_only: true
