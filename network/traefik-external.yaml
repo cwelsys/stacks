@@ -35,6 +35,7 @@ services:
       homepage.href: "https://traefik-external.${DOMAIN}"
 
   logrotate:
+    container_name: logrotate-external
     image: vegardit/traefik-logrotate:latest
     network_mode: none
     volumes:
@@ -80,6 +81,7 @@ services:
     volumes:
       - redis:/data
   cloudflare_tunnel:
+    container_name: cloudflare_tunnel
     image: cloudflare/cloudflared:2025.2.0
     restart: unless-stopped
     command: tunnel run --token ${CF_TRAEFIK_TUNNEL_TOKEN}
