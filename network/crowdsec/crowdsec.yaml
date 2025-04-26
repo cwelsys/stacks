@@ -1,6 +1,7 @@
 services:
   crowdsec:
     image: "crowdsecurity/crowdsec:latest"
+    container_name: crowdsec
     networks:
       - crowdsec
       - stack
@@ -19,6 +20,7 @@ services:
       - data:/var/lib/crowdsec/data
       - logs:/var/log/crowdsec
   crowdsec-ingest:
+    container_name: crowdsec-ingest
     image: "crowdsecurity/crowdsec:latest"
     networks:
       - crowdsec
