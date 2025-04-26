@@ -3,14 +3,13 @@
 # docker network create --driver=bridge --internal --attachable kop
 # docker network create --driver=bridge --internal --attachable crowdsec
 # docker network create --driver=bridge --internal --attachable db
-
-# volumes:
-#   shared_data:
-#     driver: local
+# docker network create --driver bridge --subnet 172.28.0.0/16 traefik
 
 networks:
-  default:
+  stack:
     internal: true
+  traefik:
+    external: true
   internal:
     external: true
   public:
@@ -21,8 +20,3 @@ networks:
     external: true
   db:
     external: true
-  traefik_internal:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.28.0.0/16
