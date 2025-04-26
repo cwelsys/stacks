@@ -317,6 +317,18 @@ UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 
 ##
 
+[[stack]]
+name = "dns"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network"
+additional_env_files = ["../global.env"]
+file_paths = ["../pbox.yaml", "dns.yaml"]
+
+##
+
 [[builder]]
 name = "local"
 [builder.config]
