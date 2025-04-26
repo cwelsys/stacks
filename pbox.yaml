@@ -1,6 +1,6 @@
 # docker network create --driver=bridge --attachable internal
 # docker network create --driver=bridge --attachable --subnet=10.99.0.0/24 public
-# docker network create --driver=bridge --internal --attachable kop
+# docker network create --driver=bridge --attachable kop
 # docker network create --driver=bridge --internal --attachable crowdsec
 # docker network create --driver=bridge --internal --attachable db
 # docker network create --driver bridge --subnet 172.28.0.0/16 traefik
