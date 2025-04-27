@@ -8,12 +8,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/os-release:/etc/os-release:ro
-      - "${CONFIGDIR}/glances/glances.conf:/glances/conf/glances.conf"
-    restart: always
-    privileged: true
-    network_mode: "host"
-    environment:
-      - TZ=${TZ}
-      - GLANCES_OPT=-C /glances/conf/glances.conf -w
-
-
+    restart: unless-stopped
