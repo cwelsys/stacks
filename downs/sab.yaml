@@ -22,7 +22,7 @@ services:
       - homepage.href=http://sabnzbd.${DOMAIN}
       - homepage.description=Usenet
       - homepage.widget.type=sabnzbd
-      - homepage.widget.url=http://sabnzbd.${DOMAIN}
+      - homepage.widget.url=sabnzbd.${DOMAIN}
       - homepage.widget.key=${SABNZBD_API_KEY}
     networks:
       - internal
