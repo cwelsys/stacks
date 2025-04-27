@@ -6,6 +6,7 @@ services:
       - internal
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=hp.${DOMAIN}
+      - HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN=${HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/homepage/images:/app/public/images
