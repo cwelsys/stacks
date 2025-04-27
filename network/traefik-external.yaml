@@ -82,7 +82,7 @@ services:
       - redis:/data
   cloudflare_tunnel:
     container_name: cloudflare_tunnel
-    image: cloudflare/cloudflared:2025.2.0
+    image: cloudflare/cloudflared:latest
     restart: unless-stopped
     command: tunnel run --token ${CF_TRAEFIK_TUNNEL_TOKEN}
     environment:
