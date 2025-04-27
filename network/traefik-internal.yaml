@@ -8,6 +8,7 @@ services:
       - internal
     depends_on:
       - traefik-internal-redis
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -34,6 +35,9 @@ services:
     container_name: logrotate-internal
     image: vegardit/traefik-logrotate:latest
     network_mode: none
+    restart: unless-stopped
+    depends_on:
+      - traefik
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
       - ${CONFIGDIR}/traefik-internal/log:/var/log/traefik:rw # folder containing access.log file
@@ -61,12 +65,16 @@ services:
     command: >
       sh -c "tail -F /var/log/access.log"
     network_mode: none
+    depends_on:
+      - traefik
     restart: unless-stopped
 
   traefik-internal-redis:
     restart: always
     image: redis:7-alpine
     container_name: traefik-internal-redis
+    depends_on:
+      - traefik
     ports:
       - "6379:6379"
     networks:
@@ -79,6 +87,8 @@ services:
 
   logdy:
     container_name: logdy-internal
+    depends_on:
+      - traefik
     build:
       context: https://github.com/logdyhq/logdy-core.git
     read_only: true
