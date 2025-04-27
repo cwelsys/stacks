@@ -16,10 +16,11 @@ services:
       - "8080:8080/tcp"
     restart: "always"
     volumes:
-      - ${CONFIGDIR}/crowdsec/config:/etc/crowdsec
-      - data:/var/lib/crowdsec/data
-      - logs:/var/log/crowdsec
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+     - ${CONFIGDIR}/crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml
+     - logs:/var/log/crowdsec
+     - db:/var/lib/crowdsec/data/
+     - config:/etc/crowdsec/
+     - /var/run/docker.sock:/var/run/docker.sock:ro
   # crowdsec-ingest:
   #   container_name: crowdsec-ingest
   #   image: "crowdsecurity/crowdsec:latest"
@@ -48,5 +49,7 @@ services:
 volumes:
   data:
   logs:
+  db:
+  config:
   # ingest:
   # ingest-logs:
