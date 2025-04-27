@@ -255,23 +255,13 @@ DISCORDURL="op://Secrets/CM Discord Webhook/credential"
 ##
 
 [[stack]]
-name = "test"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "test"
-file_paths = ["compose.yaml", "../pbox.yaml"]
-
-##
-
-[[stack]]
 name = "web"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "web"
+file_paths = ["umami.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
