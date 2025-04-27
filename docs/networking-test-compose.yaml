@@ -1,0 +1,43 @@
+# example service that is routed through External Traefik
+services:
+  echo-external:
+    image: mendhak/http-https-echo:36
+    networks:
+      - public
+    labels:
+      traefik.enable: true
+      traefik.http.routers.echo1.rule: Host(`echopub.cwel.sh`)
+      traefik.http.services.echo1.loadbalancer.server.port: 8080
+      traefik.docker.network: public
+      kop.namespace: public
+
+  # example service that is routed through Internal Traefik
+  echo-internal:
+    image: mendhak/http-https-echo:36
+    networks:
+      - internal
+    labels:
+      traefik.enable: true
+      traefik.http.routers.echo1.rule: Host(`echoint.cwel.sh`)
+      traefik.http.services.echo1.loadbalancer.server.port: 8080
+      traefik.docker.network: internal
+
+  # example service that is routed through  External Traefik w/ Auth
+
+  echo-auth:
+    image: mendhak/http-https-echo:36
+    networks:
+      - public
+    labels:
+      traefik.enable: true
+      traefik.http.routers.echo2.rule: Host(`echoauth.cwel.sh`)
+      traefik.http.services.echo2.loadbalancer.server.port: 8080
+      traefik.http.routers.echo2.middlewares: authentik-proxy@docker
+      traefik.docker.network: public
+      kop.namespace: public
+
+networks:
+  public:
+    external: true
+  internal:
+    external: true

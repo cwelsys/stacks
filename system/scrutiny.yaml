@@ -1,0 +1,31 @@
+services:
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:master-omnibus
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    privileged: true
+    volumes:
+      - /run/udev:/run/udev:ro
+      - /dev:/dev:ro
+      - data:/opt/scrutiny/config
+      - db:/opt/scrutiny/influxdb
+      # - ${CONFIGDIR}/scrutiny/scrutiny.yaml:/opt/scrutiny/config/scrutiny.yaml
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8080/health']
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.scrutiny.loadbalancer.server.port=8080
+      - homepage.group=System
+      - homepage.name=Scrutiny
+      - homepage.icon=scrutiny.png
+      - homepage.href=https://scrutiny.${DOMAIN}
+      - homepage.description=SMART Monitoring
+    networks:
+      - internal

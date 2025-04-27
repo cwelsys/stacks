@@ -3,24 +3,23 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     environment:
-      - PUID=${ID}
+      - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${DOCKERDIR}/sonarr:/config
+      - ${CONFIGDIR}/sonarr:/config
       - ${RUST}:/data
-      - ${DOCKERDIR}/sonarr/custom-services.d:/custom-services.d
-      - ${DOCKERDIR}/sonarr/custom-cont-init.d:/custom-cont-init.d
+      - ${CONFIGDIR}/sonarr/custom-services.d:/custom-services.d
+      - ${CONFIGDIR}/sonarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping']
+      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping' ]
       interval: 30s
       retries: 10
     labels:
       - traefik.enable=true
       - traefik.http.routers.sonarr.rule=Host(`sonarr.${DOMAIN}`)
-      - traefik.http.routers.sonarr.tls=true
-      - traefik.http.routers.sonarr.tls.certresolver=le
+      - traefik.docker.network=internal
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
       - homepage.group=Media
       - homepage.name=Sonarr
@@ -32,30 +31,30 @@ services:
       - homepage.widget.url=http://sonarr:8989
       - homepage.widget.key=${SONARR_API_KEY}
     networks:
-      - proxy
+      - internal
+      - stack
 
   radarr:
     image: lscr.io/linuxserver/radarr
     container_name: radarr
     environment:
-      - PUID=${ID}
+      - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${DOCKERDIR}/radarr:/config
+      - ${CONFIGDIR}/radarr:/config
       - ${RUST}:/data
-      - ${DOCKERDIR}/radarr/custom-services.d:/custom-services.d
-      - ${DOCKERDIR}/radarr/custom-cont-init.d:/custom-cont-init.d
+      - ${CONFIGDIR}/radarr/custom-services.d:/custom-services.d
+      - ${CONFIGDIR}/radarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping']
+      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping' ]
       interval: 30s
       retries: 10
     labels:
       - traefik.enable=true
       - traefik.http.routers.radarr.rule=Host(`radarr.${DOMAIN}`)
-      - traefik.http.routers.radarr.tls=true
-      - traefik.http.routers.radarr.tls.certresolver=le
+      - traefik.docker.network=internal
       - traefik.http.services.radarr.loadbalancer.server.port=7878
       - homepage.group=Media
       - homepage.name=Radarr
@@ -67,30 +66,30 @@ services:
       - homepage.widget.url=http://radarr:7878
       - homepage.widget.key=${RADARR_API_KEY}
     networks:
-      - proxy
+      - internal
+      - stack
 
   lidarr:
     image: lscr.io/linuxserver/lidarr
     container_name: lidarr
     environment:
-      - PUID=${ID}
+      - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${DOCKERDIR}/lidarr:/config
+      - ${CONFIGDIR}/lidarr:/config
       - ${RUST}:/data
-      - ${DOCKERDIR}/lidarr/custom-services.d:/custom-services.d
-      - ${DOCKERDIR}/lidarr/custom-cont-init.d:/custom-cont-init.d
+      - ${CONFIGDIR}/lidarr/custom-services.d:/custom-services.d
+      - ${CONFIGDIR}/lidarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping']
+      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping' ]
       interval: 30s
       retries: 10
     labels:
       - traefik.enable=true
       - traefik.http.routers.lidarr.rule=Host(`lidarr.${DOMAIN}`)
-      - traefik.http.routers.lidarr.tls=true
-      - traefik.http.routers.lidarr.tls.certresolver=le
+      - traefik.docker.network=internal
       - traefik.http.services.lidarr.loadbalancer.server.port=8686
       - homepage.group=Media
       - homepage.name=Lidarr
@@ -102,27 +101,26 @@ services:
       - homepage.widget.url=http://lidarr:8686
       - homepage.widget.key=${LIDARR_API_KEY}
     networks:
-      - proxy
+      - internal
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     environment:
-      - PUID=${ID}
+      - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${DOCKERDIR}/prowlarr:/config
+      - ${CONFIGDIR}/prowlarr:/config
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping']
+      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping' ]
       interval: 30s
       retries: 10
     labels:
       - traefik.enable=true
       - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${DOMAIN}`)
-      - traefik.http.routers.prowlarr.tls=true
-      - traefik.http.routers.prowlarr.tls.certresolver=le
+      - traefik.docker.network=internal
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
       - homepage.group=Download
       - homepage.name=Prowlarr
@@ -134,7 +132,7 @@ services:
       - homepage.widget.url=http://prowlarr:9696
       - homepage.widget.key=${PROWLARR_API_KEY}
     networks:
-      - proxy
+      - internal
 
   flaresolverr:
     image: 21hsmw/flaresolverr:nodriver
@@ -148,11 +146,10 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${DOMAIN}`)
-      - traefik.http.routers.flaresolverr.tls=true
-      - traefik.http.routers.flaresolverr.tls.certresolver=le
+      - traefik.docker.network=internal
       - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
     networks:
-      - proxy
+      - internal
 
   unpackerr:
     image: ghcr.io/unpackerr/unpackerr:latest
@@ -170,75 +167,73 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - proxy
+      - stack
 
-  profilarr:
-    image: santiagosayshey/profilarr:beta
-    container_name: profilarr
-    volumes:
-      - ${DOCKERDIR}/profilarr:/config
-    environment:
-      - PUID=${ID}
-      - PGID=${ID}
-      - TZ=${TZ}
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.profilarr.rule=Host(`profilarr.${DOMAIN}`)
-      - traefik.http.routers.profilarr.tls=true
-      - traefik.http.routers.profilarr.tls.certresolver=le
-      - traefik.http.services.profilarr.loadbalancer.server.port=6868
-      - homepage.group=Media
-      - homepage.name=profilarr
-      # - homepage.icon=profilarr.png
-      - homepage.href=https://profilarr.${DOMAIN}
-      - homepage.description=Config management
-      # - homepage.widget.url='http://profilarr:6868'
-      - homepage.weight=6
-    networks:
-      - proxy
+  # profilarr:
+  #   image: santiagosayshey/profilarr:beta
+  #   container_name: profilarr
+  #   volumes:
+  #     - ${CONFIGDIR}/profilarr:/config
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=${ID}
+  #     - TZ=${TZ}
+  #   restart: unless-stopped
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.profilarr.rule=Host(`profilarr.${DOMAIN}`)
+  #     - traefik.docker.network=internal
+  #     - traefik.http.services.profilarr.loadbalancer.server.port=6868
+  #     - homepage.group=Media
+  #     - homepage.name=profilarr
+  #     # - homepage.icon=profilarr.png
+  #     - homepage.href=https://profilarr.${DOMAIN}
+  #     - homepage.description=Config management
+  #     # - homepage.widget.url='http://profilarr:6868'
+  #     - homepage.weight=6
+  #   networks:
+  #     - internal
 
   overseerr:
     image: sctx/overseerr:latest
     container_name: overseerr
     environment:
-      - PUID=${ID}
+      - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${DOCKERDIR}/overseerr/config:/app/config
+      - config:/app/config
     restart: unless-stopped
     ports:
       - 5055:5055
     labels:
       - traefik.enable=true
-      - traefik.http.routers.overseerr.rule=Host(`overseerr.${DOMAIN}`)
-      - traefik.http.routers.overseerr.entrypoints=https
-      - traefik.http.routers.overseerr.tls=true
-      - traefik.http.routers.overseerr.tls.certresolver=le
+      - traefik.http.routers.overseerr.rule=Host(`req.${DOMAIN}`)
+      - traefik.docker.network=public
       - traefik.http.services.overseerr.loadbalancer.server.port=5055
+      - kop.namespace=public
       - homepage.group=Media
       - homepage.name=Overseerr
       - homepage.icon=overseerr.png
-      - homepage.href=https://overseerr.${DOMAIN}
+      - homepage.href=https://req.${DOMAIN}
       - homepage.description=Requests management
       - homepage.weight=5
       - homepage.widget.type=overseerr
       - homepage.widget.url=http://overseerr:5055
       - homepage.widget.key=${OVERSEERR_API_KEY}
     networks:
-      - proxy
+      - internal
+      - stack
 
   maintainerr:
     image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
     container_name: maintainerr
     user: ${ID}:${ID}
     networks:
-      - proxy
+      - internal
     volumes:
-      - type: bind
-        source: ${DOCKERDIR}/maintainerr/data
-        target: /opt/data
+      - data:/opt/data
+
     environment:
       - TZ=${TZ}
     #      - DEBUG=true # uncomment to enable debug logs
@@ -250,8 +245,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${DOMAIN}`)
-      - traefik.http.routers.maintainerr.tls=true
-      - traefik.http.routers.maintainerr.tls.certresolver=le
+      - traefik.docker.network=internal
       - traefik.http.services.maintainerr.loadbalancer.server.port=6246
       - homepage.group=Media
       - homepage.name=Maintainerr
@@ -265,7 +259,7 @@ services:
     restart: unless-stopped
     container_name: doplarr
     networks:
-      - proxy
+      - stack
     environment:
       # - SONARR__URL=http://sonarr:8989
       # - RADARR__URL=http://radarr:7878
@@ -280,28 +274,27 @@ services:
     restart: unless-stopped
     container_name: membarr
     networks:
-      - proxy
+      - stack
     volumes:
-      - ${DOCKERDIR}/membarr/:/app/app/config
+      - ${CONFIGDIR}/membarr/:/app/app/config
     environment:
       - token=${MEMBARR_TOKEN}
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
     environment:
-      - PUID=${ID}
+      - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${DOCKERDIR}/tautulli/config:/config
+      - ${CONFIGDIR}/tautulli/config:/config
     networks:
-      - proxy
+      - internal
     restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.tautulli.rule=Host(`tautulli.${DOMAIN}`)
-      - traefik.http.routers.tautulli.tls=true
-      - traefik.http.routers.tautulli.tls.certresolver=le
+      - traefik.docker.network=internal
       - traefik.http.services.tautulli.loadbalancer.server.port=8181
       - homepage.group=Media
       - homepage.name=Tautulli
@@ -317,7 +310,7 @@ services:
     image: tannermiddleton/recommendarr:latest
     container_name: recommendarr
     environment:
-      - PUID=${ID}
+      - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
       - NODE_ENV=production
@@ -326,15 +319,14 @@ services:
       - PUBLIC_URL=https://recommendarr.${DOMAIN}
       - FORCE_SECURE_COOKIES=true
     volumes:
-      - ${DOCKERDIR}/recommendarr/data:/app/server/data
+      - data:/app/server/data
     restart: unless-stopped
     networks:
-      - proxy
+      - internal
     labels:
       - traefik.enable=true
       - traefik.http.routers.recommendarr.rule=Host(`recommendarr.${DOMAIN}`)
-      - traefik.http.routers.recommendarr.tls=true
-      - traefik.http.routers.recommendarr.tls.certresolver=le
+      - traefik.docker.network=internal
       - traefik.http.services.recommendarr.loadbalancer.server.port=3000
       - homepage.group=Media
       - homepage.name=Recommendarr
@@ -342,17 +334,3 @@ services:
       - homepage.href=https://recommendarr.${DOMAIN}
       - homepage.description=Media recommendations
       - homepage.weight=8
-  plextraktsync:
-    image: lscr.io/linuxserver-labs/plextraktsync:latest
-    container_name: plextraktsync
-    restart: unless-stopped
-    volumes:
-      - ${DOCKERDIR}/ptraktsync/config:/app/config
-    environment:
-      - PUID=${ID}
-      - PGID=${ID}
-      - TZ=${TZ}
-
-networks:
-  proxy:
-    external: true

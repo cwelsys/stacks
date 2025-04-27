@@ -12,18 +12,18 @@ services:
       - TS_EXTRA_ARGS=--accept-dns=true
     volumes:
       - ${DOCKERDIR}/tailscale/config:/config
-      - ${DOCKERDIR}/tailscale/state:/var/lib/tailscale 
+      - ${DOCKERDIR}/tailscale/state:/var/lib/tailscale
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
       - net_admin
-      - sys_module 
+      - sys_module
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz"]
-      interval: 1m 
-      timeout: 10s 
+      interval: 1m
+      timeout: 10s
       retries: 3
-      start_period: 10s 
+      start_period: 10s
     restart: always
   psock:
     image: lscr.io/linuxserver/socket-proxy:latest
@@ -39,7 +39,7 @@ services:
       - AUTH=1
       - BUILD=1
       - COMMIT=1
-      - CONFIGS=1 
+      - CONFIGS=1
       - CONTAINERS=1
       - DISABLE_IPV6=0
       - DISTRIBUTION=0
@@ -50,16 +50,16 @@ services:
       - LOG_LEVEL=info
       - NETWORKS=1
       - NODES=1
-      - PING=1 
+      - PING=1
       - PLUGINS=1
-      - POST=1 
-      - SECRETS=1 
-      - SERVICES=1 
-      - SESSION=1 
-      - SWARM=0 
+      - POST=1
+      - SECRETS=1
+      - SERVICES=1
+      - SESSION=1
+      - SWARM=0
       - SYSTEM=1
-      - TASKS=1 
-      - VERSION=1 
+      - TASKS=1
+      - VERSION=1
       - VOLUMES=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro

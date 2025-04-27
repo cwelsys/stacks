@@ -1,0 +1,32 @@
+  # vpn:
+  #   image: ghcr.io/thrnz/docker-wireguard-pia:latest
+  #   container_name: vpn
+  #   volumes:
+  #     - ${DOCKERDIR}/pia:/pia
+  #     - ${DOCKERDIR}/pia/shared:/pia-shared
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #   environment:
+  #     - LOC=ca
+  #     - USER=${PIA_USER}
+  #     - PASS=${PIA_PASS}
+  #     - QBT_USER=${QBITTORRENT_USERNAME}
+  #     - QBT_PASS=${QBITTORRENT_PASSWORD}
+  #     - LOCAL_NETWORK="192.168.0.0/16"
+  #     - PORT_FORWARDING=1
+  #     - PORT_PERSIST=1
+  #     - PORT_SCRIPT=/pia-shared/portupdate-qbittorrent.sh
+  #   networks:
+  #     - proxy
+  #   sysctls:
+  #     - net.ipv4.conf.all.src_valid_mark=1
+  #     - net.ipv6.conf.default.disable_ipv6=1
+  #     - net.ipv6.conf.all.disable_ipv6=1
+  #     - net.ipv6.conf.lo.disable_ipv6=1
+  #   healthcheck:
+  #     test: ping -c 1 www.google.com || exit 1
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   restart: always

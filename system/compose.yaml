@@ -1,37 +1,4 @@
 services:
-  scrutiny:
-    container_name: scrutiny
-    image: ghcr.io/analogj/scrutiny:master-omnibus
-    cap_add:
-      - SYS_RAWIO
-      - SYS_ADMIN
-    privileged: true
-    volumes:
-      - /run/udev:/run/udev:ro
-      - /dev:/dev:ro
-      - ${DOCKERDIR}/scrutiny/data:/opt/scrutiny/config
-      - ${DOCKERDIR}/scrutiny/influxdb2:/opt/scrutiny/influxdb
-      - ${DOCKERDIR}/scrutiny/data/scrutiny.yaml:/opt/scrutiny/config/scrutiny.yaml
-    restart: always
-    healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8080/health']
-      interval: 30s
-      retries: 10
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN}`)
-      - traefik.http.routers.scrutiny.tls=true
-      - traefik.http.routers.scrutiny.tls.certresolver=le
-      - traefik.http.services.scrutiny.loadbalancer.server.port=8080
-      - homepage.group=System
-      - homepage.name=Scrutiny
-      - homepage.icon=scrutiny.png
-      - homepage.href=https://scrutiny.${DOMAIN}
-      - homepage.description=SMART Monitoring
-      - homepage.weight=0
-    networks:
-      - proxy
-
   watchtower:
     image: ghcr.io/containrrr/watchtower:latest
     container_name: watchtower
@@ -40,9 +7,6 @@ services:
       - WATCHTOWER_CLEANUP=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - proxy
-
   autoheal:
     image: willfarrell/autoheal:latest
     container_name: autoheal
@@ -51,8 +15,6 @@ services:
       - AUTOHEAL_CONTAINER_LABEL=all
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - proxy
   # remote-api:
   #   image: kekru/docker-remote-api-tls:v0.5.0
   #   environment:
@@ -61,40 +23,6 @@ services:
   #   ports:
   #     - 2376:443
   #   volumes:
-  #     - ${DOCKERDIR}/socket/certs:/data/certs
+  #     - ${CONFIGDIR}/socket/certs:/data/certs
   #     - /var/run/docker.sock:/var/run/docker.sock:ro
-  cache-mover:
-    image: ghcr.io/monstermuffin/mergerfs-cache-mover:latest
-    container_name: mfscm
-    environment:
-      # Required paths
-      CACHE_PATH: /mnt/cache-disks/cache01
-      BACKING_PATH: /mnt/media-cold
-      # Optional settings with their default values
-      SCHEDULE: '0 3 * * *' # Run at 3 AM daily
-      # SCHEDULE: '*/23 * * * *'
-      THRESHOLD_PERCENTAGE: 69
-      TARGET_PERCENTAGE: 20
-      MAX_WORKERS: 8
-      EXCLUDED_DIRS: temp,downloads,cache,tor,incomplete
-      NOTIFICATIONS_ENABLED: True
-      NOTIFY_THRESHOLD: True
-      NOTIFICATION_URLS: '${DISCORDURL}'
-    volumes:
-      - /mnt/cache-disks:/mnt/cache-disks:rw
-      - /mnt/media-cold:/mnt/media-cold:rw
-      - ${DOCKERDIR}/mfscm/logs:/var/log:rw # Optional: Mount for persistent logs
-    cap_add:
-      - SYS_ADMIN
-      - DAC_READ_SEARCH
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD-SHELL', "ps aux | grep '[c]ache-mover.py' || exit 0"]
-      interval: 30s
-      timeout: 30s
-      start_period: 5s
-      retries: 3
 
-networks:
-  proxy:
-    external: true

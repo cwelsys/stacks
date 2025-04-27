@@ -1,0 +1,28 @@
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=${ID}
+      - PGID=${ID}
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIGDIR}/sabnzbd:/config
+      - ${RUST}:/data
+      - ${CONFIGDIR}/sabnzbd/custom-cont-init.d:/custom-cont-init.d
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.${DOMAIN}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
+      - homepage.group=Download
+      - homepage.name=Sabnzbd
+      - homepage.icon=sabnzbd.png
+      - homepage.href=https://sabnzbd.${DOMAIN}
+      - homepage.description=Usenet
+      - homepage.widget.type=sabnzbd
+      - homepage.widget.url=https://sabnzbd.${DOMAIN}
+      - homepage.widget.key=${SABNZBD_API_KEY}
+    networks:
+      - internal

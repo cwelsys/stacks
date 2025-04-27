@@ -34,13 +34,14 @@ services:
       - komodo.skip
       - traefik.enable=true
       - traefik.http.routers.komodo.rule=Host(`komo.cwel.sh`)
-      - traefik.docker.network=internal
+      - traefik.docker.network=public
       - traefik.http.services.komodo.loadbalancer.server.port=9120
+      - kop.namespace=public
       - homepage.name=Komodo
       - homepage.icon=komodo.png
       - homepage.group=Management
       - homepage.description=Docker ops
-      - homepage.href=http://komo.cwel.sh
+      - homepage.href=http://komo.cwel.sh/
     restart: unless-stopped
     networks:
       - public

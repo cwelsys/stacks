@@ -1,0 +1,32 @@
+services:
+  cache-mover:
+    image: ghcr.io/monstermuffin/mergerfs-cache-mover:latest
+    container_name: mfscm
+    environment:
+      # Required paths
+      CACHE_PATH: /mnt/cache/cache1
+      BACKING_PATH: /mnt/media-cold
+      # Optional settings with their default values
+      SCHEDULE: '0 3 * * *' # Run at 3 AM daily
+      # SCHEDULE: '*/23 * * * *'
+      THRESHOLD_PERCENTAGE: 69
+      TARGET_PERCENTAGE: 20
+      MAX_WORKERS: 8
+      EXCLUDED_DIRS: temp,downloads,cache,tor,incomplete
+      NOTIFICATIONS_ENABLED: True
+      NOTIFY_THRESHOLD: True
+      NOTIFICATION_URLS: '${DISCORDURL}'
+    volumes:
+      - /mnt/cache-disks:/mnt/cache:rw
+      - /mnt/media-cold:/mnt/media-cold:rw
+      - ${CONFIGDIR}/mfscm/logs:/var/log:rw # Optional: Mount for persistent logs
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', "ps aux | grep '[c]ache-mover.py' || exit 0"]
+      interval: 30s
+      timeout: 30s
+      start_period: 5s
+      retries: 3
