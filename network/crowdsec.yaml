@@ -13,13 +13,12 @@ services:
     ports:
       - "4242:4242/tcp"
       - "6060:6060/tcp"
-      - "8086:8080/tcp"
+      # - "8086:8080/tcp"
     restart: "always"
     volumes:
       - "${CONFIGDIR}/crowdsec/config:/etc/crowdsec"
       - "${CONFIGDIR}/crowdsec/data:/var/lib/crowdsec/data"
       - "${CONFIGDIR}/crowdsec/logs:/var/log/crowdsec"
-      - /var/run/docker.sock:/var/run/docker.sock:ro
   crowdsec-ingest:
     container_name: crowdsec-ingest
     image: "crowdsecurity/crowdsec:latest"
@@ -45,4 +44,3 @@ services:
       - "${CONFIGDIR}/crowdsec-ingest/config:/etc/crowdsec"
       - "${CONFIGDIR}/crowdsec-ingest/data:/var/lib/crowdsec/data"
       - "${CONFIGDIR}/crowdsec-ingest/logs:/var/log/crowdsec"
-      - /var/run/docker.sock:/var/run/docker.sock:ro
