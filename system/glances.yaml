@@ -1,25 +1,20 @@
 services:
   glances:
-    build:
-      context: ./
-      dockerfile: glances/Dockerfile
-    restart: always
+    image: nicolargo/glances:latest
+    container_name: glances
     pid: "host"
+    ports:
+      - "6123:6123"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/os-release:/etc/os-release:ro
+      - "${CONFIGDIR}/glances/glances.conf:/glances/conf/glances.conf"
+    restart: unless-stopped
+    restart: always
     privileged: true
     network_mode: "host"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
-      - "${CONFIGDIR}/glances/glances.conf:/glances/conf/glances.conf"
     environment:
       - TZ=${TZ}
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
 
 
