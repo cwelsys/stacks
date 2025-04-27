@@ -251,17 +251,6 @@ JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
 ##
 
 [[stack]]
-name = "osx"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "osx"
-additional_env_files = ["../global.env"]
-
-##
-
-[[stack]]
 name = "system"
 [stack.config]
 server = "pbox"
