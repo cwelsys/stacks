@@ -3,7 +3,7 @@ services:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
     environment:
-      - PUID=${ID}
+      - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
