@@ -4,6 +4,8 @@ services:
     container_name: homeassistant
     network_mode: host
     privileged: true
+    ports:
+      - 8123:8123
     environment:
       - PUID=1000
       - PGID=1000
