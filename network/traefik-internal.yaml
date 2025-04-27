@@ -73,8 +73,6 @@ services:
     restart: always
     image: redis:7-alpine
     container_name: traefik-internal-redis
-    depends_on:
-      - traefik
     ports:
       - "6379:6379"
     networks:
