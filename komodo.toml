@@ -174,27 +174,6 @@ BOUNCER_HOST=crowdsec:8080
 ##
 
 [[stack]]
-name = "home"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "home"
-file_paths = [
-  "../pbox.yaml",
-  "homeassistant.yaml"
-]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-ACCESS_TOKEN="op://Secrets/Homeassistant/credential"
-"""
-
-##
-
-[[stack]]
 name = "internal"
 [stack.config]
 server = "pbox"
