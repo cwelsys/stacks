@@ -19,7 +19,7 @@ services:
       - homepage.group=Download
       - homepage.name=Sabnzbd
       - homepage.icon=sabnzbd.png
-      - homepage.href=https://sabnzbd.${DOMAIN}
+      - homepage.href=http://sabnzbd.${DOMAIN}
       - homepage.description=Usenet
       - homepage.widget.type=sabnzbd
       - homepage.widget.url=http://sabnzbd.${DOMAIN}
