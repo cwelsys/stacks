@@ -22,7 +22,7 @@ services:
       - homepage.href=https://sabnzbd.${DOMAIN}
       - homepage.description=Usenet
       - homepage.widget.type=sabnzbd
-      - homepage.widget.url=https://sabnzbd:8080
+      - homepage.widget.url=http://sabnzbd.${DOMAIN}
       - homepage.widget.key=${SABNZBD_API_KEY}
     networks:
       - internal
