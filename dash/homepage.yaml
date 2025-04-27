@@ -11,6 +11,7 @@ services:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/homepage/images:/app/public/images
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${RUST}:/mnt/media:ro
       - homepage:/data
     restart: always
     command: [sh, -c, 'cp -n /app/config/tpl/*.yaml /app/config && node server.js']
