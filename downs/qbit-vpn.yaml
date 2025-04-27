@@ -43,7 +43,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     ports:
-      - 8080:8080
+      - 8082:8080
       # - 8000:8000
     volumes:
       - ${CONFIGDIR}/gluetun/config.toml:/gluetun/auth/config.toml:ro
