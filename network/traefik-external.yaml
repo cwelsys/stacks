@@ -2,6 +2,7 @@ services:
   traefik:
     container_name: traefike
     image: "traefik:v3.3"
+    restart: unless-stopped
     networks:
       - public
       - traefik
