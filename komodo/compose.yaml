@@ -32,20 +32,19 @@ services:
     container_name: komodo
     labels:
       - komodo.skip
-      # - traefik.enable=true
-      # - traefik.http.routers.komodo.rule=Host(`komo.cwel.sh`)
-      # - traefik.http.routers.komodo.tls.certresolver=le
-      # - traefik.http.routers.komodo.entrypoints=https
-      # - traefik.http.services.komodo.loadbalancer.server.port=9120
-      # - homepage.name=Komodo
-      # - homepage.icon=komodo.png
-      # - homepage.group=System
-      # - homepage.description=Docker ops
-      # - homepage.href=http://komo.cwel.sh
-      # - homepage.statusStyle=dot
+      - traefik.enable=true
+      - traefik.http.routers.komodo.rule=Host(`komo.cwel.sh`)
+      - traefik.docker.network=internal
+      - traefik.http.services.komodo.loadbalancer.server.port=9120
+      - homepage.name=Komodo
+      - homepage.icon=komodo.png
+      - homepage.group=Management
+      - homepage.description=Docker ops
+      - homepage.href=http://komo.cwel.sh
     restart: unless-stopped
     networks:
       - public
+      - internal
       - db
     depends_on:
       - mongo

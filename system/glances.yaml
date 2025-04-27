@@ -1,0 +1,25 @@
+services:
+  glances:
+    build:
+      context: ./
+      dockerfile: glances/Dockerfile
+    restart: always
+    pid: "host"
+    privileged: true
+    network_mode: "host"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
+      - "${CONFIGDIR}/glances/glances.conf:/glances/conf/glances.conf"
+    environment:
+      - TZ=${TZ}
+      - GLANCES_OPT=-C /glances/conf/glances.conf -w
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+
