@@ -198,8 +198,9 @@ run_directory = "media"
 file_paths = [
   "plex.yaml",
   "jellyfin.yaml",
-  "../pbox.yaml",
-  "stash.yaml"
+  "stash.yaml",
+  "../pbox.yaml"
+
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
