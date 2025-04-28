@@ -32,7 +32,7 @@ services:
       - homepage.widget.key=${SONARR_API_KEY}
     networks:
       - internal
-      - default
+      - media
 
   radarr:
     image: lscr.io/linuxserver/radarr
@@ -67,7 +67,7 @@ services:
       - homepage.widget.key=${RADARR_API_KEY}
     networks:
       - internal
-      - default
+      - media
 
   lidarr:
     image: lscr.io/linuxserver/lidarr
@@ -167,7 +167,7 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - default
+      - media
 
   profilarr:
     image: santiagosayshey/profilarr:beta
@@ -222,7 +222,7 @@ services:
       - homepage.widget.key=${OVERSEERR_API_KEY}
     networks:
       - public
-      - default
+      - media
 
   maintainerr:
     image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
@@ -258,30 +258,12 @@ services:
     container_name: recyclarr
     user: 1000:1001
     networks:
-      - default
+      - media
     volumes:
       - ${CONFIGDIR}/recyclarr:/config
     environment:
       - TZ=${TZ}
 
-  doplarr:
-    image: lscr.io/linuxserver/doplarr:latest
-    container_name: doplarr
-    networks:
-      - default
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-      - DISCORD__TOKEN=${DOPLARR_TOKEN}
-      - OVERSEERR__API=${OVERSEERR_API_KEY}
-      - OVERSEERR__URL=http://overseerr:5055
-      - DISCORD__MAX_RESULTS=25
-      - DISCORD__REQUESTED_MSG_STYLE=:plain
-      - LOG_LEVEL=:info
-    volumes:
-      - ${CONFIGDIR}/doplarr:/config
-    restart: unless-stopped
 
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
@@ -309,17 +291,6 @@ services:
       # - homepage.widget.type=tautulli
       # - homepage.widget.url=http://tautulli:8181
       # - homepage.widget.key=${TAUTULLI_API_KEY}
-
-  membarr:
-      image: 'yoruio/membarr:latest'
-      restart: unless-stopped
-      container_name: membarr
-      networks:
-        - default
-      volumes:
-        - ${CONFIGDIR}/membarr/:/app/app/config
-      environment:
-        - token=${MEMBARR_TOKEN}
 
   recommendarr:
     image: tannermiddleton/recommendarr:latest

@@ -8,6 +8,8 @@
 networks:
   stack:
     internal: true
+  media:
+    external: true
   traefik:
     external: true
   internal:

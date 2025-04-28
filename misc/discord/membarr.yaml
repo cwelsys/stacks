@@ -1,0 +1,11 @@
+services:
+  membarr:
+      image: 'yoruio/membarr:latest'
+      restart: unless-stopped
+      container_name: membarr
+      networks:
+        - media
+      volumes:
+        - ${CONFIGDIR}/membarr/:/app/app/config
+      environment:
+        - token=${MEMBARR_TOKEN}

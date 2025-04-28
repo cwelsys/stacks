@@ -74,14 +74,20 @@ additional_env_files = ["../global.env"]
 ##
 
 [[stack]]
-name = "redbot"
+name = "discord"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "misc"
-file_paths = ["redbot.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
+run_directory = "misc/discord"
+file_paths = [
+  "redbot.yaml",
+  "muse.yaml",
+  "doplarr.yaml",
+  "membarr.yaml",
+  "../../pbox.yaml",
+]
+additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
