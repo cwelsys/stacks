@@ -27,8 +27,8 @@ OVERSEERR_API_KEY="op://Secrets/Overseerr/credential"
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
 DOPLARR_TOKEN="op://Secrets/Doplarr/credential"
-MEMBARR_TOKEN="op://Secrets/Membarr/credential"
 TAUTULLI_API_KEY="op://Secrets/Tautulli/credential"
+MEMBARR_TOKEN="op://Secrets/Membarr/credential"
 """
 
 ##
@@ -207,7 +207,6 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 PLEX_TOKEN="op://Secrets/Plex/credential"
 JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
-MEMBARR_TOKEN="op://Secrets/Membarr/credential"
 """
 
 ##
