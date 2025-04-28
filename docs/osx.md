@@ -22,6 +22,7 @@ run the initial container to generate the boot disk et all
 - when greeted with the desktop, log in and test an imessage to self. rinse and refresh.
 - Before shutting down your VM, run this in a new terminal with the same user:
 docker cp osx:/home/arch/OSX-KVM/OpenCore/OpenCore.qcow2 ./bootdisk.qcow2
+- sudo cp bootdisk.qcow2 /var/lib/libvirt/images or just copy it there in the first place
 - then uncomment / change the compose file and image to match where you wired everything up.
 
 
