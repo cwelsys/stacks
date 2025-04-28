@@ -265,19 +265,21 @@ services:
       - TZ=${TZ}
 
   doplarr:
-    image: 'ghcr.io/kiranshila/doplarr:latest'
-    restart: unless-stopped
+    image: lscr.io/linuxserver/doplarr:latest
     container_name: doplarr
-    networks:
-      - default
     environment:
-      # - SONARR__URL=http://sonarr:8989
-      # - RADARR__URL=http://radarr:7878
-      # - SONARR__API=${SONARR_API_KEY}
-      # - RADARR__API=${RADARR_API_KEY}
-      - OVERSEERR__URL=http://overseerr:5055
-      - OVERSEERR__API=${OVERSEERR_API_KEY}
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
       - DISCORD__TOKEN=${DOPLARR_TOKEN}
+      - OVERSEERR__API=${OVERSEERR_API_KEY}
+      - OVERSEERR__URL=http://overseerr:5055
+      - DISCORD__MAX_RESULTS=25
+      - DISCORD__REQUESTED_MSG_STYLE=:plain
+      - LOG_LEVEL=:info
+    volumes:
+      - ${CONFIGDIR}/doplarr:/config
+    restart: unless-stopped
 
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
