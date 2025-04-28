@@ -38,6 +38,7 @@ name = "auth"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
+webhook_enabled = false
 run_directory = "auth"
 file_paths = ["authentik.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -85,26 +86,6 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 """
 environment = """
 HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN="op://Secrets/OpenWeatherMap/credential"
-"""
-
-##
-
-[[stack]]
-name = "data"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "data"
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-POSTGRES_PASSWORD="op://Secrets/2doyirimsnblvjuilo73gwfvgq/password"
-
-
-
 """
 
 ##
