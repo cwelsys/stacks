@@ -169,30 +169,29 @@ services:
     networks:
       - stack
 
-  # profilarr:
-  #   image: santiagosayshey/profilarr:beta
-  #   container_name: profilarr
-  #   volumes:
-  #     - ${CONFIGDIR}/profilarr:/config
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=${ID}
-  #     - TZ=${TZ}
-  #   restart: unless-stopped
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.profilarr.rule=Host(`profilarr.${DOMAIN}`)
-  #     - traefik.docker.network=internal
-  #     - traefik.http.services.profilarr.loadbalancer.server.port=6868
-  #     - homepage.group=Media
-  #     - homepage.name=profilarr
-  #     # - homepage.icon=profilarr.png
-  #     - homepage.href=https://profilarr.${DOMAIN}
-  #     - homepage.description=Config management
-  #     # - homepage.widget.url='http://profilarr:6868'
-  #     - homepage.weight=6
-  #   networks:
-  #     - internal
+  profilarr:
+    image: santiagosayshey/profilarr:beta
+    container_name: profilarr
+    volumes:
+      - ${CONFIGDIR}/profilarr:/config
+    environment:
+      - PUID=1000
+      - PGID=${ID}
+      - TZ=${TZ}
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.profilarr.rule=Host(`profilarr.${DOMAIN}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.profilarr.loadbalancer.server.port=6868
+      - homepage.group=Media
+      - homepage.name=profilarr
+      # - homepage.icon=profilarr.png
+      - homepage.href=https://profilarr.${DOMAIN}
+      - homepage.description=Config management
+      - homepage.weight=6
+    networks:
+      - internal
 
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
