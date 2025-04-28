@@ -13,6 +13,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "arr"
+file_paths = ["../pbox.yaml", "arr.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -206,6 +207,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 PLEX_TOKEN="op://Secrets/Plex/credential"
 JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
+MEMBARR_TOKEN="op://Secrets/Membarr/credential"
 """
 
 ##
