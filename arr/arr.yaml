@@ -222,7 +222,7 @@ services:
       - homepage.widget.key=${OVERSEERR_API_KEY}
     networks:
       - public
-      - stack
+      - default
 
   maintainerr:
     image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
@@ -268,7 +268,7 @@ services:
     image: lscr.io/linuxserver/doplarr:latest
     container_name: doplarr
     networks:
-      - stack
+      - default
     environment:
       - PUID=1000
       - PGID=1000
