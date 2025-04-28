@@ -46,7 +46,7 @@ services:
       - homepage.widget.key=${PLEX_TOKEN}
     networks:
       - internal
-      - stack
+      - default
 
   plextraktsync:
     image: lscr.io/linuxserver-labs/plextraktsync:latest
@@ -55,7 +55,7 @@ services:
     depends_on:
       - plex
     networks:
-      - stack
+      - default
     volumes:
       - ${CONFIGDIR}/ptraktsync/config:/app/config
     environment:
@@ -68,7 +68,6 @@ services:
     container_name: membarr
     networks:
       - default
-      - stack
     volumes:
       - ${CONFIGDIR}/membarr/:/app/app/config
     environment:
