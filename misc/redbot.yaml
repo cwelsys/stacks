@@ -6,7 +6,7 @@ services:
     volumes:
       - ${CONFIGDIR}/redbot:/data
     environment:
-      - TOKEN=${REDBOT_TOKEN}
-      - PREFIX=.
+      # - TOKEN=${REDBOT_TOKEN}
+      # - PREFIX=.
       - TZ=${TZ}
       - PUID=1000
