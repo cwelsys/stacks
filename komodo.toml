@@ -68,7 +68,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["../pbox.yaml", "crowdsec.yaml"]
+file_paths = ["crowdsec.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -80,7 +80,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "dash"
-file_paths = ["../pbox.yaml", "homepage.yaml"]
+file_paths = ["homepage.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -98,7 +98,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["../pbox.yaml", "dns.yaml"]
+file_paths = ["dns.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -111,9 +111,9 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "downs"
 file_paths = [
-  "../pbox.yaml",
   "qbit-vpn.yaml",
-  "sab.yaml"
+  "sab.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -139,8 +139,8 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
 file_paths = [
-  "../pbox.yaml",
-  "traefik-external.yaml"
+  "traefik-external.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -163,8 +163,8 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
 file_paths = [
-  "../pbox.yaml",
-  "traefik-internal.yaml"
+  "traefik-internal.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -183,7 +183,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["../pbox.yaml", "kop.yaml"]
+file_paths = ["kop.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -219,10 +219,10 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "system"
 file_paths = [
-  "../pbox.yaml",
   "socket.yaml",
   "scrutiny.yaml",
-  "cache.yaml"
+  "cache.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
