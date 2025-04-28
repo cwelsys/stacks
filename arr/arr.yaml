@@ -259,7 +259,7 @@ services:
     restart: unless-stopped
     container_name: doplarr
     networks:
-      - stack
+      - default
     environment:
       # - SONARR__URL=http://sonarr:8989
       # - RADARR__URL=http://radarr:7878
@@ -274,7 +274,7 @@ services:
     restart: unless-stopped
     container_name: membarr
     networks:
-      - stack
+      - default
     volumes:
       - ${CONFIGDIR}/membarr/:/app/app/config
     environment:
