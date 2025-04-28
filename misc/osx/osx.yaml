@@ -22,5 +22,6 @@ services:
       - DISPLAY=:99
       - WIDTH=1920
       - HEIGHT=1080
+      - SHORTNAME=ventura
       - NOPICKER=true
       - ADDITIONAL_PORTS=hostfwd=tcp::1234-:1234,
