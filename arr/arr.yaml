@@ -268,17 +268,6 @@ services:
       - OVERSEERR__URL=http://overseerr:5055
       - OVERSEERR__API=${OVERSEERR_API_KEY}
       - DISCORD__TOKEN=${DOPLARR_TOKEN}
-
-  membarr:
-    image: 'yoruio/membarr:latest'
-    restart: unless-stopped
-    container_name: membarr
-    networks:
-      - default
-    volumes:
-      - ${CONFIGDIR}/membarr/:/app/app/config
-    environment:
-      - token=${MEMBARR_TOKEN}
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
