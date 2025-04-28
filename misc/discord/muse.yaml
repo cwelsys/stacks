@@ -1,5 +1,6 @@
 services:
   muse:
+    container_name: muse
     image: ghcr.io/museofficial/muse:latest
     restart: always
     volumes:
