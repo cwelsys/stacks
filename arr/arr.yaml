@@ -32,7 +32,7 @@ services:
       - homepage.widget.key=${SONARR_API_KEY}
     networks:
       - internal
-      - stack
+      - default
 
   radarr:
     image: lscr.io/linuxserver/radarr
@@ -67,7 +67,7 @@ services:
       - homepage.widget.key=${RADARR_API_KEY}
     networks:
       - internal
-      - stack
+      - default
 
   lidarr:
     image: lscr.io/linuxserver/lidarr
@@ -167,7 +167,7 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - stack
+      - default
 
   profilarr:
     image: santiagosayshey/profilarr:beta
