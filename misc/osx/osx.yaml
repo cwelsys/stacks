@@ -1,7 +1,7 @@
 services:
   osx:
     container_name: osx
-    image: sickcodes/docker-osx:naked
+    image: sickcodes/docker-osx
     restart: unless-stopped
     dns:
       - 1.1.1.1
