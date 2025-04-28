@@ -69,7 +69,7 @@ services:
     networks:
       - default
     volumes:
-      - ${CONFIGDIR}/ptraktsync/config:/app/config
+      - ${CONFIGDIR}/ptraktsync:/app/config
     environment:
       - PUID=1000
       - PGID=${ID}
