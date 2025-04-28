@@ -300,8 +300,6 @@ services:
       image: 'yoruio/membarr:latest'
       restart: unless-stopped
       container_name: membarr
-      depends_on:
-        - plex
       networks:
         - default
       volumes:
