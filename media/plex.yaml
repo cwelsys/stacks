@@ -65,7 +65,7 @@ services:
     container_name: plextraktsync
     depends_on:
       - plex
-    command: sync
+    # command: sync
     networks:
       - default
     volumes:
