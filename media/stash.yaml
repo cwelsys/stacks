@@ -1,0 +1,40 @@
+services:
+  stash:
+    image: stashapp/stash:latest
+    container_name: stash
+    restart: unless-stopped
+    # ports:
+    #   - "9999:9999"
+    # network_mode: host
+    networks:
+      - internal
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "2m"
+    environment:
+      - STASH_STASH=/data/
+      - STASH_GENERATED=/generated/
+      - STASH_METADATA=/metadata/
+      - STASH_CACHE=/cache/
+      - STASH_PORT=9999
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${CONFIGDIR}/stash:/root/.stash
+      - ${RUST}/stash:/data
+      - stash_metadata:/metadata
+      - stash_cache:/cache
+      - stash_blobs:/blobs
+      - stash_generated:/generated
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.stash.rule=Host(`stash.cwel.sh`)
+      - traefik.http.services.stash.loadbalancer.server.port=9999
+      - traefik.docker.network=internal
+
+volumes:
+  stash_metadata:
+  stash_cache:
+  stash_blobs:
+  stash_generated:
