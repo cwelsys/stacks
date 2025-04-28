@@ -1,0 +1,47 @@
+Install prereqs:
+
+sudo dnf install libvirt qemu-kvm
+
+Then, enable libvirt and load the KVM kernel module:
+
+sudo systemctl enable --now libvirtd
+sudo systemctl enable --now virtlogd
+
+echo 1 | sudo tee /sys/module/kvm/parameters/ignore_msrs
+
+sudo modprobe kvm
+
+cd <path to store disk image at>
+cd /var/lib/libvirt/images
+qemu-img create -f qcow2 maindisk.qcow2 128G
+
+run the initial container to generate the boot disk et all
+
+- when greeted with the system recovery menu, enter disk utility and erase the largest disk ~ 137gb as APFS or maybe MacOS extended (Journaled) depending on which spin of osx. then close out of disk utility.
+- 'reinstall macOS <version>' choosing the disk you just nuked then wait for 45 minutes or so.
+- when greeted with the desktop, log in and test an imessage to self. rinse and refresh.
+- Before shutting down your VM, run this in a new terminal with the same user:
+docker cp osx:/home/arch/OSX-KVM/OpenCore/OpenCore.qcow2 ./bootdisk.qcow2
+- then uncomment / change the compose file and image to match where you wired everything up.
+
+
+
+
+
+[bluebubbles docs](https://docs.bluebubbles.app/server/advanced/macos-virtualization/running-bluebubbles-in-docker-osx)
+
+[docker-osx docs](https://github.com/sickcodes/Docker-OSX#initial-setup)
+
+Additional boot instructions for when you are creating your container
+
+    Boot the macOS Base System (Press Enter)
+
+    Click Disk Utility
+
+    Erase the BIGGEST disk (around 200gb default), DO NOT MODIFY THE SMALLER DISKS. -- if you can't click erase, you may need to reduce the disk size by 1kb
+
+    (optional) Create a partition using the unused space to house the OS and your files if you want to limit the capacity. (For Xcode 12 partition at least 60gb.)
+
+    Click Reinstall macOS
+
+    The system may require multiple reboots during installation

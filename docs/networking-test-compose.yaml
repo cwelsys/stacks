@@ -11,6 +11,12 @@ services:
       traefik.docker.network: public
       kop.namespace: public
 
+      - traefik.enable=true
+      - traefik.http.routers.CHANGE.rule: Host(`CHANGE.${DOMAIN}`)
+      - traefik.http.services.CHANGE.loadbalancer.server.port=xx
+      - traefik.docker.network=public
+      - kop.namespace=public
+
   # example service that is routed through Internal Traefik
   echo-internal:
     image: mendhak/http-https-echo:36
@@ -21,6 +27,11 @@ services:
       traefik.http.routers.echo1.rule: Host(`echoint.cwel.sh`)
       traefik.http.services.echo1.loadbalancer.server.port: 8080
       traefik.docker.network: internal
+
+      - traefik.enable=true
+      - traefik.http.routers.CHANGE.rule: Host(`CHANGE.${DOMAIN}`)
+      - traefik.http.services.CHANGE.loadbalancer.server.port=xx
+      - traefik.docker.network=internal
 
   # example service that is routed through  External Traefik w/ Auth
 
@@ -35,6 +46,13 @@ services:
       traefik.http.routers.echo2.middlewares: authentik-proxy@docker
       traefik.docker.network: public
       kop.namespace: public
+
+      - traefik.enable=true
+      - traefik.http.routers.CHANGE.rule: Host(`CHANGE.${DOMAIN}`)
+      - traefik.http.services.CHANGE.loadbalancer.server.port=xx
+      - traefik.http.routers.CHANGE.middlewares=authentik-proxy@docker
+      - traefik.docker.network=public
+      - kop.namespace=public
 
 networks:
   public:
