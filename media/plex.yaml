@@ -62,18 +62,7 @@ services:
       - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
-  membarr:
-    image: 'yoruio/membarr:latest'
-    restart: unless-stopped
-    container_name: membarr
-    depends_on:
-      - plex
-    networks:
-      - default
-    volumes:
-      - ${CONFIGDIR}/membarr/:/app/app/config
-    environment:
-      - token=${MEMBARR_TOKEN}
+
 
 volumes:
   plex-data:
