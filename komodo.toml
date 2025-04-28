@@ -74,6 +74,24 @@ additional_env_files = ["../global.env"]
 ##
 
 [[stack]]
+name = "redbot"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc"
+file_paths = ["redbot.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+REDBOT_TOKEN="op://Secrets/Redbot/token"
+
+"""
+##
+
+[[stack]]
 name = "dashboard"
 [stack.config]
 server = "pbox"
@@ -110,11 +128,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "downs"
-file_paths = [
-  "qbit-vpn.yaml",
-  "sab.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -138,10 +152,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = [
-  "traefik-external.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["traefik-external.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -162,10 +173,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = [
-  "traefik-internal.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["traefik-internal.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -195,13 +203,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [
-  "plex.yaml",
-  "jellyfin.yaml",
-  "stash.yaml",
-  "../pbox.yaml"
-
-]
+file_paths = ["plex.yaml", "jellyfin.yaml", "stash.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -220,12 +222,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "system"
-file_paths = [
-  "socket.yaml",
-  "scrutiny.yaml",
-  "cache.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["socket.yaml", "scrutiny.yaml", "cache.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
