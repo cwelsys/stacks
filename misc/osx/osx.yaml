@@ -3,8 +3,8 @@ services:
     container_name: osx
     image: sickcodes/docker-osx
     restart: unless-stopped
-    dns:
-      - 1.1.1.1
+    # dns:
+    #   - 1.1.1.1
     devices:
       - /dev/kvm:/dev/kvm
     ports:
