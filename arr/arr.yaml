@@ -253,6 +253,17 @@ services:
       - homepage.description=Library maintenance
       - homepage.weight=6
 
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    user: 1000:1001
+    networks:
+      - default
+    volumes:
+      - ${CONFIGDIR}/recyclarr:/config
+    environment:
+      - TZ=${TZ}
+
   doplarr:
     image: 'ghcr.io/kiranshila/doplarr:latest'
     restart: unless-stopped
