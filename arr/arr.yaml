@@ -221,7 +221,7 @@ services:
       - homepage.widget.url=http://overseerr:5055
       - homepage.widget.key=${OVERSEERR_API_KEY}
     networks:
-      - internal
+      - public
       - stack
 
   maintainerr:
@@ -267,6 +267,8 @@ services:
   doplarr:
     image: lscr.io/linuxserver/doplarr:latest
     container_name: doplarr
+    networks:
+      - stack
     environment:
       - PUID=1000
       - PGID=1000
