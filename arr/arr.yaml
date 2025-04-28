@@ -294,6 +294,18 @@ services:
       # - homepage.widget.type=tautulli
       # - homepage.widget.url=http://tautulli:8181
       # - homepage.widget.key=${TAUTULLI_API_KEY}
+  membarr:
+    image: 'yoruio/membarr:latest'
+    restart: unless-stopped
+    container_name: membarr
+    depends_on:
+      - plex
+    networks:
+      - default
+    volumes:
+      - ${CONFIGDIR}/membarr/:/app/app/config
+    environment:
+      - token=${MEMBARR_TOKEN}
 
   recommendarr:
     image: tannermiddleton/recommendarr:latest
