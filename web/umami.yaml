@@ -36,6 +36,8 @@ services:
   db:
       image: postgres:15-alpine
       container_name: umami-db
+      networks:
+        - stack
       environment:
         POSTGRES_DB: umami
         POSTGRES_USER: umami
