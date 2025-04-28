@@ -195,14 +195,14 @@ services:
   #     - internal
 
   overseerr:
-    image: sctx/overseerr:latest
+    image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
     environment:
       - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - config:/app/config
+      - ${CONFIGDIR}/overseerr:/config
     restart: unless-stopped
     ports:
       - 5055:5055
