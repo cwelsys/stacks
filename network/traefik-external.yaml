@@ -36,7 +36,7 @@ services:
       homepage.href: "https://traefik-external.${DOMAIN}"
 
   logrotate:
-    container_name: logrotate-external
+    container_name: ext-logrotate
     image: vegardit/traefik-logrotate:latest
     network_mode: none
     volumes:
@@ -71,7 +71,7 @@ services:
   traefik-external-redis:
     restart: always
     image: redis:7-alpine
-    container_name: traefik-external-redis
+    container_name: ext-redis
     ports:
       - "6380:6379"
     networks:
@@ -82,7 +82,7 @@ services:
     volumes:
       - redis:/data
   cloudflare_tunnel:
-    container_name: cloudflare_tunnel
+    container_name: cf-tunnel
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
     command: tunnel run --token ${CF_TRAEFIK_TUNNEL_TOKEN}
@@ -92,7 +92,7 @@ services:
         - traefik
 
   logdy:
-    container_name: logdy-external
+    container_name: ext-logdy
     build:
       context: https://github.com/logdyhq/logdy-core.git
     read_only: true
