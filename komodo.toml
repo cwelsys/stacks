@@ -40,8 +40,8 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 webhook_enabled = false
 run_directory = "auth"
-file_paths = ["authentik.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
+file_paths = ["authentik.yaml", "../../pbox.yaml"]
+additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """

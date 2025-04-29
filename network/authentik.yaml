@@ -1,6 +1,5 @@
 services:
-  authentik-postgresql:
-    container_name: auth-postgres
+  auth-db:
     image: docker.io/library/postgres:16-alpine
     restart: unless-stopped
     healthcheck:
@@ -12,17 +11,14 @@ services:
     volumes:
       - pg-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: ${PG_PASS:?database password required}
+      POSTGRES_PASSWORD: ${PG_PASS}
       POSTGRES_USER: ${PG_USER:-authentik}
       POSTGRES_DB: ${PG_DB:-authentik}
-    env_file:
-      - .env
     networks:
       - default
 
-  authentik-redis:
+  auth-redis:
     image: docker.io/library/redis:alpine
-    container_name: auth-redis
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
     healthcheck:
@@ -32,17 +28,18 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - redis_authentik:/data
+      - redis:/data
     networks:
       - default
-  authentik-server:
+
+  auth-server:
     container_name: auth-server
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG}
+    image: ghcr.io/goauthentik/server:latest
     restart: unless-stopped
     command: server
     environment:
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_POSTGRESQL__HOST: auth-db
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
@@ -57,9 +54,9 @@ services:
       - public
       - default
     depends_on:
-      authentik-postgresql:
+      auth-db:
         condition: service_healthy
-      authentik-redis:
+      auth-redis:
         condition: service_healthy
     labels:
       homepage.group: Networking
@@ -71,8 +68,10 @@ services:
       traefik.http.services.authentik.loadbalancer.server.port: 9000
       traefik.docker.network: public
       traefik.public: true
-  authentik-proxy:
-    image: ghcr.io/goauthentik/proxy:${AUTHENTIK_TAG:-2024.10.5}
+
+  auth-proxy:
+    image: ghcr.io/goauthentik/proxy:latest
+    restart: unless-stopped
     # ports:
     #     - 9000:9000
     #     - 9443:9443
@@ -80,8 +79,8 @@ services:
       - public
       - default
     environment:
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_HOST: http://authentik-server:9000
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_HOST: http://auth-server:9000
       AUTHENTIK_INSECURE: "true"
       AUTHENTIK_TOKEN: ${AUTHENTIK_TRAEFIK_EXT_OUTPOST_TOKEN}
       # Starting with 2021.9, you can optionally set this too
@@ -93,21 +92,20 @@ services:
       traefik.port: 9000
       traefik.http.routers.authentik-proxy.rule: Host(`auth.${DOMAIN}`) && PathPrefix(`/outpost.goauthentik.io/`)
       # `authentik-proxy` refers to the service name in the compose file.
-      traefik.http.middlewares.authentik-proxy.forwardauth.address: http://authentik-proxy:9000/outpost.goauthentik.io/auth/traefik
+      traefik.http.middlewares.authentik-proxy.forwardauth.address: http://auth-proxy:9000/outpost.goauthentik.io/auth/traefik
       traefik.http.middlewares.authentik-proxy.forwardauth.trustForwardHeader: true
       traefik.http.middlewares.authentik-proxy.forwardauth.authResponseHeaders: X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
       traefik.public: true
       kop.namespace: none
 
-    restart: unless-stopped
   worker:
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.10.5}
+    image: ghcr.io/goauthentik/server:latest
     restart: unless-stopped
     container_name: auth-worker
     command: worker
     environment:
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_POSTGRESQL__HOST: auth-db
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
@@ -131,16 +129,17 @@ services:
       - ${CONFIGDIR}/authentik/certs:/certs
       - ${CONFIGDIR}/authentik/custom-templates:/templates
     depends_on:
-      authentik-postgresql:
+      auth-db:
         condition: service_healthy
-      authentik-redis:
+      auth-redis:
         condition: service_healthy
     networks:
       - default
 
 volumes:
-  redis_authentik:
+  redis:
     driver: local
   pg-data:
+    driver: local
 
 
