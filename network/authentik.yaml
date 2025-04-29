@@ -37,6 +37,9 @@ services:
     image: ghcr.io/goauthentik/server:latest
     restart: unless-stopped
     command: server
+    ports:
+      - 9000:9000
+      - 9443:9443
     environment:
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
       AUTHENTIK_REDIS__HOST: auth-redis
@@ -48,9 +51,6 @@ services:
       - ${CONFIGDIR}/authentik/media:/media
       - ${CONFIGDIR}/authentik/custom-templates:/templates
       # - /var/run/docker.sock:/var/run/docker.sock
-      ports:
-        - "${COMPOSE_PORT_HTTP:-9000}:9000"
-        - "${COMPOSE_PORT_HTTPS:-9443}:9443"
     networks:
       - public
       - default
