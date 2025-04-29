@@ -86,7 +86,7 @@ services:
       AUTHENTIK_REDIS__HOST: auth-redis
       AUTHENTIK_HOST: http://auth-server:9000
       AUTHENTIK_INSECURE: "true"
-      AUTHENTIK_TOKEN: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_TOKEN: ${OUTPOST_TOKEN}
       # Starting with 2021.9, you can optionally set this too
       # when authentik_host for internal communication doesn't match the public URL
       AUTHENTIK_HOST_BROWSER: https://auth.${DOMAIN}
