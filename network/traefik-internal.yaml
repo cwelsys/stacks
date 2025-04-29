@@ -32,7 +32,7 @@ services:
       homepage.href: "https://traefik-internal.${DOMAIN}"
 
   logrotate:
-    container_name: logrotate-internal
+    container_name: int-logrotate
     image: vegardit/traefik-logrotate:latest
     network_mode: none
     restart: unless-stopped
@@ -72,7 +72,7 @@ services:
   traefik-internal-redis:
     restart: always
     image: redis:7-alpine
-    container_name: traefik-internal-redis
+    container_name: int-redis
     ports:
       - "6379:6379"
     networks:
@@ -84,7 +84,7 @@ services:
       - redis:/data
 
   logdy:
-    container_name: logdy-internal
+    container_name: int-logdy
     depends_on:
       - traefik
     build:
