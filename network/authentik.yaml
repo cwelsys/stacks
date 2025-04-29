@@ -70,34 +70,34 @@ services:
       traefik.docker.network: public
       traefik.public: true
 
-  # auth-proxy:
-  #   image: ghcr.io/goauthentik/proxy:latest
-  #   restart: unless-stopped
-  #   # ports:
-  #   #     - 9000:9000
-  #   #     - 9443:9443
-  #   networks:
-  #     - public
-  #     - default
-  #   environment:
-  #     AUTHENTIK_REDIS__HOST: auth-redis
-  #     AUTHENTIK_HOST: http://auth-server:9000
-  #     AUTHENTIK_INSECURE: "true"
-  #     AUTHENTIK_TOKEN: ${AUTHENTIK_TRAEFIK_EXT_OUTPOST_TOKEN}
-  #     # Starting with 2021.9, you can optionally set this too
-  #     # when authentik_host for internal communication doesn't match the public URL
-  #     AUTHENTIK_HOST_BROWSER: https://auth.${DOMAIN}
-  #     # for logging edit log_level in outpost config from ui
-  #   labels:
-  #     traefik.enable: true
-  #     traefik.port: 9000
-  #     traefik.http.routers.authentik-proxy.rule: Host(`auth.${DOMAIN}`) && PathPrefix(`/outpost.goauthentik.io/`)
-  #     # `authentik-proxy` refers to the service name in the compose file.
-  #     traefik.http.middlewares.authentik-proxy.forwardauth.address: http://auth-proxy:9000/outpost.goauthentik.io/auth/traefik
-  #     traefik.http.middlewares.authentik-proxy.forwardauth.trustForwardHeader: true
-  #     traefik.http.middlewares.authentik-proxy.forwardauth.authResponseHeaders: X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
-  #     traefik.public: true
-  #     kop.namespace: none
+  auth-proxy:
+    image: ghcr.io/goauthentik/proxy:latest
+    restart: unless-stopped
+    # ports:
+    #   - 9000:9000
+    #   - 9443:9443
+    networks:
+      - public
+      - default
+    environment:
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_HOST: http://auth-server:9000
+      AUTHENTIK_INSECURE: "true"
+      AUTHENTIK_TOKEN: ${AUTHENTIK_TRAEFIK_EXT_OUTPOST_TOKEN}
+      # Starting with 2021.9, you can optionally set this too
+      # when authentik_host for internal communication doesn't match the public URL
+      AUTHENTIK_HOST_BROWSER: https://auth.${DOMAIN}
+      # for logging edit log_level in outpost config from ui
+    labels:
+      traefik.enable: true
+      traefik.port: 9000
+      traefik.http.routers.authentik-proxy.rule: Host(`auth.${DOMAIN}`) && PathPrefix(`/outpost.goauthentik.io/`)
+      # `authentik-proxy` refers to the service name in the compose file.
+      traefik.http.middlewares.authentik-proxy.forwardauth.address: http://auth-proxy:9000/outpost.goauthentik.io/auth/traefik
+      traefik.http.middlewares.authentik-proxy.forwardauth.trustForwardHeader: true
+      traefik.http.middlewares.authentik-proxy.forwardauth.authResponseHeaders: X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
+      traefik.public: true
+      kop.namespace: none
 
   worker:
     image: ghcr.io/goauthentik/server:latest
