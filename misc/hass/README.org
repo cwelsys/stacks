@@ -1,0 +1,9 @@
+instead of compose:
+
+virt-install --name haos --description "Home Assistant OS" --os-variant=generic --ram=4096 --vcpus=2 --disk /var/lib/libvirt/images/haos_ova-15.2.qcow2,bus=scsi --controller type=scsi,model=virtio-scsi --import --graphics none --boot uefi
+
+sudo nmcli connection add type bridge autoconnect yes con-name br0 ifname br0
+
+sudo nmcli connection modify br0 ipv4.method auto ipv6.method auto
+
+sudo nmcli connection add type bridge-slave autoconnect yes con-name br0-slave ifname enp10s0 master br0
