@@ -86,6 +86,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 """
 environment = """
 HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN="op://Secrets/OpenWeatherMap/credential"
+CROWDSEC_PASS="op://Secrets/Crowdsec/main_instance_pass"
 """
 
 ##
@@ -102,7 +103,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -116,23 +117,6 @@ MEMBARR_TOKEN="op://Secrets/Membarr/credential"
 DOPLARR_TOKEN="op://Secrets/Doplarr/credential"
 OVERSEERR_API_KEY="op://Secrets/Overseerr/credential"
 
-"""
-
-##
-
-[[stack]]
-name = "osx"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "misc/osx"
-file_paths = ["osx.yaml"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-VNCPASS="op://Secrets/OSXvnc/password"
 """
 
 ##
@@ -155,8 +139,12 @@ name = "downs"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "downs"
-file_paths = ["qbit-vpn.yaml", "sab.yaml", "../../pbox.yaml"]
+run_directory = "media/downs"
+file_paths = [
+  "qbit-vpn.yaml",
+  "sab.yaml",
+  "../../pbox.yaml"
+]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -180,7 +168,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["traefik-external.yaml", "../pbox.yaml"]
+file_paths = [
+  "traefik-external.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -201,7 +192,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["traefik-internal.yaml", "../pbox.yaml"]
+file_paths = [
+  "traefik-internal.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -209,6 +203,18 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
 """
+
+##
+
+[[stack]]
+name = "kop"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network"
+file_paths = ["kop.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
 
 ##
 
@@ -232,25 +238,18 @@ LINKDING_PASS="op://Secrets/Linkding/password"
 ##
 
 [[stack]]
-name = "kop"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "network"
-file_paths = ["kop.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-
-##
-
-[[stack]]
 name = "media"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = ["plex.yaml", "jellyfin.yaml", "stash.yaml", "../pbox.yaml"]
+file_paths = [
+  "plex.yaml",
+  "jellyfin.yaml",
+  "stash.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -258,6 +257,23 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 PLEX_TOKEN="op://Secrets/Plex/credential"
 JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
+"""
+
+##
+
+[[stack]]
+name = "osx"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc/osx"
+file_paths = ["osx.yaml"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+VNCPASS="op://Secrets/OSXvnc/password"
 """
 
 ##
@@ -274,7 +290,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "cache.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
