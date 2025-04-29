@@ -217,9 +217,9 @@ services:
       - homepage.href=https://req.${DOMAIN}
       - homepage.description=Requests management
       - homepage.weight=5
-      - homepage.widget.type=overseerr
-      - homepage.widget.url=http://overseerr:5055
-      - homepage.widget.key=${OVERSEERR_API_KEY}
+      # - homepage.widget.type=overseerr
+      # - homepage.widget.url=http://overseerr:5055
+      # - homepage.widget.key=${OVERSEERR_API_KEY}
     networks:
       - public
       - media
