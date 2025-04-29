@@ -48,9 +48,9 @@ services:
       - ${CONFIGDIR}/authentik/media:/media
       - ${CONFIGDIR}/authentik/custom-templates:/templates
       # - /var/run/docker.sock:/var/run/docker.sock
-      # ports:
-      #   - "${COMPOSE_PORT_HTTP:-9000}:9000"
-      #   - "${COMPOSE_PORT_HTTPS:-9443}:9443"
+      ports:
+        - "${COMPOSE_PORT_HTTP:-9000}:9000"
+        - "${COMPOSE_PORT_HTTPS:-9443}:9443"
     networks:
       - public
       - default
