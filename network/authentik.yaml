@@ -105,6 +105,7 @@ services:
     container_name: auth-worker
     command: worker
     environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
       AUTHENTIK_REDIS__HOST: auth-redis
       AUTHENTIK_POSTGRESQL__HOST: auth-db
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
