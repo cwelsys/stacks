@@ -39,9 +39,9 @@ services:
     image: ghcr.io/goauthentik/server:latest
     restart: unless-stopped
     command: server
-    ports:
-      - 9000:9000
-      - 9443:9443
+    # ports:
+    #   - 9000:9000
+    #   - 9443:9443
     environment:
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
       AUTHENTIK_REDIS__HOST: auth-redis
@@ -77,8 +77,8 @@ services:
     restart: unless-stopped
     container_name: auth-proxy
     # ports:
-    #     - 9000:9000
-    #     - 9443:9443
+    #   - 9000:9000
+    #   - 9443:9443
     networks:
       - public
       - default
