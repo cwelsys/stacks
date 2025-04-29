@@ -22,7 +22,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${CONFIGDIR}/stash:/root/.stash
-      - ${RUST}/stash:/data
+      - ${RUST}:/data
       - stash_metadata:/metadata
       - stash_cache:/cache
       - stash_blobs:/blobs
