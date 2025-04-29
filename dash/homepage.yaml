@@ -4,9 +4,11 @@ services:
     container_name: homepage
     networks:
       - internal
+      - crowdsec
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=hp.${DOMAIN}
       - HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN=${HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN}
+      - HOMEPAGE_VAR_CROWDSEC_PASSWORD=${CROWDSEC_PASS}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/homepage/images:/app/public/images
