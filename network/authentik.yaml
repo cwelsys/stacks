@@ -107,6 +107,8 @@ services:
     restart: unless-stopped
     container_name: auth-worker
     command: worker
+    networks:
+      - default
     environment:
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
       AUTHENTIK_REDIS__HOST: auth-redis
@@ -138,8 +140,6 @@ services:
         condition: service_healthy
       auth-redis:
         condition: service_healthy
-    networks:
-      - default
 
 volumes:
   redis:
