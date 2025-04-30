@@ -9,8 +9,8 @@ services:
       # Optional settings with their default values
       SCHEDULE: '0 3 * * *' # Run at 3 AM daily
       # SCHEDULE: '*/23 * * * *'
-      THRESHOLD_PERCENTAGE: 69
-      TARGET_PERCENTAGE: 20
+      THRESHOLD_PERCENTAGE: 50
+      TARGET_PERCENTAGE: 10
       MAX_WORKERS: 8
       EXCLUDED_DIRS: temp,downloads,cache,tor,incomplete
       NOTIFICATIONS_ENABLED: True
