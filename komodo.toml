@@ -294,7 +294,7 @@ pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-DISCORDURL="op://Secrets/CM Discord Webhook/credential"
+DISCORDURL="op://Secrets/Discord Webhooks/logs/pbox"
 TS_AUTHKEY="op://Secrets/v4xfq7ijumolhvtybuk4hepdfy/password"
 """
 
