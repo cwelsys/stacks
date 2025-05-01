@@ -7,10 +7,10 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${CONFIGDIR}/sonarr:/config
+      - sonarr:/config
       - ${RUST}:/data
-      - ${CONFIGDIR}/sonarr/custom-services.d:/custom-services.d
-      - ${CONFIGDIR}/sonarr/custom-cont-init.d:/custom-cont-init.d
+      # - ${CONFIGDIR}/sonarr/custom-services.d:/custom-services.d
+      # - ${CONFIGDIR}/sonarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping' ]
