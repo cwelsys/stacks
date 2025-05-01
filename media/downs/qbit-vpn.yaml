@@ -1,3 +1,7 @@
+volumes:
+  qbit:
+    external: true
+
 services:
   qbittorrent:
     image: ghcr.io/hotio/qbittorrent
@@ -8,7 +12,7 @@ services:
       - TZ=${TZ}
       - WEBUI_PORTS=8080/tcp,8080/udp
     volumes:
-      - ${CONFIGDIR}/qbittorrent:/config
+      - qbit:/config
       - ${RUST}/tor:/data/tor
     restart: always
     healthcheck:
@@ -46,7 +50,7 @@ services:
       - 8082:8080
       # - 8000:8000
     volumes:
-      - ${CONFIGDIR}/gluetun/config.toml:/gluetun/auth/config.toml:ro
+      - ${CONFIGDIR}/downs/gluetun/config.toml:/gluetun/auth/config.toml:ro
     labels:
       - traefik.enable=true
       - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.${DOMAIN}`)
