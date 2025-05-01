@@ -1,3 +1,9 @@
+volumes:
+  auth-redis:
+    external: true
+  auth-db:
+    external: true
+
 services:
   auth-db:
     container_name: auth-db
@@ -10,13 +16,13 @@ services:
       retries: 5
       timeout: 5s
     volumes:
-      - pg-data:/var/lib/postgresql/data
+      - auth-db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${PG_PASS}
       POSTGRES_USER: ${PG_USER:-authentik}
       POSTGRES_DB: ${PG_DB:-authentik}
-    networks:
-      - default
+    # networks:
+    #   - default
 
   auth-redis:
     image: docker.io/library/redis:alpine
@@ -30,9 +36,9 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - redis:/data
-    networks:
-      - default
+      - auth-redis:/data
+    # networks:
+    #   - default
 
   auth-server:
     container_name: auth-server
@@ -50,8 +56,8 @@ services:
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
     volumes:
-      - ${CONFIGDIR}/authentik/media:/media
-      - ${CONFIGDIR}/authentik/custom-templates:/templates
+      - ${CONFIGDIR}/auth/media:/media
+      - ${CONFIGDIR}/auth/custom-templates:/templates
       # - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - public
@@ -132,19 +138,14 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${CONFIGDIR}/authentik/media:/media
-      - ${CONFIGDIR}/authentik/certs:/certs
-      - ${CONFIGDIR}/authentik/custom-templates:/templates
+      - ${CONFIGDIR}/auth/media:/media
+      - ${CONFIGDIR}/auth/certs:/certs
+      - ${CONFIGDIR}/auth/custom-templates:/templates
     depends_on:
       auth-db:
         condition: service_healthy
       auth-redis:
         condition: service_healthy
 
-volumes:
-  redis:
-    driver: local
-  pg-data:
-    driver: local
 
 
