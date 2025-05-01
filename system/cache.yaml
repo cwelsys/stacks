@@ -18,6 +18,7 @@ services:
       NOTIFICATION_URLS: '${DISCORDURL}'
     volumes:
       - /mnt/cache:/mnt/cache:rw
+      - /mnt/data-disks:/mnt/data:rw
       - /mnt/media-cold:/mnt/media-cold:rw
       - ${CONFIGDIR}/mfscm/logs:/var/log:rw # Optional: Mount for persistent logs
     cap_add:
