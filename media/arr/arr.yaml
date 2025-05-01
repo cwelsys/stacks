@@ -25,6 +25,8 @@ services:
     volumes:
       - sonarr:/config
       - ${RUST}:/data
+      - ${CONFIGDIR}/arr/sonarr/custom-services.d:/custom-services.d
+      - ${CONFIGDIR}/arr/sonarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping' ]
@@ -58,6 +60,8 @@ services:
     volumes:
       - radarr:/config
       - ${RUST}:/data
+      - ${CONFIGDIR}/arr/radarr/custom-services.d:/custom-services.d
+      - ${CONFIGDIR}/arr/radarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping' ]
@@ -91,8 +95,8 @@ services:
     volumes:
       - lidarr:/config
       - ${RUST}:/data
-      # - ${CONFIGDIR}/lidarr/custom-services.d:/custom-services.d
-      # - ${CONFIGDIR}/lidarr/custom-cont-init.d:/custom-cont-init.d
+      - ${CONFIGDIR}/arr/lidarr/custom-services.d:/custom-services.d
+      - ${CONFIGDIR}/arr/lidarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping' ]
