@@ -1,10 +1,14 @@
+volumes:
+  redbot:
+    external: true
+
 services:
   redbot:
     container_name: redbot
     image: phasecorex/red-discordbot
     restart: unless-stopped
     volumes:
-      - ${CONFIGDIR}/discord/redbot:/data
+      - redbot:/data
     environment:
       # - TOKEN=${REDBOT_TOKEN}
       # - PREFIX=.
