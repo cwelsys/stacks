@@ -7,9 +7,9 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${CONFIGDIR}/sabnzbd:/config
+      - sabnzbd:/config
       - ${RUST}:/data
-      - ${CONFIGDIR}/sabnzbd/custom-cont-init.d:/custom-cont-init.d
+      - ${CONFIGDIR}/downs/sabnzbd/custom-cont-init.d:/custom-cont-init.d
     restart: always
     labels:
       - traefik.enable=true
@@ -26,3 +26,4 @@ services:
       - homepage.widget.key=${SABNZBD_API_KEY}
     networks:
       - internal
+      - media
