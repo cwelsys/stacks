@@ -1,6 +1,8 @@
 volumes:
   sonarr:
     external: true
+  radarr:
+    external: true
 
 services:
   sonarr:
@@ -13,8 +15,6 @@ services:
     volumes:
       - sonarr:/config
       - ${RUST}:/data
-      # - ${CONFIGDIR}/sonarr/custom-services.d:/custom-services.d
-      # - ${CONFIGDIR}/sonarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping' ]
@@ -46,10 +46,10 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${CONFIGDIR}/radarr:/config
+      - radarr:/config
       - ${RUST}:/data
-      - ${CONFIGDIR}/radarr/custom-services.d:/custom-services.d
-      - ${CONFIGDIR}/radarr/custom-cont-init.d:/custom-cont-init.d
+      # - ${CONFIGDIR}/radarr/custom-services.d:/custom-services.d
+      # - ${CONFIGDIR}/radarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping' ]
