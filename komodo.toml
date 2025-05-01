@@ -295,7 +295,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 """
 environment = """
 DISCORDURL="op://Secrets/Discord Webhooks/logs/pbox"
-TS_AUTHKEY="op://Secrets/v4xfq7ijumolhvtybuk4hepdfy/password"
+TS_AUTHKEY="op://Secrets/v4xfq7ijumolhvtybuk4hepdfy/socket"
 """
 
 ##
