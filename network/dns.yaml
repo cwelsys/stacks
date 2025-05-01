@@ -1,3 +1,6 @@
+volumes:
+    dns:
+      external: true
 services:
   dns-server:
     container_name: dns-server
@@ -8,13 +11,10 @@ services:
       - DNS_SERVER_DOMAIN=dns.cwel.sh #The primary domain name used by this DNS Server to identify itself.
       - DNS_SERVER_LOG_USING_LOCAL_TIME=true #Enable this option to use local time instead of UTC for logging.
     volumes:
-      - config:/etc/dns
+      - dns:/etc/dns
     restart: unless-stopped
     labels:
       homepage.group: Network
       homepage.name: DNS Server
       homepage.icon: technitium.png
       homepage.href: "https://dns.${DOMAIN}"
-
-volumes:
-    config:
