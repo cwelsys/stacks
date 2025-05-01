@@ -3,6 +3,8 @@ volumes:
     external: true
   radarr:
     external: true
+  lidarr:
+    external: true
 
 services:
   sonarr:
@@ -48,8 +50,6 @@ services:
     volumes:
       - radarr:/config
       - ${RUST}:/data
-      # - ${CONFIGDIR}/radarr/custom-services.d:/custom-services.d
-      # - ${CONFIGDIR}/radarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping' ]
@@ -81,10 +81,10 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${CONFIGDIR}/lidarr:/config
+      - lidarr:/config
       - ${RUST}:/data
-      - ${CONFIGDIR}/lidarr/custom-services.d:/custom-services.d
-      - ${CONFIGDIR}/lidarr/custom-cont-init.d:/custom-cont-init.d
+      # - ${CONFIGDIR}/lidarr/custom-services.d:/custom-services.d
+      # - ${CONFIGDIR}/lidarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping' ]
@@ -106,6 +106,7 @@ services:
       - homepage.widget.key=${LIDARR_API_KEY}
     networks:
       - internal
+      - media
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
