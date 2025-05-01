@@ -1,3 +1,6 @@
+volumes:
+  doplarr:
+    external: true
 services:
   doplarr:
     image: lscr.io/linuxserver/doplarr:latest
@@ -15,5 +18,5 @@ services:
       - DISCORD__REQUESTED_MSG_STYLE=:plain
       - LOG_LEVEL=:info
     volumes:
-      - ${CONFIGDIR}/doplarr:/config
+      - doplarr:/config
     restart: unless-stopped
