@@ -1,3 +1,7 @@
+volumes:
+  sabnzbd:
+    external: true
+    
 services:
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
