@@ -1,3 +1,7 @@
+volumes:
+  sonarr:
+    external: true
+
 services:
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
