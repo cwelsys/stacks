@@ -289,7 +289,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      tautulli:/config
+      - tautulli:/config
     networks:
       - internal
     restart: unless-stopped
