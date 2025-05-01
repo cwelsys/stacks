@@ -30,9 +30,9 @@ services:
       # - "8086:8080/tcp"
     restart: "always"
     volumes:
-      - "${CONFIGDIR}/crowdsec/config:/etc/crowdsec"
-      - "${CONFIGDIR}/crowdsec/data:/var/lib/crowdsec/data"
-      - "${CONFIGDIR}/crowdsec/logs:/var/log/crowdsec"
+      - crowdsec-config:/etc/crowdsec
+      - crowdsec-db:/var/lib/crowdsec/data
+      - cs-logs:/var/log/crowdsec
   crowdsec-ingest:
     container_name: crowdsec-ingest
     image: "crowdsecurity/crowdsec:latest"
@@ -55,6 +55,6 @@ services:
       - "6061:6060/tcp"
     restart: "always"
     volumes:
-      - "${CONFIGDIR}/crowdsec-ingest/config:/etc/crowdsec"
-      - "${CONFIGDIR}/crowdsec-ingest/data:/var/lib/crowdsec/data"
-      - "${CONFIGDIR}/crowdsec-ingest/logs:/var/log/crowdsec"
+      - cs-ing-config:/etc/crowdsec
+      - cs-ing-db:/var/lib/crowdsec/data
+      - cs-ing-logs:/var/log/crowdsec
