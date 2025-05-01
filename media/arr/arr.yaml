@@ -5,6 +5,14 @@ volumes:
     external: true
   lidarr:
     external: true
+  prowlarr:
+    external: true
+  profilarr:
+    external: true
+  recyclarr:
+    external: true
+  overseerr:
+    external: true
 
 services:
   sonarr:
@@ -116,7 +124,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${CONFIGDIR}/prowlarr:/config
+      - prowlarr:/config
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping' ]
@@ -138,6 +146,7 @@ services:
       - homepage.widget.key=${PROWLARR_API_KEY}
     networks:
       - internal
+      - media
 
   flaresolverr:
     image: 21hsmw/flaresolverr:nodriver
@@ -178,7 +187,7 @@ services:
     image: santiagosayshey/profilarr:beta
     container_name: profilarr
     volumes:
-      - ${CONFIGDIR}/profilarr:/config
+      - profilarr:/config
     environment:
       - PUID=1000
       - PGID=${ID}
@@ -206,7 +215,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${CONFIGDIR}/overseerr:/config
+      - overseerr:/config
     restart: unless-stopped
     ports:
       - 5055:5055
@@ -265,7 +274,7 @@ services:
     networks:
       - media
     volumes:
-      - ${CONFIGDIR}/recyclarr:/config
+      - recyclarr:/config
     environment:
       - TZ=${TZ}
 
