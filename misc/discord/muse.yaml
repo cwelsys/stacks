@@ -1,3 +1,7 @@
+volumes:
+  muse:
+    external: true
+
 services:
   muse:
     container_name: muse
