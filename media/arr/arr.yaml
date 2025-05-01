@@ -9,9 +9,13 @@ volumes:
     external: true
   profilarr:
     external: true
-  recyclarr:
-    external: true
   overseerr:
+    external: true
+  maintainerr:
+    external: true
+  tautulli:
+    external: true
+  recommendarr:
     external: true
 
 services:
@@ -248,16 +252,11 @@ services:
     user: ${ID}:${ID}
     networks:
       - internal
+      - media
     volumes:
-      - data:/opt/data
-
+      - maintainerr:/opt/data
     environment:
       - TZ=${TZ}
-    #      - DEBUG=true # uncomment to enable debug logs
-    #      - BASE_PATH=/maintainerr # uncomment if you're serving maintainerr from a subdirectory
-    #      - UI_HOSTNAME=:: # uncomment if you want to listen on IPv6 instead (default 0.0.0.0)
-    #      - UI_PORT=6247 # uncomment to change the UI port (default 6246). Useful if you're on a network where the port is already in use
-    #      - API_PORT=3002 # uncomment to change the API port (default 3001). Useful if you're on a network where the port is already in use
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -278,10 +277,9 @@ services:
     networks:
       - media
     volumes:
-      - recyclarr:/config
+      - ${CONFIGDIR}/arr/recyclarr:/config
     environment:
       - TZ=${TZ}
-
 
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
@@ -291,7 +289,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - ${CONFIGDIR}/tautulli/config:/config
+      tautulli:/config
     networks:
       - internal
     restart: unless-stopped
@@ -323,7 +321,7 @@ services:
       - PUBLIC_URL=https://recommendarr.${DOMAIN}
       - FORCE_SECURE_COOKIES=true
     volumes:
-      - data:/app/server/data
+      - recommendarr:/app/server/data
     restart: unless-stopped
     networks:
       - internal
