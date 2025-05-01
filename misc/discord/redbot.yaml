@@ -4,7 +4,7 @@ services:
     image: phasecorex/red-discordbot
     restart: unless-stopped
     volumes:
-      - ${CONFIGDIR}/redbot:/data
+      - ${CONFIGDIR}/discord/redbot:/data
     environment:
       # - TOKEN=${REDBOT_TOKEN}
       # - PREFIX=.
