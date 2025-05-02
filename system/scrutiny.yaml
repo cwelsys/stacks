@@ -1,3 +1,7 @@
+volumes:
+  scrutiny:
+    external: true
+
 services:
   scrutiny:
     container_name: scrutiny
@@ -9,9 +13,7 @@ services:
     volumes:
       - /run/udev:/run/udev:ro
       - /dev:/dev:ro
-      - data:/opt/scrutiny/config
-      - db:/opt/scrutiny/influxdb
-      # - ${CONFIGDIR}/scrutiny/scrutiny.yaml:/opt/scrutiny/config/scrutiny.yaml
+      - scrutiny:/opt/scrutiny
     restart: always
     healthcheck:
       test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8080/health']
