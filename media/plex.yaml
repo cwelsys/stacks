@@ -1,3 +1,7 @@
+volumes:
+  plex:
+    external: true
+
 services:
   plex:
     image: lscr.io/linuxserver/plex:latest
@@ -20,7 +24,7 @@ services:
       - '32414:32414/udp'
     restart: unless-stopped
     volumes:
-      - plex-data:/config
+      - plex:/config
       - ${RUST}/tv:/tv
       - ${RUST}/movie:/movie
       - ${RUST}/anime:/anime
@@ -56,11 +60,8 @@ services:
     networks:
       - default
     volumes:
-      - ${CONFIGDIR}/ptraktsync:/config
+      - ${CONFIGDIR}/media/plextraktsync:/config
     environment:
       - PUID=1000
       - PGID=${ID}
       - TZ=${TZ}
-
-volumes:
-  plex-data:
