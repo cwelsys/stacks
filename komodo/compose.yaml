@@ -25,7 +25,7 @@ services:
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
     networks:
-      - db
+      - stack
     logging:
       driver: ${COMPOSE_LOGGING_DRIVER:-local}
     # ports:
@@ -55,7 +55,7 @@ services:
     networks:
       - public
       - internal
-      - db
+      - stack
     depends_on:
       - mongo
     logging:

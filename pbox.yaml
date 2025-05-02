@@ -20,5 +20,3 @@ networks:
     external: true
   crowdsec:
     external: true
-  db:
-    external: true

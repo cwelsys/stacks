@@ -21,8 +21,8 @@ services:
       POSTGRES_PASSWORD: ${PG_PASS}
       POSTGRES_USER: ${PG_USER:-authentik}
       POSTGRES_DB: ${PG_DB:-authentik}
-    # networks:
-    #   - default
+    networks:
+      - stack
 
   auth-redis:
     image: docker.io/library/redis:alpine
@@ -37,8 +37,8 @@ services:
       timeout: 3s
     volumes:
       - auth-redis:/data
-    # networks:
-    #   - default
+    networks:
+      - stack
 
   auth-server:
     container_name: auth-server
@@ -61,7 +61,7 @@ services:
       # - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - public
-      - default
+      - stack
     depends_on:
       auth-db:
         condition: service_healthy
@@ -87,7 +87,7 @@ services:
     #   - 9443:9443
     networks:
       - public
-      - default
+      - stack
     environment:
       AUTHENTIK_REDIS__HOST: auth-redis
       AUTHENTIK_HOST: http://auth-server:9000
@@ -114,7 +114,7 @@ services:
     container_name: auth-worker
     command: worker
     networks:
-      - default
+      - stack
     environment:
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
       AUTHENTIK_REDIS__HOST: auth-redis
