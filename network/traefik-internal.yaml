@@ -113,6 +113,7 @@ services:
       traefik.enable: true
       traefik.http.routers.logdy-traefik-internal.rule: Host(`traefik-log-internal.${DOMAIN}`)
       traefik.http.services.logdy-traefik-internal.loadbalancer.server.port: 8080
+      traefik.docker.network: internal
       homepage.group: Monitoring
       homepage.name: Traefik Logs (Internal)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
