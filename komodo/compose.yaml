@@ -6,6 +6,15 @@
 ##   1. Postgres + FerretDB Mongo adapter (https://www.ferretdb.com)
 ##   2. Komodo Core
 ##   3. Komodo Periphery
+include:
+  - ../pbox.yaml
+volumes:
+  repo-cache:
+    external: true
+  kmongo-db:
+    external: true
+  kmongo-cfg:
+    external: true
 
 services:
   mongo:
@@ -22,8 +31,8 @@ services:
     # ports:
     #   - 27017:27017
     volumes:
-      - mongo-data:/data/db
-      - mongo-config:/data/configdb
+      - kmongo-db:/data/db
+      - kmongo-cfg:/data/configdb
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
@@ -62,21 +71,3 @@ services:
       - repo-cache:/repo-cache
     extra_hosts:
       - host.docker.internal:host-gateway
-
-volumes:
-  repo-cache:
-  mongo-data:
-  mongo-config:
-networks:
-  default:
-    internal: true
-  internal:
-    external: true
-  public:
-    external: true
-  kop:
-    external: true
-  crowdsec:
-    external: true
-  db:
-    external: true

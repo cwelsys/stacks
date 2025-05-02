@@ -22,7 +22,3 @@ networks:
     external: true
   db:
     external: true
-volumes:
-  db:
-  config:
-  data:
