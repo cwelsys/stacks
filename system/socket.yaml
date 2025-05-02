@@ -12,7 +12,7 @@ services:
       - TS_EXTRA_ARGS=--accept-dns=true
     volumes:
       - ${CONFIGDIR}/system/tscar-sockp/config:/config
-      - ${CONFIGDIR}/tscar-sockp/state:/var/lib/tailscale
+      - ${CONFIGDIR}/system/tscar-sockp/state:/var/lib/tailscale
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
