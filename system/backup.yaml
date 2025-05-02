@@ -5,19 +5,11 @@ services:
     volumes:
       - data:/var/my-app
     labels:
-      # This means the container will be stopped during backup to ensure
-      # backup integrity. You can omit this label if stopping during backup
-      # not required.
       - docker-volume-backup.stop-during-backup=true
 
   backup:
-    # In production, it is advised to lock your image tag to a proper
-    # release version instead of using `latest`.
-    # Check https://github.com/offen/docker-volume-backup/releases
-    # for a list of available releases.
     image: offen/docker-volume-backup:latest
     restart: always
-    env_file: ./backup.env # see below for configuration reference
     volumes:
       - data:/backup/my-app-backup:ro
       # Mounting the Docker socket allows the script to stop and restart
