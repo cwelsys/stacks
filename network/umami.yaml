@@ -1,3 +1,7 @@
+volumes:
+  umami-db:
+    external: true
+
 services:
   umami:
     image: ghcr.io/umami-software/umami:postgresql-latest
@@ -43,15 +47,14 @@ services:
         POSTGRES_USER: umami
         POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD}
       volumes:
-        - umami-db-data:/var/lib/postgresql/data
+        - umami-db:/var/lib/postgresql/data
       restart: always
       healthcheck:
         test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
         interval: 5s
         timeout: 5s
         retries: 5
-volumes:
-  umami-db-data:
+
 
 
 
