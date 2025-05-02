@@ -26,12 +26,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-dashboard-internal.rule: Host(`traefiki.${DOMAIN}`)
+      traefik.http.routers.traefik-dashboard-internal.rule: Host(`traefik-internal.${DOMAIN}`)
       traefik.http.routers.traefik-dashboard-internal.service: api@internal
       homepage.group: Monitoring
       homepage.name: Traefik (Internal)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
-      homepage.href: "https://traefiki.${DOMAIN}"
+      homepage.href: "https://traefik-internal.${DOMAIN}"
 
   logrotate:
     container_name: int-logrotate
