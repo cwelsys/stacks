@@ -37,7 +37,6 @@ services:
       - qbit:/backup/qbit:ro
       - sabnzbd:/backup/sabnzbd:ro
 
-
 volumes:
   homepage:
     external: true
