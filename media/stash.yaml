@@ -11,6 +11,7 @@ services:
     # network_mode: host
     networks:
       - internal
+      - media
     logging:
       driver: "json-file"
       options:

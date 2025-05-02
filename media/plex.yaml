@@ -50,7 +50,7 @@ services:
       - homepage.widget.key=${PLEX_TOKEN}
     networks:
       - internal
-      - default
+      - media
 
   plextraktsync:
     image: lscr.io/linuxserver-labs/plextraktsync:latest
@@ -58,7 +58,7 @@ services:
     depends_on:
       - plex
     networks:
-      - default
+      - media
     volumes:
       - ${CONFIGDIR}/media/plextraktsync:/config
     environment:

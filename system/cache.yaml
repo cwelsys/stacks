@@ -2,6 +2,8 @@ services:
   cache-mover:
     image: ghcr.io/monstermuffin/mergerfs-cache-mover:latest
     container_name: cache-mover
+    networks:
+      - media
     environment:
       # Required paths
       CACHE_PATH: /mnt/cache/cache1

@@ -2,6 +2,8 @@ services:
   tailscale:
     image: tailscale/tailscale:latest
     container_name: tscar-sockp
+    networks:
+      - stack
     hostname: psock
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}

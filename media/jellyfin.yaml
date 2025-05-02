@@ -40,3 +40,4 @@ services:
       - homepage.widget.key=${JELLYFIN_API_KEY}
     networks:
       - internal
+      - media
