@@ -6,7 +6,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/backup/pbox:/archive
-      - data:/backup/my-app-backup:ro
       - homepage:/backup/homepage:ro
       - kmongo-db:/backup/kmongo-db:ro
       - kmongo-cfg:/backup/kmongo-cfg:ro
