@@ -1,3 +1,7 @@
+volumes:
+  ext-redis:
+    external: true
+
 services:
   traefik:
     container_name: traefike
@@ -18,8 +22,6 @@ services:
       CS_TRAEFIK_BOUNCER_KEY: ${CS_TRAEFIK_BOUNCER_KEY}
       BOUNCER_HOST: ${BOUNCER_HOST}
     volumes:
-      - ${CONFIGDIR}/traefik-external/letsencrypt:/letsencrypt
-      - ${CONFIGDIR}/traefik-external/certificates:/certificates
       - ${CONFIGDIR}/traefik-external/log:/var/log/traefik:rw
       - ${CONFIGDIR}/traefik-external/static:/etc/traefik:rw
       - ${CONFIGDIR}/traefik-external/dynamic:/config/dynamic:rw
@@ -80,7 +82,7 @@ services:
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
-      - redis:/data
+      - ext-redis:/data
   cloudflare_tunnel:
     container_name: cf-tunnel
     image: cloudflare/cloudflared:latest
@@ -127,18 +129,18 @@ services:
       - crowdsec
     environment:
       - CONTAINERS=1
-      - EVENTS=1 
-      - INFO=1 
-      - LOG_LEVEL=info 
+      - EVENTS=1
+      - INFO=1
+      - LOG_LEVEL=info
       - NETWORKS=1
       - PING=1
       - POST=1
-      - SERVICES=0 
-      - SESSION=0 
-      - SYSTEM=0 
-      - TASKS=0 
-      - VERSION=1 
-      - VOLUMES=1 
+      - SERVICES=0
+      - SESSION=0
+      - SYSTEM=0
+      - TASKS=0
+      - VERSION=1
+      - VOLUMES=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
@@ -147,5 +149,4 @@ services:
     read_only: true
     tmpfs:
       - /run
-volumes:
-  redis:
+
