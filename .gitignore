@@ -10,6 +10,7 @@ logs/
 docker-compose.override.yml
 .dockerignore
 *.env
+!backup.env
 !global.env
 tmp/
 temp/
