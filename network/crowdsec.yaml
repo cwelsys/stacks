@@ -18,7 +18,7 @@ services:
     image: "crowdsecurity/crowdsec:latest"
     networks:
       - crowdsec
-      # - stack
+      - default
     environment:
       - "CUSTOM_HOSTNAME=cs-decision"
       - "GID=1000"
@@ -38,7 +38,7 @@ services:
     image: "crowdsecurity/crowdsec:latest"
     networks:
       - crowdsec
-      # - stack
+      - default
     environment:
       - "COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/whitelist-good-actors"
       # known to have false positives and is CPU intensive
