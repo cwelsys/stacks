@@ -111,10 +111,10 @@ services:
       - no-new-privileges=true
     labels:
       traefik.enable: true
-      traefik.http.routers.logs-internal.rule: Host(`logs-traefiki.${DOMAIN}`)
+      traefik.http.routers.logs-internal.rule: Host(`traefik-log-internal.${DOMAIN}`)
       traefik.http.services.logs-internal.loadbalancer.server.port: 8080
       homepage.group: Monitoring
       homepage.name: Traefik Logs (Internal)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
-      homepage.href: "https://logs-traefiki.${DOMAIN}"
+      homepage.href: "https://traefik-log-internal.${DOMAIN}"
 
