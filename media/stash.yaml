@@ -1,6 +1,6 @@
 volumes:
-    stash:
-      external: true
+  stash:
+    external: true
 services:
   stash:
     image: stashapp/stash:latest
@@ -33,4 +33,5 @@ services:
       - traefik.http.routers.stash.rule=Host(`stash.cwel.sh`)
       - traefik.http.services.stash.loadbalancer.server.port=9999
       - traefik.docker.network=internal
+      - docker-volume-backup.stop-during-backup=true
 

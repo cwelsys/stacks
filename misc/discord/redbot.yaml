@@ -16,3 +16,5 @@ services:
       # - PREFIX=.
       - TZ=${TZ}
       - PUID=1000
+    labels:
+      - docker-volume-backup.stop-during-backup=true

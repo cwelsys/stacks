@@ -1,6 +1,6 @@
 volumes:
-    dns:
-      external: true
+  dns:
+    external: true
 services:
   dns-server:
     container_name: dns-server
@@ -18,3 +18,4 @@ services:
       homepage.name: DNS Server
       homepage.icon: technitium.png
       homepage.href: "https://dns.${DOMAIN}"
+      docker-volume-backup.stop-during-backup: true

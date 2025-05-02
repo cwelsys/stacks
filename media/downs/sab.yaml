@@ -1,7 +1,7 @@
 volumes:
   sabnzbd:
     external: true
-    
+
 services:
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
@@ -28,6 +28,7 @@ services:
       - homepage.widget.type=sabnzbd
       - homepage.widget.url=http://sabnzbd:8080
       - homepage.widget.key=${SABNZBD_API_KEY}
+      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
       - media

@@ -33,6 +33,8 @@ services:
       - crowdsec-config:/etc/crowdsec
       - crowdsec-db:/var/lib/crowdsec/data
       - cs-logs:/var/log/crowdsec
+    labels:
+      - docker-volume-backup.stop-during-backup=true
   crowdsec-ingest:
     container_name: crowdsec-ingest
     image: "crowdsecurity/crowdsec:latest"
@@ -58,3 +60,5 @@ services:
       - cs-ing-config:/etc/crowdsec
       - cs-ing-db:/var/lib/crowdsec/data
       - cs-ing-logs:/var/log/crowdsec
+    labels:
+      - docker-volume-backup.stop-during-backup=true

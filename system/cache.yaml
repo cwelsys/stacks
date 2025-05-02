@@ -22,7 +22,7 @@ services:
       - /mnt/cache:/mnt/cache:rw
       - /mnt/data-disks:/mnt/data:rw
       - /mnt/media-cold:/mnt/media-cold:rw
-      - ${CONFIGDIR}/mfscm/logs:/var/log:rw # Optional: Mount for persistent logs
+      # - ${CONFIGDIR}/mfscm/logs:/var/log:rw # Optional: Mount for persistent logs
     cap_add:
       - SYS_ADMIN
       - DAC_READ_SEARCH

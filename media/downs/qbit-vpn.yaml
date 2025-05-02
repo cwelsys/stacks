@@ -35,6 +35,7 @@ services:
       - homepage.widget.url=http://gluetun:8080
       - homepage.widget.username=${QBITTORRENT_USERNAME}
       - homepage.widget.password=${QBITTORRENT_PASSWORD}
+      - docker-volume-backup.stop-during-backup=true
   gluetun:
     image: qmcgaw/gluetun:latest
     container_name: gluetun

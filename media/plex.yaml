@@ -48,6 +48,7 @@ services:
       - homepage.widget.type=plex
       - homepage.widget.url=http://plex:32400
       - homepage.widget.key=${PLEX_TOKEN}
+      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
       - media

@@ -20,10 +20,11 @@ services:
       - traefik.http.routers.linkding.rule=Host(`link.${DOMAIN}`)
       - traefik.http.services.linkding.loadbalancer.server.port=9090
       - traefik.docker.network=internal
-      - 'homepage.group=Apps'
-      - 'homepage.name=Linkding'
-      - 'homepage.icon=linkding.png'
-      - 'homepage.href=https://link.${DOMAIN}'
-      - 'homepage.description=Bookmark Manager'
+      - homepage.group=Apps
+      - homepage.name=Linkding
+      - homepage.icon=linkding.png
+      - homepage.href=https://link.${DOMAIN}
+      - homepage.description=Bookmark Manager
+      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
