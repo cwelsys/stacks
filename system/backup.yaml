@@ -1,14 +1,7 @@
 services:
-  volume-consumer:
-    build:
-      context: ./my-app
-    volumes:
-      - data:/var/my-app
-    labels:
-      - docker-volume-backup.stop-during-backup=true
-
   backup:
     image: offen/docker-volume-backup:latest
+    container_name: backup
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
