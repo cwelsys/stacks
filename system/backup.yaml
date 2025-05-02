@@ -3,6 +3,8 @@ services:
     image: offen/docker-volume-backup:latest
     container_name: backup
     restart: always
+    environment:
+      
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/backup/pbox:/archive
