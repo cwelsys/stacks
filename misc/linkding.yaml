@@ -1,9 +1,13 @@
+volumes:
+  linkding:
+    external: true
+
 services:
   linkding:
     container_name: linkding
     image: sissbruecker/linkding:latest
     volumes:
-      - ${CONFIGDIR}/linkding:/etc/linkding/data
+      - linkding:/etc/linkding/data
     restart: unless-stopped
     environment:
       - LD_SUPERUSER_PASSWORD=${LINKDING_PASS}
