@@ -70,10 +70,10 @@ services:
     restart: unless-stopped
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
-    # expose:
-    #   - 3000
-    # ports:
-    #   - 3000:3000
+    expose:
+      - 3002
+    ports:
+      - 3002:3000
     volumes:
       - grafana:/var/lib/grafana
     labels:
