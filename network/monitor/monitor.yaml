@@ -57,7 +57,7 @@ services:
       - /var/log:/var/log
       - promtail:/etc/promtail
       - ${CONFIGDIR}/promtail/config.yml:/etc/promtail/config.yml
-      - ${CONFIGDIR}/traefik-internal/logs:/var/log/traefik
+      - ${CONFIGDIR}/traefik-internal/log:/var/log/traefik
 
   grafana:
     image: grafana/grafana-oss:11.5.1
