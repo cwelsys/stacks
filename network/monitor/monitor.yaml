@@ -74,7 +74,7 @@ services:
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
     expose:
-      - 3002
+      - 3000
     ports:
       - 3002:3000
     volumes:
