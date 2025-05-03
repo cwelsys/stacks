@@ -48,7 +48,7 @@ services:
       - "127.0.0.1:3100:3100"
     volumes:
       - loki:/etc/loki
-      - ${CONFIGDIR}/loki/config.yml:/etc/loki/config.yml
+      - ${CONFIGDIR}/monitoring/loki/config.yml:/etc/loki/config.yml
 
   promtail:
     image: grafana/promtail:latest
@@ -64,8 +64,9 @@ services:
     volumes:
       - /var/log:/var/log
       - promtail:/etc/promtail
-      - ${CONFIGDIR}/promtail/config.yml:/etc/promtail/config.yml
-      - ${CONFIGDIR}/traefik-internal/log:/var/log/traefik
+      - ${CONFIGDIR}/monitoring/promtail/config.yml:/etc/promtail/config.yml
+      - ${CONFIGDIR}/traefik-internal/log:/var/log/traefik-internal
+      - ${CONFIGDIR}/traefik-external/log:/var/log/traefik-external
 
   grafana:
     image: grafana/grafana-oss:11.5.1
@@ -121,7 +122,7 @@ services:
   #   networks:
   #     - monitoring
   #   volumes:
-  #     - ${CONFIGDIR}/prom/prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ${CONFIGDIR}/monitoring/prom/prometheus.yml:/etc/prometheus/prometheus.yml
   #     - prom:/prometheus
   #   command:
   #     - '--config.file=/etc/prometheus/prometheus.yml'
