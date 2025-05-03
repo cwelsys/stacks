@@ -12,10 +12,12 @@ services:
       NOTIFICATION_URLS: ${NOTIFS}
       NOTIFICATION_LEVEL: info
       BACKUP_LATEST_SYMLINK: backup.latest.tar.gz
+      TZ: ${TZ}
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/backup/pbox:/archive
+      - /etc/localtime:/etc/localtime:ro
       - homepage:/backup/homepage:ro
       - kmongo-db:/backup/kmongo-db:ro
       - kmongo-cfg:/backup/kmongo-cfg:ro
