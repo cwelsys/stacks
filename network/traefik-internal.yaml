@@ -85,7 +85,7 @@ services:
     volumes:
       - int-redis:/data
 
-  logdy:
+  int-logdy:
     container_name: int-logdy
     depends_on:
       - traefik
