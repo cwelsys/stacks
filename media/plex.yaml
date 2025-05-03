@@ -56,6 +56,7 @@ services:
   plextraktsync:
     image: lscr.io/linuxserver-labs/plextraktsync:latest
     container_name: plextraktsync
+    restart: unless-stopped
     depends_on:
       - plex
     networks:
