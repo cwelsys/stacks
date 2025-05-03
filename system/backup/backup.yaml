@@ -4,14 +4,14 @@ services:
     container_name: backup
     restart: always
     environment:
-      - BACKUP_CRON_EXPRESSION: 20 9 * * 1
-      - BACKUP_COMPRESSION: gz
-      - GZIP_PARALLELISM: 1
-      - BACKUP_ARCHIVE: /archive
-      - BACKUP_FILENAME: backup-%m-%d-%Y.tar.gz
-      - NOTIFICATION_URLS: ${NOTIFS}
-      - NOTIFICATION_LEVEL: info
-      - BACKUP_LATEST_SYMLINK: backup.latest.tar.gz
+      BACKUP_CRON_EXPRESSION: "20 9 * * 1"
+      BACKUP_COMPRESSION: gz
+      GZIP_PARALLELISM: 1
+      BACKUP_ARCHIVE: /archive
+      BACKUP_FILENAME: backup-%m-%d-%Y.tar.gz
+      NOTIFICATION_URLS: ${NOTIFS}
+      NOTIFICATION_LEVEL: info
+      BACKUP_LATEST_SYMLINK: backup.latest.tar.gz
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
