@@ -93,34 +93,34 @@ services:
     networks:
         - traefik
 
-  logdy:
-    container_name: ext-logdy
-    build:
-      context: https://github.com/logdyhq/logdy-core.git
-    read_only: true
-    networks:
-      - internal
-    volumes:
-      - ${CONFIGDIR}/traefik-external/log:/var/log:ro
-      - ${CONFIGDIR}/logdy/logdy.json:/config/logdy.json
-    command:
-      - "--config"
-      - "/config/logdy.json"
-      - "follow"
-      #- "--full-read"
-      - "/var/log/access.log"
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges=true
-    labels:
-      traefik.enable: true
-      traefik.http.routers.logdy-traefik-external.rule: Host(`traefik-log-external.${DOMAIN}`)
-      traefik.http.services.logdy-traefik-external.loadbalancer.server.port: 8080
-      traefik.docker.network: internal
-      homepage.group: Monitoring
-      homepage.name: Traefik Logs (External)
-      homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
-      homepage.href: "https://traefik-log-external.${DOMAIN}"
+  # logdy:
+  #   container_name: ext-logdy
+  #   build:
+  #     context: https://github.com/logdyhq/logdy-core.git
+  #   read_only: true
+  #   networks:
+  #     - internal
+  #   volumes:
+  #     - ${CONFIGDIR}/traefik-external/log:/var/log:ro
+  #     - ${CONFIGDIR}/logdy/logdy.json:/config/logdy.json
+  #   command:
+  #     - "--config"
+  #     - "/config/logdy.json"
+  #     - "follow"
+  #     #- "--full-read"
+  #     - "/var/log/access.log"
+  #   restart: unless-stopped
+  #   security_opt:
+  #     - no-new-privileges=true
+  #   labels:
+  #     traefik.enable: true
+  #     traefik.http.routers.logdy-traefik-external.rule: Host(`traefik-log-external.${DOMAIN}`)
+  #     traefik.http.services.logdy-traefik-external.loadbalancer.server.port: 8080
+  #     traefik.docker.network: internal
+  #     homepage.group: Monitoring
+  #     homepage.name: Traefik Logs (External)
+  #     homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
+  #     homepage.href: "https://traefik-log-external.${DOMAIN}"
 
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
