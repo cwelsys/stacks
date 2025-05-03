@@ -68,6 +68,9 @@ services:
       - loki
       - promtail
     restart: unless-stopped
+    networks:
+      - internal
+      - default
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
     expose:
