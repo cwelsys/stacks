@@ -117,5 +117,5 @@ services:
       homepage.group: Monitoring
       homepage.name: Traefik Logs (Internal)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
-      homepage.href: "https://traefik-log-internal.${DOMAIN}"
+      homepage.href: https://traefik-log-internal.${DOMAIN}
 
