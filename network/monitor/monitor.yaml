@@ -16,6 +16,8 @@ services:
     image: influxdb:2.7
     container_name: influxdb2
     restart: unless-stopped
+    networks:
+      - traefik
     expose:
       - 8086
     environment:
