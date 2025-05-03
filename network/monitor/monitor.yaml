@@ -64,7 +64,7 @@ services:
     container_name: grafana
     user: 1000:1000
     depends_on:
-      - influxdb2
+      - influxdb
       - loki
       - promtail
     restart: unless-stopped
