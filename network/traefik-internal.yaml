@@ -9,6 +9,7 @@ services:
     networks:
       - traefik
       - internal
+      - monitoring
     depends_on:
       - traefik-internal-redis
     restart: unless-stopped
