@@ -1,0 +1,77 @@
+volumes:
+  influxdb:
+    external: true
+  influxdb-cfg:
+    external: true
+  loki:
+    external: true
+  promtail:
+    external: true
+  grafana:
+    external: true
+
+services:
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb2
+    restart: unless-stopped
+    expose:
+      - 8086
+    environment:
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASS}
+      - DOCKER_INFLUXDB_INIT_ORG=influx-org
+      - DOCKER_INFLUXDB_INIT_BUCKET=influx-bucket
+      - DOCKER_INFLUXDB_INIT_RETENTION=30d
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+    volumes:
+      - influxdb:/var/lib/influxdb2
+      - influxdb-cfg:/etc/influxdb2
+
+  loki:
+    image: grafana/loki:2.9.11
+    container_name: loki
+    user: 1000:1000
+    command: -config.file=/etc/loki/loki-config.yml
+    restart: unless-stopped
+    expose:
+      - 3100
+    ports:
+      - "127.0.0.1:3100:3100"
+    volumes:
+      - loki:/etc/loki
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yml
+    expose:
+      - 9080
+    depends_on:
+      - loki
+    volumes:
+      - /var/log:/var/log
+      - promtail:/etc/promtail
+      - ${CONFIGDIR}/promtail/config.yml:/etc/promtail/config.yml
+      - ${CONFIGDIR}/traefik-internal/logs:/var/log/traefik
+
+  grafana:
+    image: grafana/grafana-oss:11.5.1
+    container_name: grafana
+    user: 1000:1000
+    depends_on:
+      - influxdb2
+      - loki
+      - promtail
+    restart: unless-stopped
+    environment:
+      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana:/var/lib/grafana

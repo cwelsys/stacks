@@ -118,7 +118,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -155,11 +155,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/downs"
-file_paths = [
-  "qbit-vpn.yaml",
-  "sab.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../../pbox.yaml"]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -183,10 +179,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = [
-  "traefik-external.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["traefik-external.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -207,10 +200,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = [
-  "traefik-internal.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["traefik-internal.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -259,12 +249,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [
-  "plex.yaml",
-  "jellyfin.yaml",
-  "stash.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["plex.yaml", "jellyfin.yaml", "stash.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -288,7 +273,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "cache.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -316,6 +301,25 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 APP_SECRET="op://Secrets/Umami/credential"
 UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
+"""
+
+##
+
+[[stack]]
+name = "monitor"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network/monitor"
+file_paths = ["monitor.yaml", "../../pbox.yaml"]
+additional_env_files = ["../../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+INFLUXDB_PASS="op://Secrets/InfluxDB/password"
+INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 """
 
 ##
