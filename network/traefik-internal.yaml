@@ -85,37 +85,37 @@ services:
     volumes:
       - int-redis:/data
 
-  int-logdy:
-    container_name: int-logdy
-    depends_on:
-      - traefik
-    build:
-      context: https://github.com/logdyhq/logdy-core.git
-    read_only: true
-    networks:
-      - internal
-      - traefik
-    volumes:
-      - ${CONFIGDIR}/traefik-internal/log:/var/log:ro
-      - ${CONFIGDIR}/logdy/logdy.json:/config/logdy.json
-    command:
-      - "--config"
-      - "/config/logdy.json"
-      - "follow"
-      #- "--full-read"
-      - "/var/log/access.log"
-    restart: unless-stopped
-    ports:
-      - "8333:8080"
-    security_opt:
-      - no-new-privileges=true
-    labels:
-      traefik.enable: true
-      traefik.http.routers.logdy-traefik-internal.rule: Host(`traefik-log-internal.${DOMAIN}`)
-      traefik.http.services.logdy-traefik-internal.loadbalancer.server.port: 8080
-      traefik.docker.network: internal
-      homepage.group: Monitoring
-      homepage.name: Traefik Logs (Internal)
-      homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
-      homepage.href: https://traefik-log-internal.${DOMAIN}
+  # int-logdy:
+  #   container_name: int-logdy
+  #   depends_on:
+  #     - traefik
+  #   build:
+  #     context: https://github.com/logdyhq/logdy-core.git
+  #   read_only: true
+  #   networks:
+  #     - internal
+  #     - traefik
+  #   volumes:
+  #     - ${CONFIGDIR}/traefik-internal/log:/var/log:ro
+  #     - ${CONFIGDIR}/logdy/logdy.json:/config/logdy.json
+  #   command:
+  #     - "--config"
+  #     - "/config/logdy.json"
+  #     - "follow"
+  #     #- "--full-read"
+  #     - "/var/log/access.log"
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8333:8080"
+  #   security_opt:
+  #     - no-new-privileges=true
+  #   labels:
+  #     traefik.enable: true
+  #     traefik.http.routers.logdy-traefik-internal.rule: Host(`traefik-log-internal.${DOMAIN}`)
+  #     traefik.http.services.logdy-traefik-internal.loadbalancer.server.port: 8080
+  #     traefik.docker.network: internal
+  #     homepage.group: Monitoring
+  #     homepage.name: Traefik Logs (Internal)
+  #     homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
+  #     homepage.href: https://traefik-log-internal.${DOMAIN}
 
