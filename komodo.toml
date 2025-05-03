@@ -65,12 +65,12 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "system/backup"
 file_paths = ["backup.yaml"]
-additional_env_files = ["../../global.env", "backup.env"]
+additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-WEBHOOK="op://Secrets/Discord Webhooks/logs/pbox"
+NOTIFS="op://Secrets/Discord Webhooks/Backups"
 """
 
 ##
