@@ -20,3 +20,6 @@ networks:
     external: true
   crowdsec:
     external: true
+  monitoring:
+    external: true
+

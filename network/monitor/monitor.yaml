@@ -9,6 +9,8 @@ volumes:
     external: true
   grafana:
     external: true
+  prom:
+    external: true
 
 services:
 
@@ -17,7 +19,7 @@ services:
     container_name: influxdb2
     restart: unless-stopped
     networks:
-      - traefik
+      - monitoring
     expose:
       - 8086
     environment:
@@ -36,7 +38,7 @@ services:
     image: grafana/loki:2.9.11
     container_name: loki
     networks:
-      - traefik
+      - monitoring
     user: 1000:1000
     command: -config.file=/etc/loki/config.yml
     restart: unless-stopped
@@ -52,7 +54,7 @@ services:
     image: grafana/promtail:latest
     container_name: promtail
     networks:
-      - traefik
+      - monitoring
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yml
     expose:
@@ -76,7 +78,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - traefik
+      - monitoring
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
     expose:
@@ -93,4 +95,38 @@ services:
       - homepage.icon=grafana.png
       - homepage.href=https://grafana.${DOMAIN}
       # - homepage.description=
+
+  # node-exporter:
+  #   image: prom/node-exporter:latest
+  #   container_name: node-exporter
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /proc:/host/proc:ro
+  #     - /sys:/host/sys:ro
+  #     - /:/rootfs:ro
+  #   command:
+  #     - '--path.procfs=/host/proc'
+  #     - '--path.rootfs=/rootfs'
+  #     - '--path.sysfs=/host/sys'
+  #     - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  #   expose:
+  #     - 9100
+  #   networks:
+  #     - monitoring
+
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: prometheus
+  #   restart: unless-stopped
+  #   networks:
+  #     - monitoring
+  #   volumes:
+  #     - ${CONFIGDIR}/prom/prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prom:/prometheus
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #     - '--web.console.libraries=/etc/prometheus/console_libraries'
+  #     - '--web.console.templates=/etc/prometheus/consoles'
+  #     - '--web.enable-lifecycle'
 
