@@ -41,6 +41,7 @@ services:
     container_name: ext-logrotate
     image: vegardit/traefik-logrotate:latest
     network_mode: none
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
       - ${CONFIGDIR}/traefik-external/log:/var/log/traefik:rw # folder containing access.log file
