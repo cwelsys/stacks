@@ -104,7 +104,7 @@ services:
       - monitoring
       - crowdsec
     expose:
-      - 8428 # VM UI
+      - 8428
     volumes:
       - vmetrics:/storage
     command:
