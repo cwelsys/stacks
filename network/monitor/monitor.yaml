@@ -11,9 +11,10 @@ volumes:
     external: true
   prom:
     external: true
+  vmetrics:
+    external: true
 
 services:
-
   influxdb:
     image: influxdb:2.7
     container_name: influxdb2
@@ -96,6 +97,19 @@ services:
       - homepage.icon=grafana.png
       - homepage.href=https://grafana.${DOMAIN}
       # - homepage.description=
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:v1.115.0
+    networks:
+      - monitoring
+      - crowdsec
+    expose:
+      - 8428 # VM UI
+    volumes:
+      - vmetrics:/storage
+    command:
+      - "--storageDataPath=/storage"
+      - "--httpListenAddr=:8428"
 
   # node-exporter:
   #   image: prom/node-exporter:latest
