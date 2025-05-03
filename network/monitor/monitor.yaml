@@ -71,6 +71,7 @@ services:
     networks:
       - internal
       - default
+      - traefik
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
     expose:
