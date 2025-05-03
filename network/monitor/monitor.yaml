@@ -70,9 +70,15 @@ services:
     restart: unless-stopped
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
-    expose:
-      - 3000
-    ports:
-      - 3000:3000
+    # expose:
+    #   - 3000
+    # ports:
+    #   - 3000:3000
     volumes:
       - grafana:/var/lib/grafana
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)
+      - traefik.http.services.grafana.loadbalancer.server.port=3000
+      - traefik.docker.network=internal
+
