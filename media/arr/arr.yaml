@@ -278,6 +278,7 @@ services:
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr
     container_name: recyclarr
+    restart: unless-stopped
     user: 1000:1001
     networks:
       - media
