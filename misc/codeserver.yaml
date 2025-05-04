@@ -26,3 +26,8 @@ services:
      - traefik.http.middlewares.limit-codeserver.buffering.maxResponseBodyBytes=50000000
      - traefik.http.middlewares.limit-codeserver.buffering.memRequestBodyBytes=50000000
      - traefik.http.middlewares.limit-codeserver.buffering.memResponseBodyBytes=50000000
+     - homepage.group=Apps
+     - homepage.name=Code Server
+     - homepage.icon=vscode.png
+     - homepage.href=https://vscode.${DOMAIN}
+     - homepage.description=code server
