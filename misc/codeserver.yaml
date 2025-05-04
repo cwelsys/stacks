@@ -10,7 +10,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-      # - PROXY_DOMAIN=vscode.${DOMAIN}
+      - PROXY_DOMAIN=code.${DOMAIN}
     volumes:
       - vscode:/config
     restart: unless-stopped
@@ -24,5 +24,5 @@ services:
      - homepage.group=Apps
      - homepage.name=Code Server
      - homepage.icon=vscode.png
-     - homepage.href=https://vscode.${DOMAIN}
-     - homepage.description=code server
+     - homepage.href=https://code.${DOMAIN}
+    #  - homepage.description=code server
