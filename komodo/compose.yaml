@@ -42,16 +42,26 @@ services:
     container_name: komodo
     labels:
       - komodo.skip
+      # Public route - only for the /listener path
       - traefik.enable=true
-      - traefik.http.routers.komodo.rule=Host(`komo.cwel.sh`)
-      - traefik.docker.network=public
+      - traefik.http.routers.komodo-public.rule=Host(`komo.cwel.sh`) && PathPrefix(`/listener`)
+      - traefik.http.routers.komodo-public.service=komodo
       - traefik.http.services.komodo.loadbalancer.server.port=9120
+      - traefik.docker.network=public
       - kop.namespace=public
+
+      # Internal route - for everything else
+      - traefik.http.routers.komodo-internal.rule=Host(`komo.cwel.sh`)
+      - traefik.http.routers.komodo-internal.service=komodo
+      - traefik.http.routers.komodo-internal.entrypoints=websecure
+      - traefik.docker.network=internal
+
+      # Homepage config
       - homepage.name=Komodo
       - homepage.icon=komodo.png
       - homepage.group=Management
       - homepage.description=Docker ops
-      - homepage.href=http://komo.cwel.sh/
+      - homepage.href=https://komo.cwel.sh
     restart: unless-stopped
     networks:
       - public
