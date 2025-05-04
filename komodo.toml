@@ -65,10 +65,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "misc"
-file_paths = [
-  "codeserver.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["codeserver.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -104,7 +101,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -141,11 +138,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/downs"
-file_paths = [
-  "qbit-vpn.yaml",
-  "sab.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../../pbox.yaml"]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -241,12 +234,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [
-  "plex.yaml",
-  "jellyfin.yaml",
-  "stash.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["plex.yaml", "jellyfin.yaml", "stash.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -285,11 +273,12 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "system"
 file_paths = [
+  "backup.yaml",
   "tailsocket.yaml",
   "dozzle.yaml",
   "scrutiny.yaml",
   "cache.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -298,6 +287,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 DISCORDURL="op://Secrets/Discord Webhooks/logs/pbox"
 TS_AUTHKEY="op://Secrets/v4xfq7ijumolhvtybuk4hepdfy/socket"
+NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
 """
 
 ##
