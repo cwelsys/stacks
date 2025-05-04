@@ -43,14 +43,14 @@ services:
       traefik.enable: true
       traefik.http.routers.echo2.rule: Host(`echoauth.cwel.sh`)
       traefik.http.services.echo2.loadbalancer.server.port: 8080
-      traefik.http.routers.echo2.middlewares: authentik-proxy@docker
+      traefik.http.routers.echo2.middlewares: auth-proxy@docker
       traefik.docker.network: public
       kop.namespace: public
 
       - traefik.enable=true
       - traefik.http.routers.CHANGE.rule: Host(`CHANGE.${DOMAIN}`)
       - traefik.http.services.CHANGE.loadbalancer.server.port=xx
-      - traefik.http.routers.CHANGE.middlewares=authentik-proxy@docker
+      - traefik.http.routers.CHANGE.middlewares=auth-proxy@docker
       - traefik.docker.network=public
       - kop.namespace=public
 
