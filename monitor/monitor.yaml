@@ -9,9 +9,9 @@ volumes:
     external: true
   grafana:
     external: true
-  prom:
-    external: true
   vmetrics:
+    external: true
+  prom:
     external: true
 
 services:
@@ -34,6 +34,8 @@ services:
     volumes:
       - influxdb:/var/lib/influxdb2
       - influxdb-cfg:/etc/influxdb2
+    labels:
+      - docker-volume-backup.stop-during-backup=true
 
   loki:
     image: grafana/loki:2.9.11
@@ -50,6 +52,8 @@ services:
     volumes:
       - loki:/etc/loki
       - ${CONFIGDIR}/monitoring/loki/config.yml:/etc/loki/config.yml
+    labels:
+      - docker-volume-backup.stop-during-backup=true
 
   promtail:
     image: grafana/promtail:latest
@@ -68,6 +72,8 @@ services:
       - ${CONFIGDIR}/monitoring/promtail/config.yml:/etc/promtail/config.yml
       - ${CONFIGDIR}/network/internal/log:/var/log/internal
       - ${CONFIGDIR}/network/external/log:/var/log/external
+    labels:
+      - docker-volume-backup.stop-during-backup=true
 
   grafana:
     image: grafana/grafana-oss:11.5.1
@@ -97,6 +103,7 @@ services:
       - homepage.icon=grafana.png
       - homepage.href=https://grafana.${DOMAIN}
       # - homepage.description=
+      - docker-volume-backup.stop-during-backup=true
 
   victoriametrics:
     image: victoriametrics/victoria-metrics:v1.115.0
@@ -113,14 +120,15 @@ services:
       - "--storageDataPath=/storage"
       - "--httpListenAddr=:8428"
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.victoriametrics.rule=Host(`victoriametrics.${DOMAIN}`)
-      - traefik.http.services.victoriametrics.loadbalancer.server.port=8428
-      - traefik.docker.network=internal
-      - homepage.group=Monitoring
-      - homepage.name=Vmetrics
+      # - traefik.enable=true
+      # - traefik.http.routers.victoriametrics.rule=Host(`victoriametrics.${DOMAIN}`)
+      # - traefik.http.services.victoriametrics.loadbalancer.server.port=8428
+      # - traefik.docker.network=internal
+      # - homepage.group=Monitoring
+      # - homepage.name=Vmetrics
       # - homepage.icon=victoriametrics.png
-      - homepage.href=https://victoriametrics.${DOMAIN}
+      # - homepage.href=https://victoriametrics.${DOMAIN}
+      - docker-volume-backup.stop-during-backup=true
 
   # node-exporter:
   #   image: prom/node-exporter:latest

@@ -252,17 +252,18 @@ JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
 [[stack]]
 name = "system"
 [stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "system"
 file_paths = [
-  "socket.yaml",
+  "tailsocket.yaml",
+  "backup.yaml",
   "dozzle.yaml",
   "scrutiny.yaml",
   "cache.yaml",
   "../pbox.yaml",
 ]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "system"
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -270,6 +271,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 DISCORDURL="op://Secrets/Discord Webhooks/logs/pbox"
 TS_AUTHKEY="op://Secrets/v4xfq7ijumolhvtybuk4hepdfy/socket"
+NOTIFS="op://Secrets/Discord Webhooks/Backups"
 """
 
 ##
@@ -300,7 +302,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "monitor"
-file_paths = ["monitor.yaml", "../pbox.yaml"]
+file_paths = ["monitor.yaml", "dozzle.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force

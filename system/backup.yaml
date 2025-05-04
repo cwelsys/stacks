@@ -85,10 +85,6 @@ volumes:
     external: true
   crowdsec-config:
     external: true
-  cs-ing-db:
-    external: true
-  cs-ing-config:
-    external: true
   dns:
     external: true
   umami-db:
@@ -106,4 +102,16 @@ volumes:
   qbit:
     external: true
   sabnzbd:
+    external: true
+  influxdb:
+    external: true
+  influxdb-cfg:
+    external: true
+  loki:
+    external: true
+  promtail:
+    external: true
+  grafana:
+    external: true
+  vmetrics:
     external: true
