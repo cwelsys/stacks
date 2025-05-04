@@ -47,6 +47,12 @@ services:
       - muse:/backup/muse:ro
       - qbit:/backup/qbit:ro
       - sabnzbd:/backup/sabnzbd:ro
+      - vmetrics:/backup/vmetrics:ro
+      - grafana:/backup/grafana:ro
+      - promtail:/backup/promtail:ro
+      - loki:/backup/loki:ro
+      - influxdb-cfg:/backup/influxdb-cfg:ro
+      - influxdb:/backup/influxdb:ro
 
 volumes:
   homepage:
