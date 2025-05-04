@@ -17,7 +17,7 @@ volumes:
     external: true
   recommendarr:
     external: true
-  readarr
+  readarr:
     external: true
 
 services:
