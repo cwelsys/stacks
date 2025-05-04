@@ -55,8 +55,8 @@ services:
       - "DISABLE_LOCAL_API=true"
       - "LEVEL_INFO=true"
       - "LOCAL_API_URL=http://crowdsec:8080"
-    ports:
-      - "6061:6060/tcp"
+    # ports:
+    #   - "6061:6060/tcp"
     restart: "always"
     volumes:
       - cs-ing-config:/etc/crowdsec

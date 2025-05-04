@@ -76,18 +76,6 @@ NOTIFS="op://Secrets/Discord Webhooks/Backups"
 ##
 
 [[stack]]
-name = "crowdsec"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "network"
-file_paths = ["crowdsec.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-
-##
-
-[[stack]]
 name = "dashboard"
 [stack.config]
 server = "pbox"
@@ -179,7 +167,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["traefik-external.yaml", "../pbox.yaml"]
+file_paths = ["external.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -200,7 +188,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["traefik-internal.yaml", "../pbox.yaml"]
+file_paths = ["internal.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -311,9 +299,9 @@ name = "monitor"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network/monitor"
-file_paths = ["monitor.yaml", "../../pbox.yaml"]
-additional_env_files = ["../../global.env"]
+run_directory = "monitor"
+file_paths = ["monitor.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
