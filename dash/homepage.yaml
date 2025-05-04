@@ -20,7 +20,7 @@ services:
       - ${RUST}:/mnt/media:ro
       - homepage:/data
     restart: always
-    command: [sh, -c, 'cp -n /app/config/tpl/*.yaml /app/config && node server.js']
+    # command: [sh, -c, 'cp -n /app/config/tpl/*.yaml /app/config && node server.js']
     labels:
       - traefik.enable=true
       - traefik.http.routers.homepage.rule=Host(`hp.${DOMAIN}`)
