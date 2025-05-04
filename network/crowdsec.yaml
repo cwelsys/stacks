@@ -18,7 +18,7 @@ services:
     image: "crowdsecurity/crowdsec:latest"
     networks:
       - crowdsec
-      - default
+      - monitoring
     environment:
       - "CUSTOM_HOSTNAME=cs-decision"
       - "GID=1000"
@@ -30,6 +30,8 @@ services:
       # - "8086:8080/tcp"
     restart: "always"
     volumes:
+      - ${CONFIGDIR}/crowdsec/notifications:/etc/crowdsec/notifications
+      - ${CONFIGDIR}/crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml
       - crowdsec-config:/etc/crowdsec
       - crowdsec-db:/var/lib/crowdsec/data
       - cs-logs:/var/log/crowdsec
@@ -40,7 +42,7 @@ services:
     image: "crowdsecurity/crowdsec:latest"
     networks:
       - crowdsec
-      - default
+      - monitoring
     environment:
       - "COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/whitelist-good-actors"
       # known to have false positives and is CPU intensive
