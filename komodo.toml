@@ -277,8 +277,7 @@ file_paths = [
   "tailsocket.yaml",
   "dozzle.yaml",
   "scrutiny.yaml",
-  "cache.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
