@@ -17,6 +17,8 @@ volumes:
     external: true
   recommendarr:
     external: true
+  readarr
+    external: true
 
 services:
   sonarr:
@@ -118,7 +120,6 @@ services:
       - homepage.icon=lidarr.png
       - homepage.href=https://lidarr.${DOMAIN}
       - homepage.description=Music management
-      - homepage.weight=2
       - homepage.widget.type=lidarr
       - homepage.widget.url=http://lidarr:8686
       - homepage.widget.key=${LIDARR_API_KEY}
@@ -126,6 +127,39 @@ services:
     networks:
       - internal
       - media
+
+  readarr:
+    image: linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=1000
+      - PGID=${ID}
+      - TZ=${TZ}
+    volumes:
+      - readarr:/config
+      - ${RUST}:/data
+    healthcheck:
+      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8787/ping' ]
+      interval: 30s
+      retries: 10
+    restart: unless-stopped
+    networks:
+     - media
+     - internal
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.readarr.rule=Host(`readarr.${DOMAIN}`)
+     - traefik.http.services.readarr.loadbalancer.server.port=8787
+     - homepage.group=Media
+     - homepage.name=Readarr
+     - homepage.icon=readarr.png
+     - homepage.href=https://readarr.${DOMAIN}
+     - homepage.description=Books management
+     - homepage.widget.type=readarr
+     - homepage.widget.url=http://readarr:8686
+     - homepage.widget.key=${READARR_API_KEY}
+     - docker-volume-backup.stop-during-backup=true
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
