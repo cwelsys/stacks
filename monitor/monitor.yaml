@@ -104,6 +104,7 @@ services:
     networks:
       - monitoring
       - crowdsec
+      - internal
     expose:
       - 8428
     volumes:
@@ -111,6 +112,15 @@ services:
     command:
       - "--storageDataPath=/storage"
       - "--httpListenAddr=:8428"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`victoriametrics.${DOMAIN}`)
+      - traefik.http.services.grafana.loadbalancer.server.port=8428
+      - traefik.docker.network=internal
+      - homepage.group=Monitoring
+      - homepage.name=Vmetrics
+      # - homepage.icon=victoriametrics.png
+      - homepage.href=https://victoriametrics.${DOMAIN}
 
   # node-exporter:
   #   image: prom/node-exporter:latest
