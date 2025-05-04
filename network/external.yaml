@@ -1,6 +1,18 @@
 volumes:
   ext-redis:
     external: true
+  cs-logs:
+    external: true
+  crowdsec-db:
+    external: true
+  crowdsec-config:
+    external: true
+  cs-ing-db:
+    external: true
+  cs-ing-config:
+    external: true
+  cs-ing-logs:
+    external: true
 
 services:
   traefik:
