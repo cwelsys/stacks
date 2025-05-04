@@ -372,6 +372,11 @@ services:
       - traefik.http.routers.tdarr.rule=Host(`tdarr.${DOMAIN}`)
       - traefik.http.services.tdarr.loadbalancer.server.port=8265
       - traefik.docker.network=internal
+      - homepage.group=Media
+      - homepage.name=tdarr
+      - homepage.icon=tdarr.png
+      - homepage.href=https://tdarr.${DOMAIN}
+      - homepage.description=Transcoding
       - docker-volume-backup.stop-during-backup=true
     devices:
       - /dev/dri:/dev/dri
