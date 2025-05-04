@@ -5,12 +5,9 @@ services:
     networks:
       - media
     environment:
-      # Required paths
       CACHE_PATH: /mnt/cache/cache1
       BACKING_PATH: /mnt/media-cold
-      # Optional settings with their default values
-      SCHEDULE: '0 3 * * *' # Run at 3 AM daily
-      # SCHEDULE: '*/23 * * * *'
+      SCHEDULE: '0 3 * * *'
       THRESHOLD_PERCENTAGE: 50
       TARGET_PERCENTAGE: 10
       MAX_WORKERS: 8
@@ -20,9 +17,8 @@ services:
       NOTIFICATION_URLS: '${DISCORDURL}'
     volumes:
       - /mnt/cache:/mnt/cache:rw
-      - /mnt/data-disks:/mnt/data:rw
+      - /mnt/data:/mnt/data:rw
       - /mnt/media-cold:/mnt/media-cold:rw
-      # - ${CONFIGDIR}/mfscm/logs:/var/log:rw # Optional: Mount for persistent logs
     cap_add:
       - SYS_ADMIN
       - DAC_READ_SEARCH
