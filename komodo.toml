@@ -267,7 +267,7 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "system"
 file_paths = [
-  "socket.yaml",
+  "tailsocket.yaml",
   "dozzle.yaml",
   "scrutiny.yaml",
   "cache.yaml",
