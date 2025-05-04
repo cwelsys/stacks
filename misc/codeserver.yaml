@@ -13,7 +13,6 @@ services:
       - PROXY_DOMAIN=code.${DOMAIN}
     volumes:
       - vscode:/config
-      - /home/cwel/.vscode-server:/config/.local/share/code-server:rw
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
