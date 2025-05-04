@@ -1,10 +1,10 @@
 services:
   traefik-kop-public:
-    container_name: traefik-kop-public
+    container_name: ext-kop
     image: "ghcr.io/jittering/traefik-kop:latest"
     restart: unless-stopped
     environment:
-      - "REDIS_ADDR=traefik-external-redis:6379"
+      - "REDIS_ADDR=ext-redis:6379"
       - "NAMESPACE=public"
       - "DOCKER_HOST=tcp://socket-proxy:2375"
       - "KOP_HOSTNAME=${HOSTNAME}-public"
@@ -15,11 +15,11 @@ services:
       - kop
       - stack
   traefik-kop-internal:
-    container_name: traefik-kop-internal
+    container_name: int-kop
     image: "ghcr.io/jittering/traefik-kop:latest"
     restart: unless-stopped
     environment:
-      - "REDIS_ADDR=traefik-internal-redis:6379"
+      - "REDIS_ADDR=int-redis:6379"
       - "DOCKER_HOST=tcp://socket-proxy:2375"
       - "KOP_HOSTNAME=${HOSTNAME}-internal"
       - "BIND_IP=${SERVER_IP}"
@@ -29,6 +29,7 @@ services:
       - kop
       - stack
   socket-proxy:
+    container_name: kop-sockp
     image: lscr.io/linuxserver/socket-proxy:latest
     networks:
       - stack

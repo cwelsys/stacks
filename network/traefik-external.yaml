@@ -12,7 +12,7 @@ services:
       - traefik
       - crowdsec
     depends_on:
-      - traefik-external-redis
+      - ext-redis
     ports:
       # - "80:80"
       # - "443:443"
@@ -22,20 +22,20 @@ services:
       CS_TRAEFIK_BOUNCER_KEY: ${CS_TRAEFIK_BOUNCER_KEY}
       BOUNCER_HOST: ${BOUNCER_HOST}
     volumes:
-      - ${CONFIGDIR}/traefik-external/log:/var/log/traefik:rw
-      - ${CONFIGDIR}/traefik-external/static:/etc/traefik:rw
-      - ${CONFIGDIR}/traefik-external/dynamic:/config/dynamic:rw
-      - ${CONFIGDIR}/traefik-external/ban.html:/config/ban.html:ro
+      - ${CONFIGDIR}/network/external/log:/var/log/traefik:rw
+      - ${CONFIGDIR}/network/external/static:/etc/traefik:rw
+      - ${CONFIGDIR}/network/external/dynamic:/config/dynamic:rw
+      - ${CONFIGDIR}/network/external/ban.html:/config/ban.html:ro
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-dashboard-external.rule: Host(`traefik-external.${DOMAIN}`)
+      traefik.http.routers.traefik-dashboard-external.rule: Host(`traefike.${DOMAIN}`)
       traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 8080
       kop.traefik-dashboard-external.bind.ip: "${SERVER_IP}"
       homepage.group: Monitoring
       homepage.name: Traefik (External)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
-      homepage.href: "https://traefik-external.${DOMAIN}"
+      homepage.href: "https://traefike.${DOMAIN}"
 
   logrotate:
     container_name: ext-logrotate
@@ -44,7 +44,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
-      - ${CONFIGDIR}/traefik-external/log:/var/log/traefik:rw # folder containing access.log file
+      - ${CONFIGDIR}/network/external/log:/var/log/traefik:rw # folder containing access.log file
     environment:
       TZ: ${TZ}
       # all environment variables are optional and show the default values:
@@ -65,13 +65,13 @@ services:
     image: alpine
     container_name: tail-loge
     volumes:
-      - ${CONFIGDIR}/traefik-external/log:/var/log:ro
+      - ${CONFIGDIR}/network/external/log:/var/log:ro
     command: >
       sh -c "tail -F /var/log/access.log"
     network_mode: none
     restart: unless-stopped
 
-  traefik-external-redis:
+  ext-redis:
     restart: always
     image: redis:7-alpine
     container_name: ext-redis
@@ -84,6 +84,7 @@ services:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
       - ext-redis:/data
+
   cloudflare_tunnel:
     container_name: cf-tunnel
     image: cloudflare/cloudflared:latest
@@ -94,38 +95,9 @@ services:
     networks:
         - traefik
 
-  # logdy:
-  #   container_name: ext-logdy
-  #   build:
-  #     context: https://github.com/logdyhq/logdy-core.git
-  #   read_only: true
-  #   networks:
-  #     - internal
-  #   volumes:
-  #     - ${CONFIGDIR}/traefik-external/log:/var/log:ro
-  #     - ${CONFIGDIR}/logdy/logdy.json:/config/logdy.json
-  #   command:
-  #     - "--config"
-  #     - "/config/logdy.json"
-  #     - "follow"
-  #     #- "--full-read"
-  #     - "/var/log/access.log"
-  #   restart: unless-stopped
-  #   security_opt:
-  #     - no-new-privileges=true
-  #   labels:
-  #     traefik.enable: true
-  #     traefik.http.routers.logdy-traefik-external.rule: Host(`traefik-log-external.${DOMAIN}`)
-  #     traefik.http.services.logdy-traefik-external.loadbalancer.server.port: 8080
-  #     traefik.docker.network: internal
-  #     homepage.group: Monitoring
-  #     homepage.name: Traefik Logs (External)
-  #     homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
-  #     homepage.href: "https://traefik-log-external.${DOMAIN}"
-
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
-    container_name: traefik-ext-socket-proxy
+    container_name: ext-sockp
     networks:
       - crowdsec
     environment:

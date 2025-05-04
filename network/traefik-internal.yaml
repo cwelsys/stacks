@@ -11,7 +11,7 @@ services:
       - internal
       - monitoring
     depends_on:
-      - traefik-internal-redis
+      - int-redis
     restart: unless-stopped
     ports:
       - 80:80
@@ -20,19 +20,19 @@ services:
     environment:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
     volumes:
-      - ${CONFIGDIR}/traefik-internal/letsencrypt:/letsencrypt
-      - ${CONFIGDIR}/traefik-internal/log:/var/log/traefik:rw
-      - ${CONFIGDIR}/traefik-internal/static:/etc/traefik:rw
-      - ${CONFIGDIR}/traefik-internal/dynamic:/config/dynamic:rw
+      - ${CONFIGDIR}/network/internal/letsencrypt:/letsencrypt
+      - ${CONFIGDIR}/network/internal/log:/var/log/traefik:rw
+      - ${CONFIGDIR}/network/internal/static:/etc/traefik:rw
+      - ${CONFIGDIR}/network/internal/dynamic:/config/dynamic:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-dashboard-internal.rule: Host(`traefik-internal.${DOMAIN}`)
+      traefik.http.routers.traefik-dashboard-internal.rule: Host(`traefiki.${DOMAIN}`)
       traefik.http.routers.traefik-dashboard-internal.service: api@internal
       homepage.group: Monitoring
       homepage.name: Traefik (Internal)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
-      homepage.href: "https://traefik-internal.${DOMAIN}"
+      homepage.href: "https://traefiki.${DOMAIN}"
 
   logrotate:
     container_name: int-logrotate
@@ -43,9 +43,9 @@ services:
       - traefik
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
-      - ${CONFIGDIR}/traefik-internal/log:/var/log/traefik:rw # folder containing access.log file
+      - ${CONFIGDIR}/network/internal/log:/var/log/traefik:rw # folder containing access.log file
     environment:
-      TZ: "America/New_York"
+      TZ: ${TZ}
       # all environment variables are optional and show the default values:
       LOGROTATE_LOGS: "/var/log/traefik/*.log" # log files to rotate, directory must match volume mount
       LOGROTATE_TRIGGER_INTERVAL: daily  # rotate daily, must be one of: daily, weekly, monthly, yearly
@@ -64,7 +64,7 @@ services:
     container_name: tail-logi
     image: alpine
     volumes:
-      - ${CONFIGDIR}/traefik-internal/log:/var/log:ro
+      - ${CONFIGDIR}/network/internal/log:/var/log:ro
     command: >
       sh -c "tail -F /var/log/access.log"
     network_mode: none
@@ -72,7 +72,7 @@ services:
       - traefik
     restart: unless-stopped
 
-  traefik-internal-redis:
+  int-redis:
     restart: always
     image: redis:7-alpine
     container_name: int-redis
@@ -86,37 +86,4 @@ services:
     volumes:
       - int-redis:/data
 
-  # int-logdy:
-  #   container_name: int-logdy
-  #   depends_on:
-  #     - traefik
-  #   build:
-  #     context: https://github.com/logdyhq/logdy-core.git
-  #   read_only: true
-  #   networks:
-  #     - internal
-  #     - traefik
-  #   volumes:
-  #     - ${CONFIGDIR}/traefik-internal/log:/var/log:ro
-  #     - ${CONFIGDIR}/logdy/logdy.json:/config/logdy.json
-  #   command:
-  #     - "--config"
-  #     - "/config/logdy.json"
-  #     - "follow"
-  #     #- "--full-read"
-  #     - "/var/log/access.log"
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8333:8080"
-  #   security_opt:
-  #     - no-new-privileges=true
-  #   labels:
-  #     traefik.enable: true
-  #     traefik.http.routers.logdy-traefik-internal.rule: Host(`traefik-log-internal.${DOMAIN}`)
-  #     traefik.http.services.logdy-traefik-internal.loadbalancer.server.port: 8080
-  #     traefik.docker.network: internal
-  #     homepage.group: Monitoring
-  #     homepage.name: Traefik Logs (Internal)
-  #     homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
-  #     homepage.href: https://traefik-log-internal.${DOMAIN}
 
