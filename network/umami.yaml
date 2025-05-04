@@ -30,6 +30,7 @@ services:
       - traefik.http.routers.umami.rule=Host(`umami.${DOMAIN}`)
       - traefik.docker.network=public
       - traefik.http.services.umami.loadbalancer.server.port=3000
+      - traefik.http.routers.umami.middlewares=authentik-proxy@docker
       - kop.namespace=public
       - homepage.group=Apps
       - homepage.name=Umami
