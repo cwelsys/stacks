@@ -58,24 +58,6 @@ SMTPASS="op://Secrets/SMTP/Secret Key"
 ##
 
 [[stack]]
-name = "backup"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "system/backup"
-file_paths = ["backup.yaml"]
-additional_env_files = ["../../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-NOTIFS="op://Secrets/Discord Webhooks/Backups"
-"""
-
-##
-
-[[stack]]
 name = "dashboard"
 [stack.config]
 server = "pbox"
@@ -106,7 +88,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -143,7 +125,11 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/downs"
-file_paths = ["qbit-vpn.yaml", "sab.yaml", "../../pbox.yaml"]
+file_paths = [
+  "qbit-vpn.yaml",
+  "sab.yaml",
+  "../../pbox.yaml"
+]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -237,7 +223,12 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = ["plex.yaml", "jellyfin.yaml", "stash.yaml", "../pbox.yaml"]
+file_paths = [
+  "plex.yaml",
+  "jellyfin.yaml",
+  "stash.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -250,20 +241,38 @@ JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
 ##
 
 [[stack]]
+name = "monitor"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["monitor.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+INFLUXDB_PASS="op://Secrets/InfluxDB/password"
+INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
+"""
+
+##
+
+[[stack]]
 name = "system"
 [stack.config]
-file_paths = [
-  "tailsocket.yaml",
-  "backup.yaml",
-  "dozzle.yaml",
-  "scrutiny.yaml",
-  "cache.yaml",
-  "../pbox.yaml",
-]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "system"
+file_paths = [
+  "socket.yaml",
+  "dozzle.yaml",
+  "scrutiny.yaml",
+  "cache.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -271,7 +280,6 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 DISCORDURL="op://Secrets/Discord Webhooks/logs/pbox"
 TS_AUTHKEY="op://Secrets/v4xfq7ijumolhvtybuk4hepdfy/socket"
-NOTIFS="op://Secrets/Discord Webhooks/Backups"
 """
 
 ##
@@ -291,25 +299,6 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 APP_SECRET="op://Secrets/Umami/credential"
 UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
-"""
-
-##
-
-[[stack]]
-name = "monitor"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "monitor"
-file_paths = ["monitor.yaml", "dozzle.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-INFLUXDB_PASS="op://Secrets/InfluxDB/password"
-INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 """
 
 ##
