@@ -1,0 +1,28 @@
+volumes:
+  vscode:
+    external: true
+
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - PROXY_DOMAIN=vscode.${DOMAIN}
+    volumes:
+      - vscode:/config
+    restart: unless-stopped
+    networks:
+     - internal
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.codeserver.rule=Host(`code.${DOMAIN}`)
+     - traefik.http.services.codeserver.loadbalancer.server.port=8443
+     # Optional part for file upload max sizes
+     - traefik.http.middlewares.limit-codeserver.buffering.maxRequestBodyBytes=50000000
+     - traefik.http.middlewares.limit-codeserver.buffering.maxResponseBodyBytes=50000000
+     - traefik.http.middlewares.limit-codeserver.buffering.memRequestBodyBytes=50000000
+     - traefik.http.middlewares.limit-codeserver.buffering.memResponseBodyBytes=50000000
