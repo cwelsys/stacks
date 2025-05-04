@@ -51,16 +51,16 @@ services:
       - kop.namespace=public
 
       # Internal route - for everything else
-      - traefik.http.routers.komodo-internal.rule=Host(`k.cwel.sh`)
-      - traefik.http.routers.komodo-internal.service=komodo
-      - traefik.docker.network=internal
+      # - traefik.http.routers.komodo-internal.rule=Host(`k.cwel.sh`)
+      # - traefik.http.routers.komodo-internal.service=komodo
+      # - traefik.docker.network=internal
 
       # Homepage config
       - homepage.name=Komodo
       - homepage.icon=komodo.png
       - homepage.group=Management
       - homepage.description=Docker ops
-      - homepage.href=https://k.cwel.sh
+      - homepage.href=http://pbox:9120/
     restart: unless-stopped
     networks:
       - public
