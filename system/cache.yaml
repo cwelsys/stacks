@@ -17,7 +17,7 @@ services:
       NOTIFICATION_URLS: '${DISCORDURL}'
     volumes:
       - /mnt/cache:/mnt/cache:rw
-      - /mnt/data:/mnt/data:rw
+      # - /mnt/data:/mnt/data:rw
       - /mnt/media-cold:/mnt/media-cold:rw
     cap_add:
       - SYS_ADMIN
