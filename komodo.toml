@@ -179,6 +179,7 @@ CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
 CF_TRAEFIK_TUNNEL_TOKEN=op://Secrets/Cloudflare/boneyards
 CS_TRAEFIK_BOUNCER_KEY="op://Secrets/Crowdsec/credential"
 BOUNCER_HOST=crowdsec:8080
+INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 """
 
 ##
@@ -197,6 +198,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 """
 environment = """
 CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
+INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 """
 
 ##
