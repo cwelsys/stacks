@@ -114,8 +114,8 @@ services:
       - "--httpListenAddr=:8428"
     labels:
       - traefik.enable=true
-      - traefik.http.routers.grafana.rule=Host(`victoriametrics.${DOMAIN}`)
-      - traefik.http.services.grafana.loadbalancer.server.port=8428
+      - traefik.http.routers.victoriametrics.rule=Host(`victoriametrics.${DOMAIN}`)
+      - traefik.http.services.victoriametrics.loadbalancer.server.port=8428
       - traefik.docker.network=internal
       - homepage.group=Monitoring
       - homepage.name=Vmetrics
