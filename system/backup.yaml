@@ -25,7 +25,6 @@ services:
       - radarr:/backup/radarr:ro
       - lidarr:/backup/lidarr:ro
       - prowlarr:/backup/prowlarr:ro
-      - profilarr:/backup/profilarr:ro
       - overseerr:/backup/overseerr:ro
       - maintainerr:/backup/maintainerr:ro
       - tautulli:/backup/tautulli:ro
@@ -67,8 +66,6 @@ volumes:
   lidarr:
     external: true
   prowlarr:
-    external: true
-  profilarr:
     external: true
   overseerr:
     external: true
