@@ -36,8 +36,6 @@ services:
       - auth-db:/backup/auth-db:ro
       - crowdsec-db:/backup/crowdsec-db:ro
       - crowdsec-config:/backup/crowdsec-config:ro
-      - cs-ing-db:/backup/cs-ing-db:ro
-      - cs-ing-config:/backup/cs-ing-config:ro
       - dns:/backup/dns:ro
       - umami-db:/backup/umami-db:ro
       - linkding:/backup/linkding:ro
@@ -47,6 +45,12 @@ services:
       - muse:/backup/muse:ro
       - qbit:/backup/qbit:ro
       - sabnzbd:/backup/sabnzbd:ro
+      - vmetrics:/backup/vmetrics:ro
+      - grafana:/backup/grafana:ro
+      - promtail:/backup/promtail:ro
+      - loki:/backup/loki:ro
+      - influxdb-cfg:/backup/influxdb-cfg:ro
+      - influxdb:/backup/influxdb:ro
 
 volumes:
   homepage:
