@@ -157,7 +157,7 @@ services:
      - homepage.href=https://readarr.${DOMAIN}
      - homepage.description=Books management
      - homepage.widget.type=readarr
-     - homepage.widget.url=http://readarr:8686
+     - homepage.widget.url=http://readarr:8787
      - homepage.widget.key=${READARR_API_KEY}
      - docker-volume-backup.stop-during-backup=true
 
