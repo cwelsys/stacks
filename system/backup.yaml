@@ -36,8 +36,6 @@ services:
       - auth-db:/backup/auth-db:ro
       - crowdsec-db:/backup/crowdsec-db:ro
       - crowdsec-config:/backup/crowdsec-config:ro
-      - cs-ing-db:/backup/cs-ing-db:ro
-      - cs-ing-config:/backup/cs-ing-config:ro
       - dns:/backup/dns:ro
       - umami-db:/backup/umami-db:ro
       - linkding:/backup/linkding:ro
