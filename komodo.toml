@@ -12,9 +12,9 @@ name = "arr"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "media/arr"
-file_paths = ["arr.yaml", "../../pbox.yaml"]
-additional_env_files = ["../../global.env"]
+run_directory = "media"
+file_paths = ["arr.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
@@ -65,10 +65,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "misc"
-file_paths = [
-  "codeserver.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["codeserver.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -103,7 +100,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -140,11 +137,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/downs"
-file_paths = [
-  "qbit-vpn.yaml",
-  "sab.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../../pbox.yaml"]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -240,12 +233,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [
-  "plex.yaml",
-  "jellyfin.yaml",
-  "stash.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["plex.yaml", "jellyfin.yaml", "stash.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -288,7 +276,7 @@ file_paths = [
   "tailsocket.yaml",
   "dozzle.yaml",
   "scrutiny.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """

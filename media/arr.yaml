@@ -7,8 +7,6 @@ volumes:
     external: true
   prowlarr:
     external: true
-  profilarr:
-    external: true
   overseerr:
     external: true
   maintainerr:
@@ -18,6 +16,10 @@ volumes:
   recommendarr:
     external: true
   readarr:
+    external: true
+  tdarr:
+    external: true
+  tdarr-cache:
     external: true
 
 services:
@@ -33,6 +35,8 @@ services:
       - ${RUST}:/data
       - ${CONFIGDIR}/arr/sonarr/custom-services.d:/custom-services.d
       - ${CONFIGDIR}/arr/sonarr/custom-cont-init.d:/custom-cont-init.d
+      - ${CONFIGDIR}/arr/sonarr/rconfig.yaml:/config/extended/rconfig.yaml
+      - ${CONFIGDIR}/arr/sonarr/extended.conf:/config/extended.conf
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping' ]
@@ -48,7 +52,6 @@ services:
       - homepage.icon=sonarr.png
       - homepage.href=https://sonarr.${DOMAIN}
       - homepage.description=TV Series management
-      - homepage.weight=0
       - homepage.widget.type=sonarr
       - homepage.widget.url=http://sonarr:8989
       - homepage.widget.key=${SONARR_API_KEY}
@@ -69,6 +72,8 @@ services:
       - ${RUST}:/data
       - ${CONFIGDIR}/arr/radarr/custom-services.d:/custom-services.d
       - ${CONFIGDIR}/arr/radarr/custom-cont-init.d:/custom-cont-init.d
+      - ${CONFIGDIR}/arr/radarr/rconfig.yaml:/config/extended/rconfig.yaml
+      - ${CONFIGDIR}/arr/radarr/extended.conf:/config/extended.conf
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping' ]
@@ -84,7 +89,6 @@ services:
       - homepage.icon=radarr.png
       - homepage.href=https://radarr.${DOMAIN}
       - homepage.description=Movies management
-      - homepage.weight=1
       - homepage.widget.type=radarr
       - homepage.widget.url=http://radarr:7878
       - homepage.widget.key=${RADARR_API_KEY}
@@ -185,7 +189,6 @@ services:
       - homepage.icon=prowlarr.png
       - homepage.href=https://prowlarr.${DOMAIN}
       - homepage.description=Indexers management
-      - homepage.weight=1
       - homepage.widget.type=prowlarr
       - homepage.widget.url=http://prowlarr:9696
       - homepage.widget.key=${PROWLARR_API_KEY}
@@ -229,30 +232,6 @@ services:
     networks:
       - media
 
-  profilarr:
-    image: santiagosayshey/profilarr:beta
-    container_name: profilarr
-    volumes:
-      - profilarr:/config
-    environment:
-      - PUID=1000
-      - PGID=${ID}
-      - TZ=${TZ}
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.profilarr.rule=Host(`profilarr.${DOMAIN}`)
-      - traefik.docker.network=internal
-      - traefik.http.services.profilarr.loadbalancer.server.port=6868
-      - homepage.group=Media
-      - homepage.name=profilarr
-      # - homepage.icon=profilarr.png
-      - homepage.href=https://profilarr.${DOMAIN}
-      - homepage.description=Config management
-      - docker-volume-backup.stop-during-backup=true
-    networks:
-      - internal
-
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
@@ -276,7 +255,6 @@ services:
       - homepage.icon=overseerr.png
       - homepage.href=https://req.${DOMAIN}
       - homepage.description=Requests management
-      - homepage.weight=5
       - docker-volume-backup.stop-during-backup=true
       # - homepage.widget.type=overseerr
       # - homepage.widget.url=http://overseerr:5055
@@ -309,18 +287,6 @@ services:
       - homepage.description=Library maintenance
       - docker-volume-backup.stop-during-backup=true
 
-  recyclarr:
-    image: ghcr.io/recyclarr/recyclarr
-    container_name: recyclarr
-    restart: unless-stopped
-    user: 1000:1001
-    networks:
-      - media
-    volumes:
-      - ${CONFIGDIR}/arr/recyclarr:/config
-    environment:
-      - TZ=${TZ}
-
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
@@ -343,10 +309,9 @@ services:
       - homepage.icon=tautulli.png
       - homepage.href=https://tautulli.${DOMAIN}
       - homepage.description=Plex monitoring and statistics
-      - homepage.weight=7
-      # - homepage.widget.type=tautulli
-      # - homepage.widget.url=http://tautulli:8181
-      # - homepage.widget.key=${TAUTULLI_API_KEY}
+      - homepage.widget.type=tautulli
+      - homepage.widget.url=http://tautulli:8181
+      - homepage.widget.key=${TAUTULLI_API_KEY}
 
   recommendarr:
     image: tannermiddleton/recommendarr:latest
@@ -376,3 +341,75 @@ services:
       - homepage.href=https://recommendarr.${DOMAIN}
       - homepage.description=Media recommendations
       - docker-volume-backup.stop-during-backup=true
+
+  tdarr:
+    container_name: tdarr
+    image: ghcr.io/haveagitgat/tdarr:latest
+    restart: unless-stopped
+    networks:
+      - internal
+      - media
+    environment:
+      - TZ=${TZ}
+      - PUID=1000
+      - PGID=${ID}
+      - UMASK_SET=002
+      - serverIP=0.0.0.0
+      - serverPort=8266
+      - webUIPort=8265
+      - internalNode=true
+      - inContainer=true
+      - ffmpegVersion=7
+      - nodeName=core
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - tdarr:/app
+      - ${RUST}:/media
+      - tdarr-cache:/temp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tdarr.rule=Host(`tdarr.${DOMAIN}`)
+      - traefik.http.services.tdarr.loadbalancer.server.port=8265
+      - traefik.docker.network=internal
+      - docker-volume-backup.stop-during-backup=true
+    devices:
+      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+
+  tdarr-node:
+    container_name: tdarr-node
+    image: ghcr.io/haveagitgat/tdarr_node:latest
+    restart: unless-stopped
+    network_mode: service:tdarr
+    environment:
+      - TZ=${TZ}
+      - PUID=1000
+      - PGID=${ID}
+      - UMASK_SET=002
+      - nodeName=worker
+      - serverIP=0.0.0.0
+      - serverPort=8266
+      - inContainer=true
+      - ffmpegVersion=7
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - tdarr:/app
+      - tdarr-cache:/temp
+      - ${RUST}:/media
+    devices:
+      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
