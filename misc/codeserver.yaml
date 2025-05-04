@@ -10,7 +10,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-      - PROXY_DOMAIN=vscode.${DOMAIN}
+      # - PROXY_DOMAIN=vscode.${DOMAIN}
     volumes:
       - vscode:/config
     restart: unless-stopped
