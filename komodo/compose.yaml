@@ -53,7 +53,6 @@ services:
       # Internal route - for everything else
       - traefik.http.routers.komodo-internal.rule=Host(`k.cwel.sh`)
       - traefik.http.routers.komodo-internal.service=komodo
-      - traefik.http.routers.komodo-internal.entrypoints=websecure
       - traefik.docker.network=internal
 
       # Homepage config
