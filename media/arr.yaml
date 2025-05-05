@@ -17,9 +17,7 @@ volumes:
     external: true
   readarr:
     external: true
-  tdarr:
-    external: true
-  tdarr-cache:
+  unmanic:
     external: true
 
 services:
