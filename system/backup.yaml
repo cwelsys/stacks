@@ -120,5 +120,5 @@ volumes:
     external: true
   flows:
     external: true
-  hydra
+  hydra:
     external: true
