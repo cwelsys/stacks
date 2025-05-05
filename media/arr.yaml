@@ -395,8 +395,8 @@ services:
       - traefik.http.services.hydra.loadbalancer.server.port=5076
       - traefik.docker.network=internal
       - homepage.group=Download
-      - homepage.name=nzbdhydra2
-      - homepage.icon=/images/nzbdhydra2.png
+      - homepage.name=nzbhydra2
+      - homepage.icon=/images/nzbhydra2.png
       - homepage.href=https://hydra.${DOMAIN}
       - homepage.description=Indexers
       - docker-volume-backup.stop-during-backup=true
