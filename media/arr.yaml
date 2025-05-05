@@ -21,6 +21,8 @@ volumes:
     external: true
   hydra:
     external: true
+  whisparr:
+    external: true
 
 services:
   sonarr:
@@ -163,6 +165,32 @@ services:
      - homepage.widget.type=readarr
      - homepage.widget.url=http://readarr:8787
      - homepage.widget.key=${READARR_API_KEY}
+     - docker-volume-backup.stop-during-backup=true
+
+  whisparr:
+    container_name: whisparr
+    image: ghcr.io/hotio/whisparr
+    networks:
+      - internal
+      - media
+    environment:
+      - PUID=1000
+      - PGID=${ID}
+      - UMASK=002
+      - TZ=${TZ}
+    volumes:
+      - whisparr:/config
+      - ${RUST}:/data
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.whisparr.rule=Host(`whisparr.${DOMAIN}`)
+     - traefik.http.services.whisparr.loadbalancer.server.port=6969
+     - homepage.group=Media
+     - homepage.name=whisparr
+     - homepage.icon=whisparr.png
+     - homepage.href=https://whisparr.${DOMAIN}
+     - homepage.description=Stash management
      - docker-volume-backup.stop-during-backup=true
 
   prowlarr:

@@ -32,6 +32,7 @@ services:
       - jellyfin:/backup/jellyfin:ro
       - plex:/backup/plex:ro
       - stash:/backup/stash:ro
+      - whisparr:/backup/whisparr:ro
       - auth-db:/backup/auth-db:ro
       - crowdsec-db:/backup/crowdsec-db:ro
       - crowdsec-config:/backup/crowdsec-config:ro
@@ -81,6 +82,8 @@ volumes:
   plex:
     external: true
   stash:
+    external: true
+  whisparr:
     external: true
   auth-db:
     external: true
