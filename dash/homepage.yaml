@@ -8,22 +8,51 @@ services:
     container_name: homepage
     networks:
       - internal
+      - media
       - crowdsec
+      - traefik
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=hp.${DOMAIN}
-      - HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN=${HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN}
+      - HOMEPAGE_VAR_DOMAIN_NAME=${DOMAIN}
+      - HOMEPAGE_VAR_SERVER_IP=${SERVERIP}
+      - HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN=${OPENWEATHERMAP_TOKEN}
       - HOMEPAGE_VAR_CROWDSEC_PASSWORD=${CROWDSEC_PASS}
+      - HOMEPAGE_VAR_CROWDSEC_USERNAME=pbox
+      - HOMEPAGE_VAR_CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACC_ID}
+      - HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY=${CLOUDFLARE_API}
+      - HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID=${TUNNEL_ID}
+      - HOMEPAGE_VAR_TAILSCALE_API_KEY= ${TS_API}
     volumes:
-      - ${CONFIGDIR}/homepage:/app/config
-      - ${CONFIGDIR}/homepage/images:/app/public/images
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${RUST}:/mnt/media:ro
+      - ${CONFIGDIR}/homepage:/app/config:rw
+      - ${CONFIGDIR}/homepage/icons:/app/icons:rw
+      - ${CONFIGDIR}/homepage/images:/app/images:rw
+      - /mnt/:/mnt:ro
       - homepage:/data
     restart: always
-    # command: [sh, -c, 'cp -n /app/config/tpl/*.yaml /app/config && node server.js']
     labels:
       - traefik.enable=true
       - traefik.http.routers.homepage.rule=Host(`hp.${DOMAIN}`)
       - traefik.http.services.homepage.loadbalancer.server.port=3000
       - traefik.docker.network=internal
       - docker-volume-backup.stop-during-backup=true
+
+  hp-sockp:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: hp-sockp
+    networks:
+      - media
+    environment:
+      - LOG_LEVEL=info
+      - CONTAINERS=1
+      - TASKS=1
+      - POST=0
+      - NETWORKS=1
+      - SERVICES=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 2375:2375
+    restart: always
+    read_only: true
+    tmpfs:
+      - /run
