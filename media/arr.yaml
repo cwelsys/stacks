@@ -196,6 +196,34 @@ services:
      - homepage.description=Books
      - docker-volume-backup.stop-during-backup=true
 
+  calibre-web-automated-book-downloader:
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest
+    container_name: bookr
+    restart: unless-stopped
+    networks:
+      - internal
+      - media
+    environment:
+      FLASK_PORT: 8084
+      LOG_LEVEL: info
+      BOOK_LANGUAGE: en
+      USE_BOOK_TITLE: true
+      TZ: ${TZ}
+      APP_ENV: prod
+      UID: 1000
+      GID: ${ID}
+    volumes:
+      - ${RUST}/book/ing:/cwa-book-ingest
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.bookr.rule=Host(`bookr.${DOMAIN}`)
+     - traefik.http.services.bookr.loadbalancer.server.port=8084
+     - homepage.group=Media
+     - homepage.name=Book getter
+     - homepage.icon=calibre.png
+     - homepage.href=https://bookr.${DOMAIN}
+
   whisparr:
     container_name: whisparr
     image: ghcr.io/hotio/whisparr:v3
