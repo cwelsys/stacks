@@ -44,6 +44,7 @@ services:
       - LOG_LEVEL=info
       - CONTAINERS=1
       - TASKS=1
+      - INFO=1
       - POST=0
       - NETWORKS=1
       - SERVICES=1
