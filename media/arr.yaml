@@ -169,7 +169,7 @@ services:
 
   whisparr:
     container_name: whisparr
-    image: ghcr.io/hotio/whisparr:testing
+    image: ghcr.io/hotio/whisparr:nightly
     networks:
       - internal
       - media
