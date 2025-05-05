@@ -394,7 +394,7 @@ services:
       - traefik.http.routers.hydra.rule=Host(`hydra.${DOMAIN}`)
       - traefik.http.services.hydra.loadbalancer.server.port=5076
       - traefik.docker.network=internal
-      - homepage.group=Downloads
+      - homepage.group=Download
       - homepage.name=nzbdhydra2
       - homepage.icon=nzbdhydra2.png
       - homepage.href=https://hydra.${DOMAIN}
