@@ -343,6 +343,7 @@ services:
   fileflows:
     image: revenz/fileflows
     restart: unless-stopped
+    container_name: fileflows
     runtime: nvidia
     networks:
       - internal
