@@ -193,7 +193,7 @@ services:
      - homepage.name=Calibre Web
      - homepage.icon=calibre-web.png
      - homepage.href=https://calibre.${DOMAIN}
-     - homepage.description=Books management
+     - homepage.description=Books
      - docker-volume-backup.stop-during-backup=true
 
   whisparr:
