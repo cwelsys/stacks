@@ -345,6 +345,9 @@ services:
     image: revenz/fileflows
     restart: unless-stopped
     runtime: nvidia
+    networks:
+      - internal
+      - media
     environment:
       - TZ=${TZ}
       - PUID=1000
