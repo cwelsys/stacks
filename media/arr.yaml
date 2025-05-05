@@ -360,6 +360,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/cache/cache1/.cache/transcache:/temp
+      - ${RUST}:/data
       - flows:/app/Data
       - flows:/app/Logs
       - flows:/app/common
