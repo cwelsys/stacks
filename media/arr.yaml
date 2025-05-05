@@ -17,7 +17,7 @@ volumes:
     external: true
   readarr:
     external: true
-  unmanic:
+  flows:
     external: true
 
 services:
@@ -339,32 +339,63 @@ services:
       - homepage.href=https://recommendarr.${DOMAIN}
       - homepage.description=Media recommendations
       - docker-volume-backup.stop-during-backup=true
-  unmanic:
-    container_name: unmanic
-    image: josh5/unmanic:latest
-    networks:
-      - internal
-      - media
+
+  fileflows:
+    image: revenz/fileflows
+    restart: unless-stopped
+    runtime: nvidia
+    # ports:
+    #   - "19200:5000"
     environment:
+      - TZ=${TZ}
       - PUID=1000
       - PGID=${ID}
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
-      - unmanic:/config
-      - ${RUST}:/library
-      - unmanic:/tmp/unmanic
-    runtime: nvidia
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - flows:/app
+      - ${RUST}:/data
     labels:
       - traefik.enable=true
-      - traefik.http.routers.unmanic.rule=Host(`unmanic.${DOMAIN}`)
-      - traefik.http.services.unmanic.loadbalancer.server.port=8888
+      - traefik.http.routers.fileflows.rule=Host(`flows.${DOMAIN}`)
+      - traefik.http.services.fileflows.loadbalancer.server.port=5000
       - traefik.docker.network=internal
       - homepage.group=Media
-      - homepage.name=unmanic
-      - homepage.icon=unmanic.png
-      - homepage.href=https://unmanic.${DOMAIN}
+      - homepage.name=fileflows
+      - homepage.icon=fileflows.png
+      - homepage.href=https://flows.${DOMAIN}
       - homepage.description=Transcoding
       - docker-volume-backup.stop-during-backup=true
+
+
+
+  # unmanic:
+  #   container_name: unmanic
+  #   image: josh5/unmanic:latest
+  #   networks:
+  #     - internal
+  #     - media
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=${ID}
+  #     - NVIDIA_VISIBLE_DEVICES=all
+  #   volumes:
+  #     - unmanic:/config
+  #     - ${RUST}:/library
+  #     - unmanic:/tmp/unmanic
+  #   runtime: nvidia
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.unmanic.rule=Host(`unmanic.${DOMAIN}`)
+  #     - traefik.http.services.unmanic.loadbalancer.server.port=8888
+  #     - traefik.docker.network=internal
+  #     - homepage.group=Media
+  #     - homepage.name=unmanic
+  #     - homepage.icon=unmanic.png
+  #     - homepage.href=https://unmanic.${DOMAIN}
+  #     - homepage.description=Transcoding
+  #     - docker-volume-backup.stop-during-backup=true
 
   # tdarr:
   #   container_name: tdarr

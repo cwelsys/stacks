@@ -50,7 +50,7 @@ services:
       - loki:/backup/loki:ro
       - influxdb-cfg:/backup/influxdb-cfg:ro
       - influxdb:/backup/influxdb:ro
-      - tdarr:/backup/tdarr:ro
+      - flows:/backup/flows:ro
 
 volumes:
   homepage:
@@ -117,5 +117,5 @@ volumes:
     external: true
   vmetrics:
     external: true
-  tdarr:
+  flows:
     external: true
