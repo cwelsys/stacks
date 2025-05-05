@@ -396,7 +396,7 @@ services:
       - traefik.docker.network=internal
       - homepage.group=Download
       - homepage.name=nzbdhydra2
-      - homepage.icon=nzbdhydra.png
+      - homepage.icon=/images/nzbdhydra2.png
       - homepage.href=https://hydra.${DOMAIN}
       - homepage.description=Indexers
       - docker-volume-backup.stop-during-backup=true
