@@ -65,7 +65,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "misc"
-file_paths = ["codeserver.yaml", "../pbox.yaml"]
+file_paths = [
+  "codeserver.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 
 ##
@@ -83,7 +86,12 @@ pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN="op://Secrets/OpenWeatherMap/credential"
+OPENWEATHERMAP_TOKEN="op://Secrets/OpenWeatherMap/credential"
+TS_API="op://Secrets/Tailscale/credential"
+CLOUDFLARE_ACC_ID="op://Secrets/Cloudflare/accountid"
+CROWDSEC_PASS="op://Secrets/Crowdsec/local_api_pass"
+CLOUDFLARE_API="op://Secrets/Cloudflare/credential"
+TUNNEL_ID="op://Secrets/Cloudflare/boneyard_id"
 """
 
 ##
@@ -100,7 +108,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -137,7 +145,11 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/downs"
-file_paths = ["qbit-vpn.yaml", "sab.yaml", "../../pbox.yaml"]
+file_paths = [
+  "qbit-vpn.yaml",
+  "sab.yaml",
+  "../../pbox.yaml"
+]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -233,7 +245,12 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = ["plex.yaml", "jellyfin.yaml", "stash.yaml", "../pbox.yaml"]
+file_paths = [
+  "plex.yaml",
+  "jellyfin.yaml",
+  "stash.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -276,14 +293,14 @@ file_paths = [
   "tailsocket.yaml",
   "dozzle.yaml",
   "scrutiny.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-TS_AUTHKEY="op://Secrets/v4xfq7ijumolhvtybuk4hepdfy/socket"
+TS_AUTHKEY="op://Secrets/Tailscale/socketauth"
 NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
 """
 
