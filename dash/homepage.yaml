@@ -76,5 +76,5 @@ services:
       labels:
           - traefik.enable=true
           - traefik.http.routers.speed-test.rule=Host(`speed.${DOMAIN}`)
-          - traefik.http.services.speed-test.loadbalancer.server.port=8443
+          - traefik.http.services.speed-test.loadbalancer.server.port=8080
           - traefik.docker.network=internal
