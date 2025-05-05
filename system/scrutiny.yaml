@@ -24,10 +24,10 @@ services:
       - traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.scrutiny.loadbalancer.server.port=8080
-      - homepage.group=System
-      - homepage.name=Scrutiny
-      - homepage.icon=scrutiny.png
-      - homepage.href=https://scrutiny.${DOMAIN}
-      - homepage.description=SMART Monitoring
+      # - homepage.group=System
+      # - homepage.name=Scrutiny
+      # - homepage.icon=scrutiny.png
+      # - homepage.href=https://scrutiny.${DOMAIN}
+      # - homepage.description=SMART Monitoring
     networks:
       - internal

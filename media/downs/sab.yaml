@@ -20,14 +20,14 @@ services:
       - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
-      - homepage.group=Download
-      - homepage.name=Sabnzbd
-      - homepage.icon=sabnzbd.png
-      - homepage.href=http://sabnzbd.${DOMAIN}
-      - homepage.description=Usenet
-      - homepage.widget.type=sabnzbd
-      - homepage.widget.url=http://sabnzbd:8080
-      - homepage.widget.key=${SABNZBD_API_KEY}
+      # - homepage.group=Download
+      # - homepage.name=Sabnzbd
+      # - homepage.icon=sabnzbd.png
+      # - homepage.href=http://sabnzbd.${DOMAIN}
+      # - homepage.description=Usenet
+      # - homepage.widget.type=sabnzbd
+      # - homepage.widget.url=http://sabnzbd:8080
+      # - homepage.widget.key=${SABNZBD_API_KEY}
       - docker-volume-backup.stop-during-backup=true
     networks:
       - internal

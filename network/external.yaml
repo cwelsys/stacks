@@ -38,10 +38,10 @@ services:
       traefik.http.routers.traefik-dashboard-external.rule: Host(`traefike.${DOMAIN}`)
       traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 8080
       kop.traefik-dashboard-external.bind.ip: "${SERVER_IP}"
-      homepage.group: Monitoring
-      homepage.name: Traefik (External)
-      homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
-      homepage.href: "https://traefike.${DOMAIN}"
+      # homepage.group: Monitoring
+      # homepage.name: Traefik (External)
+      # homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
+      # homepage.href: "https://traefike.${DOMAIN}"
 
   logrotate:
     container_name: ext-logrotate

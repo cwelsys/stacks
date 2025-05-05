@@ -98,10 +98,10 @@ services:
       - traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)
       - traefik.http.services.grafana.loadbalancer.server.port=3000
       - traefik.docker.network=internal
-      - homepage.group=Monitoring
-      - homepage.name=Grafana
-      - homepage.icon=grafana.png
-      - homepage.href=https://grafana.${DOMAIN}
+      # - homepage.group=Monitoring
+      # - homepage.name=Grafana
+      # - homepage.icon=grafana.png
+      # - homepage.href=https://grafana.${DOMAIN}
       # - homepage.description=
       - docker-volume-backup.stop-during-backup=true
 

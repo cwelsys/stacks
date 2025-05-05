@@ -14,8 +14,8 @@ services:
       - dns:/etc/dns
     restart: unless-stopped
     labels:
-      homepage.group: Network
-      homepage.name: DNS Server
-      homepage.icon: technitium.png
-      homepage.href: "https://dns.${DOMAIN}"
+      # homepage.group: Network
+      # homepage.name: DNS Server
+      # homepage.icon: technitium.png
+      # homepage.href: "https://dns.${DOMAIN}"
       docker-volume-backup.stop-during-backup: true

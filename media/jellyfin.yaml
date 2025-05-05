@@ -29,15 +29,15 @@ services:
       - traefik.http.routers.jellyfin.rule=Host(`jellyfin.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
-      - homepage.group=Media
-      - homepage.name=Jellyfin
-      - homepage.icon=jellyfin.png
-      - homepage.href=https://jellyfin.${DOMAIN}
-      - homepage.description=Media server
-      - homepage.weight=4
-      - homepage.widget.type=jellyfin
-      - homepage.widget.url=http://jellyfin:8096
-      - homepage.widget.key=${JELLYFIN_API_KEY}
+      # - homepage.group=Media
+      # - homepage.name=Jellyfin
+      # - homepage.icon=jellyfin.png
+      # - homepage.href=https://jellyfin.${DOMAIN}
+      # - homepage.description=Media server
+      # - homepage.weight=4
+      # - homepage.widget.type=jellyfin
+      # - homepage.widget.url=http://jellyfin:8096
+      # - homepage.widget.key=${JELLYFIN_API_KEY}
       - docker-volume-backup.stop-during-backup=true
     networks:
       - internal

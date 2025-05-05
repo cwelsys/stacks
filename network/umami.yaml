@@ -32,11 +32,11 @@ services:
       - traefik.http.services.umami.loadbalancer.server.port=3000
       # - traefik.http.routers.umami.middlewares=auth-proxy@docker
       - kop.namespace=public
-      - homepage.group=Apps
-      - homepage.name=Umami
-      - homepage.icon=umami.png
-      - homepage.href=https://umami.${DOMAIN}
-      - homepage.description=Web analytics
+      # - homepage.group=Apps
+      # - homepage.name=Umami
+      # - homepage.icon=umami.png
+      # - homepage.href=https://umami.${DOMAIN}
+      # - homepage.description=Web analytics
 
   db:
       image: postgres:15-alpine
