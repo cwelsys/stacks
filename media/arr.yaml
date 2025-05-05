@@ -357,6 +357,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - flows:/app
+      - flows:/temp
       - ${RUST}:/data
     labels:
       - traefik.enable=true
