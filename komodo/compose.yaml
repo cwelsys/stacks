@@ -48,11 +48,11 @@ services:
       - traefik.http.services.komodo.loadbalancer.server.port=9120
       - traefik.docker.network=public
       - kop.namespace=public
-      - homepage.name=Komodo
-      - homepage.icon=komodo.png
-      - homepage.group=Management
-      - homepage.description=Docker ops
-      - homepage.href=http://pbox:9120/
+      # - homepage.name=Komodo
+      # - homepage.icon=komodo.png
+      # - homepage.group=Management
+      # - homepage.description=Docker ops
+      # - homepage.href=http://pbox:9120/
     restart: unless-stopped
     networks:
       - public
