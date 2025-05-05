@@ -24,7 +24,6 @@ services:
       - HOMEPAGE_VAR_TAILSCALE_API_KEY= ${TS_API}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
-      - ${CONFIGDIR}/homepage/icons:/app/public/icons
       - ${CONFIGDIR}/homepage/images:/app/public/images
       - /mnt/:/mnt:ro
       - homepage:/data
