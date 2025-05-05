@@ -1,6 +1,8 @@
 volumes:
   homepage:
     external: true
+  speed-db:
+    external: true
 
 services:
   homepage:
@@ -22,6 +24,7 @@ services:
       - HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY=${CLOUDFLARE_API}
       - HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID=${TUNNEL_ID}
       - HOMEPAGE_VAR_TAILSCALE_API_KEY= ${TS_API}
+      - HOMEPAGE_VAR_TAUTULLI_API_KEY=${TAUTULLI_API_KEY}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/homepage/images:/app/public/images
@@ -56,3 +59,22 @@ services:
     read_only: true
     tmpfs:
       - /run
+
+  speedtest-tracker:
+      image: lscr.io/linuxserver/speedtest-tracker:latest
+      restart: unless-stopped
+      container_name: speedtest-tracker
+      networks:
+        - internal
+      environment:
+          - PUID=1000
+          - PGID=1000
+          - APP_KEY=${SPEED_API}
+          - DB_CONNECTION=sqlite
+      volumes:
+          - speed-db:/config
+      labels:
+          - traefik.enable=true
+          - traefik.http.routers.speed-test.rule=Host(`speed.${DOMAIN}`)
+          - traefik.http.services.speed-test.loadbalancer.server.port=8443
+          - traefik.docker.network=internal
