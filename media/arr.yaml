@@ -337,7 +337,7 @@ services:
       - traefik.http.services.recommendarr.loadbalancer.server.port=3000
       - homepage.group=Media
       - homepage.name=Recommendarr
-      # - homepage.icon=recommendarr.png
+      - homepage.icon=recommendarr.png
       - homepage.href=https://recommendarr.${DOMAIN}
       - homepage.description=Media recommendations
       - docker-volume-backup.stop-during-backup=true
