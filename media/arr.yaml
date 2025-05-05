@@ -7,6 +7,8 @@ volumes:
     external: true
   prowlarr:
     external: true
+  whisparr:
+    external: true
   overseerr:
     external: true
   maintainerr:
@@ -21,7 +23,7 @@ volumes:
     external: true
   hydra:
     external: true
-  whisparr:
+  cweb:
     external: true
 
 services:
@@ -165,6 +167,33 @@ services:
      - homepage.widget.type=readarr
      - homepage.widget.url=http://readarr:8787
      - homepage.widget.key=${READARR_API_KEY}
+     - docker-volume-backup.stop-during-backup=true
+
+  calibre-web:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: calibre-web
+    restart: unless-stopped
+    networks:
+      - internal
+      - media
+    environment:
+      - PUID=1000
+      - PGID=${ID}
+      - TZ=${TZ}
+    volumes:
+      - cweb:/config
+      - ${RUST}/book/ing:/cwa-book-ingest
+      - ${RUST}/book:/calibre-library
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.calibre.rule=Host(`calibre.${DOMAIN}`)
+     - traefik.http.services.calibre.loadbalancer.server.port=8083
+     - homepage.group=Media
+     - homepage.name=Calibre Web
+     - homepage.icon=calibre-web.png
+     - homepage.href=https://calibre.${DOMAIN}
+     - homepage.description=Books management
      - docker-volume-backup.stop-during-backup=true
 
   whisparr:
