@@ -19,6 +19,8 @@ volumes:
     external: true
   flows:
     external: true
+  hydra:
+    external: true
 
 services:
   sonarr:
@@ -371,4 +373,30 @@ services:
       - homepage.icon=fileflows.png
       - homepage.href=https://flows.${DOMAIN}
       - homepage.description=Transcoding
+      - docker-volume-backup.stop-during-backup=true
+
+  nzbhydra2:
+    image: lscr.io/linuxserver/nzbhydra2:latest
+    container_name: nzbhydra2
+    networks:
+      - internal
+      - media
+    environment:
+      - PUID=1000
+      - PGID=${ID}
+      - TZ=${TZ}
+    volumes:
+      - hydra:/config
+      - ${RUST}:/downloads
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.hydra.rule=Host(`hydra.${DOMAIN}`)
+      - traefik.http.services.hydra.loadbalancer.server.port=5076
+      - traefik.docker.network=internal
+      - homepage.group=Downloads
+      - homepage.name=nzbdhydra2
+      - homepage.icon=nzbdhydra2.png
+      - homepage.href=https://hydra.${DOMAIN}
+      - homepage.description=Indexers
       - docker-volume-backup.stop-during-backup=true
