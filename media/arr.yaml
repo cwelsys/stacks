@@ -356,6 +356,7 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${CONFIGDIR}/media/fileflows/:/custom
       - flows:/app
       - flows:/temp
       - ${RUST}:/data
