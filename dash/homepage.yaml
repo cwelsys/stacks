@@ -23,9 +23,9 @@ services:
       - HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID=${TUNNEL_ID}
       - HOMEPAGE_VAR_TAILSCALE_API_KEY= ${TS_API}
     volumes:
-      - ${CONFIGDIR}/homepage:/app/config:rw
-      - ${CONFIGDIR}/homepage/icons:/app/public/icons:rw
-      - ${CONFIGDIR}/homepage/images:/app/public/images:rw
+      - ${CONFIGDIR}/homepage:/app/config
+      - ${CONFIGDIR}/homepage/icons:/app/public/icons
+      - ${CONFIGDIR}/homepage/images:/app/public/images
       - /mnt/:/mnt:ro
       - homepage:/data
     restart: always
