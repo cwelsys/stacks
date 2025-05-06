@@ -278,8 +278,11 @@ pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-PLEX_TOKEN="op://Secrets/Plex/credential"
-JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
+ROMM_AUTH="op://Secrets/Romm/credential"
+MARIADB_PW="op://Secrets/Romm/db/mariadbroot"
+ROMM_DB_PW="op://Secrets/Romm/db/rommdb"
+IGDB_CLIENT_ID="op://Secrets/Romm/twitch/twitchid"
+IGDB_CLIENT_SECRET="op://Secrets/Romm/twitch/twitchsecret"
 """
 
 ##
