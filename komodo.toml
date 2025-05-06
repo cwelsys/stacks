@@ -270,6 +270,7 @@ file_paths = [
   "plex.yaml",
   "jellyfin.yaml",
   "stash.yaml",
+  "romm.yaml",
   "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
