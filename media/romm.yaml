@@ -17,8 +17,8 @@ services:
       - DB_USER=romm # Should match MARIADB_USER in mariadb
       - DB_PASSWD=${ROMM_DB_PW} # Should match MARIADB_PASSWORD in mariadb
       - ROMM_AUTH_SECRET_KEY=${ROMM_AUTH} # Generate a key with `openssl rand -hex 32`
-      - IGDB_CLIENT_ID= # Generate an ID and SECRET in IGDB
-      - IGDB_CLIENT_SECRET= # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#igdb
+      - IGDB_CLIENT_ID=${IGDB_CLIENT_ID} # Generate an ID and SECRET in IGDB
+      - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET} # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#igdb
       #- MOBYGAMES_API_KEY= # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#mobygames
       #- STEAMGRIDDB_API_KEY= # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#steamgriddb
       #- SCREENSCRAPER_USER= # Use your ScreenScraper username and password
