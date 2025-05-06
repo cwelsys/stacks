@@ -113,7 +113,7 @@ services:
     container_name: komo-updates
     restart: unless-stopped
     command: >
-      sh -c "pip install flask requests os python-dotenv &&
+      sh -c "pip install flask requests python-dotenv &&
              python /app/komotainers.py"
     volumes:
       - ${CONFIGDIR}/homepage/custom:/app:ro
