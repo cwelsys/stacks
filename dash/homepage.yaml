@@ -41,7 +41,8 @@ services:
       - HOMEPAGE_VAR_CALIBRE_PASS=${CALIBRE_PASS}
       - HOMEPAGE_VAR_HOMEASS_API_KEY=${HOMEASS_API_KEY}
       - HOMEPAGE_VAR_GRAFANA_PASS=${GRAFANA_PASS}
-
+      - HOMEPAGE_VAR_JELLYFIN_API_KEY=${JELLYFIN_API_KEY}
+      - HOMEPAGE_VAR_STASH_API_KEY=${STASH_API_KEY}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/homepage/images:/app/public/images
