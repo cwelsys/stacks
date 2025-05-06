@@ -107,3 +107,17 @@ services:
           - traefik.http.routers.speed-test.rule=Host(`speed.${DOMAIN}`)
           - traefik.http.services.speed-test.loadbalancer.server.port=80
           - traefik.docker.network=internal
+
+  komo-updates:
+    image: python:3.12-slim
+    container_name: komo-updates
+    restart: unless-stopped
+    command: >
+      sh -c "pip install flask requests os python-dotenv &&
+             python /app/komotainers.py"
+    volumes:
+      - ${CONFIGDIR}/homepage/custom:/app:ro
+    networks:
+      - internal
+    ports:
+      - "5070:5070"
