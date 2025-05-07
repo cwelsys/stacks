@@ -62,3 +62,25 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  emulatorjs:
+    image: lscr.io/linuxserver/emulatorjs:latest
+    container_name: emulatorjs
+    environment:
+      - PUID=1000
+      - PGID=${ID}
+      - TZ=${TZ}
+      # - SUBFOLDER=/ #optional
+    volumes:
+      - ${CONFIGDIR}/media/emujs:/config
+      - ${FLASH}/romm/library:/data:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.emujs.rule=Host(`emu.${DOMAIN}`)
+      - traefik.http.services.emujs.loadbalancer.server.port=3000
+      - traefik.docker.network=internal
+    # ports:
+    #   - 3000:3000
+    #   - 80:80
+    #   - 4001:4001 #optional
+    restart: unless-stopped
