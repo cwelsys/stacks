@@ -66,6 +66,8 @@ services:
   emulatorjs:
     image: lscr.io/linuxserver/emulatorjs:latest
     container_name: emulatorjs
+    networks:
+      - internal
     environment:
       - PUID=1000
       - PGID=${ID}
