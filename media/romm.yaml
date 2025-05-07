@@ -5,6 +5,8 @@ volumes:
     external: true
   romm-redis:
     external: true
+  emujs:
+    external: true
 
 services:
   romm:
@@ -75,7 +77,11 @@ services:
       # - SUBFOLDER=/ #optional
     volumes:
       - ${CONFIGDIR}/media/emujs:/config
-      - ${FLASH}/romm/library:/data:ro
+      - emujs:/data
+      - ${FLASH}/romm/library/roms/nes:/roms/nes:ro
+      - ${FLASH}/romm/library/roms/snes:/roms/snes:ro
+      - ${FLASH}/romm/library/roms/n64:/roms/n64:ro
+      - ${FLASH}/romm/library/roms/ps:/roms/psx:ro
     labels:
       - traefik.enable=true
       - traefik.http.routers.emujs.rule=Host(`emu.${DOMAIN}`)
