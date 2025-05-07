@@ -85,10 +85,10 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.emujs.rule=Host(`emu.${DOMAIN}`)
-      - traefik.http.services.emujs.loadbalancer.server.port=4001
+      - traefik.http.services.emujs.loadbalancer.server.port=3000
       - traefik.docker.network=internal
     ports:
-      - 3025:3000
+      # - 3025:3000
       - 85:80
-      - 4001:4001 #optional
+      #- 4001:4001 #optional
     restart: unless-stopped
