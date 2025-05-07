@@ -33,6 +33,7 @@ services:
       - ${FLASH}/roms/assets:/romm/assets # Uploaded saves, states, etc.
       - ${CONFIGDIR}/media/romm:/romm/config # Path where config.yml is stored
     labels:
+      - traefik.enable=true
       - traefik.http.routers.romm.rule=Host(`romm.${DOMAIN}`)
       - traefik.http.services.romm.loadbalancer.server.port=8080
       - traefik.docker.network=internal
