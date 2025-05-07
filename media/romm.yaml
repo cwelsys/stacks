@@ -88,7 +88,7 @@ services:
       - traefik.http.services.emujs.loadbalancer.server.port=4001
       - traefik.docker.network=internal
     ports:
-      - 3005:3000
+      - 3025:3000
       - 85:80
       - 4001:4001 #optional
     restart: unless-stopped
