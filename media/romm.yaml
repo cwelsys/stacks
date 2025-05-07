@@ -29,8 +29,8 @@ services:
     volumes:
       - romm:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
       - romm-redis:/redis-data # Cached data for background tasks
-      - ${FLASH}/roms:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
-      - ${FLASH}/roms/assets:/romm/assets # Uploaded saves, states, etc.
+      - ${FLASH}/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
+      - ${FLASH}/romm/assets:/romm/assets # Uploaded saves, states, etc.
       - ${CONFIGDIR}/media/romm:/romm/config # Path where config.yml is stored
     labels:
       - traefik.enable=true
