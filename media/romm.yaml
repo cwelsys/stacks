@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - stack
+      - default
     environment:
       - DB_HOST=romm-db
       - DB_NAME=romm # Should match MARIADB_DATABASE in mariadb
@@ -46,7 +46,7 @@ services:
     container_name: romm-db
     restart: unless-stopped
     networks:
-      - stack
+      - default
     environment:
       - MARIADB_ROOT_PASSWORD=${MARIADB_PW}
       - MARIADB_DATABASE=romm
