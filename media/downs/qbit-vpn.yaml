@@ -14,6 +14,7 @@ services:
     volumes:
       - qbit:/config
       - ${RUST}/tor:/data/tor
+      - ${FLASH}/romm/library/roms:/roms
     restart: always
     healthcheck:
       test: [ 'CMD-SHELL', 'curl -sf https://api.ipify.org || exit 1' ]
