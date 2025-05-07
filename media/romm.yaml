@@ -11,6 +11,9 @@ services:
     image: rommapp/romm:latest
     container_name: romm
     restart: unless-stopped
+    networks:
+      - internal
+      - stack
     environment:
       - DB_HOST=romm-db
       - DB_NAME=romm # Should match MARIADB_DATABASE in mariadb
@@ -29,8 +32,10 @@ services:
       - ${FLASH}/roms:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
       - ${FLASH}/roms/assets:/romm/assets # Uploaded saves, states, etc.
       - ${CONFIGDIR}/media/romm:/romm/config # Path where config.yml is stored
-    ports:
-      - 80:8080
+    labels:
+      - traefik.http.routers.romm.rule: Host(`romm.${DOMAIN}`)
+      - traefik.http.services.romm.loadbalancer.server.port: 8080
+      - traefik.docker.network: internal
     depends_on:
       romm-db:
         condition: service_healthy
@@ -40,6 +45,8 @@ services:
     image: mariadb:latest
     container_name: romm-db
     restart: unless-stopped
+    networks:
+      - stack
     environment:
       - MARIADB_ROOT_PASSWORD=${MARIADB_PW}
       - MARIADB_DATABASE=romm
