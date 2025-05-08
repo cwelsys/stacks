@@ -1,0 +1,15 @@
+services:
+  monkeytype:
+    image: themythologist/monkeytype:frontend-latest
+    container_name: monkeytype
+    hostname: monkeytype
+    restart: unless-stopped
+    expose:
+      - 5000
+    networks:
+     - internal
+    labels:
+     - traefik.enable=true
+     - traefik.http.routers.monkeytype.rule=Host(`monkeytype.${DOMAIN}`)
+     - traefik.http.services.monkeytype.loadbalancer.server.port=5000
+     - traefik.docker.network=internal
