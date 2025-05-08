@@ -14,6 +14,7 @@ services:
     environment:
       - NODE_ENV=production
       - TZ=${TZ}
+      - REDIS_HOST=immich-redis
     expose:
       - 2283
     depends_on:
