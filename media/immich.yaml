@@ -20,6 +20,8 @@ services:
       - immich-redis
       - immich-db
     restart: unless-stopped
+    healthcheck:
+      disable: false
     networks:
       - internal
       - media
@@ -43,6 +45,8 @@ services:
       - DB_PASSWORD=${IMMICH_DB_PASSWORD}
       - REDIS_HOST=immich-redis
     restart: unless-stopped
+    healthcheck:
+      disable: false
     networks:
       - internal
       - media
