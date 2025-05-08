@@ -15,6 +15,7 @@ services:
       - NODE_ENV=production
       - TZ=${TZ}
       - REDIS_HOST=immich-redis
+      - REDIS_HOSTNAME=immich-redis  # Added this line
       - DB_HOSTNAME=immich-db
     expose:
       - 2283
@@ -46,6 +47,7 @@ services:
       - DB_USERNAME=immich
       - DB_PASSWORD=${IMMICH_DB_PASSWORD}
       - REDIS_HOST=immich-redis
+      - REDIS_HOSTNAME=immich-redis  # Added this line
       - DB_HOSTNAME=immich-db
     restart: unless-stopped
     healthcheck:
