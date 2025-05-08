@@ -1,0 +1,24 @@
+volumes:
+  gitea:
+    external: true
+services:
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: unless-stopped
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    hostname: gitea
+    expose:
+      - 3000
+      - 22
+    volumes:
+      - gitea:/data
+    networks:
+     - internal
+    labels:
+     - traefik.enable=true
+     - traefik.http.routers.gitea.rule=Host(`git.${DOMAIN}`)
+     - traefik.http.services.gitea.loadbalancer.server.port=3000
+     - traefik.docker.network=internal
