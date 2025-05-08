@@ -254,6 +254,17 @@ GUAC_PG_PASS="op://Secrets/Guacamole/pg_pass"
 """
 
 ##
+[[stack]]
+name = "mealie"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc"
+file_paths = ["mealie.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
 
 [[stack]]
 name = "internal"
