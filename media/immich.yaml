@@ -42,6 +42,8 @@ services:
       - DB_USERNAME=immich
       - DB_PASSWORD=${IMMICH_DB_PASSWORD}
     restart: unless-stopped
+    healthcheck:
+      disable: false
     networks:
       - internal
       - media
