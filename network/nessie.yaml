@@ -3,8 +3,8 @@ services:
     image: tenableofficial/nessus:latest
     container_name: nessus
     hostname: nessus
-    ports:
-      - 8834:8834/tcp
+    # ports:
+    #   - 8834:8834/tcp
     expose:
       - 8834
     environment:
@@ -12,3 +12,8 @@ services:
       - USERNAME=nessus
       - PASSWORD=${NESSIE_PW}
     restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nessus.rule=Host(`nessus.${DOMAIN}`)
+      - traefik.http.services.nessus.loadbalancer.server.port=8834
+      - traefik.docker.network=internal
