@@ -295,6 +295,18 @@ NESSIE_PW="op://Secrets/Nessus/password"
 ##
 
 [[stack]]
+name = "netdata"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network"
+file_paths = ["netdata.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
 name = "kop"
 [stack.config]
 server = "pbox"
