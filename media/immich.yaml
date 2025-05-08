@@ -20,6 +20,8 @@ services:
       - immich-redis
       - immich-db
     restart: unless-stopped
+    healthcheck:
+      disable: false
     networks:
       - internal
       - media
