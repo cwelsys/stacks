@@ -14,8 +14,10 @@ services:
     environment:
       - NODE_ENV=production
       - TZ=${TZ}
+      - DB_USERNAME=immich
+      - DB_PASSWORD=${DB_PASSWORD}
       - REDIS_HOST=immich-redis
-      - REDIS_HOSTNAME=immich-redis  # Added this line
+      - REDIS_HOSTNAME=immich-redis
       - DB_HOSTNAME=immich-db
     expose:
       - 2283
