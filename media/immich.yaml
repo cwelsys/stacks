@@ -45,7 +45,7 @@ services:
       - TZ=${TZ}
       - DB_DATABASE_NAME=immich
       - DB_USERNAME=immich
-      - DB_PASSWORD=${IMMICH_DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD}
       - REDIS_HOST=immich-redis
       - REDIS_HOSTNAME=immich-redis  # Added this line
       - DB_HOSTNAME=immich-db
