@@ -338,6 +338,18 @@ LINKDING_PASS="op://Secrets/Linkding/password"
 ##
 
 [[stack]]
+name = "posio"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc"
+file_paths = ["posio.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
 name = "mealie"
 [stack.config]
 server = "pbox"
