@@ -1,0 +1,105 @@
+volumes:
+  rx-db:
+    external: true
+  minio:
+    external: true
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: rx-db
+    restart: unless-stopped
+    expose:
+      - 5432
+    volumes:
+      - rx-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=rxres
+      - POSTGRES_USER=rxres
+      - POSTGRES_PASSWORD=${RX_PG_PASS}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+     - internal
+
+  minio:
+    image: minio/minio
+    container_name: rx-minio
+    restart: unless-stopped
+    command: server /data
+    # ports:
+    #   - 9000:9000
+    expose:
+      - 9000
+    volumes:
+      - minio:/data
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=${MINIO_PW}
+    networks:
+     - internal
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.minio.rule=Host(`rx-storage.${DOMAIN}`)
+     - traefik.http.services.minio.loadbalancer.server.port=9000
+
+  chrome:
+    image: ghcr.io/browserless/chromium:latest
+    container_name: rx-chrome
+    restart: unless-stopped
+    environment:
+      - TIMEOUT=10000
+      - CONCURRENT=10
+      - TOKEN=${CHROME_TOKEN}
+      - EXIT_ON_HEALTH_FAILURE=true
+      - PRE_REQUEST_HEALTH_CHECK=true
+    networks:
+     - internal
+
+  app:
+    image: amruthpillai/reactive-resume:latest
+    container_name: rx-resume
+    restart: unless-stopped
+    # ports:
+    #   - 3000:3000
+    expose:
+      - 3000
+    depends_on:
+      - postgres
+      - minio
+      - chrome
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - PUBLIC_URL=https://resume.${DOMAIN} # replace with your https url if reverse proxy in use; e.g. https://resume.${DOMAIN}
+      - STORAGE_URL=https://rx-storage.${DOMAIN} # replace with your https url if reverse proxy in use; e.g. https://storage.${DOMAIN}
+      - CHROME_TOKEN=${CHROME_TOKEN}
+      - CHROME_URL=ws://chrome:3000
+      - DATABASE_URL=postgresql://rxres:${RX_PG_PASS}@rxres:5432/rxres
+      - ACCESS_TOKEN_SECRET=${RX_ACCESS_TOKEN}
+      - REFRESH_TOKEN_SECRET=${RX_ACCESS_TOKEN_SECRET}
+      - MAIL_FROM=noreply@${DOMAIN}
+      - SMTP_URL=smtp://${SMTP_USER}:${SMTP_PASS}@smtp:587 # Optional
+      - STORAGE_ENDPOINT=minio
+      - STORAGE_PORT=9000
+      - STORAGE_REGION=us-east-1 # Optional
+      - STORAGE_BUCKET=default
+      - STORAGE_ACCESS_KEY=minioadmin
+      - STORAGE_SECRET_KEY=minioadmin
+      - STORAGE_USE_SSL=false
+      - DISABLE_SIGNUPS=false
+      - DISABLE_EMAIL_AUTH=false
+    networks:
+     - internal
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.rxresume.rule=Host(`resume.${DOMAIN}`)
+     - traefik.http.services.rxresume.loadbalancer.server.port=3000
+
+
+

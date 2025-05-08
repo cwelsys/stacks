@@ -71,12 +71,12 @@ additional_env_files = ["../global.env"]
 ##
 
 [[stack]]
-name = "dashboard"
+name = "dash"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "dash"
+run_directory = "misc"
 file_paths = ["homepage.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -385,6 +385,24 @@ MARIADB_PW="op://Secrets/Romm/db/mariadbroot"
 ROMM_DB_PW="op://Secrets/Romm/db/rommdb"
 IGDB_CLIENT_ID="op://Secrets/Romm/twitch/twitchid"
 IGDB_CLIENT_SECRET="op://Secrets/Romm/twitch/twitchsecret"
+"""
+
+##
+
+[[stack]]
+name = "resume"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc"
+file_paths = ["rxresume.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+
 """
 
 ##
