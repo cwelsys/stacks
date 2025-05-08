@@ -10,6 +10,6 @@ services:
      - internal
     labels:
      - traefik.enable=true
-     - traefik.http.routers.monkeytype.rule=Host(`monkeytype.${DOMAIN}`)
+     - traefik.http.routers.monkeytype.rule=Host(`monkey.${DOMAIN}`)
      - traefik.http.services.monkeytype.loadbalancer.server.port=5000
      - traefik.docker.network=internal
