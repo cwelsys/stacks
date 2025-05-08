@@ -12,6 +12,8 @@ services:
       - USERNAME=nessus
       - PASSWORD=${NESSIE_PW}
     restart: always
+    networks:
+      - internal
     labels:
       - traefik.enable=true
       - traefik.http.routers.nessus.rule=Host(`nessus.${DOMAIN}`)
