@@ -65,23 +65,13 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "dev"
-file_paths = ["codeserver.yaml", "../pbox.yaml"]
+file_paths = [
+  "codeserver.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 
 ##
-
-[[stack]]
-name = "gitea"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "dev"
-file_paths = ["gitea.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-
-##
-
 
 [[stack]]
 name = "dashboard"
@@ -125,6 +115,7 @@ GRAFANA_PASS="op://Secrets/Grafana/password"
 JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
 STASH_API_KEY="op://Secrets/Stash/credential"
 TECHNITIUM_API_KEY="op://Secrets/Technitium/credential"
+IMMICH_API_KEY="op://Secrets/Immich/credential"
 """
 
 ##
@@ -141,7 +132,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -178,7 +169,11 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
+file_paths = [
+  "qbit-vpn.yaml",
+  "sab.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -189,28 +184,6 @@ QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
 SABNZBD_API_KEY="op://Secrets/Sabnzbd/credential"
 WIREGUARD_PRIVATE_KEY="op://Secrets/Wireguard/credential"
 GLUETUN_APIKEY="op://Secrets/Gluetun/credential"
-"""
-
-##
-
-[[stack]]
-name = "immich"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "media"
-file_paths = ["immich.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-DB_PASSWORD="op://Secrets/Immich/pg_pass"
-UPLOAD_LOCATION=/mnt/media/image
-DB_USERNAME=immich
-DB_DATABASE_NAME=immich
-DB_DATA_LOCATION=immich-db
 """
 
 ##
@@ -238,6 +211,18 @@ INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 ##
 
 [[stack]]
+name = "gitea"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "dev"
+file_paths = ["gitea.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
 name = "guac"
 [stack.config]
 server = "pbox"
@@ -254,15 +239,26 @@ GUAC_PG_PASS="op://Secrets/Guacamole/pg_pass"
 """
 
 ##
+
 [[stack]]
-name = "mealie"
+name = "immich"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "misc"
-file_paths = ["mealie.yaml", "../pbox.yaml"]
+run_directory = "media"
+file_paths = ["immich.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+DB_PASSWORD="op://Secrets/Immich/pg_pass"
+UPLOAD_LOCATION=/mnt/media/image
+DB_USERNAME=immich
+DB_DATABASE_NAME=immich
+DB_DATA_LOCATION=immich-db
+"""
 
 ##
 
@@ -317,6 +313,18 @@ LINKDING_PASS="op://Secrets/Linkding/password"
 ##
 
 [[stack]]
+name = "mealie"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc"
+file_paths = ["mealie.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
 name = "media"
 [stack.config]
 server = "pbox"
@@ -328,7 +336,7 @@ file_paths = [
   "jellyfin.yaml",
   "stash.yaml",
   "romm.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -376,7 +384,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "tools.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
