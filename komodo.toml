@@ -210,6 +210,24 @@ INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 ##
 
 [[stack]]
+name = "guac"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "system"
+file_paths = ["guac.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+GUAC_PG_PASS="op://Secrets/Guacamole/pg_pass"
+"""
+
+##
+
+[[stack]]
 name = "internal"
 [stack.config]
 server = "pbox"
@@ -327,7 +345,7 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 TS_AUTHKEY="op://Secrets/Tailscale/socketauth"
 NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
-GUAC_PG_PASS="op://Secrets/Guacamole/pg_pass"
+
 """
 
 ##
