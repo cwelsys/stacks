@@ -39,12 +39,5 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-  proxy:
-    container_name: ndata-sockp
-    network_mode: host
-    image: tecnativa/docker-socket-proxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - CONTAINERS=1
+
 
