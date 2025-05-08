@@ -38,7 +38,7 @@ services:
     image: altran1502/immich-machine-learning:${IMMICH_VERSION:-release}
     container_name: immich-ml
     volumes:
-      - ${RUST}/image:/usr/src/app/upload
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - immich-ml:/cache
     environment:
       - NODE_ENV=production
