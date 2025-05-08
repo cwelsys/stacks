@@ -336,6 +336,7 @@ file_paths = [
   "tailsocket.yaml",
   "dozzle.yaml",
   "scrutiny.yaml",
+  "tools.yaml",
   "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
