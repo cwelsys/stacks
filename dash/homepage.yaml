@@ -46,6 +46,7 @@ services:
       - HOMEPAGE_VAR_JELLYFIN_API_KEY=${JELLYFIN_API_KEY}
       - HOMEPAGE_VAR_STASH_API_KEY=${STASH_API_KEY}
       - HOMEPAGE_VAR_TECHNITIUM_API_KEY=${TECHNITIUM_API_KEY}
+      - HOMEPAGE_VAR_IMMICH_API_KEY=${IMMICH_API_KEY}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/homepage/images:/app/public/images
