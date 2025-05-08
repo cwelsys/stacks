@@ -177,9 +177,9 @@ name = "downs"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "media/downs"
-file_paths = ["qbit-vpn.yaml", "sab.yaml", "../../pbox.yaml"]
-additional_env_files = ["../../global.env"]
+run_directory = "media"
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
@@ -189,6 +189,24 @@ QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
 SABNZBD_API_KEY="op://Secrets/Sabnzbd/credential"
 WIREGUARD_PRIVATE_KEY="op://Secrets/Wireguard/credential"
 GLUETUN_APIKEY="op://Secrets/Gluetun/credential"
+"""
+
+##
+
+[[stack]]
+name = "immich"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["immich.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+IMMICH_DB_PASSWORD="op://Secrets/Immich/pg_pass"
 """
 
 ##

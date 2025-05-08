@@ -1,0 +1,70 @@
+volumes:
+  immich-ml:
+    external: true
+  immich-db:
+    external: true
+
+services:
+  immich-server:
+    image: altran1502/immich-server:${IMMICH_VERSION:-release}
+    container_name: immich
+    volumes:
+      - ${RUST}/image:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - NODE_ENV=production
+      - TZ=${TZ}
+    expose:
+      - 2283
+    depends_on:
+      - immich-redis
+      - immich-db
+    restart: unless-stopped
+    networks:
+      - internal
+      - default
+    labels:
+     - traefik.enable=true
+     - traefik.http.routers.immich.rule=Host(`immich.${DOMAIN}`)
+     - traefik.http.services.immich.loadbalancer.server.port=2283
+     - traefik.docker.network=internal
+
+  immich-machine-learning:
+    image: altran1502/immich-machine-learning:${IMMICH_VERSION:-release}
+    container_name: immich-ml
+    volumes:
+      - ${RUST}/image:/usr/src/app/upload
+      - immich-ml:/cache
+    environment:
+      - NODE_ENV=production
+      - TZ=${TZ}
+    restart: unless-stopped
+    networks:
+      - internal
+      - default
+
+  immich-redis:
+    image: docker.io/valkey/valkey:8-bookworm
+    container_name: immich-redis
+    restart: unless-stopped
+    healthcheck:
+      test: redis-cli ping || exit 1
+    networks:
+      - default
+
+  immich-db:
+    image: tensorchord/pgvecto-rs:pg14-v0.2.0
+    container_name: immich-db
+    environment:
+      POSTGRES_PASSWORD: ${IMMICH_DB_PASSWORD}
+      POSTGRES_USER: immich
+      POSTGRES_DB: immich
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - immich-db:/var/lib/postgresql/data
+    command: >-
+      postgres -c shared_preload_libraries=vectors.so -c 'search_path="$$user", public, vectors' -c logging_collector=on -c max_wal_size=2GB -c shared_buffers=512MB -c wal_compression=on
+    restart: unless-stopped
+    networks:
+      - default
+
