@@ -206,7 +206,11 @@ pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-IMMICH_DB_PASSWORD="op://Secrets/Immich/pg_pass"
+DB_PASSWORD="op://Secrets/Immich/pg_pass"
+UPLOAD_LOCATION=/mnt/media/image
+DB_USERNAME=immich
+DB_DATABASE_NAME=immich
+DB_DATA_LOCATION=immich-db
 """
 
 ##
