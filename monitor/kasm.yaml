@@ -18,8 +18,8 @@ services:
     volumes:
       - kasm:/opt
       - ${CONFIGDIR}/kasm:/profiles
-      - /dev/input:/dev/input:ro
-      - /run/udev/data:/run/udev/data:ro
+      - /dev/input:/dev/input
+      - /run/udev/data:/run/udev/data
     labels:
       - traefik.enable=true
       - traefik.http.routers.kasm.rule=Host(`kasm.${DOMAIN}`)
