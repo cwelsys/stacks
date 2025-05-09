@@ -65,10 +65,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "dev"
-file_paths = [
-  "codeserver.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["codeserver.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -133,7 +130,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -170,11 +167,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [
-  "qbit-vpn.yaml",
-  "sab.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -338,7 +331,7 @@ file_paths = [
   "jellyfin.yaml",
   "stash.yaml",
   "romm.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -351,18 +344,6 @@ ROMM_DB_PW="op://Secrets/Romm/db/rommdb"
 IGDB_CLIENT_ID="op://Secrets/Romm/twitch/twitchid"
 IGDB_CLIENT_SECRET="op://Secrets/Romm/twitch/twitchsecret"
 """
-
-##
-
-[[stack]]
-name = "mesh"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "monitor"
-file_paths = ["mesh.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
 
 ##
 
@@ -452,7 +433,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "tools.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
