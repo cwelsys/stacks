@@ -27,7 +27,7 @@ services:
       - POSTGRES_USER=guac
       - POSTGRES_PASSWORD=${GUAC_PG_PASS}
     volumes:
-      - ${CONFIGDIR}/guacamole/psql/init:/docker-entrypoint-initdb.d:z
+      # - ${CONFIGDIR}/guacamole/psql/init:/docker-entrypoint-initdb.d:z
       - guac-db:/var/lib/postgresql/data:Z
     networks:
      - default
