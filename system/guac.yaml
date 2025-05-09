@@ -1,19 +1,13 @@
-volumes:
-  guacd:
-    external: true
-  guac-db:
-    external: true
-
 services:
   guacd:
     image: guacamole/guacd
     container_name: guacd
     restart: always
     volumes:
-      - guacd:/drive:rw
-      - guacd:/record:rw
-    # networks:
-    #  - guac
+      - ${CONFIGDIR}/guac/drive:/drive:rw
+      - ${CONFIGDIR}/guac/record:/record:rw
+    networks:
+     - guac
 
   postgres:
     image: postgres:16-alpine
@@ -27,10 +21,10 @@ services:
       - POSTGRES_USER=guac
       - POSTGRES_PASSWORD=${GUAC_PG_PASS}
     volumes:
-      # - ${CONFIGDIR}/guacamole/psql/init:/docker-entrypoint-initdb.d:z
+      # - ${CONFIGDIR}/guac/psql/init:/docker-entrypoint-initdb.d:z
       - guac-db:/var/lib/postgresql/data:Z
-    # networks:
-    #  - guac
+    networks:
+     - guac
 
   guacamole:
     image: guacamole/guacamole
@@ -41,22 +35,23 @@ services:
       - postgres
     environment:
       - GUACD_HOSTNAME=guacd
+      - GUACD_PORT=4822
       - POSTGRESQL_HOSTNAME=postgres
       - POSTGRESQL_DATABASE=guac
       - POSTGRESQL_USER=guac
       - POSTGRESQL_PASSWORD=${GUAC_PG_PASS}
     links:
       - guacd
-    ports:
-      - 8095:8080/tcp 
+    # ports:
+    #   - 8095:8080/tcp 
     expose:
       - 8080
-    # networks:
-    #  - internal
-    #  - guac
-    # labels:
-    #  - traefik.enable=true
-    #  - traefik.docker.network=internal
-    #  - traefik.http.routers.guacamole.rule=Host(`guac.${DOMAIN}`) && PathPrefix(`/guacamole`)
-    #  - traefik.http.services.guacamole.loadbalancer.server.port=8080
+    networks:
+     - internal
+     - guac
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.guacamole.rule=Host(`guac.${DOMAIN}`) && PathPrefix(`/guacamole`)
+     - traefik.http.services.guacamole.loadbalancer.server.port=8080
 
