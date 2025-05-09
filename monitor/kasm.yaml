@@ -10,7 +10,7 @@ services:
     security_opt:
       - apparmor:rootlesskit #optional
     environment:
-      - KASM_PORT=443
+      - KASM_PORT=8443
     volumes:
       - kasm:/opt
       - ${CONFIGDIR}/kasm:/profiles
@@ -18,7 +18,7 @@ services:
       - /run/udev/data:/run/udev/data
     ports:
       - 3000:3000
-      - 443:443
+      - 8443:443
     restart: unless-stopped
 
     # labels:
