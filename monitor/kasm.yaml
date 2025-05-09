@@ -12,9 +12,9 @@ services:
       - internal
     environment:
       - KASM_PORT=8443
-    # ports:
-    #   - 3000:3000
-    #   - 8443:443
+    ports:
+      - 3069:3000
+      - 8443:443
     volumes:
       - kasm:/opt
       - ${CONFIGDIR}/kasm:/profiles
