@@ -23,7 +23,7 @@ services:
     volumes:
       - mesh:/opt/meshcentral
       - ${CONFIGDIR}/mesh/config.json:/opt/meshcentral/meshcentral-data/config.json:rw
-      - ${CONFIGDIR}/mesh/theme:/opt/meshcentral/meshcentral-web:rw
+      # - ${CONFIGDIR}/mesh/theme:/opt/meshcentral/meshcentral-web:rw
     labels:
       - traefik.enable=true
       - traefik.http.routers.mesh.rule=Host(`mesh.${DOMAIN}`)
