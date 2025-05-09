@@ -217,13 +217,13 @@ additional_env_files = ["../global.env"]
 ##
 
 [[stack]]
-name = "mesh"
+name = "kasm"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "monitor"
-file_paths = ["mesh.yaml", "../pbox.yaml"]
+file_paths = ["kasm.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
