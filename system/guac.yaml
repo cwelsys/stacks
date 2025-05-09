@@ -13,7 +13,7 @@ services:
       - guacd:/drive:rw
       - guacd:/record:rw
     networks:
-     - default
+     - guac
 
   postgres:
     image: postgres:16-alpine
@@ -30,7 +30,7 @@ services:
       # - ${CONFIGDIR}/guacamole/psql/init:/docker-entrypoint-initdb.d:z
       - guac-db:/var/lib/postgresql/data:Z
     networks:
-     - default
+     - guac
 
   guacamole:
     image: guacamole/guacamole
@@ -51,7 +51,7 @@ services:
       - 8080
     networks:
      - internal
-     - default
+     - guac
     labels:
      - traefik.enable=true
      - traefik.docker.network=internal
