@@ -22,4 +22,6 @@ networks:
     external: true
   monitoring:
     external: true
+  guac:
+    external: true
 
