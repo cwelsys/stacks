@@ -1,29 +1,44 @@
 volumes:
   mesh:
     external: true
+  meshdb:
+    external: true
 
 services:
   meshcentral:
     container_name: mesh
     restart: unless-stopped
     image: ghcr.io/ylianst/meshcentral:master
+    depends_on:
+      - meshdb
     networks:
       - internal
+      - stack
     environment:
+      - NODE_ENV=production
       - HOSTNAME=mesh.${DOMAIN}
       - REVERSE_PROXY=true
-      - REVERSE_PROXY_TLS_PORT=7443
-      - ALLOW_NEW_ACCOUNTS=true
-    # ports:
-    #   - 80:80
-    #   - 443:443
-    #   - 4433:4433
+    ports:
+      - 8086:4430
     volumes:
       - mesh:/opt/meshcentral
-      - ${CONFIGDIR}/mesh:/opt/meshcentral/meshcentral-data:rw
+      - ${CONFIGDIR}/mesh/config.json:/opt/meshcentral/meshcentral-data/config.json:rw
     labels:
       - traefik.enable=true
       - traefik.http.routers.mesh.rule=Host(`mesh.${DOMAIN}`)
-      - traefik.http.services.mesh.loadbalancer.server.port=7443
+      - traefik.http.services.mesh.loadbalancer.server.port=4430
       - traefik.docker.network=internal
       # - traefik.http.routers.mesh.middlewares=auth-proxy@docker
+
+  meshdb:
+    container_name: meshdb
+    restart: always
+    image: mongo:latest
+    networks:
+      - stack
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=meshdb
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - meshdb:/data/db
+
