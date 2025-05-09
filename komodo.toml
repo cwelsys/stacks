@@ -65,7 +65,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "dev"
-file_paths = ["codeserver.yaml", "../pbox.yaml"]
+file_paths = [
+  "codeserver.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 
 ##
@@ -130,7 +133,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -167,7 +170,11 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
+file_paths = [
+  "qbit-vpn.yaml",
+  "sab.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -217,14 +224,21 @@ additional_env_files = ["../global.env"]
 ##
 
 [[stack]]
-name = "mesh"
+name = "grafana"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "monitor"
-file_paths = ["mesh.yaml", "../pbox.yaml"]
+file_paths = ["grafana.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+INFLUXDB_PASS="op://Secrets/InfluxDB/password"
+INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
+"""
 
 ##
 
@@ -270,37 +284,6 @@ INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 ##
 
 [[stack]]
-name = "nessie"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "monitor"
-file_paths = ["nessie.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-NESSIE_CODE="op://Secrets/Nessus/activation"
-NESSIE_PW="op://Secrets/Nessus/password"
-"""
-
-##
-
-[[stack]]
-name = "netdata"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "monitor"
-file_paths = ["netdata.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-
-##
-
-[[stack]]
 name = "kop"
 [stack.config]
 server = "pbox"
@@ -332,18 +315,6 @@ LINKDING_PASS="op://Secrets/Linkding/password"
 ##
 
 [[stack]]
-name = "posio"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "misc"
-file_paths = ["posio.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-
-##
-
-[[stack]]
 name = "mealie"
 [stack.config]
 server = "pbox"
@@ -367,7 +338,7 @@ file_paths = [
   "jellyfin.yaml",
   "stash.yaml",
   "romm.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -380,6 +351,73 @@ ROMM_DB_PW="op://Secrets/Romm/db/rommdb"
 IGDB_CLIENT_ID="op://Secrets/Romm/twitch/twitchid"
 IGDB_CLIENT_SECRET="op://Secrets/Romm/twitch/twitchsecret"
 """
+
+##
+
+[[stack]]
+name = "mesh"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["mesh.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
+name = "monkeytype"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc"
+file_paths = ["monkey.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
+name = "nessie"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["nessie.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+NESSIE_CODE="op://Secrets/Nessus/activation"
+NESSIE_PW="op://Secrets/Nessus/password"
+"""
+
+##
+
+[[stack]]
+name = "netdata"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["netdata.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
+name = "posio"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc"
+file_paths = ["posio.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
 
 ##
 
@@ -402,37 +440,6 @@ environment = """
 ##
 
 [[stack]]
-name = "grafana"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "monitor"
-file_paths = ["grafana.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-INFLUXDB_PASS="op://Secrets/InfluxDB/password"
-INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
-"""
-
-##
-
-[[stack]]
-name = "monkeytype"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "misc"
-file_paths = ["monkey.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-
-##
-
-[[stack]]
 name = "system"
 [stack.config]
 server = "pbox"
@@ -445,7 +452,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "tools.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -465,7 +472,7 @@ name = "web"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network"
+run_directory = "misc"
 file_paths = ["umami.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
