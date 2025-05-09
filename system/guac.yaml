@@ -47,14 +47,16 @@ services:
       - POSTGRESQL_PASSWORD=${GUAC_PG_PASS}
     links:
       - guacd
+    ports:
+      - 8095:8080
     expose:
       - 8080
     networks:
      - internal
      - guac
-    labels:
-     - traefik.enable=true
-     - traefik.docker.network=internal
-     - traefik.http.routers.guacamole.rule=Host(`guac.${DOMAIN}`) && PathPrefix(`/guacamole`)
-     - traefik.http.services.guacamole.loadbalancer.server.port=8080
+    # labels:
+    #  - traefik.enable=true
+    #  - traefik.docker.network=internal
+    #  - traefik.http.routers.guacamole.rule=Host(`guac.${DOMAIN}`) && PathPrefix(`/guacamole`)
+    #  - traefik.http.services.guacamole.loadbalancer.server.port=8080
 
