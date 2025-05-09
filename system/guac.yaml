@@ -55,6 +55,6 @@ services:
     labels:
      - traefik.enable=true
      - traefik.docker.network=internal
-     - traefik.http.routers.guacamole.rule=Host(`guac.${DOMAIN}`)
+     - traefik.http.routers.guacamole.rule=Host(`guac.${DOMAIN}`) && PathPrefix(`/guacamole`)
      - traefik.http.services.guacamole.loadbalancer.server.port=8080
 
