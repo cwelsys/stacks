@@ -217,20 +217,14 @@ additional_env_files = ["../global.env"]
 ##
 
 [[stack]]
-name = "guac"
+name = "mesh"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "system"
-file_paths = ["guac.yaml", "../pbox.yaml"]
+run_directory = "monitor"
+file_paths = ["mesh.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-GUAC_PG_PASS="op://Secrets/Guacamole/pg_pass"
-"""
 
 ##
 

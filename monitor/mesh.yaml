@@ -1,0 +1,23 @@
+volumes:
+  mesh:
+    external: true
+
+services:
+  meshcentral:
+    container_name: mesh
+    restart: unless-stopped
+    image: ghcr.io/ylianst/meshcentral:master
+    networks:
+      - internal
+    # ports:
+    #   - 80:80
+    #   - 443:443
+    #   - 4433:4433
+    volumes:
+      - mesh:/opt/meshcentral
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mesh.rule=Host(`mesh.${DOMAIN}`)
+      - traefik.http.services.mesh.loadbalancer.server.port=4433
+      - treafik.docker.network=internal
+      # - traefik.http.routers.mesh.middlewares=auth-proxy@docker
