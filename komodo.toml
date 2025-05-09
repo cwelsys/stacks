@@ -281,7 +281,7 @@ name = "nessie"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network"
+run_directory = "monitor"
 file_paths = ["nessie.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -300,7 +300,7 @@ name = "netdata"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network"
+run_directory = "monitor"
 file_paths = ["netdata.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
@@ -408,13 +408,13 @@ environment = """
 ##
 
 [[stack]]
-name = "monitor"
+name = "grafana"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "monitor"
-file_paths = ["monitor.yaml", "../pbox.yaml"]
+file_paths = ["grafana.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
