@@ -25,5 +25,5 @@ services:
       - traefik.enable=true
       - traefik.http.routers.mesh.rule=Host(`mesh.${DOMAIN}`)
       - traefik.http.services.mesh.loadbalancer.server.port=7443
-      - treafik.docker.network=internal
+      - traefik.docker.network=internal
       # - traefik.http.routers.mesh.middlewares=auth-proxy@docker
