@@ -48,11 +48,11 @@ services:
     links:
       - guacd
     ports:
-      - 8095:8080
+      - 8080:8080/tcp 
     expose:
       - 8080
     networks:
-     - internal
+    #  - internal
      - guac
     # labels:
     #  - traefik.enable=true
