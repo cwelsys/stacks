@@ -8,6 +8,8 @@ services:
     container_name: kasm
     privileged: true
     restart: unless-stopped
+    security_opt:
+      - apparmor:rootlesskit
     # networks:
     #   - internal
     environment:
