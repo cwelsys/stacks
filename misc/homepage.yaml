@@ -48,6 +48,7 @@ services:
       - HOMEPAGE_VAR_TECHNITIUM_API_KEY=${TECHNITIUM_API_KEY}
       - HOMEPAGE_VAR_IMMICH_API_KEY=${IMMICH_API_KEY}
       - HOMEPAGE_VAR_MEALIE_API_KEY=${MEALIE_API_KEY}
+      - HOMEPAGE_VAR_BESZEL_PW=${BESZEL_PW}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/homepage/images:/app/public/images
