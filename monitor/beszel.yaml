@@ -1,0 +1,36 @@
+volumes:
+  beszel:
+    external: true
+  beszel-socket:
+    external: true
+
+services:
+  beszel:
+    image: henrygd/beszel:latest
+    container_name: beszel
+    restart: unless-stopped
+    networks:
+      - internal
+    # ports:
+    #   - 8090:8090
+    volumes:
+      - beszel:/beszel_data
+      - beszel-socket:/beszel_socket
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.beszel.rule=Host(`bez.${DOMAIN}`)
+      - traefik.http.services.beszel.loadbalancer.server.port=8090
+      - traefik.docker.network=internal
+
+  beszel-agent:
+    image: henrygd/beszel-agent:latest
+    container_name: beszel-agent
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - beszel-socket:/beszel_socket
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      LISTEN: /beszel_socket/beszel.sock
+      # Do not remove quotes around the key
+      KEY: 'UPDATE WITH YOUR PUBLIC KEY (copy from "Add system" dialog)'

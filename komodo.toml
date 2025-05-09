@@ -217,6 +217,18 @@ additional_env_files = ["../global.env"]
 ##
 
 [[stack]]
+name = "beszel"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["beszel.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
 name = "grafana"
 [stack.config]
 server = "pbox"
