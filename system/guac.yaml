@@ -1,3 +1,7 @@
+volumes:
+  guac-db:
+    external: true
+    
 services:
   guacd:
     image: guacamole/guacd
