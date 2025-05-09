@@ -20,9 +20,9 @@ services:
       - ${CONFIGDIR}/kasm:/profiles
       - /dev/input:/dev/input
       - /run/udev/data:/run/udev/data
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.kasm.rule=Host(`kasm.${DOMAIN}`)
-      - traefik.http.services.kasm.loadbalancer.server.port=3000
-      - traefik.docker.network=internal
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.http.routers.kasm.rule=Host(`kasm.${DOMAIN}`)
+    #   - traefik.http.services.kasm.loadbalancer.server.port=3000
+    #   - traefik.docker.network=internal
 
