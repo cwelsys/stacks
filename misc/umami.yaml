@@ -12,8 +12,8 @@ services:
       APP_SECRET: ${APP_SECRET}
     init: true
     restart: always
-    ports:
-      - '3000:3000'
+    # ports:
+    #   - '3000:3000'
     networks:
       - public
       - stack
