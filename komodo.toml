@@ -566,7 +566,7 @@ repo = "cwel/stacks"
 name = "local"
 [builder.config]
 type = "Server"
-params = {}
+params.server_id = "pbox"
 
 ##
 
