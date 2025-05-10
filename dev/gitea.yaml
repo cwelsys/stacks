@@ -3,6 +3,8 @@ volumes:
     external: true
   git-db:
     external: true
+  git-runner:
+    external: true
 
 services:
   gitea:
@@ -44,3 +46,20 @@ services:
       - stack
     volumes:
       - git-db:/var/lib/postgresql/data
+      
+  runner:
+    image: gitea/act_runner:0.2.11
+    container_name: gitea-runner
+    restart: always
+    depends_on:
+      - gitea
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${CONFIGDIR}/gitea/runner/config.yaml:/config.yaml
+      - git-runner:/data
+    environment:
+      - TZ=${TZ}
+      - CONFIG_FILE=/config.yaml
+      - GITEA_INSTANCE_URL=gitea:3000
+      - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
+      - GITEA_RUNNER_NAME=atlas
