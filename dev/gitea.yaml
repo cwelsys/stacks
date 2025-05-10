@@ -46,7 +46,7 @@ services:
       - stack
     volumes:
       - git-db:/var/lib/postgresql/data
-      
+
   runner:
     image: gitea/act_runner:0.2.11
     container_name: gitea-runner
@@ -61,8 +61,7 @@ services:
       - ${CONFIGDIR}/gitea/runner/config.yaml:/config.yaml
       - git-runner:/data
     environment:
-      - TZ=${TZ}
-      - CONFIG_FILE=/config.yaml
-      - GITEA_INSTANCE_URL=gitea:3000
-      - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
-      - GITEA_RUNNER_NAME=atlas
+      CONFIG_FILE: /config.yaml
+      GITEA_INSTANCE_URL: "https://git.${DOMAIN}"
+      GITEA_RUNNER_REGISTRATION_TOKEN: "${GITEA_RUNNER_TOKEN}"
+      GITEA_RUNNER_NAME: "atlas"
