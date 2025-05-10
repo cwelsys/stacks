@@ -51,6 +51,8 @@ services:
     image: gitea/act_runner:0.2.11
     container_name: gitea-runner
     restart: always
+    networks:
+      - stack
     depends_on:
       - gitea
     volumes:
