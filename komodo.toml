@@ -525,6 +525,19 @@ NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
 ##
 
 [[stack]]
+name = "obsidian"
+[stack.config]
+server = "pbox"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+run_directory = "dev"
+file_paths = ["notes.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
 name = "web"
 [stack.config]
 server = "pbox"

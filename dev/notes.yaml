@@ -1,0 +1,33 @@
+volumes:
+  obsidian:
+    external: true
+
+services:
+  obsidian:
+    image: 'ghcr.io/sytone/obsidian-remote:latest'
+    container_name: obsidian
+    restart: unless-stopped
+    networks:
+      - internal
+    ports:
+      # - 8080:8080 # Obsidian Web Interface
+      #- 27123:27123 # Local REST API Plugin HTTP Server Port
+      #- 27124:27124 # Local REST API Plugin HTTPS Server Port
+    expose:
+      - 8080
+      - 27123
+      - 27124
+    volumes:
+      - ${CONFIGDIR}/obsidian:/vaults
+      - obsidian:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DOCKER_MODS=linuxserver/mods:universal-git
+      - KEYBOARD=en-us-qwerty
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.obsidian.rule=Host(`notes.${DOMAIN}`)
+      - traefik.http.services.obsidian.loadbalancer.server.port=8080
+      - traefik.docker.network=internal
