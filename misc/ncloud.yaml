@@ -1,6 +1,8 @@
 volumes:
   nextcloud-db:
     external: true
+  nextcloud:
+    external: true
 
 services:
   nextcloud-db:
