@@ -32,14 +32,14 @@ services:
      - traefik.http.services.gitea.loadbalancer.server.port=3000
      - traefik.docker.network=internal
 
-git-db:
-  container_name: git-db
-  image: docker.io/library/postgres:14
-  environment:
-    - POSTGRES_USER=gitea
-    - POSTGRES_PASSWORD=${GIT_PG_PASS}
-    - POSTGRES_DB=gitea
-  networks:
-    - stack
-  volumes:
-    - git-db:/var/lib/postgresql/data
+  git-db:
+    container_name: git-db
+    image: docker.io/library/postgres:14
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=${GIT_PG_PASS}
+      - POSTGRES_DB=gitea
+    networks:
+      - stack
+    volumes:
+      - git-db:/var/lib/postgresql/data
