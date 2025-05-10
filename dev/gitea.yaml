@@ -63,6 +63,6 @@ services:
     environment:
       - TZ=${TZ}
       - CONFIG_FILE=/config.yaml
-      - GITEA_INSTANCE_URL=git.${DOMAIN}
+      - GITEA_INSTANCE_URL=gitea:3000
       - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
       - GITEA_RUNNER_NAME=atlas
