@@ -10,8 +10,8 @@ enabled = true
 name = "arr"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "media"
 file_paths = ["arr.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -37,8 +37,8 @@ TAUTULLI_API_KEY="op://Secrets/Tautulli/credential"
 name = "auth"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 webhook_enabled = false
 run_directory = "network"
 file_paths = ["authentik.yaml", "../pbox.yaml"]
@@ -62,8 +62,8 @@ SMTPASS="op://Secrets/SMTP/Secret Key"
 name = "beszel"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "monitor"
 file_paths = ["beszel.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -80,8 +80,8 @@ BESZEL_KEY="op://Secrets/Beszel/pkey"
 name = "cloud"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc"
 file_paths = ["ncloud.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -101,13 +101,10 @@ NC_ADMIN_USER_PASSWORD="op://Secrets/Nextcloud/adminuserpass"
 name = "code"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "dev"
-file_paths = [
-  "codeserver.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["codeserver.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -116,8 +113,8 @@ additional_env_files = ["../global.env"]
 name = "dash"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc"
 file_paths = ["homepage.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -167,15 +164,15 @@ GITEA_API_KEY="op://Secrets/Gitea/homepage"
 name = "discord"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc/discord"
 file_paths = [
   "redbot.yaml",
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -197,8 +194,8 @@ OVERSEERR_API_KEY="op://Secrets/Overseerr/credential"
 name = "dns"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "network"
 file_paths = ["dns.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -209,14 +206,10 @@ additional_env_files = ["../global.env"]
 name = "downs"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "media"
-file_paths = [
-  "qbit-vpn.yaml",
-  "sab.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -235,8 +228,8 @@ GLUETUN_APIKEY="op://Secrets/Gluetun/credential"
 name = "external"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "network"
 file_paths = ["external.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -257,8 +250,8 @@ INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 name = "git"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "dev"
 file_paths = ["gitea.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -276,8 +269,8 @@ GITEA_RUNNER_TOKEN="op://Secrets/Gitea/runner"
 name = "grafana"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "monitor"
 file_paths = ["grafana.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -295,8 +288,8 @@ INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 name = "immich"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "media"
 file_paths = ["immich.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -317,8 +310,8 @@ DB_DATA_LOCATION=immich-db
 name = "internal"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "network"
 file_paths = ["internal.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -336,8 +329,8 @@ INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 name = "kop"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "network"
 file_paths = ["kop.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -348,8 +341,8 @@ additional_env_files = ["../global.env"]
 name = "linkding"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc"
 file_paths = ["linkding.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -367,8 +360,8 @@ LINKDING_PASS="op://Secrets/Linkding/password"
 name = "mealie"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc"
 file_paths = ["mealie.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -379,15 +372,15 @@ additional_env_files = ["../global.env"]
 name = "media"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "media"
 file_paths = [
   "plex.yaml",
   "jellyfin.yaml",
   "stash.yaml",
   "romm.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -407,8 +400,8 @@ IGDB_CLIENT_SECRET="op://Secrets/Romm/twitch/twitchsecret"
 name = "monkeytype"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc"
 file_paths = ["monkey.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -419,8 +412,8 @@ additional_env_files = ["../global.env"]
 name = "nessie"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "monitor"
 file_paths = ["nessie.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -438,8 +431,8 @@ NESSIE_PW="op://Secrets/Nessus/password"
 name = "netdata"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "monitor"
 file_paths = ["netdata.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -450,8 +443,8 @@ additional_env_files = ["../global.env"]
 name = "posio"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc"
 file_paths = ["posio.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -462,8 +455,8 @@ additional_env_files = ["../global.env"]
 name = "resume"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc"
 file_paths = ["rxresume.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -480,8 +473,8 @@ environment = """
 name = "system"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "system"
 file_paths = [
   "backup.yaml",
@@ -489,7 +482,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "tools.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -507,8 +500,8 @@ NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
 name = "web"
 [stack.config]
 server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
+git_account = "cwel"
+repo = "cwel/stacks"
 run_directory = "misc"
 file_paths = ["umami.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
@@ -533,7 +526,7 @@ params = {}
 [[resource_sync]]
 name = "pbox"
 [resource_sync.config]
-repo = "cwelsys/stacks"
-git_account = "cwelsys"
+repo = "cwel/stacks"
+git_account = "cwel"
 resource_path = ["komodo.toml"]
 managed = true
