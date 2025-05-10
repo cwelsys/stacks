@@ -487,7 +487,11 @@ pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """
 environment = """
-
+SMTP_USER="op://Secrets/SMTP/API Key"
+SMTP_PASS="op://Secrets/SMTP/Secret Key"
+SMTP_HOST="op://Secrets/SMTP/host"
+RX_PG_PASS="op://Secrets/RXRes/pg_pw"
+MINIO_PW="op://Secrets/RXRes/miniopw"
 """
 
 ##

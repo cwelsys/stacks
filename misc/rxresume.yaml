@@ -44,7 +44,7 @@ services:
     labels:
      - traefik.enable=true
      - traefik.docker.network=internal
-     - traefik.http.routers.minio.rule=Host(`rx-storage.${DOMAIN}`)
+     - traefik.http.routers.minio.rule=Host(`res-store.${DOMAIN}`)
      - traefik.http.services.minio.loadbalancer.server.port=9000
 
   chrome:
@@ -54,7 +54,7 @@ services:
     environment:
       - TIMEOUT=10000
       - CONCURRENT=10
-      - TOKEN=${CHROME_TOKEN}
+      - TOKEN=chrome_token
       - EXIT_ON_HEALTH_FAILURE=true
       - PRE_REQUEST_HEALTH_CHECK=true
     networks:
@@ -75,15 +75,15 @@ services:
     environment:
       - PORT=3000
       - NODE_ENV=production
-      - PUBLIC_URL=https://resume.${DOMAIN} # replace with your https url if reverse proxy in use; e.g. https://resume.${DOMAIN}
-      - STORAGE_URL=https://rx-storage.${DOMAIN} # replace with your https url if reverse proxy in use; e.g. https://storage.${DOMAIN}
-      - CHROME_TOKEN=${CHROME_TOKEN}
+      - PUBLIC_URL=https://resume.${DOMAIN}
+      - STORAGE_URL=https://res-store.${DOMAIN}
+      - CHROME_TOKEN=chrome_token
       - CHROME_URL=ws://chrome:3000
       - DATABASE_URL=postgresql://rxres:${RX_PG_PASS}@rxres:5432/rxres
       - ACCESS_TOKEN_SECRET=${RX_ACCESS_TOKEN}
       - REFRESH_TOKEN_SECRET=${RX_ACCESS_TOKEN_SECRET}
       - MAIL_FROM=noreply@${DOMAIN}
-      - SMTP_URL=smtp://${SMTP_USER}:${SMTP_PASS}@smtp:587 # Optional
+      - SMTP_URL=smtp://${SMTP_USER}:${SMTP_PASS}@${SMTP_HOST}:587
       - STORAGE_ENDPOINT=minio
       - STORAGE_PORT=9000
       - STORAGE_REGION=us-east-1 # Optional
