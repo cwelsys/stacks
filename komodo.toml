@@ -478,6 +478,27 @@ UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 
 ##
 
+[[stack]]
+name = "cloud"
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "misc"
+file_paths = ["ncloud.yaml", "../pbox.yaml"]
+additional_env_files = ["../global.env"]
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+MYSQL_PASSWORD="op://Secrets/Nextcloud/mysqlpass"
+MYSQL_ROOT_PASSWORD="op://Secrets/Nextcloud/mysqlRoopass"
+REDIS_PASSWORD="op://Secrets/Nextcloud/redispw"
+NC_ADMIN_USER_PASSWORD="op://Secrets/Nextcloud/adminuserpass"
+"""
+
+##
+
 [[builder]]
 name = "local"
 [builder.config]
