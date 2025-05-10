@@ -155,6 +155,7 @@ IMMICH_API_KEY="op://Secrets/Immich/credential"
 MEALIE_API_KEY="op://Secrets/Mealie/credential"
 BESZEL_PW="op://Secrets/Beszel/loginpw"
 NEXTCLOUD_PW="op://Secrets/Nextcloud/adminuserpass"
+GITEA_API_KEY="op://Secrets/Gitea/homepage"
 """
 
 ##
