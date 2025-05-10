@@ -26,12 +26,12 @@ jobs:
       - name: Debug KOMODO_STACK_NAMES
         run: echo "KOMODO_STACK_NAMES=${{ steps.komodo_stacks.outputs.KOMODO_STACK_NAMES }}"
 
-      - name: Manage GitHub Webhooks
+      - name: Manage Gitea Webhooks
         run: |
           # Debug information
           echo "Checking API access..."
           CHECK_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-            "https://api.github.com/repos/${{ github.repository }}")
+            "https://git.cwel.sh/api/v1/repos/${{ github.repository }}")
           echo "API access check status: $CHECK_RESPONSE"
 
           if [ "$CHECK_RESPONSE" != "200" ]; then
@@ -39,10 +39,10 @@ jobs:
             exit 1
           fi
 
-          # Get all existing webhooks
+          # Get all existing webhooks - Gitea API path
           echo "Fetching all existing webhooks..."
           HOOKS_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-            "https://api.github.com/repos/${{ github.repository }}/hooks")
+            "https://git.cwel.sh/api/v1/repos/${{ github.repository }}/hooks")
 
           if [ $? -ne 0 ]; then
             echo "⚠️ Failed to fetch existing webhooks"
@@ -74,7 +74,7 @@ jobs:
 
                 DELETE_RESPONSE=$(curl -s -w "\n%{http_code}" -X DELETE \
                   -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-                  "https://api.github.com/repos/${{ github.repository }}/hooks/$HOOK_ID")
+                  "https://git.cwel.sh/api/v1/repos/${{ github.repository }}/hooks/$HOOK_ID")
 
                 DELETE_STATUS=$(echo "$DELETE_RESPONSE" | tail -n1)
 
@@ -103,26 +103,26 @@ jobs:
 
             echo "Creating webhook for stack $STACK_NAME with URL: $WEBHOOK_URL"
 
-            # Create JSON payload
+            # Create JSON payload - Gitea format
             jq -n \
               --arg url "$WEBHOOK_URL" \
               --arg secret "${{ secrets.KOMODO_WEBHOOK_SECRET }}" \
               '{
-                name: "web",
-                active: true,
-                events: ["push"],
+                type: "gitea",
                 config: {
                   url: $url,
                   content_type: "json",
                   secret: $secret
-                }
+                },
+                events: ["push"],
+                active: true
               }' > webhook.json
 
             RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
               -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-              -H "Accept: application/vnd.github.v3+json" \
+              -H "Accept: application/json" \
               -H "Content-Type: application/json" \
-              "https://api.github.com/repos/${{ github.repository }}/hooks" \
+              "https://git.cwel.sh/api/v1/repos/${{ github.repository }}/hooks" \
               -d @webhook.json)
 
             HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
