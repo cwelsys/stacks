@@ -51,6 +51,8 @@ services:
       - HOMEPAGE_VAR_BESZEL_PW=${BESZEL_PW}
       - HOMEPAGE_VAR_NEXTCLOUD_PW=${NEXTCLOUD_PW}
       - HOMEPAGE_VAR_GITEA_API_KEY=${GITEA_API_KEY}
+      - HOMEPAGE_VAR_KOMO_API_KEY=${KOMO_API_KEY}
+      - HOMEPAGE_VAR_KOMO_API_SECRET=${KOMO_API_SECRET}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/homepage/images:/app/public/images

@@ -6,8 +6,10 @@
 ##   1. Postgres + FerretDB Mongo adapter (https://www.ferretdb.com)
 ##   2. Komodo Core
 ##   3. Komodo Periphery curl -sSL https://raw.githubusercontent.com/moghtech/komodo/main/scripts/setup-periphery.py | python3 - --user
+
 include:
   - ../pbox.yaml
+
 volumes:
   repo-cache:
     external: true
@@ -43,19 +45,16 @@ services:
     labels:
       - komodo.skip
       - traefik.enable=true
-      - traefik.http.routers.komodo-api.rule=Host(`komo.cwel.sh`) && PathPrefix(`/listener`)
-      - traefik.http.routers.komodo-api.service=komodo
+      # - traefik.http.routers.komodo-api.rule=Host(`komo.${DOMAIN}`) && PathPrefix(`/listener`)
+      # - traefik.http.routers.komodo-api.service=komodo
+      - traefik.http.routers.komodo.rule=Host(`komo.${DOMAIN}`)
+      - traefik.http.routers.komodo.service=komodo
       - traefik.http.services.komodo.loadbalancer.server.port=9120
-      - traefik.docker.network=public
-      - kop.namespace=public
-      # - homepage.name=Komodo
-      # - homepage.icon=komodo.png
-      # - homepage.group=Management
-      # - homepage.description=Docker ops
-      # - homepage.href=http://pbox:9120/
+      - traefik.docker.network=internal
+      # - kop.namespace=public
     restart: unless-stopped
     networks:
-      - public
+      - internal
       - stack
     depends_on:
       - mongo
