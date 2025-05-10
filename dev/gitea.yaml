@@ -13,7 +13,7 @@ services:
       - USER_UID=1000
       - USER_GID=1000
       - GITEA__database__DB_TYPE=postgres
-      - GITEA__database__HOST=db:5432
+      - GITEA__database__HOST=git-db:5432
       - GITEA__database__NAME=gitea
       - GITEA__database__USER=gitea
       - GITEA__database__PASSWD=${GIT_PG_PASS}
@@ -32,14 +32,14 @@ services:
      - traefik.http.services.gitea.loadbalancer.server.port=3000
      - traefik.docker.network=internal
 
-git-db:
-  container_name: git-db
-  image: docker.io/library/postgres:14
-  environment:
-    - POSTGRES_USER=gitea
-    - POSTGRES_PASSWORD=${GIT_PG_PASS}
-    - POSTGRES_DB=gitea
-  networks:
-    - stack
-  volumes:
-    - git-db:/var/lib/postgresql/data
+  git-db:
+    container_name: git-db
+    image: docker.io/library/postgres:14
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=${GIT_PG_PASS}
+      - POSTGRES_DB=gitea
+    networks:
+      - stack
+    volumes:
+      - git-db:/var/lib/postgresql/data
