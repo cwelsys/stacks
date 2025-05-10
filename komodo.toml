@@ -551,6 +551,17 @@ UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 
 ##
 
+[[repo]]
+name = "stacks"
+[repo.config]
+server = "pbox"
+builder = "local"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+
+##
+
 [[builder]]
 name = "local"
 [builder.config]
