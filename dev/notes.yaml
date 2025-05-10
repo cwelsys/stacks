@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-    ports:
+    # ports:
       # - 8080:8080 # Obsidian Web Interface
       #- 27123:27123 # Local REST API Plugin HTTP Server Port
       #- 27124:27124 # Local REST API Plugin HTTPS Server Port
