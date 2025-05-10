@@ -76,7 +76,7 @@ services:
       - TZ=${TZ}
       # - SUBFOLDER=/ #optional
     volumes:
-      - ${CONFIGDIR}/media/emujs:/config
+      - emujs:/config
       - emujs:/data
       - ${FLASH}/romm/library/roms/nes:/roms/nes:ro
       - ${FLASH}/romm/library/roms/snes:/roms/snes:ro

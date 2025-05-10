@@ -1,6 +1,8 @@
 volumes:
   plex:
     external: true
+  plex-trakt:
+    external: true
 
 services:
   plex:
@@ -53,7 +55,7 @@ services:
     networks:
       - media
     volumes:
-      - ${CONFIGDIR}/media/plextraktsync:/config
+      - plex-trakt:/config
     environment:
       - PUID=1000
       - PGID=${ID}

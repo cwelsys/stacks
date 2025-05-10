@@ -37,10 +37,10 @@ services:
     volumes:
       - sonarr:/config
       - ${RUST}:/data
-      - ${CONFIGDIR}/arr/sonarr/custom-services.d:/custom-services.d
-      - ${CONFIGDIR}/arr/sonarr/custom-cont-init.d:/custom-cont-init.d
-      - ${CONFIGDIR}/arr/sonarr/rconfig.yaml:/config/extended/rconfig.yaml
-      - ${CONFIGDIR}/arr/sonarr/extended.conf:/config/extended.conf
+      - /opt/arrscripts/sonarr/custom-services.d:/custom-services.d
+      - /opt/arrscripts/sonarr/custom-cont-init.d:/custom-cont-init.d
+      - /opt/arrscripts/sonarr/rconfig.yaml:/config/extended/rconfig.yaml
+      - /opt/arrscripts/sonarr/extended.conf:/config/extended.conf
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping' ]
@@ -51,14 +51,6 @@ services:
       - traefik.http.routers.sonarr.rule=Host(`sonarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
-      # - homepage.group=Media
-      # - homepage.name=Sonarr
-      # - homepage.icon=sonarr.png
-      # - homepage.href=https://sonarr.${DOMAIN}
-      # - homepage.description=TV Series management
-      # - homepage.widget.type=sonarr
-      # - homepage.widget.url=http://sonarr:8989
-      # - homepage.widget.key=${SONARR_API_KEY}
       - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
@@ -74,10 +66,10 @@ services:
     volumes:
       - radarr:/config
       - ${RUST}:/data
-      - ${CONFIGDIR}/arr/radarr/custom-services.d:/custom-services.d
-      - ${CONFIGDIR}/arr/radarr/custom-cont-init.d:/custom-cont-init.d
-      - ${CONFIGDIR}/arr/radarr/rconfig.yaml:/config/extended/rconfig.yaml
-      - ${CONFIGDIR}/arr/radarr/extended.conf:/config/extended.conf
+      - /opt/arrscripts/radarr/custom-services.d:/custom-services.d
+      - /opt/arrscripts/radarr/custom-cont-init.d:/custom-cont-init.d
+      - /opt/arrscripts/radarr/rconfig.yaml:/config/extended/rconfig.yaml
+      - /opt/arrscripts/radarr/extended.conf:/config/extended.conf
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping' ]
@@ -88,14 +80,6 @@ services:
       - traefik.http.routers.radarr.rule=Host(`radarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.radarr.loadbalancer.server.port=7878
-      # - homepage.group=Media
-      # - homepage.name=Radarr
-      # - homepage.icon=radarr.png
-      # - homepage.href=https://radarr.${DOMAIN}
-      # - homepage.description=Movies management
-      # - homepage.widget.type=radarr
-      # - homepage.widget.url=http://radarr:7878
-      # - homepage.widget.key=${RADARR_API_KEY}
       - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
@@ -111,8 +95,8 @@ services:
     volumes:
       - lidarr:/config
       - ${RUST}:/data
-      - ${CONFIGDIR}/arr/lidarr/custom-services.d:/custom-services.d
-      - ${CONFIGDIR}/arr/lidarr/custom-cont-init.d:/custom-cont-init.d
+      - /opt/arrscripts/lidarr/custom-services.d:/custom-services.d
+      - /opt/arrscripts/lidarr/custom-cont-init.d:/custom-cont-init.d
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping' ]
@@ -123,14 +107,6 @@ services:
       - traefik.http.routers.lidarr.rule=Host(`lidarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.lidarr.loadbalancer.server.port=8686
-      # - homepage.group=Media
-      # - homepage.name=Lidarr
-      # - homepage.icon=lidarr.png
-      # - homepage.href=https://lidarr.${DOMAIN}
-      # - homepage.description=Music management
-      # - homepage.widget.type=lidarr
-      # - homepage.widget.url=http://lidarr:8686
-      # - homepage.widget.key=${LIDARR_API_KEY}
       - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
@@ -159,14 +135,6 @@ services:
      - traefik.docker.network=internal
      - traefik.http.routers.readarr.rule=Host(`readarr.${DOMAIN}`)
      - traefik.http.services.readarr.loadbalancer.server.port=8787
-    #  - homepage.group=Media
-    #  - homepage.name=Readarr
-    #  - homepage.icon=readarr.png
-    #  - homepage.href=https://readarr.${DOMAIN}
-    #  - homepage.description=Books management
-    #  - homepage.widget.type=readarr
-    #  - homepage.widget.url=http://readarr:8787
-    #  - homepage.widget.key=${READARR_API_KEY}
      - docker-volume-backup.stop-during-backup=true
 
   calibre-web:
@@ -189,11 +157,6 @@ services:
      - traefik.docker.network=internal
      - traefik.http.routers.calibre.rule=Host(`calibre.${DOMAIN}`)
      - traefik.http.services.calibre.loadbalancer.server.port=8083
-    #  - homepage.group=Media
-    #  - homepage.name=Calibre Web
-    #  - homepage.icon=calibre-web.png
-    #  - homepage.href=https://calibre.${DOMAIN}
-    #  - homepage.description=Books
      - docker-volume-backup.stop-during-backup=true
 
   calibre-web-automated-book-downloader:
@@ -219,10 +182,6 @@ services:
      - traefik.docker.network=internal
      - traefik.http.routers.bookr.rule=Host(`bookr.${DOMAIN}`)
      - traefik.http.services.bookr.loadbalancer.server.port=8084
-    #  - homepage.group=Media
-    #  - homepage.name=Book getter
-    #  - homepage.icon=calibre.png
-    #  - homepage.href=https://bookr.${DOMAIN}
 
   whisparr:
     container_name: whisparr
@@ -243,11 +202,6 @@ services:
      - traefik.docker.network=internal
      - traefik.http.routers.whisparr.rule=Host(`whisparr.${DOMAIN}`)
      - traefik.http.services.whisparr.loadbalancer.server.port=6969
-    #  - homepage.group=Media
-    #  - homepage.name=whisparr
-    #  - homepage.icon=whisparr.png
-    #  - homepage.href=https://whisparr.${DOMAIN}
-    #  - homepage.description=Stash management
      - docker-volume-backup.stop-during-backup=true
 
   prowlarr:
@@ -269,14 +223,6 @@ services:
       - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
-      # - homepage.group=Download
-      # - homepage.name=Prowlarr
-      # - homepage.icon=prowlarr.png
-      # - homepage.href=https://prowlarr.${DOMAIN}
-      # - homepage.description=Indexers management
-      # - homepage.widget.type=prowlarr
-      # - homepage.widget.url=http://prowlarr:9696
-      # - homepage.widget.key=${PROWLARR_API_KEY}
       - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
@@ -335,15 +281,7 @@ services:
       - traefik.docker.network=public
       - traefik.http.services.overseerr.loadbalancer.server.port=5055
       - kop.namespace=public
-      # - homepage.group=Media
-      # - homepage.name=Overseerr
-      # - homepage.icon=overseerr.png
-      # - homepage.href=https://req.${DOMAIN}
-      # - homepage.description=Requests management
       - docker-volume-backup.stop-during-backup=true
-      # - homepage.widget.type=overseerr
-      # - homepage.widget.url=http://overseerr:5055
-      # - homepage.widget.key=${OVERSEERR_API_KEY}
     networks:
       - public
       - media
@@ -365,11 +303,6 @@ services:
       - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.maintainerr.loadbalancer.server.port=6246
-      # - homepage.group=Media
-      # - homepage.name=Maintainerr
-      # - homepage.icon=maintainerr.png
-      # - homepage.href=https://maintainerr.${DOMAIN}
-      # - homepage.description=Library maintenance
       - docker-volume-backup.stop-during-backup=true
 
   tautulli:
@@ -389,14 +322,7 @@ services:
       - traefik.http.routers.tautulli.rule=Host(`tautulli.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.tautulli.loadbalancer.server.port=8181
-      # - homepage.group=Media
-      # - homepage.name=Tautulli
-      # - homepage.icon=tautulli.png
-      # - homepage.href=https://tautulli.${DOMAIN}
-      # - homepage.description=Plex monitoring and statistics
-      # - homepage.widget.type=tautulli
-      # - homepage.widget.url=http://tautulli:8181
-      # - homepage.widget.key=${TAUTULLI_API_KEY}
+
 
   recommendarr:
     image: tannermiddleton/recommendarr:latest
@@ -420,11 +346,6 @@ services:
       - traefik.http.routers.recommendarr.rule=Host(`recommendarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.recommendarr.loadbalancer.server.port=3000
-      # - homepage.group=Media
-      # - homepage.name=Recommendarr
-      # - homepage.icon=/images/recommendarr.png
-      # - homepage.href=https://recommendarr.${DOMAIN}
-      # - homepage.description=Media recommendations
       - docker-volume-backup.stop-during-backup=true
 
   fileflows:
@@ -454,11 +375,6 @@ services:
       - traefik.http.routers.fileflows.rule=Host(`flows.${DOMAIN}`)
       - traefik.http.services.fileflows.loadbalancer.server.port=5000
       - traefik.docker.network=internal
-      # - homepage.group=Media
-      # - homepage.name=fileflows
-      # - homepage.icon=fileflows.png
-      # - homepage.href=https://flows.${DOMAIN}
-      # - homepage.description=Transcoding
       - docker-volume-backup.stop-during-backup=true
 
   nzbhydra2:
@@ -480,9 +396,4 @@ services:
       - traefik.http.routers.hydra.rule=Host(`hydra.${DOMAIN}`)
       - traefik.http.services.hydra.loadbalancer.server.port=5076
       - traefik.docker.network=internal
-      # - homepage.group=Download
-      # - homepage.name=nzbhydra2
-      # - homepage.icon=/images/nzbhydra2.png
-      # - homepage.href=https://hydra.${DOMAIN}
-      # - homepage.description=Indexers
       - docker-volume-backup.stop-during-backup=true

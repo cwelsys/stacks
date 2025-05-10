@@ -3,6 +3,8 @@ volumes:
     external: true
   auth-db:
     external: true
+  authentik:
+    external: true
 
 services:
   auth-db:
@@ -56,8 +58,10 @@ services:
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
     volumes:
-      - ${CONFIGDIR}/auth/media:/media
-      - ${CONFIGDIR}/auth/custom-templates:/templates
+      # - ${CONFIGDIR}/auth/media:/media
+      # - ${CONFIGDIR}/auth/custom-templates:/templates
+      - authentik:/media
+      - authentik:/templates
       # - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - public
@@ -138,9 +142,9 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${CONFIGDIR}/auth/media:/media
-      - ${CONFIGDIR}/auth/certs:/certs
-      - ${CONFIGDIR}/auth/custom-templates:/templates
+      - authentik:/media
+      - authentik:/certs
+      - authentik:/templates
     depends_on:
       auth-db:
         condition: service_healthy
