@@ -109,7 +109,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "dev"
-file_paths = ["codeserver.yaml", "../pbox.yaml"]
+file_paths = [
+  "codeserver.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 
 ##
@@ -179,7 +182,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -218,7 +221,11 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media"
-file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
+file_paths = [
+  "qbit-vpn.yaml",
+  "sab.yaml",
+  "../pbox.yaml"
+]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -398,7 +405,7 @@ file_paths = [
   "jellyfin.yaml",
   "stash.yaml",
   "romm.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -510,7 +517,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "tools.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -521,19 +528,6 @@ TS_AUTHKEY="op://Secrets/Tailscale/socketauth"
 NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
 
 """
-
-##
-
-[[stack]]
-name = "obsidian"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "dev"
-file_paths = ["notes.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
 
 ##
 
@@ -568,8 +562,8 @@ params = {}
 [[resource_sync]]
 name = "pbox"
 [resource_sync.config]
-repo = "cwel/stacks"
 git_provider = "git.cwel.sh"
+repo = "cwel/stacks"
 git_account = "cwel"
 resource_path = ["komodo.toml"]
 managed = true
