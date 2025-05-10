@@ -22,6 +22,7 @@ services:
       - 22
     volumes:
       - gitea:/data
+      - ${CONFIGDIR}/gitea/app.ini:/data/conf/app.ini:rw
       - /etc/localtime:/etc/localtime:ro
     networks:
      - internal
