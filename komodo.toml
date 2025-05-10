@@ -246,7 +246,7 @@ INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 ##
 
 [[stack]]
-name = "gitea"
+name = "git"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
@@ -254,7 +254,12 @@ repo = "cwelsys/stacks"
 run_directory = "dev"
 file_paths = ["gitea.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
-
+pre_deploy.command = """
+OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
+"""
+environment = """
+GIT_PG_PASS="op://Secrets/Gitea/pgpass"
+"""
 ##
 
 [[stack]]
