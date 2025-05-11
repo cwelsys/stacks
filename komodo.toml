@@ -271,6 +271,7 @@ name = "git"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
+webhook_enabled = false
 run_directory = "dev"
 file_paths = ["gitea.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
