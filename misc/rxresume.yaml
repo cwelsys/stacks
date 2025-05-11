@@ -79,14 +79,14 @@ services:
       - STORAGE_URL=https://res-store.${DOMAIN}
       - CHROME_TOKEN=chrome_token
       - CHROME_URL=ws://chrome:3000
-      - DATABASE_URL=postgresql://rxres:${RX_PG_PASS}@rxres:5432/rxres
+      - DATABASE_URL=postgresql://rxres:${RX_PG_PASS}@postgres:5432/rxres
       - ACCESS_TOKEN_SECRET=${RX_ACCESS_TOKEN}
       - REFRESH_TOKEN_SECRET=${RX_ACCESS_TOKEN_SECRET}
       - MAIL_FROM=noreply@${DOMAIN}
       - SMTP_URL=smtp://${SMTP_USER}:${SMTP_PASS}@${SMTP_HOST}:587
       - STORAGE_ENDPOINT=minio
       - STORAGE_PORT=9000
-      - STORAGE_REGION=us-east-1 # Optional
+      - STORAGE_REGION=us-east-1
       - STORAGE_BUCKET=default
       - STORAGE_ACCESS_KEY=minioadmin
       - STORAGE_SECRET_KEY=minioadmin
