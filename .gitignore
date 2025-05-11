@@ -15,10 +15,7 @@ docker-compose.override.yml
 tmp/
 temp/
 *.tmp
-
-/config/*
-
-config/network/crowdsec
+config/
 log
 secrets.toml
 appdata/
