@@ -2,6 +2,7 @@ services:
   dozzle:
     container_name: dozzle
     image: amir20/dozzle:latest
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
@@ -11,8 +12,3 @@ services:
       - traefik.http.routers.dozzle.rule=Host(`dozzle.${DOMAIN}`)
       - traefik.http.services.dozzle.loadbalancer.server.port=8080
       - traefik.docker.network=internal
-      # - homepage.group=Monitoring
-      # - homepage.name=Dozzle
-      # - homepage.icon=/images/dozzle.png
-      # - homepage.href=https://dozzle.${DOMAIN}
-      # - homepage.description=Logs
