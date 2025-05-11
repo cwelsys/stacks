@@ -1,0 +1,19 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/bookmarks/
+
+- Bookmarks:
+
+    - Github:
+      - href: https://github.com/
+        icon: /images/github.png
+
+    - YouTube:
+        - href: https://youtube.com/
+          icon: /images/youtube.png
+    - Nessus:
+        - href: https://pbox:8834/
+          icon: /images/nessus.jpg
+    - Apollo:
+        - href: https://wini:47990/
+          icon: /images/sunshine.png

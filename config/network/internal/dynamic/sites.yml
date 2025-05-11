@@ -1,0 +1,38 @@
+# put services/routers that need to be configured through file
+# IE
+# * labels don't support feature that needs to be configured
+# * configuration is too large/complex to be reasonably done through labels
+# * service is not in a docker container
+
+http:
+  routers:
+    dns-server:
+      rule: "Host(`dns.cwel.sh`)"
+      service: dns-server
+    homeassistant:
+      rule: "Host(`home.cwel.sh`)"
+      service: homeassistant
+    # cockpit:
+    #   rule: "Host(`cockpit.cwel.sh`)"
+    #   service: cockpit
+    netdata:
+      rule: "Host(`netdata.cwel.sh`)"
+      service: netdata
+  services:
+    dns-server:
+      loadBalancer:
+        servers:
+        - url: "http://192.168.4.89:5380"
+    # cockpit:
+    #   loadBalancer:
+    #     servers:
+    #     - url: "http://192.168.4.89:9090"
+    netdata:
+      loadBalancer:
+        servers:
+        - url: "http://192.168.4.89:19999"
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.4.114:8123"
+

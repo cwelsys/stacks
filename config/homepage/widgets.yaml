@@ -1,0 +1,44 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/widgets/
+
+- logo:
+    icon: /images/logo.png
+- greeting:
+    text_size: md
+    text: Sup Ma'
+
+- resources:
+    cpu: true
+    memory: true
+
+- resources:
+    disk:
+      - /
+- resources:
+    disk:
+      - /mnt/cache/cache1
+- resources:
+    disk:
+      - /mnt/media
+- resources:
+    disk:
+      - /mnt/bool
+- resources:
+    disk:
+      - /mnt/backup
+
+
+- openweathermap:
+    label: Arlington, VA
+    units: imperial
+    provider: openweathermap
+    cache: 10
+
+- datetime:
+    text_size: sm
+    format:
+      dateStyle: short
+      timeStyle: short
+      hour12: true
+      timeZone: 'America/New_York'

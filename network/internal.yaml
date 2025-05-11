@@ -19,6 +19,7 @@ services:
       # - "8180:8080"
     environment:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
     volumes:
       - ${CONFIGDIR}/network/internal/letsencrypt:/letsencrypt
       - ${CONFIGDIR}/network/internal/log:/var/log/traefik:rw

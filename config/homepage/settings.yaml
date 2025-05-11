@@ -1,0 +1,48 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/settings/
+
+layout:
+  Calendar:
+    tab: Home
+    header: false
+  Media:
+    tab: Media
+    header: false
+  Arr:
+    tab: Media
+    header: false
+  Downloads:
+    tab: Media
+    header: false
+  Network:
+    tab: System
+    header: false
+
+  Bookmarks:
+    style: row
+    columns: 4
+
+fiveColumns: true
+useEqualHeights: true
+hideErrors: true
+
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: true
+  hideVisitURL: true
+
+title: Zone page
+favicon: /images/logo.png
+theme: dark
+description: and more
+statusStyle: "dot"
+hideVersion: true
+color: gray
+cardBlur: xl
+headerStyle: clean
+
+providers:
+  finnhub: {{HOMEPAGE_VAR_FINNHUB_TOKEN}}
+  openweathermap: {{HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN}}
+

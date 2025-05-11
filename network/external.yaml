@@ -27,6 +27,7 @@ services:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
       CS_TRAEFIK_BOUNCER_KEY: ${CS_TRAEFIK_BOUNCER_KEY}
       BOUNCER_HOST: ${BOUNCER_HOST}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
     volumes:
       - ${CONFIGDIR}/network/external/log:/var/log/traefik:rw
       - ${CONFIGDIR}/network/external/static:/etc/traefik:rw
