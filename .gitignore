@@ -15,12 +15,9 @@ docker-compose.override.yml
 tmp/
 temp/
 *.tmp
-letsencrypt
+
 /config/*
-!config/monitor
-!config/homepage
-/config/homepage/images
-!config/network
+
 config/network/crowdsec
 log
 secrets.toml
