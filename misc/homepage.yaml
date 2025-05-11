@@ -55,7 +55,7 @@ services:
       - HOMEPAGE_VAR_KOMO_API_SECRET=${KOMO_API_SECRET}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
-      - ${CONFIGDIR}/homepage/images:/app/public/images
+      - ${CONFIGDIR}/icons:/app/public/images
       - /mnt/:/mnt:ro
       - homepage:/data
     restart: always

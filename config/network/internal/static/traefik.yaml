@@ -18,7 +18,7 @@ api:
 metrics:
   influxDB2:
      address: http://influxdb2:8086
-     token: {{INFLUXDB_TOKEN}}
+     token: ${INFLUXDB_TOKEN}
      org: influx-org
      bucket: influx-bucket
      addEntryPointsLabels: true
