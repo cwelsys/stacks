@@ -109,10 +109,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "dev"
-file_paths = [
-  "codeserver.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["codeserver.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -184,7 +181,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 additional_env_files = ["../../global.env"]
 pre_deploy.command = """
@@ -223,11 +220,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media"
-file_paths = [
-  "qbit-vpn.yaml",
-  "sab.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -407,7 +400,7 @@ file_paths = [
   "jellyfin.yaml",
   "stash.yaml",
   "romm.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -501,6 +494,9 @@ SMTP_PASS="op://Secrets/SMTP/Secret Key"
 SMTP_HOST="op://Secrets/SMTP/host"
 RX_PG_PASS="op://Secrets/RXRes/pg_pw"
 MINIO_PW="op://Secrets/RXRes/miniopw"
+RX_SECRET="op://Secrets/RXRes/rxsecret"
+RX_REFRESH_SECRET="op://Secrets/RXRes/rxrefresh"
+CHROME_TOKEN="op://Secrets/RXRes/chrome"
 """
 
 ##
@@ -519,7 +515,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "tools.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
