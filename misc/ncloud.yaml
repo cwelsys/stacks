@@ -25,8 +25,7 @@ services:
       - PUID=${MYSQL_PUID:-1000}
       - PGID=${MYSQL_PGID:-1000}
       - TZ=${TZ}
-    networks:
-     - default
+
 
   nextcloud-redis:
     image: redis:alpine
@@ -37,8 +36,7 @@ services:
       - /bin/sh
       - -c
       - redis-server --requirepass "$${REDIS_PASSWORD:-nextcloud}"
-    networks:
-     - default
+
 
   nextcloud-app:
     image: nextcloud:29-apache
@@ -70,7 +68,6 @@ services:
       - nextcloud:/var/www/html
     networks:
      - internal
-     - default
     labels:
      - traefik.enable=true
      - traefik.http.routers.nextcloud.rule=(Host(`cloud.${DOMAIN}`))
