@@ -11,6 +11,8 @@ services:
     hostname: nextcloud-db
     command: --transaction-isolation=READ-COMMITTED --innodb_read_only_compressed=OFF
     restart: unless-stopped
+    networks:
+      - media
     expose:
       - 3306
     volumes:
@@ -32,6 +34,8 @@ services:
     container_name: nextcloud-redis
     hostname: nextcloud-redis
     restart: unless-stopped
+    networks:
+      - media
     command:
       - /bin/sh
       - -c
@@ -68,6 +72,7 @@ services:
       - nextcloud:/var/www/html
     networks:
      - internal
+     - media
     labels:
      - traefik.enable=true
      - traefik.http.routers.nextcloud.rule=(Host(`cloud.${DOMAIN}`))
