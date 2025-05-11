@@ -24,11 +24,11 @@ services:
       - 22
     volumes:
       - gitea:/data
-      - ${CONFIGDIR}/gitea/app.ini:/data/conf/app.ini:rw
+      - ${CONFIGDIR}/gitea/app.ini:/data/gitea/conf/app.ini:rw
       - /etc/localtime:/etc/localtime:ro
     networks:
      - internal
-     - stack
+     - gitea
     labels:
      - traefik.enable=true
      - traefik.http.routers.gitea.rule=Host(`git.${DOMAIN}`)
@@ -43,7 +43,7 @@ services:
       - POSTGRES_PASSWORD=${GIT_PG_PASS}
       - POSTGRES_DB=gitea
     networks:
-      - stack
+      - gitea
     volumes:
       - git-db:/var/lib/postgresql/data
 
@@ -52,16 +52,15 @@ services:
     container_name: gitea-runner
     restart: always
     networks:
-      - internal
-      - stack
+      - gitea
     depends_on:
       - gitea
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${CONFIGDIR}/gitea/runner/config.yaml:/config.yaml
+      - ${CONFIGDIR}/gitea/config.yaml:/config.yaml
       - git-runner:/data
     environment:
-      CONFIG_FILE: /config.yaml
-      GITEA_INSTANCE_URL: "https://git.${DOMAIN}"
-      GITEA_RUNNER_REGISTRATION_TOKEN: "${GITEA_RUNNER_TOKEN}"
-      GITEA_RUNNER_NAME: "atlas"
+      - CONFIG_FILE=/config.yaml
+      - GITEA_INSTANCE_URL=https://git.${DOMAIN}
+      - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
+      - GITEA_RUNNER_NAME=atlas
