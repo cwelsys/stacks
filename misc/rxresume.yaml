@@ -1,9 +1,3 @@
-volumes:
-  rx-db:
-    external: true
-  minio:
-    external: true
-
 services:
   rxdb:
     container_name: rx-db
@@ -12,7 +6,7 @@ services:
     networks:
       - stack
     volumes:
-      - rx-db:/var/lib/postgresql/data
+      - ${DOCKERM}/rx-db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: rxres
       POSTGRES_PASSWORD: ${RX_PG_PASS}
@@ -32,7 +26,7 @@ services:
     networks:
       - internal
     volumes:
-      - minio:/data
+      - ${DOCKERM}/minio:/data
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: ${MINIO_PW}

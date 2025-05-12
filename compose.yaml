@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - nextcloud:/from
-      - /opt/docker/nextcloud:/to
+      - minio:/from
+      - /opt/docker/minio:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  nextcloud:
+  minio:
     external: true
