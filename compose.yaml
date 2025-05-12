@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - netdatalib:/from
-      - /opt/docker/netdata/lib:/to
+      - authentik:/from
+      - /opt/docker/authentik:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  netdatalib:
+  authentik:
     external: true

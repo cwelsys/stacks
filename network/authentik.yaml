@@ -1,10 +1,5 @@
 volumes:
-  auth-redis:
-    external: true
-  auth-db:
-    external: true
-  authentik:
-    external: true
+  cache:
 
 services:
   auth-db:
@@ -18,7 +13,7 @@ services:
       retries: 5
       timeout: 5s
     volumes:
-      - auth-db:/var/lib/postgresql/data
+      - ${DOCKERM}/auth-db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${PG_PASS}
       POSTGRES_USER: ${PG_USER:-authentik}
@@ -38,7 +33,7 @@ services:
       retries: 5
       timeout: 3s
     volumes:
-      - auth-redis:/data
+      - cache:/data
     networks:
       - stack
 
@@ -60,8 +55,8 @@ services:
     volumes:
       # - ${CONFIGDIR}/auth/media:/media
       # - ${CONFIGDIR}/auth/custom-templates:/templates
-      - authentik:/media
-      - authentik:/templates
+      - ${DOCKERM}/authentik/media:/media
+      - ${DOCKERM}/authentik/templates:/templates
       # - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - public
@@ -142,9 +137,9 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - authentik:/media
-      - authentik:/certs
-      - authentik:/templates
+      - ${DOCKERM}/authentik/media:/media
+      - ${DOCKERM}/authentik/certs:/certs
+      - ${DOCKERM}/authentik/templates:/templates
     depends_on:
       auth-db:
         condition: service_healthy
