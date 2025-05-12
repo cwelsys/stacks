@@ -1,9 +1,6 @@
 volumes:
-  beszel:
-    external: true
   beszel-socket:
     external: true
-
 services:
   beszel:
     image: henrygd/beszel:latest
@@ -14,7 +11,7 @@ services:
     # ports:
     #   - 8090:8090
     volumes:
-      - beszel:/beszel_data
+      - ${DOCKERM}/beszel:/beszel_data
       - beszel-socket:/beszel_socket
     labels:
       - traefik.enable=true

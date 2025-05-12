@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - umami-db:/from
-      - /opt/docker/umami-db:/to
+      - beszel-socket:/from
+      - /opt/docker/beszel-socket:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  umami-db:
+  beszel-socket:
     external: true
