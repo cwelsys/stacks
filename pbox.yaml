@@ -24,4 +24,6 @@ networks:
     external: true
   gitea:
     external: true
+  nextcloud:
+    external: true
 
