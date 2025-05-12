@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - authentik:/from
-      - /opt/docker/authentik:/to
+      - dns:/from
+      - /opt/docker/dns:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  authentik:
+  dns:
     external: true
