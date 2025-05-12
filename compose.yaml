@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - redbot:/from
-      - /opt/docker/redbot:/to
+      - immich-db:/from
+      - /opt/docker/immich-db:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  redbot:
+  immich-db:
     external: true

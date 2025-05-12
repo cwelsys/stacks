@@ -309,7 +309,7 @@ DB_PASSWORD="op://Secrets/Immich/pg_pass"
 UPLOAD_LOCATION=/mnt/media/image
 DB_USERNAME=immich
 DB_DATABASE_NAME=immich
-DB_DATA_LOCATION=immich-db
+DB_DATA_LOCATION=/opt/docker/immich-db
 """
 
 ##
