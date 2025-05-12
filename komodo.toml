@@ -324,9 +324,9 @@ DB_DATA_LOCATION=/opt/docker/immich-db
 name = "internal"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+webhook_enabled = false
 run_directory = "network"
 file_paths = ["internal.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
