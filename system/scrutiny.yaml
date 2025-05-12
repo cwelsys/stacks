@@ -1,7 +1,3 @@
-volumes:
-  scrutiny:
-    external: true
-
 services:
   scrutiny:
     container_name: scrutiny
@@ -13,7 +9,7 @@ services:
     volumes:
       - /run/udev:/run/udev:ro
       - /dev:/dev:ro
-      - scrutiny:/opt/scrutiny
+      - ${DOCKERM}/scrutiny:/opt/scrutiny
     restart: always
     healthcheck:
       test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8080/health']
@@ -24,10 +20,5 @@ services:
       - traefik.http.routers.scrutiny.rule=Host(`scrutiny.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.scrutiny.loadbalancer.server.port=8080
-      # - homepage.group=System
-      # - homepage.name=Scrutiny
-      # - homepage.icon=scrutiny.png
-      # - homepage.href=https://scrutiny.${DOMAIN}
-      # - homepage.description=SMART Monitoring
     networks:
       - internal

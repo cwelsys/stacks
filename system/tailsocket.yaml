@@ -1,7 +1,3 @@
-volumes:
-  ts-socket:
-    external: true
-
 services:
   tailscale:
     image: tailscale/tailscale:latest
@@ -15,7 +11,7 @@ services:
       - TS_LOCAL_ADDR_PORT=127.0.0.1:41234
       - TS_EXTRA_ARGS=--accept-dns=true
     volumes:
-      - ts-socket:/var/lib/tailscale
+      - ${DOCKERM}/ts-socket:/var/lib/tailscale
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:

@@ -503,7 +503,6 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "system"
 file_paths = [
-  "backup.yaml",
   "tailsocket.yaml",
   "dozzle.yaml",
   "scrutiny.yaml",

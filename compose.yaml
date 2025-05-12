@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - crowdsec-config:/from
-      - /opt/docker/crowdsec/config:/to
+      - ts-socket:/from
+      - /opt/docker/ts-socket:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  crowdsec-config:
+  ts-socket:
     external: true
