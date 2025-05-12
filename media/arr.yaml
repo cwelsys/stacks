@@ -1,31 +1,3 @@
-volumes:
-  sonarr:
-    external: true
-  radarr:
-    external: true
-  lidarr:
-    external: true
-  prowlarr:
-    external: true
-  whisparr:
-    external: true
-  overseerr:
-    external: true
-  maintainerr:
-    external: true
-  tautulli:
-    external: true
-  recommendarr:
-    external: true
-  readarr:
-    external: true
-  flows:
-    external: true
-  hydra:
-    external: true
-  cweb:
-    external: true
-
 services:
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
