@@ -1,8 +1,5 @@
 volumes:
-  immich-ml:
-    external: true
-  immich-db:
-    external: true
+  cache:
 
 services:
   immich-server:
@@ -41,7 +38,7 @@ services:
     container_name: immich-ml
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
-      - immich-ml:/cache
+      - cache:/cache
     environment:
       - NODE_ENV=production
       - TZ=${TZ}
