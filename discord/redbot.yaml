@@ -1,7 +1,3 @@
-volumes:
-  redbot:
-    external: true
-
 services:
   redbot:
     container_name: redbot
