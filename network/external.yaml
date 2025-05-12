@@ -22,9 +22,9 @@ services:
       BOUNCER_HOST: ${BOUNCER_HOST}
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
     volumes:
-      - ${CONFIGDIR}/network/external/log:/var/log/traefik:rw
-      - ${CONFIGDIR}/network/external/static:/etc/traefik:rw
-      - ${CONFIGDIR}/network/external/dynamic:/config/dynamic:rw
+      - /var/log/traefik/external:/var/log/traefik:rw
+      - ${CONFIGDIR}/traefik/external/static:/etc/traefik:rw
+      - ${CONFIGDIR}/traefik/external/dynamic:/config/dynamic:rw
       - ${CONFIGDIR}/network/external/ban.html:/config/ban.html:ro
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     labels:
@@ -40,7 +40,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
-      - ${CONFIGDIR}/network/external/log:/var/log/traefik:rw # folder containing access.log file
+      - /var/log/traefik/external:/var/log/traefik:rw # folder containing access.log file
     environment:
       TZ: ${TZ}
       # all environment variables are optional and show the default values:
@@ -61,7 +61,7 @@ services:
     image: alpine
     container_name: tail-loge
     volumes:
-      - ${CONFIGDIR}/network/external/log:/var/log:ro
+      - /var/log/traefik/external:/var/log:ro
     command: >
       sh -c "tail -F /var/log/access.log"
     network_mode: none

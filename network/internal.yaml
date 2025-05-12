@@ -1,6 +1,5 @@
 volumes:
-  int-redis:
-    external: true
+  cache:
 
 services:
   traefik:
@@ -21,10 +20,10 @@ services:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
     volumes:
-      - ${CONFIGDIR}/network/internal/letsencrypt:/letsencrypt
-      - ${CONFIGDIR}/network/internal/log:/var/log/traefik:rw
-      - ${CONFIGDIR}/network/internal/static:/etc/traefik:rw
-      - ${CONFIGDIR}/network/internal/dynamic:/config/dynamic:rw
+      - ${DOCKERM}/traefik/letsencrypt:/letsencrypt
+      - /var/log/traefik/internal:/var/log/traefik:rw
+      - ${CONFIGDIR}/traefik/internal/static:/etc/traefik:rw
+      - ${CONFIGDIR}/traefik/internal/dynamic:/config/dynamic:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: true
@@ -41,7 +40,7 @@ services:
       - traefik
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
-      - ${CONFIGDIR}/network/internal/log:/var/log/traefik:rw # folder containing access.log file
+      - /var/log/traefik/internal:/var/log/traefik:rw # folder containing access.log file
     environment:
       TZ: ${TZ}
       # all environment variables are optional and show the default values:
@@ -62,7 +61,7 @@ services:
     container_name: tail-logi
     image: alpine
     volumes:
-      - ${CONFIGDIR}/network/internal/log:/var/log:ro
+      - /var/log/traefik/internal:/var/log:ro
     command: >
       sh -c "tail -F /var/log/access.log"
     network_mode: none
@@ -82,6 +81,6 @@ services:
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
-      - int-redis:/data
+      - cache:/data
 
 

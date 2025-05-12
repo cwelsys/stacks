@@ -48,8 +48,6 @@ services:
     volumes:
       - /var/log:/var/log
       - ${DOCKERM}/promtail:/etc/promtail
-      - ${CONFIGDIR}/network/internal/log:/var/log/internal
-      - ${CONFIGDIR}/network/external/log:/var/log/external
 
   grafana:
     image: grafana/grafana-oss:11.5.1
