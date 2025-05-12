@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - dns:/from
-      - /opt/docker/dns:/to
+      - crowdsec-config:/from
+      - /opt/docker/crowdsec/config:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  dns:
+  crowdsec-config:
     external: true
