@@ -1,6 +1,6 @@
 services:
   stash:
-    image: stashapp/stash:latest
+    image: ghcr.io/hotio/stash
     container_name: stash
     restart: unless-stopped
     # ports:
@@ -20,6 +20,10 @@ services:
       - STASH_METADATA=/stash/metadata/
       - STASH_CACHE=/stash/cache/
       - STASH_PORT=9999
+      - PUID=1000
+      - PGID=${ID}
+      - UMASK=002
+      - TZ=${TZ}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCKERM}/stash/root:/root/.stash
@@ -30,5 +34,3 @@ services:
       - traefik.http.routers.stash.rule=Host(`stash.${DOMAIN}`)
       - traefik.http.services.stash.loadbalancer.server.port=9999
       - traefik.docker.network=internal
-      - docker-volume-backup.stop-during-backup=true
-
