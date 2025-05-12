@@ -238,9 +238,8 @@ GLUETUN_APIKEY="op://Secrets/Gluetun/credential"
 name = "external"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "network"
 file_paths = ["external.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
