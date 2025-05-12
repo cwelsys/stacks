@@ -10,7 +10,7 @@ services:
     networks:
       - media
     volumes:
-      - redbot:/data
+      - ${DOCKERM}/redbot:/data
     environment:
       # - TOKEN=${REDBOT_TOKEN}
       # - PREFIX=.

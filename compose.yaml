@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - qbit:/from
-      - /opt/docker/qbit:/to
+      - redbot:/from
+      - /opt/docker/redbot:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  qbit:
+  redbot:
     external: true

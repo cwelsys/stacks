@@ -168,15 +168,15 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc/discord"
+run_directory = "discord"
 file_paths = [
   "redbot.yaml",
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../pbox.yaml",
 ]
-additional_env_files = ["../../global.env"]
+additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
 """

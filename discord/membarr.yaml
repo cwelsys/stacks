@@ -1,6 +1,3 @@
-volumes:
-  membarr:
-    external: true
 services:
   membarr:
       image: 'yoruio/membarr:latest'
@@ -9,7 +6,7 @@ services:
       networks:
         - media
       volumes:
-        - membarr:/app/app/config
+        - ${DOCKERM}/membarr:/app/app/config
       environment:
         - token=${MEMBARR_TOKEN}
       labels:
