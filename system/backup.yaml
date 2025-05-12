@@ -1,0 +1,30 @@
+services:
+  duplicati:
+    image: linuxserver/duplicati:latest
+    container_name: duplicati
+    hostname: duplicati
+    entrypoint:
+      - /init
+    # ports:
+    #   - 8200:8200
+    expose:
+      - 8200
+    environment:
+      - PUID=0
+      - PGID=1000
+      - TZ=${TZ}
+      - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_KEY}
+      - DUPLICATI__WEBSERVICE_PASSWORD=${DUPLICATI_PASS}
+    restart: unless-stopped
+    volumes:
+      - /mnt/backup:/backups
+      - ${DOCKERM}/duplicati/config:/config
+      - ${DOCKERM}:/source
+    networks:
+     - internal
+    labels:
+     - traefik.enable=true
+     - traefik.http.routers.duplicati.rule=Host(`backup.${DOMAIN}`)
+     - traefik.http.services.duplicati.loadbalancer.server.port=8200
+     - traefik.docker.network=internal
+
