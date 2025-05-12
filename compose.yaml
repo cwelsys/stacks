@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - immich-db:/from
-      - /opt/docker/immich-db:/to
+      - speed-db:/from
+      - /opt/docker/speed-db:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  immich-db:
+  speed-db:
     external: true
