@@ -12,6 +12,7 @@ docker-compose.override.yml
 *.env
 !backup.env
 !global.env
+archive/
 docs/
 tmp/
 temp/
