@@ -87,7 +87,6 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 """
 environment = """
 NC_PG_PASS="op://Secrets/Nextcloud/pgpass"
-MYSQL_ROOT_PASSWORD="op://Secrets/Nextcloud/mysqlRoopass"
 REDIS_PASSWORD="op://Secrets/Nextcloud/redispw"
 NC_ADMIN_USER_PASSWORD="op://Secrets/Nextcloud/adminuserpass"
 NC_HOSTNAME=cloud.cwel.sh
