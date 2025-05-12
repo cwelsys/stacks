@@ -1,13 +1,9 @@
-volumes:
-  linkding:
-    external: true
-
 services:
   linkding:
     container_name: linkding
     image: sissbruecker/linkding:latest
     volumes:
-      - linkding:/etc/linkding/data
+      - ${DOCKERM}/linkding:/etc/linkding/data
     restart: unless-stopped
     environment:
       - LD_SUPERUSER_PASSWORD=${LINKDING_PASS}
@@ -20,11 +16,5 @@ services:
       - traefik.http.routers.linkding.rule=Host(`link.${DOMAIN}`)
       - traefik.http.services.linkding.loadbalancer.server.port=9090
       - traefik.docker.network=internal
-      # - homepage.group=Apps
-      # - homepage.name=Linkding
-      # - homepage.icon=linkding.png
-      # - homepage.href=https://link.${DOMAIN}
-      # - homepage.description=Bookmark Manager
-      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal

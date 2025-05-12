@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - speed-db:/from
-      - /opt/docker/speed-db:/to
+      - linkding:/from
+      - /opt/docker/linkding:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  speed-db:
+  linkding:
     external: true
