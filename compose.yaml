@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - linkding:/from
-      - /opt/docker/linkding:/to
+      - mealie:/from
+      - /opt/docker/mealie:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  linkding:
+  mealie:
     external: true
