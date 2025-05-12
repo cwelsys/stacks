@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - stash:/from
-      - /opt/docker/stash:/to
+      - qbit:/from
+      - /opt/docker/qbit:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  stash:
+  qbit:
     external: true

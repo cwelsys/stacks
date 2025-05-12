@@ -22,13 +22,6 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 SONARR_API_KEY="op://Secrets/Sonarr/credential"
 RADARR_API_KEY="op://Secrets/Radarr/credential"
-LIDARR_API_KEY="op://Secrets/Lidarr/credential"
-PROWLARR_API_KEY="op://Secrets/Prowlarr/credential"
-OVERSEERR_API_KEY="op://Secrets/Overseerr/credential"
-READARR_API_KEY="op://Secrets/Readarr/credential"
-QBITTORRENT_USERNAME=admin
-QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
-TAUTULLI_API_KEY="op://Secrets/Tautulli/credential"
 
 """
 
