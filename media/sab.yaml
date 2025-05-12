@@ -1,7 +1,3 @@
-volumes:
-  sabnzbd:
-    external: true
-
 services:
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
@@ -11,7 +7,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - sabnzbd:/config
+      - ${DOCKERM}/sabnzbd:/config
       - ${RUST}:/data
       - /opt/arrscripts/sab/custom-cont-init.d:/custom-cont-init.d
     restart: always

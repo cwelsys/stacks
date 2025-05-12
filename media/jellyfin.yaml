@@ -1,7 +1,3 @@
-volumes:
-  jellyfin:
-    external: true
-
 services:
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
@@ -12,7 +8,7 @@ services:
       - TZ=${TZ}
       - JELLYFIN_PublishedServerUrl=jellyfin.${DOMAIN}
     volumes:
-      - jellyfin:/config
+      - ${DOCKERM}/jellyfin:/config
       - ${RUST}:/data
     ports:
       - 8096:8096

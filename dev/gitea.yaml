@@ -1,11 +1,3 @@
-volumes:
-  gitea:
-    external: true
-  git-db:
-    external: true
-  git-runner:
-    external: true
-
 services:
   gitea:
     image: gitea/gitea:latest
@@ -23,8 +15,7 @@ services:
       - 3000
       - 22
     volumes:
-      - gitea:/data
-      - ${CONFIGDIR}/gitea/app.ini:/data/gitea/conf/app.ini:rw
+      - ${DOCKERM}/gitea:/data
       - /etc/localtime:/etc/localtime:ro
     networks:
      - internal
@@ -45,22 +36,22 @@ services:
     networks:
       - gitea
     volumes:
-      - git-db:/var/lib/postgresql/data
+      - ${DOCKERM}/git-db:/var/lib/postgresql/data
 
   runner:
-    image: gitea/act_runner:0.2.11
+    image: docker.io/gitea/act_runner:nightly
     container_name: gitea-runner
-    restart: always
+    restart: unless-stopped
     networks:
       - gitea
     depends_on:
-      - gitea
+     - gitea
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${CONFIGDIR}/gitea/config.yaml:/config.yaml
-      - git-runner:/data
+      - ${DOCKERM}/git-runner/data:/data
+      - ${DOCKERM}/git-runner/config.yaml:/config.yaml
     environment:
       - CONFIG_FILE=/config.yaml
-      - GITEA_INSTANCE_URL=https://git.${DOMAIN}
+      - GITEA_INSTANCE_URL=https://git.cwel.sh
       - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
       - GITEA_RUNNER_NAME=atlas

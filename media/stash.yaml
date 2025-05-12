@@ -1,9 +1,3 @@
-volumes:
-  stash:
-    external: true
-  stash-root:
-    external: true
-
 services:
   stash:
     image: stashapp/stash:latest
@@ -28,8 +22,8 @@ services:
       - STASH_PORT=9999
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - stash-root:/root/.stash
-      - stash:/stash
+      - ${DOCKERM}/stash/root:/root/.stash
+      - ${DOCKERM}/stash:/stash
       - ${RUST}:/data
     labels:
       - traefik.enable=true

@@ -26,7 +26,7 @@ services:
       - '32414:32414/udp'
     restart: unless-stopped
     volumes:
-      - plex:/config
+      - ${DOCKERM}/plex:/config
       - ${RUST}/tv:/tv
       - ${RUST}/movie:/movie
       - ${RUST}/anime:/anime
@@ -55,7 +55,7 @@ services:
     networks:
       - media
     volumes:
-      - plex-trakt:/config
+      -  ${DOCKERM}/plex-trakt:/config
     environment:
       - PUID=1000
       - PGID=${ID}

@@ -12,7 +12,7 @@ services:
       - TZ=${TZ}
       - PROXY_DOMAIN=code.${DOMAIN}
     volumes:
-      - vscode:/config
+      - ${DOCKERM}/vscode:/config
     restart: unless-stopped
     networks:
      - internal
@@ -21,8 +21,3 @@ services:
      - traefik.docker.network=internal
      - traefik.http.routers.codeserver.rule=Host(`code.${DOMAIN}`)
      - traefik.http.services.codeserver.loadbalancer.server.port=8443
-    #  - homepage.group=Apps
-    #  - homepage.name=Code Server
-    #  - homepage.icon=vscode.png
-    #  - homepage.href=https://code.${DOMAIN}
-    #  - homepage.description=code server

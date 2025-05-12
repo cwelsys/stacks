@@ -1,0 +1,11 @@
+services:
+  migrate:
+    image: alpine
+    volumes:
+      - stash:/from
+      - /opt/docker/stash:/to
+    command: sh -c "cd /from && cp -av . /to/"
+    restart: "no"
+volumes:
+  stash:
+    external: true

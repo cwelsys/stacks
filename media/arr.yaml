@@ -35,7 +35,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - sonarr:/config
+      - ${DOCKERM}/sonarr:/config
       - ${RUST}:/data
       - /opt/arrscripts/sonarr/custom-services.d:/custom-services.d
       - /opt/arrscripts/sonarr/custom-cont-init.d:/custom-cont-init.d
@@ -64,7 +64,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - radarr:/config
+      - ${DOCKERM}/radarr:/config
       - ${RUST}:/data
       - /opt/arrscripts/radarr/custom-services.d:/custom-services.d
       - /opt/arrscripts/radarr/custom-cont-init.d:/custom-cont-init.d
@@ -93,7 +93,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - lidarr:/config
+      - ${DOCKERM}/lidarr:/config
       - ${RUST}:/data
       - /opt/arrscripts/lidarr/custom-services.d:/custom-services.d
       - /opt/arrscripts/lidarr/custom-cont-init.d:/custom-cont-init.d
@@ -120,7 +120,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - readarr:/config
+      - ${DOCKERM}/readarr:/config
       - ${RUST}:/data
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8787/ping' ]
@@ -149,7 +149,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - cweb:/config
+      - ${DOCKERM}/cweb:/config
       - ${RUST}/book/ing:/cwa-book-ingest
       - ${RUST}/book:/calibre-library
     labels:
@@ -195,7 +195,7 @@ services:
       - UMASK=002
       - TZ=${TZ}
     volumes:
-      - whisparr:/config
+      - ${DOCKERM}/whisparr:/config
       - ${RUST}:/data
     labels:
      - traefik.enable=true
@@ -212,7 +212,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - prowlarr:/config
+      - ${DOCKERM}/prowlarr:/config
     restart: always
     healthcheck:
       test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping' ]
@@ -271,7 +271,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - overseerr:/config
+      - ${DOCKERM}/overseerr:/config
     restart: unless-stopped
     ports:
       - 5055:5055
@@ -294,7 +294,7 @@ services:
       - internal
       - media
     volumes:
-      - maintainerr:/opt/data
+      - ${DOCKERM}/maintainerr:/opt/data
     environment:
       - TZ=${TZ}
     restart: unless-stopped
@@ -313,7 +313,7 @@ services:
       - PGID=${ID}
       - TZ=${TZ}
     volumes:
-      - tautulli:/config
+      - ${DOCKERM}/tautulli:/config
     networks:
       - internal
     restart: unless-stopped
@@ -337,7 +337,7 @@ services:
       - PUBLIC_URL=https://recommendarr.${DOMAIN}
       - FORCE_SECURE_COOKIES=true
     volumes:
-      - recommendarr:/app/server/data
+      - ${DOCKERM}/recommendarr:/app/server/data
     restart: unless-stopped
     networks:
       - internal
@@ -367,9 +367,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/cache/cache1/.cache/transcache:/temp
       - ${RUST}:/data
-      - flows:/app/Data
-      - flows:/app/Logs
-      - flows:/app/common
+      - ${DOCKERM}/flows:/app/Data
+      - ${DOCKERM}/flows:/app/Logs
+      - ${DOCKERM}/flows:/app/common
     labels:
       - traefik.enable=true
       - traefik.http.routers.fileflows.rule=Host(`flows.${DOMAIN}`)
@@ -377,23 +377,3 @@ services:
       - traefik.docker.network=internal
       - docker-volume-backup.stop-during-backup=true
 
-  nzbhydra2:
-    image: lscr.io/linuxserver/nzbhydra2:latest
-    container_name: nzbhydra2
-    networks:
-      - internal
-      - media
-    environment:
-      - PUID=1000
-      - PGID=${ID}
-      - TZ=${TZ}
-    volumes:
-      - hydra:/config
-      - ${RUST}:/downloads
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.hydra.rule=Host(`hydra.${DOMAIN}`)
-      - traefik.http.services.hydra.loadbalancer.server.port=5076
-      - traefik.docker.network=internal
-      - docker-volume-backup.stop-during-backup=true

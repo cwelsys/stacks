@@ -1,11 +1,5 @@
 volumes:
-  romm-db:
-    external: true
-  romm:
-    external: true
   romm-redis:
-    external: true
-  emujs:
     external: true
 
 services:
@@ -29,7 +23,7 @@ services:
       #- SCREENSCRAPER_USER= # Use your ScreenScraper username and password
       #- SCREENSCRAPER_PASSWORD= # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#screenscraper
     volumes:
-      - romm:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
+      - ${DOCKERM}/romm:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
       - romm-redis:/redis-data # Cached data for background tasks
       - ${FLASH}/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
       - ${FLASH}/romm/assets:/romm/assets # Uploaded saves, states, etc.
@@ -56,7 +50,7 @@ services:
       - MARIADB_USER=romm
       - MARIADB_PASSWORD=${ROMM_DB_PW}
     volumes:
-      - romm-db:/var/lib/mysql
+      - ${DOCKERM}/romm-db:/var/lib/mysql
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       start_period: 30s
@@ -76,8 +70,8 @@ services:
       - TZ=${TZ}
       # - SUBFOLDER=/ #optional
     volumes:
-      - emujs:/config
-      - emujs:/data
+      - ${DOCKERM}/emujs:/config
+      - ${DOCKERM}/emujs:/data
       - ${FLASH}/romm/library/roms/nes:/roms/nes:ro
       - ${FLASH}/romm/library/roms/snes:/roms/snes:ro
       - ${FLASH}/romm/library/roms/n64:/roms/n64:ro
