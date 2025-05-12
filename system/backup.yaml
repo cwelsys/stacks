@@ -1,30 +1,27 @@
 services:
-  duplicati:
-    image: linuxserver/duplicati:latest
-    container_name: duplicati
-    hostname: duplicati
-    entrypoint:
-      - /init
-    # ports:
-    #   - 8200:8200
-    expose:
-      - 8200
-    environment:
-      - PUID=0
-      - PGID=1000
-      - TZ=${TZ}
-      - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_KEY}
-      - DUPLICATI__WEBSERVICE_PASSWORD=${DUPLICATI_PASS}
-    restart: unless-stopped
+  backrest:
+    image: garethgeorge/backrest:latest
+    container_name: backrest
+    hostname: backrest
     volumes:
-      - /mnt/backup:/backups
-      - ${DOCKERM}/duplicati/config:/config
-      - ${DOCKERM}:/source
+      - ${DOCKERM}/backrest/data:/data
+      - ${DOCKERM}/backrest/config:/config
+      - ${DOCKERM}/backrest/cache:/cache
+      - ${DOCKERM}/backrest/tmp:/tmp
+      - ${DOCKERM}:/userdata  
+    environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+      - TZ=${TZ}
+    # ports:
+    #   - "9898:9898"
+    restart: unless-stopped
     networks:
-     - internal
+      - internal
     labels:
-     - traefik.enable=true
-     - traefik.http.routers.duplicati.rule=Host(`backup.${DOMAIN}`)
-     - traefik.http.services.duplicati.loadbalancer.server.port=8200
-     - traefik.docker.network=internal
-
+      - traefik.enable=true
+      - traefik.http.routers.backrest.rule=Host(`backrest.${DOMAIN}`)
+      - traefik.http.services.backrest.loadbalancer.server.port=9898
+      - traefik.docker.network=internal
