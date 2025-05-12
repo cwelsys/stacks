@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - beszel-socket:/from
-      - /opt/docker/beszel-socket:/to
+      - netdatalib:/from
+      - /opt/docker/netdata/lib:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  beszel-socket:
+  netdatalib:
     external: true

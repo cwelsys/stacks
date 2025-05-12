@@ -1,17 +1,3 @@
-volumes:
-  influxdb:
-    external: true
-  influxdb-cfg:
-    external: true
-  loki:
-    external: true
-  promtail:
-    external: true
-  grafana:
-    external: true
-  vmetrics:
-    external: true
-
 services:
   influxdb:
     image: influxdb:2.7
@@ -30,10 +16,8 @@ services:
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
       - DOCKER_INFLUXDB_INIT_MODE=setup
     volumes:
-      - influxdb:/var/lib/influxdb2
-      - influxdb-cfg:/etc/influxdb2
-    labels:
-      - docker-volume-backup.stop-during-backup=true
+      - ${DOCKERM}/influxdb:/var/lib/influxdb2
+      - ${DOCKERM}/influxdb-cfg:/etc/influxdb2
 
   loki:
     image: grafana/loki:2.9.11
@@ -48,10 +32,7 @@ services:
     ports:
       - "127.0.0.1:3100:3100"
     volumes:
-      - loki:/etc/loki
-      - ${CONFIGDIR}/monitor/loki/config.yml:/etc/loki/config.yml
-    labels:
-      - docker-volume-backup.stop-during-backup=true
+      - ${DOCKERM}/loki:/etc/loki
 
   promtail:
     image: grafana/promtail:latest
@@ -66,12 +47,9 @@ services:
       - loki
     volumes:
       - /var/log:/var/log
-      - promtail:/etc/promtail
-      - ${CONFIGDIR}/monitor/promtail/config.yml:/etc/promtail/config.yml
+      - ${DOCKERM}/promtail:/etc/promtail
       - ${CONFIGDIR}/network/internal/log:/var/log/internal
       - ${CONFIGDIR}/network/external/log:/var/log/external
-    labels:
-      - docker-volume-backup.stop-during-backup=true
 
   grafana:
     image: grafana/grafana-oss:11.5.1
@@ -90,13 +68,12 @@ services:
     expose:
       - 3000
     volumes:
-      - grafana:/var/lib/grafana
+      - ${DOCKERM}/grafana:/var/lib/grafana
     labels:
       - traefik.enable=true
       - traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)
       - traefik.http.services.grafana.loadbalancer.server.port=3000
       - traefik.docker.network=internal
-      - docker-volume-backup.stop-during-backup=true
 
   victoriametrics:
     image: victoriametrics/victoria-metrics:v1.115.0
@@ -109,12 +86,9 @@ services:
     expose:
       - 8428
     volumes:
-      - vmetrics:/storage
+      - ${DOCKERM}/vmetrics:/storage
     command:
       - "--storageDataPath=/storage"
       - "--httpListenAddr=:8428"
-    labels:
-      - docker-volume-backup.stop-during-backup=true
-
 
 

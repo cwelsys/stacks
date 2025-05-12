@@ -1,10 +1,5 @@
 volumes:
-  netdataconfig:
-    external: true
-  netdatalib:
-    external: true
-  netdatacache:
-    external: true
+  cache:
 
 services:
   netdata:
@@ -19,9 +14,9 @@ services:
     security_opt:
       - apparmor:unconfined
     volumes:
-      - netdataconfig:/etc/netdata
-      - netdatalib:/var/lib/netdata
-      - netdatacache:/var/cache/netdata
+      - ${DOCKERM}/netdata/config:/etc/netdata
+      - ${DOCKERM}/netdata/lib:/var/lib/netdata
+      - cache:/var/cache/netdata
       - /:/host/root:ro,rslave
       - /etc/passwd:/host/etc/passwd:ro
       - /etc/group:/host/etc/group:ro
