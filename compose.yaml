@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - mealie:/from
-      - /opt/docker/mealie:/to
+      - nextcloud:/from
+      - /opt/docker/nextcloud:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  mealie:
+  nextcloud:
     external: true
