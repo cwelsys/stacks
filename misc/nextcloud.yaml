@@ -91,6 +91,7 @@ services:
         condition: service_healthy
 
   nextcloud-cron:
+    container_name: nc-cron
     image: nextcloud:29
     entrypoint: /cron.sh
     volumes:
