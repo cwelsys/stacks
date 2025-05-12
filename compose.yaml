@@ -2,10 +2,10 @@ services:
   migrate:
     image: alpine
     volumes:
-      - minio:/from
-      - /opt/docker/minio:/to
+      - umami-db:/from
+      - /opt/docker/umami-db:/to
     command: sh -c "cd /from && cp -av . /to/"
     restart: "no"
 volumes:
-  minio:
+  umami-db:
     external: true
