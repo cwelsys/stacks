@@ -53,7 +53,7 @@ services:
       - NEXTCLOUD_ADMIN_PASSWORD=${NC_ADMIN_USER_PASSWORD:-adminpass}
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
       - TRUSTED_PROXIES=${NC_TRUSTEDPROXIES:-192.168.4.89}
-      # - OVERWRITEPROTOCOL=${NC_OVERWRITEPROTOCOL:-http}
+      - OVERWRITEPROTOCOL=${NC_OVERWRITEPROTOCOL:-http}
       # - OVERWRITECLIURL=${NC_OVERWRITECLIURL:-http://127.0.0.1:8080}
       # - OVERWRITEHOST=${NC_OVERWRITEHOST:-127.0.0.1:8080}
       - MYSQL_HOST=${MYSQL_HOST:-nextcloud-db}
@@ -62,6 +62,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-nextcloud}
       - REDIS_HOST=${REDIS_HOST:-nextcloud-redis}
       - REDIS_HOST_PASSWORD=${REDIS_PASSWORD:-nextcloud}
+
     volumes:
       - ${DOCKERM}/nextcloud:/var/www/html
     networks:
@@ -79,4 +80,3 @@ services:
      - traefik.http.middlewares.limit-nextcloud.buffering.memRequestBodyBytes=50000000 # only necessary for enabled file uploads
      - traefik.http.middlewares.limit-nextcloud.buffering.memResponseBodyBytes=50000000 # only necessary for enabled file uploads
      - traefik.docker.network=internal
-

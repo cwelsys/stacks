@@ -28,7 +28,7 @@ services:
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
     networks:
-      - stack
+      - gitea
     logging:
       driver: ${COMPOSE_LOGGING_DRIVER:-local}
     # ports:
@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - stack
+      - gitea
     depends_on:
       - mongo
     logging:
