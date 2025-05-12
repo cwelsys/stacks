@@ -240,6 +240,7 @@ name = "external"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
+webhook_enabled = false
 run_directory = "network"
 file_paths = ["external.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
