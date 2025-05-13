@@ -1,10 +1,7 @@
-volumes:
-  cache:
-
 services:
   traefik:
     container_name: traefiki
-    image: "traefik:v3.3"
+    image: traefik:latest
     networks:
       - traefik
       - internal
