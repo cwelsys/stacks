@@ -28,6 +28,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
+      - media
       - stack
     cap_add:
       - NET_ADMIN
