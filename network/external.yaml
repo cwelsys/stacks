@@ -1,10 +1,7 @@
-volumes:
-  cache:
-
 services:
   traefik:
     container_name: traefike
-    image: "traefik:v3.3"
+    image: traefik:latest
     restart: unless-stopped
     networks:
       - public
@@ -25,7 +22,7 @@ services:
       - /var/log/traefik/external:/var/log/traefik:rw
       - ${CONFIGDIR}/traefik/external/static:/etc/traefik:rw
       - ${CONFIGDIR}/traefik/external/dynamic:/config/dynamic:rw
-      - ${CONFIGDIR}/network/external/ban.html:/config/ban.html:ro
+      - ${CONFIGDIR}/traefik/external/ban.html:/config/ban.html:ro
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     labels:
       traefik.enable: true
@@ -143,6 +140,4 @@ services:
       - ${DOCKERM}/crowdsec/config:/etc/crowdsec
       - ${DOCKERM}/crowdsec-db:/var/lib/crowdsec/data
       - ${DOCKERM}/crowdsec/logs:/var/log/crowdsec
-    labels:
-      - docker-volume-backup.stop-during-backup=true
 
