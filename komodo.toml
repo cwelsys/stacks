@@ -53,7 +53,7 @@ SMTPASS="op://Secrets/SMTP/Secret Key"
 ##
 
 [[stack]]
-name = "backup"
+name = "backrest"
 [stack.config]
 server = "pbox"
 git_provider = "git.cwel.sh"
