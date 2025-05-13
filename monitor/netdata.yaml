@@ -1,6 +1,3 @@
-volumes:
-  cache:
-
 services:
   netdata:
     image: netdata/netdata
