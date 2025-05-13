@@ -353,6 +353,8 @@ services:
     image: ghcr.io/manimatter/decluttarr:latest
     container_name: decluttarr
     restart: always
+    networks:
+      - media
     environment:
       TZ: ${TZ}
       PUID: 1000
