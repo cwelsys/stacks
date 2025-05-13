@@ -35,7 +35,6 @@ services:
       - traefik.http.routers.plex.rule=Host(`plex.${DOMAIN}`)
       - traefik.http.services.plex.loadbalancer.server.port=32400
       - traefik.docker.network=internal
-      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
       - media

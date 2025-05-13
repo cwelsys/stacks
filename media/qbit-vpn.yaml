@@ -20,8 +20,6 @@ services:
     network_mode: service:gluetun
     depends_on:
       - gluetun
-    labels:
-      - docker-volume-backup.stop-during-backup=true
   gluetun:
     image: qmcgaw/gluetun:latest
     container_name: gluetun

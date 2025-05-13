@@ -9,5 +9,3 @@ services:
         - ${DOCKERM}/membarr:/app/app/config
       environment:
         - token=${MEMBARR_TOKEN}
-      labels:
-        - docker-volume-backup.stop-during-backup=true

@@ -57,7 +57,6 @@ services:
       - traefik.http.routers.homepage.rule=Host(`hp.${DOMAIN}`)
       - traefik.http.services.homepage.loadbalancer.server.port=3000
       - traefik.docker.network=internal
-      - docker-volume-backup.stop-during-backup=true
 
   hp-sockp:
     image: lscr.io/linuxserver/socket-proxy:latest

@@ -25,7 +25,6 @@ services:
       - traefik.http.routers.jellyfin.rule=Host(`jellyfin.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
-      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
       - media

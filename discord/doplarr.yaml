@@ -17,5 +17,3 @@ services:
     volumes:
       - ${DOCKERM}/doplarr:/config
     restart: unless-stopped
-    labels:
-     - docker-volume-backup.stop-during-backup=true

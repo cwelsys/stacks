@@ -16,7 +16,6 @@ services:
       - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
-      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
       - media

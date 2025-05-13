@@ -12,5 +12,3 @@ services:
       - YOUTUBE_API_KEY=${GOOGLE_API}
       # - SPOTIFY_CLIENT_ID=
       # - SPOTIFY_CLIENT_SECRET=
-    labels:
-      - docker-volume-backup.stop-during-backup=true
