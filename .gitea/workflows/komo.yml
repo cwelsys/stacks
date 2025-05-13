@@ -20,43 +20,41 @@ jobs:
           # Extract stack names from komodo.toml
           # Only include stacks that use Gitea (git_account = "cwel" or git_provider = "git.cwel.sh")
           # And don't have webhook_enabled = false
-          STACKS=$(awk -v RS= '
-          /\[\[stack\]\]/ {
-            in_stack=1
-            name=""
-            webhook_enabled=1
-            is_gitea=0
+          STACKS=$(awk '
+          BEGIN { in_stack=0; is_stack_section=0; name=""; webhook_enabled=1; is_gitea=0 }
+
+          /^\[\[stack\]\]/ {
+            is_stack_section=1;
+            if (in_stack && name != "" && webhook_enabled == 1 && is_gitea == 1) {
+              printf "%s,", name
+            }
+            in_stack=1; name=""; webhook_enabled=1; is_gitea=0
           }
 
-          /name *= *"[^"]*"/ && in_stack {
-            match($0, /name *= *"([^"]*)"/, arr)
-            name=arr[1]
+          /^\[\[server\]\]/ || /^\[\[repo\]\]/ || /^\[\[builder\]\]/ || /^\[\[resource_sync\]\]/ {
+            is_stack_section=0;
+            in_stack=0
           }
 
-          /webhook_enabled *= *false/ && in_stack {
+          is_stack_section && /name *= *"[^"]*"/ && in_stack {
+            match($0, /name *= *"([^"]*)"/, matches)
+            name=matches[1]
+          }
+
+          is_stack_section && /webhook_enabled *= *false/ && in_stack {
             webhook_enabled=0
           }
 
-          /git_account *= *"cwel"/ && in_stack {
+          is_stack_section && /git_account *= *"cwel"/ && in_stack {
             is_gitea=1
           }
 
-          /git_provider *= *"git.cwel.sh"/ && in_stack {
+          is_stack_section && /git_provider *= *"git.cwel.sh"/ && in_stack {
             is_gitea=1
-          }
-
-          /\[\[stack\]\]/ && NR > 1 {
-            if (name != "" && webhook_enabled == 1 && is_gitea == 1) {
-              printf "%s,", name
-            }
-            in_stack=1
-            name=""
-            webhook_enabled=1
-            is_gitea=0
           }
 
           END {
-            if (name != "" && webhook_enabled == 1 && is_gitea == 1) {
+            if (in_stack && name != "" && webhook_enabled == 1 && is_gitea == 1) {
               printf "%s,", name
             }
           }' komodo.toml | sed 's/,$//')
