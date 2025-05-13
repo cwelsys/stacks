@@ -105,3 +105,37 @@ services:
       - traefik.http.routers.app.rule=Host(`resume.${DOMAIN}`)
       - traefik.http.services.app.loadbalancer.server.port=3000
       - traefik.docker.network=internal
+
+
+  db-backup:
+    container_name: rxres-db-backup
+    image: tiredofit/db-backup
+    networks:
+      - stack
+    volumes:
+      - ${DOCKERD}/dumps/rxresume:/backup
+      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=rxres-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+
+      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330      # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
+
+      - DB01_TYPE=postgres
+      - DB01_HOST=rxdb
+      - DB01_NAME=rxres
+      - DB01_USER=rxres
+      - DB01_PASS=${RX_PG_PASS}
+      # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
+      # - DB01_BACKUP_BEGIN=+10           # (override) Backup starts in ten minutes
+      # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
+      # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
+      # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
+
