@@ -86,3 +86,35 @@ services:
     networks:
       - stack
 
+  db-backup:
+    container_name: immich-db-backup
+    image: tiredofit/db-backup
+    networks:
+      - stack
+    volumes:
+      - ${BRICK}:/backup
+      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=immich-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+
+      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=0000      # Start backing up at midnight
+      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
+
+      - DB01_TYPE=postgres
+      - DB01_HOST=immich-db
+      - DB01_NAME=${DB_DATABASE_NAME}
+      - DB01_USER=${DB_USERNAME}
+      - DB01_PASS=${DB_PASSWORD}
+      # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
+      - DB01_BACKUP_BEGIN=+1           # (override) Backup starts in ten minutes
+      # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
+      # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
+      # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
+

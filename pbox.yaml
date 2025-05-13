@@ -5,6 +5,9 @@
 # docker network create --driver=bridge --internal --attachable db
 # docker network create --driver bridge --subnet 172.28.0.0/16 traefik
 
+volumes:
+  cache:
+
 networks:
   stack:
     internal: true
