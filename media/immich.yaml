@@ -1,6 +1,3 @@
-volumes:
-  cache:
-
 services:
   immich-server:
     image: altran1502/immich-server:${IMMICH_VERSION:-release}
@@ -113,7 +110,7 @@ services:
       - DB01_USER=${DB_USERNAME}
       - DB01_PASS=${DB_PASSWORD}
       # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
-      - DB01_BACKUP_BEGIN=+1           # (override) Backup starts in ten minutes
+      # - DB01_BACKUP_BEGIN=+1           # (override) Backup starts in ten minutes
       # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
       # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
       # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
