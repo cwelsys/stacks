@@ -88,5 +88,31 @@ services:
     command:
       - "--storageDataPath=/storage"
       - "--httpListenAddr=:8428"
+      
+  db-backup:
+    container_name: influxdb2-db-backup
+    image: tiredofit/db-backup
+    networks:
+      - monitoring
+    volumes:
+      - ${DOCKERM}/dumps/influxdb2:/backup
+      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=influxdb2-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+      - DEFAULT_INFLUX_VERSION=2
+      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330      # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
 
+      - DB01_TYPE=influx
+      - DB01_HOST=influxdb
+      - DB01_NAME=influx-bucket
+      - DB01_USER=admin
+      - DB01_PASS=${INFLUXDB_PASS}
 
