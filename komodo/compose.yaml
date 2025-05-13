@@ -13,11 +13,6 @@ include:
 volumes:
   repo-cache:
     external: true
-  kmongo-db:
-    external: true
-  kmongo-cfg:
-    external: true
-
 services:
   mongo:
     image: mongo
@@ -28,14 +23,13 @@ services:
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
     networks:
-      - gitea
+      - stack
     logging:
       driver: ${COMPOSE_LOGGING_DRIVER:-local}
     # ports:
     #   - 27017:27017
     volumes:
-      - kmongo-db:/data/db
-      - kmongo-cfg:/data/configdb
+      - ${DOCKERM}/komo-db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
@@ -55,7 +49,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - gitea
+      - stack
     depends_on:
       - mongo
     logging:
