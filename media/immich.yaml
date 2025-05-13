@@ -1,6 +1,3 @@
-volumes:
-  cache:
-
 services:
   immich-server:
     image: altran1502/immich-server:${IMMICH_VERSION:-release}
@@ -73,7 +70,7 @@ services:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
-      - ${DOCKERM}/immich-db:/var/lib/postgresql/data
+      - ${DOCKERDB}/immich-db:/var/lib/postgresql/data
     command: >-
       postgres -c shared_preload_libraries=vectors.so -c 'search_path="$$user", public, vectors' -c logging_collector=on -c max_wal_size=2GB -c shared_buffers=512MB -c wal_compression=on
     restart: unless-stopped
@@ -92,7 +89,7 @@ services:
     networks:
       - stack
     volumes:
-      - ${BRICK}:/backup
+      - ${BRICK}/db/immich:/backup
       #- ./post-script.sh:/assets/custom-scripts/post-script.sh
     environment:
       - TIMEZONE=${TZ}
@@ -113,7 +110,7 @@ services:
       - DB01_USER=${DB_USERNAME}
       - DB01_PASS=${DB_PASSWORD}
       # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
-      - DB01_BACKUP_BEGIN=+1           # (override) Backup starts in ten minutes
+      # - DB01_BACKUP_BEGIN=+1           # (override) Backup starts in ten minutes
       # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
       # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
       # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
