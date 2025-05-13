@@ -295,7 +295,6 @@ services:
       - traefik.docker.network=internal
       - traefik.http.services.tautulli.loadbalancer.server.port=8181
 
-
   recommendarr:
     image: tannermiddleton/recommendarr:latest
     container_name: recommendarr
@@ -318,35 +317,6 @@ services:
       - traefik.http.routers.recommendarr.rule=Host(`recommendarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.recommendarr.loadbalancer.server.port=3000
-      - docker-volume-backup.stop-during-backup=true
-
-  fileflows:
-    image: revenz/fileflows
-    restart: unless-stopped
-    container_name: fileflows
-    runtime: nvidia
-    networks:
-      - internal
-      - media
-    environment:
-      - TempPathHost=/mnt/cache/cache1/.cache/transcache
-      - TZ=${TZ}
-      - PUID=1000
-      - PGID=${ID}
-      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
-      - NVIDIA_VISIBLE_DEVICES=all
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /mnt/cache/cache1/.cache/transcache:/temp
-      - ${RUST}:/data
-      - ${DOCKERM}/flows:/app/Data
-      - ${DOCKERM}/flows:/app/Logs
-      - ${DOCKERM}/flows:/app/common
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.fileflows.rule=Host(`flows.${DOMAIN}`)
-      - traefik.http.services.fileflows.loadbalancer.server.port=5000
-      - traefik.docker.network=internal
       - docker-volume-backup.stop-during-backup=true
 
   decluttarr:
