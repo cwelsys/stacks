@@ -3,6 +3,12 @@ services:
     image: gitea/gitea:latest
     container_name: gitea
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://git.cwel.sh"]
+      interval: 10s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -45,7 +51,9 @@ services:
     networks:
       - gitea
     depends_on:
-      - gitea
+      gitea:
+        condition: service_healthy
+        restart: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${DOCKERM}/git-runner/data:/data
@@ -53,7 +61,7 @@ services:
     environment:
       - CONFIG_FILE=/config.yaml
       - GITEA_INSTANCE_URL=https://git.cwel.sh
-      - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
+      # - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
       - GITEA_RUNNER_NAME=atlas
 
   db-backup:
@@ -63,30 +71,23 @@ services:
       - gitea
     volumes:
        - ${BRICK}/dumps/gitea:/backup
-      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
     environment:
       - TIMEZONE=${TZ}
       - CONTAINER_NAME=git-db-backup
       - CONTAINER_ENABLE_MONITORING=FALSE
       # - DEBUG_MODE=TRUE
-
       - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
       - DEFAULT_CHECKSUM=NONE        # Don't create checksums
       - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
       - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
       - DEFAULT_BACKUP_BEGIN=2330      # Start backing up at 11:30
       - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
-
       - DB01_TYPE=postgres
       - DB01_HOST=git-db
       - DB01_NAME=gitea
       - DB01_USER=gitea
       - DB01_PASS=${GIT_PG_PASS}
-      # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
-      # - DB01_BACKUP_BEGIN=+1           # (override) Backup starts in ten minutes
-      # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
-      # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
-      # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
+
 
 
 

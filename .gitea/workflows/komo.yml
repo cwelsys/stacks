@@ -17,11 +17,31 @@ jobs:
       - name: Extract stack names from komodo.toml
         id: komodo_stacks
         run: |
-          # Use grep to extract stack names from komodo.toml
-          # This pattern looks for lines with name = "stackname" inside [[stack]] sections
-          STACKS=$(grep -A 1 '^\[\[stack\]\]' komodo.toml | grep 'name' | sed -E 's/name = "([^"]*)".*/\1/' | sort | tr '\n' ',' | sed 's/,$//')
+          # Extract stack names from komodo.toml
+          # Only include stacks that use Gitea (git_account = "cwel")
+          # And don't have webhook_enabled = false
+          STACKS=$(awk '
+          BEGIN { RS="[[stack]]"; webhook_enabled=1; is_gitea=0 }
+          {
+            name=""; webhook_enabled=1; is_gitea=0;
+            for (i=1; i<=NF; i++) {
+              if ($i ~ /^name *=/) {
+                split($i, a, "\"");
+                name=a[2];
+              }
+              if ($i ~ /webhook_enabled *=/ && $i ~ /false/) {
+                webhook_enabled=0;
+              }
+              if ($i ~ /git_account *=/ && $i ~ /"cwel"/) {
+                is_gitea=1;
+              }
+            }
+            if (name != "" && webhook_enabled == 1 && is_gitea == 1) {
+              printf "%s,", name;
+            }
+          }' komodo.toml | sed 's/,$//')
           echo "KOMODO_STACK_NAMES=$STACKS" >> $GITHUB_OUTPUT
-          echo "Found stacks in komodo.toml: $STACKS"
+          echo "Found stacks in komodo.toml for Gitea webhooks: $STACKS"
 
       - name: Debug KOMODO_STACK_NAMES
         run: echo "KOMODO_STACK_NAMES=${{ steps.komodo_stacks.outputs.KOMODO_STACK_NAMES }}"
