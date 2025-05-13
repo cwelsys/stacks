@@ -92,7 +92,7 @@ services:
     networks:
       - stack
     volumes:
-      - ${BRICK}:/backup
+      - ${BRICK}/db/immich:/backup
       #- ./post-script.sh:/assets/custom-scripts/post-script.sh
     environment:
       - TIMEZONE=${TZ}
