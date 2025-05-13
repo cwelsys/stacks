@@ -1,9 +1,9 @@
 ###################################
-# 🦎 KOMODO COMPOSE - POSTGRES 🦎 #
+# 🦎 KOMODO COMPOSE - MONGODB 🦎 #
 ###################################
 
 ## This compose file will deploy:
-##   1. Postgres + FerretDB Mongo adapter (https://www.ferretdb.com)
+##   1. MongoDB
 ##   2. Komodo Core
 ##   3. Komodo Periphery curl -sSL https://raw.githubusercontent.com/moghtech/komodo/main/scripts/setup-periphery.py | python3 - --user
 
@@ -65,3 +65,34 @@ services:
       - repo-cache:/repo-cache
     extra_hosts:
       - host.docker.internal:host-gateway
+  db-backup:
+    container_name: komo-db-backup
+    image: tiredofit/db-backup
+    networks:
+      - stack
+    volumes:
+      - ${DOCKERM}/dumps/komodo:/backup
+      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=komo-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
+
+      - DB01_TYPE=mongo
+      - DB01_HOST=mongo
+      - DB01_USER=${KOMODO_DB_USERNAME}
+      - DB01_PASS=${KOMODO_DB_PASSWORD}
+      # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
+      # - DB01_BACKUP_BEGIN=+1 # (override) Backup starts in asap
+      # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
+      # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
+      # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
+
