@@ -23,7 +23,7 @@ services:
       - traefik.http.routers.sonarr.rule=Host(`sonarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
-      - docker-volume-backup.stop-during-backup=true
+
     networks:
       - internal
       - media
@@ -52,7 +52,6 @@ services:
       - traefik.http.routers.radarr.rule=Host(`radarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.radarr.loadbalancer.server.port=7878
-      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
       - media
@@ -79,7 +78,6 @@ services:
       - traefik.http.routers.lidarr.rule=Host(`lidarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.lidarr.loadbalancer.server.port=8686
-      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
       - media
@@ -107,7 +105,6 @@ services:
      - traefik.docker.network=internal
      - traefik.http.routers.readarr.rule=Host(`readarr.${DOMAIN}`)
      - traefik.http.services.readarr.loadbalancer.server.port=8787
-     - docker-volume-backup.stop-during-backup=true
 
   calibre-web:
     image: crocodilestick/calibre-web-automated:latest
@@ -129,7 +126,6 @@ services:
      - traefik.docker.network=internal
      - traefik.http.routers.calibre.rule=Host(`calibre.${DOMAIN}`)
      - traefik.http.services.calibre.loadbalancer.server.port=8083
-     - docker-volume-backup.stop-during-backup=true
 
   calibre-web-automated-book-downloader:
     image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest
@@ -174,7 +170,6 @@ services:
      - traefik.docker.network=internal
      - traefik.http.routers.whisparr.rule=Host(`whisparr.${DOMAIN}`)
      - traefik.http.services.whisparr.loadbalancer.server.port=6969
-     - docker-volume-backup.stop-during-backup=true
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -195,7 +190,6 @@ services:
       - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
-      - docker-volume-backup.stop-during-backup=true
     networks:
       - internal
       - media
@@ -253,7 +247,6 @@ services:
       - traefik.docker.network=public
       - traefik.http.services.overseerr.loadbalancer.server.port=5055
       - kop.namespace=public
-      - docker-volume-backup.stop-during-backup=true
     networks:
       - public
       - media
@@ -275,7 +268,6 @@ services:
       - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.maintainerr.loadbalancer.server.port=6246
-      - docker-volume-backup.stop-during-backup=true
 
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
@@ -317,7 +309,6 @@ services:
       - traefik.http.routers.recommendarr.rule=Host(`recommendarr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.recommendarr.loadbalancer.server.port=3000
-      - docker-volume-backup.stop-during-backup=true
 
   decluttarr:
     image: ghcr.io/manimatter/decluttarr:latest
