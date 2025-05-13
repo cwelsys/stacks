@@ -22,7 +22,10 @@ OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env 
 environment = """
 SONARR_API_KEY="op://Secrets/Sonarr/credential"
 RADARR_API_KEY="op://Secrets/Radarr/credential"
-
+LIDARR_API_KEY="op://Secrets/Lidarr/credential"
+WHISPARR_API_KEY="op://Secrets/Whisparr/credential"
+READARR_API_KEY="op://Secrets/Readarr/credential"
+QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
 """
 
 ##
@@ -121,10 +124,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "dev"
-file_paths = [
-  "codeserver.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["codeserver.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
 ##
@@ -196,7 +196,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -234,11 +234,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media"
-file_paths = [
-  "qbit-vpn.yaml",
-  "sab.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
 OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
@@ -418,7 +414,7 @@ file_paths = [
   "jellyfin.yaml",
   "stash.yaml",
   "romm.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -532,7 +528,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "tools.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
