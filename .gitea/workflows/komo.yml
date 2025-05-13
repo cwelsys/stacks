@@ -18,32 +18,49 @@ jobs:
         id: komodo_stacks
         run: |
           # Extract stack names from komodo.toml
-          # Only include stacks that use Gitea (git_account = "cwel")
+          # Only include stacks that use Gitea (git_account = "cwel" or git_provider = "git.cwel.sh")
           # And don't have webhook_enabled = false
-          STACKS=$(awk '
-          BEGIN { RS="[[stack]]"; webhook_enabled=1; is_gitea=0 }
-          {
-            name=""; webhook_enabled=1; is_gitea=0;
-            for (i=1; i<=NF; i++) {
-              if ($i ~ /^name *=/) {
-                split($i, a, "\"");
-                name=a[2];
-              }
-              if ($i ~ /webhook_enabled *=/ && $i ~ /false/) {
-                webhook_enabled=0;
-              }
-              if ($i ~ /git_account *=/ && $i ~ /"cwel"/) {
-                is_gitea=1;
-              }
-              # Also match git_provider containing git.cwel.sh
-              if ($i ~ /git_provider *=/ && $i ~ /"git.cwel.sh"/) {
-                is_gitea=1;
-              }
-            }
+          STACKS=$(awk -v RS= '
+          /\[\[stack\]\]/ {
+            in_stack=1
+            name=""
+            webhook_enabled=1
+            is_gitea=0
+          }
+
+          /name *= *"[^"]*"/ && in_stack {
+            match($0, /name *= *"([^"]*)"/, arr)
+            name=arr[1]
+          }
+
+          /webhook_enabled *= *false/ && in_stack {
+            webhook_enabled=0
+          }
+
+          /git_account *= *"cwel"/ && in_stack {
+            is_gitea=1
+          }
+
+          /git_provider *= *"git.cwel.sh"/ && in_stack {
+            is_gitea=1
+          }
+
+          /\[\[stack\]\]/ && NR > 1 {
             if (name != "" && webhook_enabled == 1 && is_gitea == 1) {
-              printf "%s,", name;
+              printf "%s,", name
+            }
+            in_stack=1
+            name=""
+            webhook_enabled=1
+            is_gitea=0
+          }
+
+          END {
+            if (name != "" && webhook_enabled == 1 && is_gitea == 1) {
+              printf "%s,", name
             }
           }' komodo.toml | sed 's/,$//')
+
           echo "KOMODO_STACK_NAMES=$STACKS" >> $GITHUB_OUTPUT
           echo "Found stacks in komodo.toml for Gitea webhooks: $STACKS"
 
