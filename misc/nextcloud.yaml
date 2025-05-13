@@ -102,7 +102,7 @@ services:
     networks:
       - nextcloud
     volumes:
-      - ${BRICK}/db/nextcloud:/backup
+      - ${DOCKERM}/dumps/nextcloud:/backup
       #- ./post-script.sh:/assets/custom-scripts/post-script.sh
     environment:
       - TIMEZONE=${TZ}
@@ -114,7 +114,7 @@ services:
       - DEFAULT_CHECKSUM=NONE        # Don't create checksums
       - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
       - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=0000      # Start backing up at midnight
+      - DEFAULT_BACKUP_BEGIN=2330     # Start backing up at 11:30
       - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
 
       - DB01_TYPE=postgres
