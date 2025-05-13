@@ -28,3 +28,11 @@ services:
     networks:
       - internal
       - media
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
