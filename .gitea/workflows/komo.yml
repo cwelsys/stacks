@@ -35,6 +35,10 @@ jobs:
               if ($i ~ /git_account *=/ && $i ~ /"cwel"/) {
                 is_gitea=1;
               }
+              # Also match git_provider containing git.cwel.sh
+              if ($i ~ /git_provider *=/ && $i ~ /"git.cwel.sh"/) {
+                is_gitea=1;
+              }
             }
             if (name != "" && webhook_enabled == 1 && is_gitea == 1) {
               printf "%s,", name;
