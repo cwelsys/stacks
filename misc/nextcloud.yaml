@@ -3,7 +3,7 @@ services:
     container_name: nextcloud-db
     image: postgres:16
     volumes:
-      - ${DOCKERDB}/nextcloud-db:/var/lib/postgresql/data
+      - ${DOCKERM}/nextcloud-db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: nextcloud
       POSTGRES_USER: nextcloud
