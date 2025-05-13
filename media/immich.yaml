@@ -70,7 +70,7 @@ services:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
-      - ${DOCKERDB}/immich-db:/var/lib/postgresql/data
+      - ${DOCKERM}/immich-db:/var/lib/postgresql/data
     command: >-
       postgres -c shared_preload_libraries=vectors.so -c 'search_path="$$user", public, vectors' -c logging_collector=on -c max_wal_size=2GB -c shared_buffers=512MB -c wal_compression=on
     restart: unless-stopped
