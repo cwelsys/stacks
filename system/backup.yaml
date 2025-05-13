@@ -10,6 +10,7 @@ services:
       - ${DOCKERM}/backrest/tmp:/tmp
       - ${DOCKERM}:/userdata
       - ${BRICK}/restic:/repos  
+      - /home/cwel/.config/rclone/rclone.conf:/root/.config/rclone/rclone.conf:ro
     environment:
       - BACKREST_DATA=/data
       - BACKREST_CONFIG=/config/config.json
