@@ -372,7 +372,7 @@ services:
       REMOVE_METADATA_MISSING: True
       REMOVE_MISSING_FILES: True
       REMOVE_ORPHANS: True
-      REMOVE_SLOW: True
+      REMOVE_SLOW: False
       REMOVE_STALLED: True
       REMOVE_UNMONITORED: True
       RUN_PERIODIC_RESCANS: '
