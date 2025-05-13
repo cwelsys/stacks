@@ -8,7 +8,7 @@ services:
     expose:
       - 8834
     environment:
-      - ACTIVATION_CODE=${ACTIVATION_CODE}
+      # - ACTIVATION_CODE=${ACTIVATION_CODE}
       - USERNAME=nessus
       - PASSWORD=${NESSIE_PW}
     restart: always
