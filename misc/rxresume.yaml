@@ -113,7 +113,7 @@ services:
     networks:
       - stack
     volumes:
-      - ${DOCKERD}/dumps/rxresume:/backup
+      - ${DOCKERM}/dumps/rxresume:/backup
       #- ./post-script.sh:/assets/custom-scripts/post-script.sh
     environment:
       - TIMEZONE=${TZ}
