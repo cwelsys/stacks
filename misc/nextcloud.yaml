@@ -1,12 +1,9 @@
-volumes:
-  cache:
-
 services:
   nextcloud-db:
     container_name: nextcloud-db
     image: postgres:16
     volumes:
-      - ${DOCKERM}/nextcloud-db:/var/lib/postgresql/data
+      - ${DOCKERDB}/nextcloud-db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: nextcloud
       POSTGRES_USER: nextcloud
@@ -41,7 +38,7 @@ services:
     container_name: nextcloud
     image: nextcloud:29
     volumes:
-      - ${DOCKERM}/nextcloud:/var/www/html
+      - ${DOCKER}/nextcloud:/var/www/html
     environment:
       TZ: ${TZ}
       POSTGRES_HOST: nextcloud-db
@@ -98,4 +95,38 @@ services:
       - ${DOCKERM}/nextcloud:/var/www/html
     networks:
       - nextcloud
+  
+  db-backup:
+    container_name: nextcloud-db-backup
+    image: tiredofit/db-backup
+    networks:
+      - nextcloud
+    volumes:
+      - ${BRICK}/db/nextcloud:/backup
+      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=nextcloud-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+
+      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=0000      # Start backing up at midnight
+      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
+
+      - DB01_TYPE=postgres
+      - DB01_HOST=nextcloud-db
+      - DB01_NAME=nextcloud
+      - DB01_USER=nextcloud
+      - DB01_PASS=${NC_PG_PASS}
+      # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
+      # - DB01_BACKUP_BEGIN=+10           # (override) Backup starts in ten minutes
+      # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
+      # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
+      # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
+
+
 
