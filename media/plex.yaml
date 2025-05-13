@@ -39,17 +39,17 @@ services:
       - internal
       - media
 
-  plextraktsync:
-    image: lscr.io/linuxserver-labs/plextraktsync:latest
-    container_name: plextraktsync
-    restart: unless-stopped
-    depends_on:
-      - plex
-    networks:
-      - media
-    volumes:
-      -  ${DOCKERM}/plex-trakt:/config
-    environment:
-      - PUID=1000
-      - PGID=${ID}
-      - TZ=${TZ}
+  # plextraktsync:
+  #   image: lscr.io/linuxserver-labs/plextraktsync:latest
+  #   container_name: plextraktsync
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - plex
+  #   networks:
+  #     - media
+  #   volumes:
+  #     -  ${DOCKERM}/plex-trakt:/config
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=${ID}
+  #     - TZ=${TZ}
