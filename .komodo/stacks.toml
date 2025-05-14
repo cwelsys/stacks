@@ -1,11 +1,3 @@
-[[server]]
-name = "pbox"
-[server.config]
-address = "https://host.docker.internal:8120"
-enabled = true
-
-##
-
 [[stack]]
 name = "arr"
 [stack.config]
@@ -192,11 +184,11 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "discord"
 file_paths = [
-  "redbot.yaml",
-  "muse.yaml",
-  "doplarr.yaml",
-  "membarr.yaml",
-  "../pbox.yaml",
+	"redbot.yaml",
+	"muse.yaml",
+	"doplarr.yaml",
+	"membarr.yaml",
+	"../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -407,11 +399,11 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media"
 file_paths = [
-  "plex.yaml",
-  "jellyfin.yaml",
-  "stash.yaml",
-  "romm.yaml",
-  "../pbox.yaml",
+	"plex.yaml",
+	"jellyfin.yaml",
+	"stash.yaml",
+	"romm.yaml",
+	"../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -501,11 +493,11 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "system"
 file_paths = [
-  "tailsocket.yaml",
-  "dozzle.yaml",
-  "scrutiny.yaml",
-  "tools.yaml",
-  "../pbox.yaml",
+	"tailsocket.yaml",
+	"dozzle.yaml",
+	"scrutiny.yaml",
+	"tools.yaml",
+	"../pbox.yaml",
 ]
 additional_env_files = ["../global.env"]
 pre_deploy.command = """
@@ -538,31 +530,3 @@ UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 """
 
 ##
-
-[[repo]]
-name = "stacks"
-[repo.config]
-server = "pbox"
-builder = "local"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-
-##
-
-[[builder]]
-name = "local"
-[builder.config]
-type = "Server"
-params.server_id = "pbox"
-
-##
-
-[[resource_sync]]
-name = "pbox"
-[resource_sync.config]
-git_provider = "git.cwel.sh"
-repo = "cwel/stacks"
-git_account = "cwel"
-resource_path = ["komodo.toml"]
-managed = true
