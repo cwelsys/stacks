@@ -51,10 +51,10 @@ services:
       REDIS_HOST_PASSWORD: ${REDIS_PASSWORD}
       NEXTCLOUD_ADMIN_USER: cwel
       NEXTCLOUD_ADMIN_PASSWORD: ${NC_ADMIN_USER_PASSWORD}
-      NEXTCLOUD_TRUSTED_DOMAINS: ${NC_HOSTNAME}
-      OVERWRITECLIURL: https://${NC_HOSTNAME}
+      NEXTCLOUD_TRUSTED_DOMAINS: cloud.cwel.sh
+      OVERWRITECLIURL: https://cloud.cwel.sh
       OVERWRITEPROTOCOL: https
-      OVERWRITEHOST: ${NC_HOSTNAME}
+      OVERWRITEHOST: cloud.cwel.sh
       TRUSTED_PROXIES: 172.16.0.0/12 192.168.0.0/16 10.0.0.0/8 fc00::/7 fe80::/10 2001:db8::/32
     networks:
       - nextcloud
@@ -67,7 +67,7 @@ services:
       start_period: 90s
     labels:
       - traefik.enable=true
-      - traefik.http.routers.nextcloud.rule=Host(`${NC_HOSTNAME}`)
+      - traefik.http.routers.nextcloud.rule=Host(`cloud.cwel.sh`)
       - traefik.http.services.nextcloud.loadbalancer.server.port=80
       - traefik.http.middlewares.nextcloud-redirectregex1.redirectregex.permanent=true
       - traefik.http.middlewares.nextcloud-redirectregex1.redirectregex.regex=https?://([^/]*)/.well-known/(card|cal)dav
