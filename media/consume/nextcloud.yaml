@@ -11,7 +11,7 @@ services:
     networks:
       - nextcloud
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "nextcloud", "-U", "nextcloud" ]
+      test: ['CMD', 'pg_isready', '-q', '-d', 'nextcloud', '-U', 'nextcloud']
       interval: 10s
       timeout: 5s
       retries: 3
@@ -21,13 +21,13 @@ services:
   nc-redis:
     container_name: nc-redis
     image: redis:7.2
-    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    command: ['redis-server', '--requirepass', '${REDIS_PASSWORD}']
     volumes:
       - cache:/data
     networks:
       - nextcloud
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
       timeout: 5s
       retries: 3
@@ -59,24 +59,15 @@ services:
       - nextcloud
       - internal
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:80/']
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 90s
     labels:
       - traefik.enable=true
-      - traefik.http.routers.nextcloud.rule=Host(`cloud.cwel.sh`)
-      - traefik.http.services.nextcloud.loadbalancer.server.port=80
-      - traefik.http.middlewares.nextcloud-redirectregex1.redirectregex.permanent=true
-      - traefik.http.middlewares.nextcloud-redirectregex1.redirectregex.regex=https?://([^/]*)/.well-known/(card|cal)dav
-      - traefik.http.middlewares.nextcloud-redirectregex1.redirectregex.replacement=https://$${1}/remote.php/dav/
-      - traefik.http.middlewares.nextcloud-redirectregex2.redirectregex.permanent=true
-      - traefik.http.middlewares.nextcloud-redirectregex2.redirectregex.regex=https?://([^/]*)(/.well-known[^#]*)
-      - traefik.http.middlewares.nextcloud-redirectregex2.redirectregex.replacement=https://$${1}/index.php$${2}
-      - traefik.http.middlewares.nextcloud-securityheaders.headers.stsSeconds=15552000
-      - traefik.http.middlewares.nextcloud-securityheaders.headers.stsIncludeSubdomains=true
-      - traefik.http.middlewares.nextcloud-securityheaders.headers.stsPreload=true
+      - traefik.http.routers.nextcloud.rule=Host(`cloud.${DOMAIN}`)
+      - traefik.http.services.beszel.loadbalancer.server.port=80
       - traefik.docker.network=internal
 
     restart: unless-stopped
@@ -109,12 +100,12 @@ services:
       - CONTAINER_ENABLE_MONITORING=FALSE
       # - DEBUG_MODE=TRUE
 
-      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330     # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
 
       - DB01_TYPE=postgres
       - DB01_HOST=nextcloud-db
@@ -126,6 +117,3 @@ services:
       # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
       # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
       # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
-
-
-
