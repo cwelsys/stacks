@@ -16,8 +16,26 @@ services:
       TZ: ${TZ}
       CRON_MIN: '3,33'
       TRUSTED_PROXY: 172.16.0.1/12 192.168.0.1/16 192.168.4.89
+      DB_DATABASE_NAME: ${DB_BASE:-freshrss}
+      DB_USERNAME: ${DB_USER:-freshrss}
+      DB_PASSWORD: ${DB_PASSWORD:-freshrss}
     labels:
      - traefik.enable=true
      - traefik.http.routers.freshrss.rule=Host(`frss.${DOMAIN}`)
      - traefik.http.services.freshrss.loadbalancer.server.port=8080
      - traefik.docker.network=internal
+
+  freshrss-db:
+    image: postgres:17
+    container_name: freshrss-db
+    hostname: freshrss-db
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+    volumes:
+      - ${DOCKERM}/freshrss-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_BASE:-freshrss}
+      POSTGRES_USER: ${DB_USER:-freshrss}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-freshrss}
