@@ -21,7 +21,7 @@ services:
   nc-redis:
     container_name: nc-redis
     image: redis:7.2
-    command: ["redis-server", "--requirepass", "$REDIS_PASSWORD"]
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
     volumes:
       - cache:/data
     networks:
@@ -95,7 +95,7 @@ services:
       - ${DOCKERM}/nextcloud:/var/www/html
     networks:
       - nextcloud
-  
+
   db-backup:
     container_name: nextcloud-db-backup
     image: tiredofit/db-backup
