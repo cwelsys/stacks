@@ -34,7 +34,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
-file_paths = ["authentik.yaml", "../../pbox.yaml"]
+file_paths = [
+  "authentik.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -59,6 +62,21 @@ file_paths = ["backrest.yaml", "../pbox.yaml"]
 ##
 
 [[stack]]
+name = "calibre"
+[stack.config]
+server = "pbox"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+run_directory = "media/process"
+file_paths = [
+  "calibre.yaml",
+  "../../pbox.yaml"
+]
+
+##
+
+[[stack]]
 name = "cloud"
 [stack.config]
 server = "pbox"
@@ -66,7 +84,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/consume"
-file_paths = ["nextcloud.yaml", "../../pbox.yaml"]
+file_paths = [
+  "nextcloud.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 NC_PG_PASS=[[NEXTCLOUD__POSTGRES]]
 REDIS_PASSWORD=[[NEXTCLOUD__REDIS]]
@@ -83,7 +104,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps"
-file_paths = ["codeserver.yaml", "../pbox.yaml"]
+file_paths = [
+  "codeserver.yaml",
+  "../pbox.yaml"
+]
 
 ##
 
@@ -150,7 +174,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -183,7 +207,11 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = ["tortun.yaml", "sab.yaml", "../../pbox.yaml"]
+file_paths = [
+  "tortun.yaml",
+  "sab.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -201,7 +229,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["external.yaml", "../../pbox.yaml"]
+file_paths = [
+  "external.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 CF_TRAEFIK_TUNNEL_TOKEN=[[CLOUDFLARE__TUNNEL]]
@@ -253,7 +284,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["internal.yaml", "../../pbox.yaml"]
+file_paths = [
+  "internal.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -323,7 +357,7 @@ file_paths = [
   "stash.yaml",
   "freshrss.yaml",
   "romm.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -348,7 +382,7 @@ file_paths = [
   "scrutiny.yaml",
   "dozzle.yaml",
   "../pbox.yaml",
-  "beszel.yaml",
+  "beszel.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -379,6 +413,18 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "monitor"
 file_paths = ["netdata.yaml", "../pbox.yaml"]
+
+##
+
+[[stack]]
+name = "op-sync"
+[stack.config]
+server = "pbox"
+project_name = "secrets"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+run_directory = ".komodo/secrets"
 
 ##
 
@@ -447,18 +493,6 @@ environment = """
 APP_SECRET=[[UMAMI__SECRET]]
 UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 """
-
-##
-
-[[stack]]
-name = "calibre"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "media/process"
-file_paths = ["calibre.yaml", "../../pbox.yaml"]
 
 ##
 
