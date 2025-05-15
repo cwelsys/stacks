@@ -39,8 +39,6 @@ services:
     image: nextcloud:29
     volumes:
       - ${DOCKERM}/nextcloud:/var/www/html
-    expose:
-      - 443
     environment:
       TZ: ${TZ}
       POSTGRES_HOST: nextcloud-db
@@ -67,11 +65,9 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.nextcloud.rule=Host(`cloud.${DOMAIN}`)
-      - traefik.http.services.nextcloud.loadbalancer.server.port=443
+      - traefik.http.services.nextcloud.loadbalancer.server.port=80
       - traefik.docker.network=internal
-      - traefik.http.services.nextcloud.loadbalancer.server.scheme=https
       - traefik.http.services.nextcloud.serverstransport=ignorecert@file
-      - traefik.http.routers.nextcloud.middlewares=limit-nextcloud,nextcloud-dav
       - traefik.http.middlewares.nextcloud-dav.replacepathregex.regex=^/.well-known/ca(l|rd)dav
       - traefik.http.middlewares.nextcloud-dav.replacepathregex.replacement=/remote.php/dav/
       - traefik.http.middlewares.limit-nextcloud.buffering.maxRequestBodyBytes=50000000 # only necessary for enabled file uploads
