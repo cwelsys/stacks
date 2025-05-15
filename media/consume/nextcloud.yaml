@@ -38,7 +38,7 @@ services:
     container_name: nextcloud
     image: nextcloud:29
     volumes:
-      - ${DOCKER}/nextcloud:/var/www/html
+      - ${DOCKERM}/nextcloud:/var/www/html
     environment:
       TZ: ${TZ}
       POSTGRES_HOST: nextcloud-db
