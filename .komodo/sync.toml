@@ -320,6 +320,7 @@ file_paths = [
   "plex.yaml",
   "jellyfin.yaml",
   "stash.yaml",
+  "freshrss.yaml",
   "romm.yaml",
   "../../pbox.yaml",
 ]
