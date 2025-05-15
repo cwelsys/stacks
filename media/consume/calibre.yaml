@@ -1,3 +1,4 @@
+services:
   calibre-web:
     image: crocodilestick/calibre-web-automated:latest
     container_name: calibre-web
