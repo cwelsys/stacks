@@ -16,12 +16,12 @@ repo = "cwel/stacks"
 run_directory = "media/process"
 file_paths = ["arr.yaml", "../../pbox.yaml"]
 environment = """
-SONARR_API_KEY=
-RADARR_API_KEY=
-LIDARR_API_KEY=
-WHISPARR_API_KEY=
-READARR_API_KEY=
-QBITTORRENT_PASSWORD=
+SONARR_API_KEY=[[SONARR__API]]
+RADARR_API_KEY=[[RADARR__API]]
+LIDARR_API_KEY=[[LIDARR__API]]
+WHISPARR_API_KEY=[[WHISPARR__API]]
+READARR_API_KEY=[[READARR__API]]
+QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
 """
 
 ##
@@ -39,12 +39,12 @@ file_paths = [
   "../../pbox.yaml"
 ]
 environment = """
-PG_PASS=
-AUTHENTIK_SECRET_KEY=
-OUTPOST_TOKEN=
-SMTPHOST=
-SMTPUSER=
-SMTPASS=
+PG_PASS=[[AUTHENTIK__POSTGRES]]
+AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
+OUTPOST_TOKEN=[[AUTHENTIK__OUTPOST]]
+SMTPHOST=in-v3.mailjet.com
+SMTPUSER=[[SMTP__USER]]
+SMTPASS=[[SMTP__PASSWORD]]
 """
 
 ##
@@ -62,21 +62,6 @@ file_paths = ["backrest.yaml", "../pbox.yaml"]
 ##
 
 [[stack]]
-name = "beszel"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "monitor"
-file_paths = ["beszel.yaml", "../pbox.yaml"]
-environment = """
-BESZEL_KEY=
-"""
-
-##
-
-[[stack]]
 name = "cloud"
 [stack.config]
 server = "pbox"
@@ -89,9 +74,9 @@ file_paths = [
   "../../pbox.yaml"
 ]
 environment = """
-NC_PG_PASS=
-REDIS_PASSWORD=
-NC_ADMIN_USER_PASSWORD=
+NC_PG_PASS=[[NEXTCLOUD__POSTGRES]]
+REDIS_PASSWORD=[[NEXTCLOUD__REDIS]]
+NC_ADMIN_USER_PASSWORD=[[NEXTCLOUD__PASSWORD]]
 NC_HOSTNAME=cloud.cwel.sh
 """
 
@@ -122,42 +107,41 @@ repo = "cwel/stacks"
 run_directory = "core"
 file_paths = ["homepage.yaml", "../pbox.yaml"]
 environment = """
-OPENWEATHERMAP_TOKEN="op://Secrets/OpenWeatherMap/credential"
-TS_API="op://Secrets/Tailscale/credential"
-TS_DEVID="op://Secrets/Tailscale/deviceid"
-CLOUDFLARE_ACC_ID="op://Secrets/Cloudflare/accountid"
-CROWDSEC_PASS="op://Secrets/Crowdsec/local_api_pass"
-CLOUDFLARE_API="op://Secrets/Cloudflare/credential"
-TUNNEL_ID="op://Secrets/Cloudflare/boneyard_id"
-SONARR_API_KEY="op://Secrets/Sonarr/credential"
-RADARR_API_KEY="op://Secrets/Radarr/credential"
-LIDARR_API_KEY="op://Secrets/Lidarr/credential"
-WHISPARR_API_KEY="op://Secrets/Whisparr/credential"
-PROWLARR_API_KEY="op://Secrets/Prowlarr/credential"
-OVERSEERR_API_KEY="op://Secrets/Overseerr/credential"
-READARR_API_KEY="op://Secrets/Readarr/credential"
-QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
-TAUTULLI_API_KEY="op://Secrets/Tautulli/credential"
-SPEED_API="op://Secrets/Speedtest/credential"
-PLEX_API_KEY="op://Secrets/Plex/credential"
-SABNZBD_API_KEY="op://Secrets/Sabnzbd/credential"
-PROTON_ICAL="op://Secrets/Proton/ical"
-AUTHENTIK_API="op://Secrets/Authentik/api_token"
-FINNHUB_TOKEN="op://Secrets/Finnhub/credential"
-CALIBRE_PASS="op://Secrets/Calibre-web/password"
-GLUETUN_API_KEY="op://Secrets/Gluetun/credential"
-HOMEASS_API_KEY="op://Secrets/Homeassistant/credential"
-GRAFANA_PASS="op://Secrets/Grafana/password"
-JELLYFIN_API_KEY="op://Secrets/Jellyfin/credential"
-STASH_API_KEY="op://Secrets/Stash/credential"
-TECHNITIUM_API_KEY="op://Secrets/Technitium/credential"
-IMMICH_API_KEY="op://Secrets/Immich/credential"
-MEALIE_API_KEY="op://Secrets/Mealie/credential"
-BESZEL_PW="op://Secrets/Beszel/loginpw"
-NEXTCLOUD_PW="op://Secrets/Nextcloud/adminuserpass"
-GITEA_API_KEY="op://Secrets/Gitea/homepage"
-KOMO_API_KEY="op://Secrets/Komodo env/api-key"
-KOMO_API_SECRET="op://Secrets/Komodo env/api-secret"
+OPENWEATHERMAP_TOKEN=[[OPENWEATHERMAP__API]]
+TS_API=[[TAILSCALE__API]]
+CLOUDFLARE_API=[[CLOUDFLARE__API]]
+CLOUDFLARE_ACC_ID=[[CLOUDFLARE__ACCOUNT]]
+TUNNEL_ID=[[CLOUDFLARE__TUNNEL_ID]]
+CROWDSEC_PASS=[[CROWDSEC__API]]
+SONARR_API_KEY=[[SONARR__API]]
+RADARR_API_KEY=[[RADARR__API]]
+LIDARR_API_KEY=[[LIDARR__API]]
+WHISPARR_API_KEY=[[WHISPARR__API]]
+PROWLARR_API_KEY=[[PROWLARR__API]]
+OVERSEERR_API_KEY=[[OVERSEERR__API]]
+READARR_API_KEY=[[READARR__API]]
+QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
+TAUTULLI_API_KEY=[[TAUTULLI__API]]
+SPEED_API=[[SPEEDTEST__API]]
+PLEX_API_KEY=[[PLEX__API]]
+SABNZBD_API_KEY=[[SABNZBD__API]]
+PROTON_ICAL=[[PROTON__ICAL]]
+AUTHENTIK_API=[[AUTHENTIK__API]]
+FINNHUB_TOKEN=[[FINNHUB__API]]
+CALIBRE_PASS=[[CALIBRE__PASSWORD]]
+GLUETUN_API_KEY=[[GLUETUN__API]]
+HOMEASS_API_KEY=[[HOMEASSISTANT__API]]
+GRAFANA_PASS=[[GRAFANA__API]]
+JELLYFIN_API_KEY=[[JELLYFIN__API]]
+STASH_API_KEY=[[STASH__API]]
+TECHNITIUM_API_KEY=[[TECHNITIUM__API]]
+IMMICH_API_KEY=[[IMMICH__API]]
+MEALIE_API_KEY=[[MEALIE__API]]
+BESZEL_PW=[[BESZEL__PASSWORD]]
+NEXTCLOUD_PW=[[NEXTCLOUD__PASSWORD]]
+GITEA_API_KEY=[[GIT__PAT]]
+KOMO_API_KEY=[[KOMODO__API]]
+KOMO_API_SECRET=[[KOMODO__API_SECRET]]
 """
 
 ##
@@ -178,12 +162,12 @@ file_paths = [
   "../pbox.yaml"
 ]
 environment = """
-GOOGLE_API="op://Secrets/Goggleapis/credential"
-REDBOT_TOKEN="op://Secrets/Redbot/token"
-MUSE_TOKEN="op://Secrets/Muse/credential"
-MEMBARR_TOKEN="op://Secrets/Membarr/credential"
-DOPLARR_TOKEN="op://Secrets/Doplarr/credential"
-OVERSEERR_API_KEY="op://Secrets/Overseerr/credential"
+GOOGLE_API=[[GOOGLE__API]]
+REDBOT_TOKEN=[[DISCORD__REDBOT]]
+MUSE_TOKEN=[[DISCORD__MUSE]]
+MEMBARR_TOKEN=[[DISCORD__MEMBARR]]
+DOPLARR_TOKEN=[[DISCORD__DOPLARR]]
+OVERSEERR_API_KEY=[[OVERSEERR__API]]
 
 """
 
@@ -215,10 +199,10 @@ file_paths = [
 ]
 environment = """
 QBITTORRENT_USERNAME=admin
-QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
-SABNZBD_API_KEY="op://Secrets/Sabnzbd/credential"
-WIREGUARD_PRIVATE_KEY="op://Secrets/Wireguard/credential"
-GLUETUN_APIKEY="op://Secrets/Gluetun/credential"
+QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
+SABNZBD_API_KEY=[[SABNZBD__API]]
+WIREGUARD_PRIVATE_KEY=[[PROTON__WIREGUARD]]
+GLUETUN_APIKEY=[[GLUETUN__API]]
 """
 
 ##
@@ -235,11 +219,11 @@ file_paths = [
   "../../pbox.yaml"
 ]
 environment = """
-CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
-CF_TRAEFIK_TUNNEL_TOKEN=op://Secrets/Cloudflare/boneyards
-CS_TRAEFIK_BOUNCER_KEY="op://Secrets/Crowdsec/credential"
+CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
+CF_TRAEFIK_TUNNEL_TOKEN=[[CLOUDFLARE__TUNNEL]]
+CS_TRAEFIK_BOUNCER_KEY=[[CROWDSEC__BOUNCER]]
 BOUNCER_HOST=crowdsec:8080
-INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
+INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
 """
 
 ##
@@ -253,8 +237,8 @@ repo = "cwelsys/stacks"
 run_directory = "core"
 file_paths = ["gitea.yaml", "../pbox.yaml"]
 environment = """
-GIT_PG_PASS="op://Secrets/Gitea/pgpass"
-GITEA_RUNNER_TOKEN="op://Secrets/Gitea/runner"
+GIT_PG_PASS=[[GITEA__POSTGRES]]
+GITEA_RUNNER_TOKEN=[[GITEA__RUNNER]]
 """
 
 ##
@@ -269,7 +253,7 @@ repo = "cwel/stacks"
 run_directory = "media/consume"
 file_paths = ["immich.yaml", "../../pbox.yaml"]
 environment = """
-DB_PASSWORD="op://Secrets/Immich/pg_pass"
+DB_PASSWORD=[[IMMICH__POSTGRES]]
 UPLOAD_LOCATION=/mnt/media/image
 DB_USERNAME=immich
 DB_DATABASE_NAME=immich
@@ -290,9 +274,21 @@ file_paths = [
   "../../pbox.yaml"
 ]
 environment = """
-CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
-INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
+CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
+INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
 """
+
+##
+
+[[stack]]
+name = "it-tools"
+[stack.config]
+server = "pbox"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+run_directory = "apps"
+file_paths = ["it-tools.yaml", "../pbox.yaml"]
 
 ##
 
@@ -348,11 +344,11 @@ file_paths = [
   "../../pbox.yaml"
 ]
 environment = """
-ROMM_AUTH="op://Secrets/Romm/credential"
-MARIADB_PW="op://Secrets/Romm/db/mariadbroot"
-ROMM_DB_PW="op://Secrets/Romm/db/rommdb"
-IGDB_CLIENT_ID="op://Secrets/Romm/twitch/twitchid"
-IGDB_CLIENT_SECRET="op://Secrets/Romm/twitch/twitchsecret"
+ROMM_AUTH=[[ROMM__AUTH]]
+MARIADB_PW=[[ROMM__MARIADB]]
+ROMM_DB_PW=[[ROMM__ROMMDB]]
+IGDB_CLIENT_ID=[[ROMM__IGDB_ID]]
+IGDB_CLIENT_SECRET=[[ROMM__IGDB_SECRET]]
 """
 
 ##
@@ -369,11 +365,13 @@ file_paths = [
   "grafana.yaml",
   "scrutiny.yaml",
   "dozzle.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
+  "beszel.yaml"
 ]
 environment = """
-INFLUXDB_PASS="op://Secrets/InfluxDB/password"
-INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
+INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
+INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
+BESZEL_KEY=[[BESZEL__KEY]]
 """
 
 ##
@@ -425,34 +423,30 @@ repo = "cwel/stacks"
 run_directory = "apps"
 file_paths = ["rxresume.yaml", "../pbox.yaml"]
 environment = """
-SMTP_USER="op://Secrets/SMTP/API Key"
-SMTP_PASS="op://Secrets/SMTP/Secret Key"
-SMTP_HOST="op://Secrets/SMTP/host"
-RX_PG_PASS="op://Secrets/RXRes/pg_pw"
-MINIO_PW="op://Secrets/RXRes/miniopw"
-RX_SECRET="op://Secrets/RXRes/rxsecret"
-RX_REFRESH_SECRET="op://Secrets/RXRes/rxrefresh"
-CHROME_TOKEN="op://Secrets/RXRes/chrome"
+SMTP_USER=[[SMTP__USER]]
+SMTP_PASS=[[SMTP__PASSWORD]]
+SMTP_HOST=in-v3.mailjet.com
+RX_PG_PASS=[[RXRESUME__POSTGRES]]
+MINIO_PW=[[RXRESUME__MINIO]]
+RX_SECRET=[[RXRESUME__SECRET]]
+RX_REFRESH_SECRET=[[RXRESUME__REFRESH]]
+CHROME_TOKEN=[[RXRESUME__CHROME]]
 """
 
 ##
 
 [[stack]]
-name = "tools"
+name = "tailsocket"
 [stack.config]
 server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "system"
-file_paths = [
-  "tailsocket.yaml",
-  "tools.yaml",
-  "../pbox.yaml"
-]
+run_directory = "core"
+file_paths = ["ts-socket.yaml", "../pbox.yaml"]
 environment = """
-TS_AUTHKEY="op://Secrets/Tailscale/socketauth"
-NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
+TS_AUTHKEY=[[TAILSCALE__SOCKET]]
+
 
 """
 
@@ -468,8 +462,8 @@ repo = "cwel/stacks"
 run_directory = "monitor"
 file_paths = ["umami.yaml", "../pbox.yaml"]
 environment = """
-APP_SECRET="op://Secrets/Umami/credential"
-UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
+APP_SECRET=[[UMAMI__SECRET]]
+UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 """
 
 ##
