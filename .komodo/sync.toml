@@ -6,15 +6,6 @@ enabled = true
 
 ##
 
-[[builder]]
-name = "local"
-[builder.config]
-type = "Server"
-params.server_id = "pbox"
-
-##
-
-
 [[stack]]
 name = "arr"
 [stack.config]
@@ -43,7 +34,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
-file_paths = ["authentik.yaml", "../../pbox.yaml"]
+file_paths = [
+  "authentik.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 PG_PASS=
 AUTHENTIK_SECRET_KEY=
@@ -90,7 +84,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/consume"
-file_paths = ["nextcloud.yaml", "../../pbox.yaml"]
+file_paths = [
+  "nextcloud.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 NC_PG_PASS=
 REDIS_PASSWORD=
@@ -108,7 +105,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps"
-file_paths = ["codeserver.yaml", "../pbox.yaml"]
+file_paths = [
+  "codeserver.yaml",
+  "../pbox.yaml"
+]
 
 ##
 
@@ -171,11 +171,11 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "discord"
 file_paths = [
-	"redbot.yaml",
-	"muse.yaml",
-	"doplarr.yaml",
-	"membarr.yaml",
-	"../pbox.yaml",
+  "redbot.yaml",
+  "muse.yaml",
+  "doplarr.yaml",
+  "membarr.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 GOOGLE_API="op://Secrets/Goggleapis/credential"
@@ -208,7 +208,11 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = ["tortun.yaml", "sab.yaml", "../../pbox.yaml"]
+file_paths = [
+  "tortun.yaml",
+  "sab.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
@@ -226,7 +230,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["external.yaml", "../../pbox.yaml"]
+file_paths = [
+  "external.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
 CF_TRAEFIK_TUNNEL_TOKEN=op://Secrets/Cloudflare/boneyards
@@ -248,22 +255,6 @@ file_paths = ["gitea.yaml", "../pbox.yaml"]
 environment = """
 GIT_PG_PASS="op://Secrets/Gitea/pgpass"
 GITEA_RUNNER_TOKEN="op://Secrets/Gitea/runner"
-"""
-
-##
-
-[[stack]]
-name = "monitoring"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "monitor"
-file_paths = ["grafana.yaml", "scrutiny.yaml", "dozzle.yaml", "../pbox.yaml"]
-environment = """
-INFLUXDB_PASS="op://Secrets/InfluxDB/password"
-INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 """
 
 ##
@@ -294,7 +285,10 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["internal.yaml", "../../pbox.yaml"]
+file_paths = [
+  "internal.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
 INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
@@ -347,11 +341,11 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/consume"
 file_paths = [
-	"plex.yaml",
-	"jellyfin.yaml",
-	"stash.yaml",
-	"romm.yaml",
-	"../../pbox.yaml",
+  "plex.yaml",
+  "jellyfin.yaml",
+  "stash.yaml",
+  "romm.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 ROMM_AUTH="op://Secrets/Romm/credential"
@@ -359,6 +353,27 @@ MARIADB_PW="op://Secrets/Romm/db/mariadbroot"
 ROMM_DB_PW="op://Secrets/Romm/db/rommdb"
 IGDB_CLIENT_ID="op://Secrets/Romm/twitch/twitchid"
 IGDB_CLIENT_SECRET="op://Secrets/Romm/twitch/twitchsecret"
+"""
+
+##
+
+[[stack]]
+name = "monitoring"
+[stack.config]
+server = "pbox"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+run_directory = "monitor"
+file_paths = [
+  "grafana.yaml",
+  "scrutiny.yaml",
+  "dozzle.yaml",
+  "../pbox.yaml"
+]
+environment = """
+INFLUXDB_PASS="op://Secrets/InfluxDB/password"
+INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
 """
 
 ##
@@ -430,7 +445,11 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "system"
-file_paths = ["tailsocket.yaml", "tools.yaml", "../pbox.yaml"]
+file_paths = [
+  "tailsocket.yaml",
+  "tools.yaml",
+  "../pbox.yaml"
+]
 environment = """
 TS_AUTHKEY="op://Secrets/Tailscale/socketauth"
 NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
@@ -454,3 +473,40 @@ UMAMI_DB_PASSWORD="op://Secrets/Umami/db"
 """
 
 ##
+
+[[build]]
+name = "komodo-op"
+[build.config]
+builder = "local"
+git_account = "cwelsys"
+repo = "cwelsys/komodo-op"
+
+##
+
+[[repo]]
+name = "stacks"
+[repo.config]
+server = "pbox"
+builder = "local"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+
+##
+
+[[builder]]
+name = "local"
+[builder.config]
+type = "Server"
+params.server_id = "pbox"
+
+##
+
+[[resource_sync]]
+name = "stacks"
+[resource_sync.config]
+git_provider = "git.cwel.sh"
+repo = "cwel/stacks"
+git_account = "cwel"
+resource_path = [".komodo/sync.toml"]
+managed = true
