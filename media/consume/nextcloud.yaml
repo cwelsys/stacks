@@ -39,6 +39,8 @@ services:
     image: nextcloud:29
     volumes:
       - ${DOCKERM}/nextcloud:/var/www/html
+    expose:
+      - 443
     environment:
       TZ: ${TZ}
       POSTGRES_HOST: nextcloud-db
@@ -65,7 +67,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.nextcloud.rule=Host(`cloud.${DOMAIN}`)
-      - traefik.http.services.nextcloud.loadbalancer.server.port=80
+      - traefik.http.services.nextcloud.loadbalancer.server.port=443
       - traefik.docker.network=internal
       - traefik.http.routers.nextcloud.middlewares=limit-nextcloud,nextcloud-dav,security-headers
       - traefik.http.middlewares.nextcloud-dav.replacepathregex.regex=^/.well-known/ca(l|rd)dav
