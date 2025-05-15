@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '.komodo/stacks.toml'
+      - '.komodo/sync.toml'
   schedule:
     - cron: '0 0 * * 1'
 
@@ -17,7 +17,7 @@ jobs:
       - name: Extract stack names
         id: komodo_stacks
         run: |
-          # Extract stack names from .komodo/stacks.toml
+          # Extract stack names from .komodo/sync.toml
           # Only include stacks that use Gitea (git_account = "cwel" or git_provider = "git.cwel.sh")
           # And don't have webhook_enabled = false
           STACKS=$(awk '
@@ -57,10 +57,10 @@ jobs:
             if (in_stack && name != "" && webhook_enabled == 1 && is_gitea == 1) {
               printf "%s,", name
             }
-          }' .komodo/stacks.toml | sed 's/,$//')
+          }' .komodo/sync.toml | sed 's/,$//')
 
           echo "KOMODO_STACK_NAMES=$STACKS" >> $GITHUB_OUTPUT
-          echo "Found stacks in .komodo/stacks.toml for Gitea webhooks: $STACKS"
+          echo "Found stacks in .komodo/sync.toml for Gitea webhooks: $STACKS"
 
       - name: Debug KOMODO_STACK_NAMES
         run: echo "KOMODO_STACK_NAMES=${{ steps.komodo_stacks.outputs.KOMODO_STACK_NAMES }}"

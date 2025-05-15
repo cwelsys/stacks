@@ -1,0 +1,80 @@
+include:
+  - ../../pbox.yaml
+
+volumes:
+  repo-cache:
+    external: true
+services:
+  mongo:
+    image: mongo
+    container_name: komo-mongo
+    labels:
+      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+      docker-volume-backup.stop-during-backup: true
+    command: --quiet --wiredTigerCacheSizeGB 0.25
+    restart: unless-stopped
+    networks:
+      - stack
+    logging:
+      driver: ${COMPOSE_LOGGING_DRIVER:-local}
+    # ports:
+    #   - 27017:27017
+    volumes:
+      - ${DOCKERM:-./}/komo-db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
+  core:
+    image: ghcr.io/moghtech/komodo-core:latest
+    container_name: komodo
+    labels:
+      - komodo.skip
+      - traefik.enable=true
+      # - traefik.http.routers.komodo-api.rule=Host(`komo.${DOMAIN}`) && PathPrefix(`/listener`)
+      # - traefik.http.routers.komodo-api.service=komodo
+      - traefik.http.routers.komodo.rule=Host(`komo.${DOMAIN}`)
+      - traefik.http.routers.komodo.service=komodo
+      - traefik.http.services.komodo.loadbalancer.server.port=9120
+      - traefik.docker.network=internal
+      # - kop.namespace=public
+    restart: unless-stopped
+    networks:
+      - internal
+      - stack
+    depends_on:
+      - mongo
+    logging:
+      driver: ${COMPOSE_LOGGING_DRIVER:-local}
+    ports:
+      - 9120:9120
+    env_file: ./.env
+    environment:
+      KOMODO_DATABASE_ADDRESS: mongo:27017
+      KOMODO_DATABASE_USERNAME: ${KOMODO_DB_USERNAME}
+      KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
+    volumes:
+      - repo-cache:/repo-cache
+      - ./core.config.toml:/config/config.toml
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  db-backup:
+    container_name: komo-db-backup
+    image: tiredofit/db-backup
+    networks:
+      - stack
+    volumes:
+      - ${DOCKERM:-./}/dumps/komodo:/backup
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=komo-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
+      - DB01_TYPE=mongo
+      - DB01_HOST=mongo
+      - DB01_USER=${KOMODO_DB_USERNAME}
+      - DB01_PASS=${KOMODO_DB_PASSWORD}

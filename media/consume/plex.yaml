@@ -39,6 +39,25 @@ services:
       - internal
       - media
 
+
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/tautulli:/config
+    networks:
+      - internal
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tautulli.rule=Host(`tautulli.${DOMAIN}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.tautulli.loadbalancer.server.port=8181
+
   # plextraktsync:
   #   image: lscr.io/linuxserver-labs/plextraktsync:latest
   #   container_name: plextraktsync

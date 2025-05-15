@@ -1,0 +1,44 @@
+  calibre-web:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: calibre-web
+    restart: unless-stopped
+    networks:
+      - internal
+      - media
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/cweb:/config
+      - ${RUST}/book/ing:/cwa-book-ingest
+      - ${RUST}/book:/calibre-library
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.calibre.rule=Host(`calibre.${DOMAIN}`)
+     - traefik.http.services.calibre.loadbalancer.server.port=8083
+
+  calibre-web-automated-book-downloader:
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest
+    container_name: bookr
+    restart: unless-stopped
+    networks:
+      - internal
+      - media
+    environment:
+      FLASK_PORT: 8084
+      LOG_LEVEL: info
+      BOOK_LANGUAGE: en
+      USE_BOOK_TITLE: true
+      TZ: ${TZ}
+      APP_ENV: prod
+      UID: 1000
+      GID: 1001
+    volumes:
+      - ${RUST}/book/ing:/cwa-book-ingest
+    labels:
+     - traefik.enable=true
+     - traefik.docker.network=internal
+     - traefik.http.routers.bookr.rule=Host(`bookr.${DOMAIN}`)
+     - traefik.http.services.bookr.loadbalancer.server.port=8084

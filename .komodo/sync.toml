@@ -1,3 +1,20 @@
+[[server]]
+name = "pbox"
+[server.config]
+address = "https://host.docker.internal:8120"
+enabled = true
+
+##
+
+[[builder]]
+name = "local"
+[builder.config]
+type = "Server"
+params.server_id = "pbox"
+
+##
+
+
 [[stack]]
 name = "arr"
 [stack.config]
@@ -5,19 +22,15 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "media"
-file_paths = ["arr.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+run_directory = "media/process"
+file_paths = ["arr.yaml", "../../pbox.yaml"]
 environment = """
-SONARR_API_KEY="op://Secrets/Sonarr/credential"
-RADARR_API_KEY="op://Secrets/Radarr/credential"
-LIDARR_API_KEY="op://Secrets/Lidarr/credential"
-WHISPARR_API_KEY="op://Secrets/Whisparr/credential"
-READARR_API_KEY="op://Secrets/Readarr/credential"
-QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
+SONARR_API_KEY=
+RADARR_API_KEY=
+LIDARR_API_KEY=
+WHISPARR_API_KEY=
+READARR_API_KEY=
+QBITTORRENT_PASSWORD=
 """
 
 ##
@@ -29,20 +42,15 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "network"
-file_paths = ["authentik.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+run_directory = "network/auth"
+file_paths = ["authentik.yaml", "../../pbox.yaml"]
 environment = """
-PG_PASS="op://Secrets/Authentik/db_pass"
-AUTHENTIK_SECRET_KEY="op://Secrets/Authentik/secret_key"
-OUTPOST_TOKEN="op://Secrets/Authentik/outpost_token"
-SMTPHOST="op://Secrets/SMTP/host"
-SMTPUSER="op://Secrets/SMTP/API Key"
-SMTPASS="op://Secrets/SMTP/Secret Key"
-
+PG_PASS=
+AUTHENTIK_SECRET_KEY=
+OUTPOST_TOKEN=
+SMTPHOST=
+SMTPUSER=
+SMTPASS=
 """
 
 ##
@@ -54,16 +62,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "system"
-file_paths = ["backup.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-DUPLICATI_KEY="op://Secrets/Duplicati/key"
-DUPLICATI_PASS="op://Secrets/Duplicati/adminpw"
-"""
+run_directory = "core"
+file_paths = ["backrest.yaml", "../pbox.yaml"]
 
 ##
 
@@ -76,12 +76,8 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "monitor"
 file_paths = ["beszel.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
 environment = """
-BESZEL_KEY="op://Secrets/Beszel/pkey"
+BESZEL_KEY=
 """
 
 ##
@@ -93,16 +89,12 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc"
-file_paths = ["nextcloud.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+run_directory = "media/consume"
+file_paths = ["nextcloud.yaml", "../../pbox.yaml"]
 environment = """
-NC_PG_PASS="op://Secrets/Nextcloud/pgpass"
-REDIS_PASSWORD="op://Secrets/Nextcloud/redispw"
-NC_ADMIN_USER_PASSWORD="op://Secrets/Nextcloud/adminuserpass"
+NC_PG_PASS=
+REDIS_PASSWORD=
+NC_ADMIN_USER_PASSWORD=
 NC_HOSTNAME=cloud.cwel.sh
 """
 
@@ -115,9 +107,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "dev"
+run_directory = "apps"
 file_paths = ["codeserver.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
 
 ##
 
@@ -128,12 +119,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc"
+run_directory = "core"
 file_paths = ["homepage.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
 environment = """
 OPENWEATHERMAP_TOKEN="op://Secrets/OpenWeatherMap/credential"
 TS_API="op://Secrets/Tailscale/credential"
@@ -190,10 +177,6 @@ file_paths = [
 	"membarr.yaml",
 	"../pbox.yaml",
 ]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
 environment = """
 GOOGLE_API="op://Secrets/Goggleapis/credential"
 REDBOT_TOKEN="op://Secrets/Redbot/token"
@@ -214,7 +197,6 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
 file_paths = ["dns.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
 
 ##
 
@@ -225,12 +207,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "media"
-file_paths = ["qbit-vpn.yaml", "sab.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+run_directory = "media/process"
+file_paths = ["tortun.yaml", "sab.yaml", "../../pbox.yaml"]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD="op://Secrets/qBit/password"
@@ -247,12 +225,8 @@ name = "external"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network"
-file_paths = ["external.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+run_directory = "network/proxy"
+file_paths = ["external.yaml", "../../pbox.yaml"]
 environment = """
 CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
 CF_TRAEFIK_TUNNEL_TOKEN=op://Secrets/Cloudflare/boneyards
@@ -269,12 +243,8 @@ name = "git"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "dev"
+run_directory = "core"
 file_paths = ["gitea.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
 environment = """
 GIT_PG_PASS="op://Secrets/Gitea/pgpass"
 GITEA_RUNNER_TOKEN="op://Secrets/Gitea/runner"
@@ -283,18 +253,14 @@ GITEA_RUNNER_TOKEN="op://Secrets/Gitea/runner"
 ##
 
 [[stack]]
-name = "grafana"
+name = "monitoring"
 [stack.config]
 server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "monitor"
-file_paths = ["grafana.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+file_paths = ["grafana.yaml", "scrutiny.yaml", "dozzle.yaml", "../pbox.yaml"]
 environment = """
 INFLUXDB_PASS="op://Secrets/InfluxDB/password"
 INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
@@ -309,12 +275,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "media"
-file_paths = ["immich.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+run_directory = "media/consume"
+file_paths = ["immich.yaml", "../../pbox.yaml"]
 environment = """
 DB_PASSWORD="op://Secrets/Immich/pg_pass"
 UPLOAD_LOCATION=/mnt/media/image
@@ -331,12 +293,8 @@ name = "internal"
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network"
-file_paths = ["internal.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+run_directory = "network/proxy"
+file_paths = ["internal.yaml", "../../pbox.yaml"]
 environment = """
 CF_DNS_API_TOKEN="op://Secrets/Cloudflare/credential"
 INFLUXDB_TOKEN="op://Secrets/InfluxDB/token"
@@ -351,9 +309,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "network"
-file_paths = ["kop.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
+run_directory = "network/proxy"
+file_paths = ["kop.yaml", "../../pbox.yaml"]
 
 ##
 
@@ -364,16 +321,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc"
+run_directory = "apps"
 file_paths = ["linkding.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
-environment = """
-LINKDING_PASS="op://Secrets/Linkding/password"
-
-"""
 
 ##
 
@@ -384,9 +333,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc"
+run_directory = "apps"
 file_paths = ["mealie.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
 
 ##
 
@@ -397,18 +345,14 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "media"
+run_directory = "media/consume"
 file_paths = [
 	"plex.yaml",
 	"jellyfin.yaml",
 	"stash.yaml",
 	"romm.yaml",
-	"../pbox.yaml",
+	"../../pbox.yaml",
 ]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
 environment = """
 ROMM_AUTH="op://Secrets/Romm/credential"
 MARIADB_PW="op://Secrets/Romm/db/mariadbroot"
@@ -426,9 +370,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc"
+run_directory = "apps"
 file_paths = ["monkey.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
 
 ##
 
@@ -441,7 +384,6 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "monitor"
 file_paths = ["netdata.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
 
 ##
 
@@ -452,7 +394,7 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc"
+run_directory = "apps"
 file_paths = ["posio.yaml", "../pbox.yaml"]
 additional_env_files = ["../global.env"]
 
@@ -465,12 +407,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc"
+run_directory = "apps"
 file_paths = ["rxresume.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
 environment = """
 SMTP_USER="op://Secrets/SMTP/API Key"
 SMTP_PASS="op://Secrets/SMTP/Secret Key"
@@ -485,24 +423,14 @@ CHROME_TOKEN="op://Secrets/RXRes/chrome"
 ##
 
 [[stack]]
-name = "system"
+name = "tools"
 [stack.config]
 server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "system"
-file_paths = [
-	"tailsocket.yaml",
-	"dozzle.yaml",
-	"scrutiny.yaml",
-	"tools.yaml",
-	"../pbox.yaml",
-]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
+file_paths = ["tailsocket.yaml", "tools.yaml", "../pbox.yaml"]
 environment = """
 TS_AUTHKEY="op://Secrets/Tailscale/socketauth"
 NOTIFS="op://Secrets/Discord Webhooks/Notations/shouterr"
@@ -518,12 +446,8 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "misc"
+run_directory = "monitor"
 file_paths = ["umami.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
-pre_deploy.command = """
-OP_SERVICE_ACCOUNT_TOKEN=[[OP_SERVICE_ACCOUNT_TOKEN]] op inject -i .env -o .env --force
-"""
 environment = """
 APP_SECRET="op://Secrets/Umami/credential"
 UMAMI_DB_PASSWORD="op://Secrets/Umami/db"

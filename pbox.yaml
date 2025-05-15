@@ -16,10 +16,6 @@ networks:
     external: true
   crowdsec:
     external: true
-  monitoring:
-    external: true
   gitea:
-    external: true
-  nextcloud:
     external: true
 
