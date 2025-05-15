@@ -3,8 +3,8 @@ services:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
     environment:
-      - PUID=${ID}
-      - PGID=${ID}
+      - PUID=1001
+      - PGID=1001
       - TZ=${TZ}
       - VERSION=docker
       # - PLEX_CLAIM=
@@ -70,5 +70,5 @@ services:
   #     -  ${DOCKERM}/plex-trakt:/config
   #   environment:
   #     - PUID=1000
-  #     - PGID=${ID}
+  #     - PGID=1001
   #     - TZ=${TZ}

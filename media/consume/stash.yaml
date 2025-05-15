@@ -21,7 +21,7 @@ services:
       - STASH_CACHE=/stash/cache/
       - STASH_PORT=9999
       - PUID=1000
-      - PGID=${ID}
+      - PGID=1001
       - UMASK=002
       - TZ=${TZ}
     volumes:

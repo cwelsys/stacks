@@ -10,7 +10,7 @@
       - TempPathHost=/mnt/cache/cache1/.cache/transcache
       - TZ=${TZ}
       - PUID=1000
-      - PGID=${ID}
+      - PGID=1001
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:

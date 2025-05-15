@@ -4,7 +4,7 @@ services:
     container_name: jellyfin
     environment:
       - PUID=1000
-      - PGID=${ID}
+      - PGID=1001
       - TZ=${TZ}
       - JELLYFIN_PublishedServerUrl=jellyfin.${DOMAIN}
     volumes:
