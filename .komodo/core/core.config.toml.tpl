@@ -426,15 +426,15 @@ aws.secret_access_key = ""
 
 ## configure git providers
 [[git_provider]]
-domain = "github.com"
-accounts = [
-	{ username = "cwelsys", token = "op://Secrets/Git/github token" },
-]
-
-[[git_provider]]
 domain = "git.cwel.sh" # use a custom provider, like self-hosted gitea
 accounts = [
 	{ username = "cwel", token = "op://Secrets/Git/gitea token" },
+]
+
+[[git_provider]]
+domain = "github.com"
+accounts = [
+	{ username = "cwelsys", token = "op://Secrets/Git/github token" },
 ]
 
 # [[git_provider]]
