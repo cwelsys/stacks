@@ -4,7 +4,7 @@ services:
     container_name: sabnzbd
     environment:
       - PUID=1000
-      - PGID=${ID}
+      - PGID=1001
       - TZ=${TZ}
     volumes:
       - ${DOCKERM}/sabnzbd:/config
