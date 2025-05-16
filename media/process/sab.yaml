@@ -13,7 +13,7 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.${DOMAIN}`)
+      - traefik.http.routers.sabnzbd.rule=Host(`sab.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
     networks:
