@@ -29,6 +29,7 @@ services:
       - HOMEPAGE_VAR_SONARR_API_KEY=${SONARR_API_KEY}
       - HOMEPAGE_VAR_LIDARR_API_KEY=${LIDARR_API_KEY}
       - HOMEPAGE_VAR_RADARR_API_KEY=${RADARR_API_KEY}
+      - HOMEPAGE_VAR_READARR_API_KEY=${READARR_API_KEY}
       - HOMEPAGE_VAR_WHISPARR_API_KEY=${WHISPARR_API_KEY}
       - HOMEPAGE_VAR_PROTON_ICAL=${PROTON_ICAL}
       - HOMEPAGE_VAR_AUTHENTIK_API=${AUTHENTIK_API}
@@ -82,31 +83,31 @@ services:
       - /run
 
   speedtest-tracker:
-      image: lscr.io/linuxserver/speedtest-tracker:latest
-      restart: unless-stopped
-      container_name: speedtest-tracker
-      networks:
-        - internal
-      environment:
-          - PUID=1000
-          - PGID=1000
-          - APP_KEY=${SPEED_API}
-          - DB_CONNECTION=sqlite
-          # - SPEEDTEST_SCHEDULE=
-          # - SPEEDTEST_SERVERS=
-          # - PRUNE_RESULTS_OLDER_THAN=
-          # - CHART_DATETIME_FORMAT=
-          # - DATETIME_FORMAT=
-          - APP_TIMEZONE=${TZ}
-          - APP_URL=https://speed.${DOMAIN}
-          - ASSET_URL=https://speed.${DOMAIN}
-      volumes:
-          - ${DOCKERM}/speed-db:/config
-      labels:
-          - traefik.enable=true
-          - traefik.http.routers.speed-test.rule=Host(`speed.${DOMAIN}`)
-          - traefik.http.services.speed-test.loadbalancer.server.port=80
-          - traefik.docker.network=internal
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    restart: unless-stopped
+    container_name: speedtest-tracker
+    networks:
+      - internal
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APP_KEY=${SPEED_API}
+      - DB_CONNECTION=sqlite
+      # - SPEEDTEST_SCHEDULE=
+      # - SPEEDTEST_SERVERS=
+      # - PRUNE_RESULTS_OLDER_THAN=
+      # - CHART_DATETIME_FORMAT=
+      # - DATETIME_FORMAT=
+      - APP_TIMEZONE=${TZ}
+      - APP_URL=https://speed.${DOMAIN}
+      - ASSET_URL=https://speed.${DOMAIN}
+    volumes:
+      - ${DOCKERM}/speed-db:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.speed-test.rule=Host(`speed.${DOMAIN}`)
+      - traefik.http.services.speed-test.loadbalancer.server.port=80
+      - traefik.docker.network=internal
 
   komo-updates:
     image: python:3.12-slim
@@ -120,4 +121,4 @@ services:
     networks:
       - internal
     ports:
-      - "5070:5070"
+      - '5070:5070'
