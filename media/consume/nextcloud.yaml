@@ -36,7 +36,7 @@ services:
 
   nextcloud:
     container_name: nextcloud
-    image: nextcloud:29
+    image: nextcloud:latest
     volumes:
       - ${DOCKERM}/nextcloud:/var/www/html
     environment:
@@ -86,7 +86,7 @@ services:
 
   nextcloud-cron:
     container_name: nc-cron
-    image: nextcloud:29
+    image: nextcloud:latest
     entrypoint: /cron.sh
     volumes:
       - ${DOCKERM}/nextcloud:/var/www/html
