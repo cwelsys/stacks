@@ -49,6 +49,7 @@ services:
       - HOMEPAGE_VAR_KOMO_API_KEY=${KOMO_API_KEY}
       - HOMEPAGE_VAR_KOMO_API_SECRET=${KOMO_API_SECRET}
       - HOMEPAGE_VAR_FRESHRSS_API_KEY=${FRESHRSS_API_KEY}
+      - HOMEPAGE_VAR_AUTOBRR_API_KEY=${AUTOBRR_API_KEY}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/icons:/app/public/images
