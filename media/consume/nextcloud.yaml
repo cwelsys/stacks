@@ -76,6 +76,7 @@ services:
       - traefik.http.middlewares.nextcloud-securityheaders.headers.stsSeconds=15552000
       - traefik.http.middlewares.nextcloud-securityheaders.headers.stsIncludeSubdomains=true
       - traefik.http.middlewares.nextcloud-securityheaders.headers.stsPreload=true
+      - traefik.http.routers.nextcloud.middlewares=nextcloud-securityheaders
 
     restart: unless-stopped
     depends_on:
