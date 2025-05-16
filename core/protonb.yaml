@@ -1,5 +1,3 @@
-include:
-  - ../pbox.yaml
 services:
   protonmail-bridge:
     container_name: proton-bridge
