@@ -89,7 +89,7 @@ services:
 
   nextcloud-cron:
     container_name: nc-cron
-    image: nextcloud:latest
+    image: nextcloud:apache
     entrypoint: /cron.sh
     volumes:
       - ${DOCKERM}/nextcloud/app:/var/www/html
