@@ -256,7 +256,7 @@ services:
       - media
     environment:
       - TZ=${TZ}
-    user: 1000:1001
+    user: 1000:1000
     volumes:
       - ${DOCKERM}/autobrr/config:/config
     labels:
