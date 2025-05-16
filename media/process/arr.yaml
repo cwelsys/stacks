@@ -247,6 +247,24 @@ services:
     networks:
       - media
 
+  autobrr:
+    container_name: autobrr
+    image: ghcr.io/autobrr/autobrr:latest
+    restart: unless-stopped
+    networks:
+      - internal
+      - media
+    environment:
+      - TZ=${TZ}
+    user: 1000:1001
+    volumes:
+      - ${DOCKERM}/autobrr/config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.autobrr.rule=Host(`brr.${DOMAIN}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.autobrr.loadbalancer.server.port=7474
+
   decluttarr:
     image: ghcr.io/manimatter/decluttarr:latest
     container_name: decluttarr
