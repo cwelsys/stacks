@@ -437,7 +437,18 @@ git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps"
 file_paths = ["posio.yaml", "../pbox.yaml"]
-additional_env_files = ["../global.env"]
+
+##
+
+[[stack]]
+name = "proton-bridge"
+[stack.config]
+server = "pbox"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+run_directory = "core"
+file_paths = ["protonb.yaml", "../pbox.yaml"]
 
 ##
 
