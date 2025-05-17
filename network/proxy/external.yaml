@@ -7,12 +7,13 @@ services:
       - public
       - traefik
       - crowdsec
+      - monitor
     depends_on:
       - ext-redis
     ports:
       # - "80:80"
       # - "443:443"
-      - "8080:8080"
+      - '8080:8080'
     environment:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
       CS_TRAEFIK_BOUNCER_KEY: ${CS_TRAEFIK_BOUNCER_KEY}
@@ -23,12 +24,12 @@ services:
       - ${CONFIGDIR}/traefik/external/static:/etc/traefik:rw
       - ${CONFIGDIR}/traefik/external/dynamic:/config/dynamic:rw
       - ${CONFIGDIR}/traefik/external/ban.html:/config/ban.html:ro
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
     labels:
       traefik.enable: true
       traefik.http.routers.traefik-dashboard-external.rule: Host(`traefike.${DOMAIN}`)
       traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 8080
-      kop.traefik-dashboard-external.bind.ip: "${SERVER_IP}"
+      kop.traefik-dashboard-external.bind.ip: '${SERVER_IP}'
 
   logrotate:
     container_name: ext-logrotate
@@ -41,16 +42,16 @@ services:
     environment:
       TZ: ${TZ}
       # all environment variables are optional and show the default values:
-      LOGROTATE_LOGS: "/var/log/traefik/*.log" # log files to rotate, directory must match volume mount
-      LOGROTATE_TRIGGER_INTERVAL: daily  # rotate daily, must be one of: daily, weekly, monthly, yearly
-      LOGROTATE_TRIGGER_SIZE: 50M        # rotate if log file size reaches 50MB
-      LOGROTATE_MAX_BACKUPS: 7          # keep 14 backup copies per rotated log file
-      LOGROTATE_START_INDEX: 1           # first rotated file is called access.1.log
-      LOGROTATE_FILE_MODE: 0644          # file mode of the rotated file
-      LOGROTATE_FILE_USER: root          # owning user of the rotated file
-      LOGROTATE_FILE_GROUP: root         # owning group of the rotated file
-      CRON_SCHEDULE: "* * * * *"
-      CRON_LOG_LEVEL: 8                  # see https://unix.stackexchange.com/a/414010/378036
+      LOGROTATE_LOGS: '/var/log/traefik/*.log' # log files to rotate, directory must match volume mount
+      LOGROTATE_TRIGGER_INTERVAL: daily # rotate daily, must be one of: daily, weekly, monthly, yearly
+      LOGROTATE_TRIGGER_SIZE: 50M # rotate if log file size reaches 50MB
+      LOGROTATE_MAX_BACKUPS: 7 # keep 14 backup copies per rotated log file
+      LOGROTATE_START_INDEX: 1 # first rotated file is called access.1.log
+      LOGROTATE_FILE_MODE: 0644 # file mode of the rotated file
+      LOGROTATE_FILE_USER: root # owning user of the rotated file
+      LOGROTATE_FILE_GROUP: root # owning group of the rotated file
+      CRON_SCHEDULE: '* * * * *'
+      CRON_LOG_LEVEL: 8 # see https://unix.stackexchange.com/a/414010/378036
       # command to determine the id of the container running Traefik:
       TRAEFIK_CONTAINER_ID_COMMAND: docker ps --no-trunc --quiet --filter label=org.opencontainers.image.title=Traefik
 
@@ -69,7 +70,7 @@ services:
     image: redis:7-alpine
     container_name: ext-redis
     ports:
-      - "6380:6379"
+      - '6380:6379'
     networks:
       - traefik
       - kop
@@ -84,9 +85,9 @@ services:
     restart: unless-stopped
     command: tunnel run --token ${CF_TRAEFIK_TUNNEL_TOKEN}
     environment:
-        TUNNEL_METRICS: 0.0.0.0:20241
+      TUNNEL_METRICS: 0.0.0.0:20241
     networks:
-        - traefik
+      - traefik
 
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
@@ -118,26 +119,25 @@ services:
 
   crowdsec:
     container_name: crowdsec
-    image: "crowdsecurity/crowdsec:latest"
+    image: 'crowdsecurity/crowdsec:latest'
     networks:
       - crowdsec
-      - monitoring
+      - monitor
     environment:
       - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching
-      - "DISABLE_SCENARIOS=crowdsecurity/http-bad-user-agent"
-      - "CUSTOM_HOSTNAME=pbox"
-      - "GID=1000"
-      - "LEVEL_INFO=true"
-      - "TZ=${TZ}"
+      - 'DISABLE_SCENARIOS=crowdsecurity/http-bad-user-agent'
+      - 'CUSTOM_HOSTNAME=pbox'
+      - 'GID=1000'
+      - 'LEVEL_INFO=true'
+      - 'TZ=${TZ}'
     ports:
-      - "4242:4242/tcp"
-      - "6060:6060/tcp"
+      - '4242:4242/tcp'
+      - '6060:6060/tcp'
       # - "8086:8080/tcp"
-    restart: "always"
+    restart: 'always'
     volumes:
       - /var/log/messages:/var/log/messages:ro
       - /var/log/secure:/var/log/secure:ro
       - ${DOCKERM}/crowdsec/config:/etc/crowdsec
       - ${DOCKERM}/crowdsec-db:/var/lib/crowdsec/data
       - ${DOCKERM}/crowdsec/logs:/var/log/crowdsec
-
