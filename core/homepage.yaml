@@ -5,7 +5,7 @@ services:
     networks:
       - internal
       - media
-      - crowdsec
+      - monitor
       - traefik
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=hp.${DOMAIN}
