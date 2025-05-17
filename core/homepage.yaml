@@ -53,7 +53,7 @@ services:
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${CONFIGDIR}/icons:/app/public/images
-      - /mnt/:/mnt:ro
+      # - /mnt/:/mnt:ro
     restart: always
     labels:
       - traefik.enable=true
