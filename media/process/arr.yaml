@@ -7,15 +7,13 @@ services:
       - PGID=1001
       - TZ=${TZ}
     volumes:
-      - ${DOCKERM}/sonarr:/config
+      - ${DOCKERM}/sonarr/app:/config
+      - ${DOCKERM}/sonarr/scripts/init:/custom-cont-init.d
+      - ${DOCKERM}/sonarr/scripts/service:/custom-services.d
       - ${RUST}:/data
-      - /opt/arrscripts/sonarr/custom-services.d:/custom-services.d
-      - /opt/arrscripts/sonarr/custom-cont-init.d:/custom-cont-init.d
-      - /opt/arrscripts/sonarr/rconfig.yaml:/config/extended/rconfig.yaml
-      - /opt/arrscripts/sonarr/extended.conf:/config/extended.conf
     restart: always
     healthcheck:
-      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping' ]
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping']
       interval: 30s
       retries: 10
     labels:
@@ -38,13 +36,11 @@ services:
     volumes:
       - ${DOCKERM}/radarr:/config
       - ${RUST}:/data
-      - /opt/arrscripts/radarr/custom-services.d:/custom-services.d
-      - /opt/arrscripts/radarr/custom-cont-init.d:/custom-cont-init.d
-      - /opt/arrscripts/radarr/rconfig.yaml:/config/extended/rconfig.yaml
-      - /opt/arrscripts/radarr/extended.conf:/config/extended.conf
+      - ${DOCKERM}/radarr/scripts/init:/custom-cont-init.d
+      - ${DOCKERM}/radarr/scripts/service:/custom-services.d
     restart: always
     healthcheck:
-      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping' ]
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping']
       interval: 30s
       retries: 10
     labels:
@@ -66,11 +62,11 @@ services:
     volumes:
       - ${DOCKERM}/lidarr:/config
       - ${RUST}:/data
-      - /opt/arrscripts/lidarr/custom-services.d:/custom-services.d
-      - /opt/arrscripts/lidarr/custom-cont-init.d:/custom-cont-init.d
+      - ${DOCKERM}/lidarr/scripts/init:/custom-cont-init.d
+      - ${DOCKERM}/lidarr/scripts/service:/custom-services.d
     restart: always
     healthcheck:
-      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping' ]
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping']
       interval: 30s
       retries: 10
     labels:
@@ -93,18 +89,18 @@ services:
       - ${DOCKERM}/readarr:/config
       - ${RUST}:/data
     healthcheck:
-      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:8787/ping' ]
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8787/ping']
       interval: 30s
       retries: 10
     restart: unless-stopped
     networks:
-     - media
-     - internal
+      - media
+      - internal
     labels:
-     - traefik.enable=true
-     - traefik.docker.network=internal
-     - traefik.http.routers.readarr.rule=Host(`readarr.${DOMAIN}`)
-     - traefik.http.services.readarr.loadbalancer.server.port=8787
+      - traefik.enable=true
+      - traefik.docker.network=internal
+      - traefik.http.routers.readarr.rule=Host(`readarr.${DOMAIN}`)
+      - traefik.http.services.readarr.loadbalancer.server.port=8787
 
   whisparr:
     container_name: whisparr
@@ -121,10 +117,10 @@ services:
       - ${DOCKERM}/whisparr:/config
       - ${RUST}:/data
     labels:
-     - traefik.enable=true
-     - traefik.docker.network=internal
-     - traefik.http.routers.whisparr.rule=Host(`whisparr.${DOMAIN}`)
-     - traefik.http.services.whisparr.loadbalancer.server.port=6969
+      - traefik.enable=true
+      - traefik.docker.network=internal
+      - traefik.http.routers.whisparr.rule=Host(`whisparr.${DOMAIN}`)
+      - traefik.http.services.whisparr.loadbalancer.server.port=6969
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -137,7 +133,7 @@ services:
       - ${DOCKERM}/prowlarr:/config
     restart: always
     healthcheck:
-      test: [ 'CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping' ]
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping']
       interval: 30s
       retries: 10
     labels:

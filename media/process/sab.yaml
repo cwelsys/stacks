@@ -8,8 +8,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCKERM}/sabnzbd:/config
+      - ${DOCKERM}/sabnzbd/custom:/custom-cont-init.d
       - ${RUST}:/data
-      - /opt/arrscripts/sab/custom-cont-init.d:/custom-cont-init.d
     restart: always
     labels:
       - traefik.enable=true
