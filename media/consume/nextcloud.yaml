@@ -79,7 +79,7 @@ services:
       - traefik.http.middlewares.limit-nextcloud.buffering.maxResponseBodyBytes=50000000
       - traefik.http.middlewares.limit-nextcloud.buffering.memRequestBodyBytes=50000000
       - traefik.http.middlewares.limit-nextcloud.buffering.memResponseBodyBytes=50000000
-
+    security_opt: ["label:disable"]
     restart: unless-stopped
     depends_on:
       nextcloud-db:
