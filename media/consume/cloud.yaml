@@ -1,0 +1,19 @@
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
+
+services:
+  nextcloud:
+    image: nextcloud/all-in-one:latest
+    restart: unless-stopped
+    container_name: nextcloud-aio-mastercontainer
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/bool/nextcloud:/mnt/ncdata
+    ports:
+      - 8094:8080
+    security_opt: ['label:disable']
+    environment:
+      - APACHE_PORT=11000
+      - NEXTCLOUD_DATADIR=/mnt/ncdata
