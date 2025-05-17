@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: nextcloud
       POSTGRES_PASSWORD: ${NC_PG_PASS}
     networks:
-      - nextcloud
+      - internal
     healthcheck:
       test: ['CMD', 'pg_isready', '-q', '-d', 'nextcloud', '-U', 'nextcloud']
       interval: 10s
@@ -23,7 +23,6 @@ services:
     image: redis:alpine
     command: ['redis-server', '--requirepass', '${REDIS_PASSWORD}']
     networks:
-      - nextcloud
       - internal
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
@@ -58,7 +57,6 @@ services:
       NEXTCLOUD_ADMIN_PASSWORD: ${NC_ADMIN_USER_PASSWORD}
       TRUSTED_PROXIES: 172.16.0.0/12 192.168.0.0/16 192.168.4.89 10.0.0.0/8 fc00::/7 fe80::/10 2001:db8::/32
     networks:
-      - nextcloud
       - internal
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:80/']
@@ -95,13 +93,13 @@ services:
       - ${DOCKERM}/nextcloud/app:/var/www/html
       - ${DOCKERM}/nextcloud/data:/var/www/html/data
     networks:
-      - nextcloud
+      - internal
 
   db-backup:
     container_name: nextcloud-db-backup
     image: tiredofit/db-backup
     networks:
-      - nextcloud
+      - internal
     volumes:
       - ${DOCKERM}/dumps/nextcloud:/backup
     environment:
