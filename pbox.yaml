@@ -20,4 +20,5 @@ networks:
     external: true
   nextcloud:
     external: true
-
+  monitor:
+    external: true

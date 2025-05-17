@@ -4,7 +4,7 @@ services:
     container_name: influxdb2
     restart: unless-stopped
     networks:
-      - traefik
+      - monitor
     expose:
       - 8086
     environment:
@@ -23,14 +23,14 @@ services:
     image: grafana/loki:2.9.11
     container_name: loki
     networks:
-      - traefik
+      - monitor
     user: 1000:1000
     command: -config.file=/etc/loki/config.yml
     restart: unless-stopped
     expose:
       - 3100
     ports:
-      - "127.0.0.1:3100:3100"
+      - '127.0.0.1:3100:3100'
     volumes:
       - ${DOCKERM}/loki:/etc/loki
 
@@ -38,7 +38,7 @@ services:
     image: grafana/promtail:latest
     container_name: promtail
     networks:
-      - traefik
+      - monitor
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yml
     expose:
@@ -46,7 +46,7 @@ services:
     depends_on:
       - loki
     volumes:
-      - /var/log:/var/log
+      - /var/log:/var/log:ro
       - ${DOCKERM}/promtail:/etc/promtail
 
   grafana:
@@ -60,7 +60,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - traefik
+      - monitor
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
     expose:
@@ -78,7 +78,7 @@ services:
     container_name: victoriametrics
     restart: unless-stopped
     networks:
-      - traefik
+      - monitor
       - crowdsec
       - internal
     expose:
@@ -86,5 +86,5 @@ services:
     volumes:
       - ${DOCKERM}/vmetrics:/storage
     command:
-      - "--storageDataPath=/storage"
-      - "--httpListenAddr=:8428"
+      - '--storageDataPath=/storage'
+      - '--httpListenAddr=:8428'
