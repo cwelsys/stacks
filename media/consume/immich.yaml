@@ -26,7 +26,7 @@ services:
       - stack
     labels:
      - traefik.enable=true
-     - traefik.http.routers.immich.rule=Host(`immich.${DOMAIN}`)
+     - traefik.http.routers.immich.rule=Host(`img.${DOMAIN}`)
      - traefik.http.services.immich.loadbalancer.server.port=2283
      - traefik.docker.network=internal
 
