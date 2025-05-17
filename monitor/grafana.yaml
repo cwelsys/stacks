@@ -54,7 +54,7 @@ services:
       - traefik.docker.network=internal
 
   victoriametrics:
-    image: victoriametrics/victoria-metrics:latest
+    image: victoriametrics/victoria-metrics:v1.115.0
     container_name: victoriametrics
     restart: unless-stopped
     networks:
