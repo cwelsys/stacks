@@ -34,7 +34,7 @@ services:
       - PGID=1001
       - TZ=${TZ}
     volumes:
-      - ${DOCKERM}/radarr:/config
+      - ${DOCKERM}/radarr/app:/config
       - ${RUST}:/data
       - ${DOCKERM}/radarr/scripts/init:/custom-cont-init.d
       - ${DOCKERM}/radarr/scripts/service:/custom-services.d
@@ -60,7 +60,7 @@ services:
       - PGID=1001
       - TZ=${TZ}
     volumes:
-      - ${DOCKERM}/lidarr:/config
+      - ${DOCKERM}/lidarr/app:/config
       - ${RUST}:/data
       - ${DOCKERM}/lidarr/scripts/init:/custom-cont-init.d
       - ${DOCKERM}/lidarr/scripts/service:/custom-services.d
