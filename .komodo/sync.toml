@@ -62,19 +62,6 @@ file_paths = ["backrest.yaml", "../pbox.yaml"]
 ##
 
 [[stack]]
-name = "calibre"
-[stack.config]
-server = "pbox"
-poll_for_updates = true
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "media/process"
-file_paths = ["calibre.yaml", "../../pbox.yaml"]
-
-##
-
-[[stack]]
 name = "cloud"
 [stack.config]
 server = "pbox"
@@ -333,6 +320,7 @@ file_paths = [
   "plex.yaml",
   "jellyfin.yaml",
   "stash.yaml",
+  "calibre.yaml",
   "freshrss.yaml",
   "romm.yaml",
   "../../pbox.yaml",
