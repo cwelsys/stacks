@@ -3,13 +3,13 @@ services:
     image: altran1502/immich-server:${IMMICH_VERSION:-release}
     container_name: immich
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${RUST}/image:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     environment:
       - NODE_ENV=production
       - TZ=${TZ}
       - DB_USERNAME=immich
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${IMMICH_PG_PASS}
       - REDIS_HOST=immich-redis
       - REDIS_HOSTNAME=immich-redis
       - DB_HOSTNAME=immich-db
@@ -25,25 +25,25 @@ services:
       - internal
       - stack
     labels:
-     - traefik.enable=true
-     - traefik.http.routers.immich.rule=Host(`img.${DOMAIN}`)
-     - traefik.http.services.immich.loadbalancer.server.port=2283
-     - traefik.docker.network=internal
+      - traefik.enable=true
+      - traefik.http.routers.immich.rule=Host(`img.${DOMAIN}`)
+      - traefik.http.services.immich.loadbalancer.server.port=2283
+      - traefik.docker.network=internal
 
   immich-machine-learning:
     image: altran1502/immich-machine-learning:${IMMICH_VERSION:-release}
     container_name: immich-ml
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${RUST}/image:/usr/src/app/upload
       - cache:/cache
     environment:
       - NODE_ENV=production
       - TZ=${TZ}
       - DB_DATABASE_NAME=immich
       - DB_USERNAME=immich
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${IMMICH_PG_PASS}
       - REDIS_HOST=immich-redis
-      - REDIS_HOSTNAME=immich-redis  # Added this line
+      - REDIS_HOSTNAME=immich-redis
       - DB_HOSTNAME=immich-db
     restart: unless-stopped
     healthcheck:
@@ -65,12 +65,12 @@ services:
     image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
     container_name: immich-db
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_PASSWORD: ${IMMICH_PG_PASS}
+      POSTGRES_USER: immich
+      POSTGRES_DB: immich
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
-      - ${DOCKERM}/immich-db:/var/lib/postgresql/data
+      - ${DOCKERM}/immich:/var/lib/postgresql/data
     command: >-
       postgres -c shared_preload_libraries=vectors.so -c 'search_path="$$user", public, vectors' -c logging_collector=on -c max_wal_size=2GB -c shared_buffers=512MB -c wal_compression=on
     restart: unless-stopped
@@ -90,28 +90,21 @@ services:
       - stack
     volumes:
       - ${BRICK}/dumps/immich:/backup
-      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
     environment:
       - TIMEZONE=${TZ}
       - CONTAINER_NAME=immich-db-backup
       - CONTAINER_ENABLE_MONITORING=FALSE
       # - DEBUG_MODE=TRUE
 
-      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330      # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
 
       - DB01_TYPE=postgres
       - DB01_HOST=immich-db
-      - DB01_NAME=${DB_DATABASE_NAME}
-      - DB01_USER=${DB_USERNAME}
-      - DB01_PASS=${DB_PASSWORD}
-      # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
-      # - DB01_BACKUP_BEGIN=+1           # (override) Backup starts in ten minutes
-      # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
-      # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
-      # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
-
+      - DB01_NAME=immich
+      - DB01_USER=immich
+      - DB01_PASS=${IMMICH_PG_PASS}
