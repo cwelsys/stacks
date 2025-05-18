@@ -1,0 +1,18 @@
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: unless-stopped
+    networks:
+      - internal
+      - monitor
+    expose:
+      - 8086
+    environment:
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_PASS}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUX_TOKEN}
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+    volumes:
+      - ${DOCKERM}/influxdb/data:/var/lib/influxdb2
+      - ${DOCKERM}/influxdb/cfg:/etc/influxdb2

@@ -337,7 +337,7 @@ IGDB_CLIENT_SECRET=[[ROMM__IGDB_SECRET]]
 ##
 
 [[stack]]
-name = "monitoring"
+name = "monitor"
 [stack.config]
 server = "pbox"
 git_provider = "git.cwel.sh"
@@ -347,8 +347,10 @@ run_directory = "monitor"
 file_paths = [
   "grafana.yaml",
   "scrutiny.yaml",
+  "speed.yaml",
   "dozzle.yaml",
   "beszel.yaml",
+  "influx.yaml",
   "../pbox.yaml",
 
 ]

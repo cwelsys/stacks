@@ -84,33 +84,6 @@ services:
     tmpfs:
       - /run
 
-  speedtest-tracker:
-    image: lscr.io/linuxserver/speedtest-tracker:latest
-    restart: unless-stopped
-    container_name: speedtest-tracker
-    networks:
-      - internal
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - APP_KEY=${SPEED_API}
-      - DB_CONNECTION=sqlite
-      # - SPEEDTEST_SCHEDULE=
-      # - SPEEDTEST_SERVERS=
-      # - PRUNE_RESULTS_OLDER_THAN=
-      # - CHART_DATETIME_FORMAT=
-      # - DATETIME_FORMAT=
-      - APP_TIMEZONE=${TZ}
-      - APP_URL=https://speed.${DOMAIN}
-      - ASSET_URL=https://speed.${DOMAIN}
-    volumes:
-      - ${DOCKERM}/speed-db:/config
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.speed-test.rule=Host(`speed.${DOMAIN}`)
-      - traefik.http.services.speed-test.loadbalancer.server.port=80
-      - traefik.docker.network=internal
-
   komo-updates:
     image: python:3.12-slim
     container_name: komo-updates
