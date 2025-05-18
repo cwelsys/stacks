@@ -8,7 +8,10 @@ services:
       - ${DOCKERM}/backrest/config:/config
       - ${DOCKERM}/backrest/cache:/cache
       - ${DOCKERM}/backrest/tmp:/tmp
-      - ${BRICK}:${BRICK} 
+      - /home/cwel/.config/rclone:/root/.config/rclone:ro 
+      - ${FLASH}:${FLASH}
+      - ${RUST}:${RUST}
+      - ${BRICK}:${BRICK}
       - /opt:/userdata/opt
       - /home:/userdata/home
       - /etc:/userdata/etc
