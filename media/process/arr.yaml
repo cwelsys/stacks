@@ -10,6 +10,7 @@ services:
       - ${DOCKERM}/sonarr/app:/config
       - ${DOCKERM}/sonarr/scripts/init:/custom-cont-init.d
       - ${DOCKERM}/sonarr/scripts/service:/custom-services.d
+      - ${DOCKERM}/sonarr/scripts/recyclarr.yaml:/config/extended/rconfig.yaml
       - ${RUST}:/data
     restart: always
     healthcheck:
@@ -260,6 +261,23 @@ services:
       - traefik.http.routers.autobrr.rule=Host(`brr.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.autobrr.loadbalancer.server.port=7474
+
+  profilarr:
+    image: santiagosayshey/profilarr:beta
+    container_name: profilarr
+    networks:
+      - internal
+      - media
+    volumes:
+      - ${DOCKERM}/profilarr:/config
+    environment:
+      - TZ=${TZ}
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.profilarr.rule=Host(`profilarr.${DOMAIN}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.profilarr.loadbalancer.server.port=6868
 
   decluttarr:
     image: ghcr.io/manimatter/decluttarr:latest
