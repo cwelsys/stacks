@@ -8,8 +8,12 @@ services:
       - ${DOCKERM}/backrest/config:/config
       - ${DOCKERM}/backrest/cache:/cache
       - ${DOCKERM}/backrest/tmp:/tmp
-      - ${DOCKERM}:/userdata
       - ${BRICK}:${BRICK} 
+      - /opt:/userdata/opt
+      - /home:/userdata/home
+      - /etc:/userdata/etc
+      - /var:/userdata/var
+      - /usr:/userdata/usr
     environment:
       - BACKREST_DATA=/data
       - BACKREST_CONFIG=/config/config.json
