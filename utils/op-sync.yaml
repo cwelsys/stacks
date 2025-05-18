@@ -5,8 +5,8 @@ services:
     expose:
       - 8080
     volumes:
-      - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
-      - "data:/home/opuser/.op/data"
+      - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
+      - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
     environment:
       OP_SESSION: /home/opuser/.op/1password-credentials.json
     restart: unless-stopped
@@ -15,8 +15,8 @@ services:
     container_name: op-connect-sync
     image: 1password/connect-sync:latest
     volumes:
-      - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
-      - "data:/home/opuser/.op/data"
+      - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
+      - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
     environment:
       OP_SESSION: /home/opuser/.op/1password-credentials.json
     restart: unless-stopped
@@ -24,19 +24,15 @@ services:
   komodo-op:
     container_name: komodo-op
     image: git.cwel.sh/cwel/komodo-op:latest
-    env_file: ./.env
     depends_on:
       - op-connect-api
     environment:
-      KOMODO_HOST: "https://komo.cwel.sh"
-      KOMODO_API_KEY: ${API_KEY}
-      KOMODO_API_SECRET: ${API_SECRET}
-      OP_CONNECT_HOST: "http://op-connect-api:8080"
-      OP_SERVICE_ACCOUNT_TOKEN: ${ACCESS_TOKEN}
-      OP_VAULT: "2ckfzps6ihnew6pf5rvbdysm2u"
-      SYNC_INTERVAL: "1h"
-      LOG_LEVEL: "INFO"
+      KOMODO_HOST: 'https://komo.cwel.sh'
+      KOMODO_API_KEY: ${KOMO_API_KEY}
+      KOMODO_API_SECRET: ${KOMO_API_SECRET}
+      OP_CONNECT_HOST: 'http://op-connect-api:8080'
+      OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
+      OP_VAULT: '2ckfzps6ihnew6pf5rvbdysm2u'
+      SYNC_INTERVAL: '1h'
+      LOG_LEVEL: 'INFO'
     restart: unless-stopped
-
-volumes:
-  data:

@@ -49,50 +49,13 @@ SMTPASS=[[SMTP__PASSWORD]]
 ##
 
 [[stack]]
-name = "backrest"
-[stack.config]
-server = "pbox"
-poll_for_updates = true
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "core"
-file_paths = ["backrest.yaml", "../pbox.yaml"]
-
-##
-
-[[stack]]
-name = "cloud"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "media/consume"
-file_paths = ["cloud.yaml", "../../pbox.yaml"]
-
-##
-
-[[stack]]
-name = "code"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "apps"
-file_paths = ["codeserver.yaml", "../pbox.yaml"]
-
-##
-
-[[stack]]
 name = "dash"
 [stack.config]
 server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "core"
+run_directory = "apps"
 file_paths = ["homepage.yaml", "../pbox.yaml"]
 environment = """
 OPENWEATHERMAP_TOKEN=[[OPENWEATHERMAP__API]]
@@ -144,7 +107,7 @@ server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
-run_directory = "discord"
+run_directory = "apps/discord"
 file_paths = [
   "redbot.yaml",
   "muse.yaml",
@@ -195,30 +158,12 @@ GLUETUN_APIKEY=[[GLUETUN__API]]
 ##
 
 [[stack]]
-name = "external"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "network/proxy"
-file_paths = ["external.yaml", "../../pbox.yaml"]
-environment = """
-CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
-CF_TRAEFIK_TUNNEL_TOKEN=[[CLOUDFLARE__TUNNEL]]
-CS_TRAEFIK_BOUNCER_KEY=[[CROWDSEC__BOUNCER]]
-BOUNCER_HOST=crowdsec:8080
-INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
-"""
-
-##
-
-[[stack]]
 name = "git"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "core"
+run_directory = "apps"
 file_paths = ["gitea.yaml", "../pbox.yaml"]
 environment = """
 GIT_PG_PASS=[[GITEA__POSTGRES]]
@@ -227,67 +172,76 @@ GITEA_RUNNER_TOKEN=[[GITEA__RUNNER]]
 
 ##
 
+
 [[stack]]
-name = "internal"
+name = "utils"
+[stack.config]
+server = "pbox"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/stacks"
+run_directory = "utils"
+file_paths = [
+  "backrest.yaml",
+  "ts-socket.yaml",
+  "op-sync.yaml",
+  "it-tools.yaml",
+  "codeserver.yaml",
+  "linkding.yaml",
+  "../pbox.yaml",
+]
+environment = """
+TS_AUTHKEY=[[TAILSCALE__SOCKET]]
+OP_ACCESS_TOKEN=[[OP__ACCESS_TOKEN]]
+KOMO_API_KEY=[[KOMODO__API]]
+KOMO_API_SECRET=[[KOMODO__API_SECRET]]
+"""
+##
+
+[[stack]]
+name = "proxy"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
-repo = "cwelsys/stacks"
+repo = "cwel/stacks"
 run_directory = "network/proxy"
-file_paths = ["internal.yaml", "../../pbox.yaml"]
+file_paths = ["internal.yaml", "external.yaml", "kop.yaml", "../../pbox.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
+CF_TRAEFIK_TUNNEL_TOKEN=[[CLOUDFLARE__TUNNEL]]
+CS_TRAEFIK_BOUNCER_KEY=[[CROWDSEC__BOUNCER]]
+BOUNCER_HOST=crowdsec:8080
+
 """
-
 ##
 
 [[stack]]
-name = "it-tools"
+name = "services"
 [stack.config]
 server = "pbox"
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps"
-file_paths = ["it-tools.yaml", "../pbox.yaml"]
-
-##
-
-[[stack]]
-name = "kop"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "network/proxy"
-file_paths = ["kop.yaml", "../../pbox.yaml"]
-
-##
-
-[[stack]]
-name = "linkding"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "apps"
-file_paths = ["linkding.yaml", "../pbox.yaml"]
-
-##
-
-[[stack]]
-name = "mealie"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "apps"
-file_paths = ["mealie.yaml", "../pbox.yaml"]
-
+file_paths = [
+  "rxresume.yaml",
+  "cloud.yaml",
+  "mealie.yaml",
+  "monkey.yaml",
+  "posio.yaml",
+  "../pbox.yaml",
+]
+environment = """
+SMTP_USER=[[SMTP__USER]]
+SMTP_PASS=[[SMTP__PASSWORD]]
+SMTP_HOST=in-v3.mailjet.com
+RX_PG_PASS=[[RXRESUME__POSTGRES]]
+MINIO_PW=[[RXRESUME__MINIO]]
+RX_SECRET=[[RXRESUME__SECRET]]
+RX_REFRESH_SECRET=[[RXRESUME__REFRESH]]
+CHROME_TOKEN=[[RXRESUME__CHROME]]
+"""
 ##
 
 [[stack]]
@@ -330,6 +284,7 @@ run_directory = "monitor"
 file_paths = [
   "grafana.yaml",
   "scrutiny.yaml",
+  "netdata.yaml",
   "speed.yaml",
   "dozzle.yaml",
   "beszel.yaml",
@@ -347,94 +302,6 @@ UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 """
 
 ##
-
-[[stack]]
-name = "monkeytype"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "apps"
-file_paths = ["monkey.yaml", "../pbox.yaml"]
-
-##
-
-[[stack]]
-name = "netdata"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "monitor"
-file_paths = ["netdata.yaml", "../pbox.yaml"]
-
-##
-
-[[stack]]
-name = "op-sync"
-[stack.config]
-server = "pbox"
-project_name = "secrets"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = ".komodo/secrets"
-
-##
-
-[[stack]]
-name = "posio"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "apps"
-file_paths = ["posio.yaml", "../pbox.yaml"]
-
-##
-
-[[stack]]
-name = "resume"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "apps"
-file_paths = ["rxresume.yaml", "../pbox.yaml"]
-environment = """
-SMTP_USER=[[SMTP__USER]]
-SMTP_PASS=[[SMTP__PASSWORD]]
-SMTP_HOST=in-v3.mailjet.com
-RX_PG_PASS=[[RXRESUME__POSTGRES]]
-MINIO_PW=[[RXRESUME__MINIO]]
-RX_SECRET=[[RXRESUME__SECRET]]
-RX_REFRESH_SECRET=[[RXRESUME__REFRESH]]
-CHROME_TOKEN=[[RXRESUME__CHROME]]
-"""
-
-##
-
-[[stack]]
-name = "tailsocket"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "core"
-file_paths = ["ts-socket.yaml", "../pbox.yaml"]
-environment = """
-TS_AUTHKEY=[[TAILSCALE__SOCKET]]
-
-
-"""
-
-##
-
 
 [[build]]
 name = "komodo-op"
