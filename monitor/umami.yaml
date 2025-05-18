@@ -5,7 +5,7 @@ services:
     environment:
       DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD}@db:5432/umami
       DATABASE_TYPE: postgresql
-      APP_SECRET: ${APP_SECRET}
+      APP_SECRET: ${UMAMI_APP_SECRET}
     init: true
     restart: always
     # ports:
@@ -30,22 +30,22 @@ services:
       - kop.namespace=public
 
   db:
-      image: postgres:15-alpine
-      container_name: umami-db
-      networks:
-        - stack
-      environment:
-        POSTGRES_DB: umami
-        POSTGRES_USER: umami
-        POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD}
-      volumes:
-        - ${DOCKERM}/umami-db:/var/lib/postgresql/data
-      restart: always
-      healthcheck:
-        test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
-        interval: 5s
-        timeout: 5s
-        retries: 5
+    image: postgres:15-alpine
+    container_name: umami-db
+    networks:
+      - stack
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD}
+    volumes:
+      - ${DOCKERM}/umami:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   db-backup:
     container_name: umami-db-backup
@@ -54,31 +54,21 @@ services:
       - stack
     volumes:
       - ${DOCKERM}/dumps/umami:/backup
-      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
     environment:
       - TIMEZONE=${TZ}
       - CONTAINER_NAME=umami-db-backup
       - CONTAINER_ENABLE_MONITORING=FALSE
       # - DEBUG_MODE=TRUE
 
-      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330      # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
 
       - DB01_TYPE=postgres
       - DB01_HOST=db
       - DB01_NAME=umami
       - DB01_USER=umami
       - DB01_PASS=${UMAMI_DB_PASSWORD}
-      # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
-      # - DB01_BACKUP_BEGIN=+10           # (override) Backup starts in ten minutes
-      # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
-      # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
-      # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
-
-
-
-

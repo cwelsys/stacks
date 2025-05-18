@@ -334,6 +334,7 @@ file_paths = [
   "dozzle.yaml",
   "beszel.yaml",
   "influx.yaml",
+  "umami.yaml",
   "../pbox.yaml",
 ]
 environment = """
@@ -341,6 +342,8 @@ INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
 BESZEL_KEY=[[BESZEL__KEY]]
 SPEED_API=[[SPEEDTEST__API]]
+UMAMI_APP_SECRET=[[UMAMI__SECRET]]
+UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 """
 
 ##
@@ -432,21 +435,6 @@ TS_AUTHKEY=[[TAILSCALE__SOCKET]]
 
 ##
 
-[[stack]]
-name = "web"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "monitor"
-file_paths = ["umami.yaml", "../pbox.yaml"]
-environment = """
-APP_SECRET=[[UMAMI__SECRET]]
-UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
-"""
-
-##
 
 [[build]]
 name = "komodo-op"
