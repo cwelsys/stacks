@@ -2,6 +2,9 @@ services:
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
+    networks:
+      - internal
+      - media
     environment:
       - PUID=1001
       - PGID=1001
@@ -35,10 +38,14 @@ services:
       - traefik.http.routers.plex.rule=Host(`plex.${DOMAIN}`)
       - traefik.http.services.plex.loadbalancer.server.port=32400
       - traefik.docker.network=internal
-    networks:
-      - internal
-      - media
-
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
