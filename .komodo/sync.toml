@@ -36,10 +36,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
-file_paths = [
-  "authentik.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["authentik.yaml", "../../pbox.yaml"]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -84,10 +81,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps"
-file_paths = [
-  "codeserver.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["codeserver.yaml", "../pbox.yaml"]
 
 ##
 
@@ -156,7 +150,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -189,11 +183,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = [
-  "tortun.yaml",
-  "sab.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["tortun.yaml", "sab.yaml", "../../pbox.yaml"]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -211,10 +201,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = [
-  "external.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["external.yaml", "../../pbox.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 CF_TRAEFIK_TUNNEL_TOKEN=[[CLOUDFLARE__TUNNEL]]
@@ -241,35 +228,13 @@ GITEA_RUNNER_TOKEN=[[GITEA__RUNNER]]
 ##
 
 [[stack]]
-name = "immich"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "media/consume"
-file_paths = ["immich.yaml", "../../pbox.yaml"]
-environment = """
-DB_PASSWORD=[[IMMICH__POSTGRES]]
-UPLOAD_LOCATION=/mnt/media/image
-DB_USERNAME=immich
-DB_DATABASE_NAME=immich
-DB_DATA_LOCATION=/opt/docker/immich-db
-"""
-
-##
-
-[[stack]]
 name = "internal"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = [
-  "internal.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["internal.yaml", "../../pbox.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -337,10 +302,11 @@ file_paths = [
   "plex.yaml",
   "jellyfin.yaml",
   "stash.yaml",
+  "immich.yaml",
   "calibre.yaml",
   "freshrss.yaml",
   "romm.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -348,6 +314,11 @@ MARIADB_PW=[[ROMM__MARIADB]]
 ROMM_DB_PW=[[ROMM__ROMMDB]]
 IGDB_CLIENT_ID=[[ROMM__IGDB_ID]]
 IGDB_CLIENT_SECRET=[[ROMM__IGDB_SECRET]]
+DB_PASSWORD=[[IMMICH__POSTGRES]]
+UPLOAD_LOCATION=/mnt/media/image
+DB_USERNAME=immich
+DB_DATABASE_NAME=immich
+DB_DATA_LOCATION=/opt/docker/immich-db
 """
 
 ##
@@ -367,7 +338,7 @@ file_paths = [
   "dozzle.yaml",
   "beszel.yaml",
   "influx.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
