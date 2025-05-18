@@ -8,6 +8,7 @@ services:
       - ${DOCKERM}/backrest/config:/config
       - ${DOCKERM}/backrest/cache:/cache
       - ${DOCKERM}/backrest/tmp:/tmp
+      - /usr/bin/rclone:/usr/local/bin/rclone
       - /home/cwel/.config/rclone:/root/.config/rclone:ro 
       - ${FLASH}:${FLASH}
       - ${RUST}:${RUST}
