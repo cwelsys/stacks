@@ -5,6 +5,7 @@ services:
     container_name: speedtest-tracker
     networks:
       - internal
+      - monitor
     environment:
       - PUID=1000
       - PGID=1000
