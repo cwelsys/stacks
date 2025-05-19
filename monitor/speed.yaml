@@ -16,7 +16,7 @@ services:
       - APP_URL=https://speed.${DOMAIN}
       - ASSET_URL=https://speed.${DOMAIN}
     volumes:
-      - ${DOCKERM}/speed-db:/config
+      - ${DOCKERM}/speedtest:/config
     labels:
       - traefik.enable=true
       - traefik.http.routers.speed-test.rule=Host(`speed.${DOMAIN}`)
