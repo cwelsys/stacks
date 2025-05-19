@@ -53,7 +53,7 @@ services:
       # command to determine the id of the container running Traefik:
       TRAEFIK_CONTAINER_ID_COMMAND: docker ps --no-trunc --quiet --filter label=org.opencontainers.image.title=Traefik
 
-  tail-log:
+  tail-logi:
     container_name: tail-logi
     image: alpine
     volumes:
