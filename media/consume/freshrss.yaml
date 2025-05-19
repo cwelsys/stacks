@@ -11,8 +11,8 @@ services:
       options:
         max-size: 10m
     volumes:
-      - ${DOCKERM}/freshrss/data:/var/www/FreshRSS/data
-      - ${DOCKERM}/freshrss/extensions:/var/www/FreshRSS/extensions
+      - ${DOCKERM}/freshrss/app/data:/var/www/FreshRSS/data
+      - ${DOCKERM}/freshrss/app/extensions:/var/www/FreshRSS/extensions
     environment:
       TZ: ${TZ}
       CRON_MIN: '3,33'
@@ -23,10 +23,10 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:-freshrss}
       BASE_URL: https://frss.cwel.sh
     labels:
-     - traefik.enable=true
-     - traefik.http.routers.freshrss.rule=Host(`frss.${DOMAIN}`)
-     - traefik.http.services.freshrss.loadbalancer.server.port=80
-     - traefik.docker.network=internal
+      - traefik.enable=true
+      - traefik.http.routers.freshrss.rule=Host(`frss.${DOMAIN}`)
+      - traefik.http.services.freshrss.loadbalancer.server.port=80
+      - traefik.docker.network=internal
 
   freshrss-db:
     image: postgres:17
@@ -39,7 +39,7 @@ services:
       options:
         max-size: 10m
     volumes:
-      - ${DOCKERM}/freshrss-db:/var/lib/postgresql/data
+      - ${DOCKERM}/freshrss/data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${DB_BASE:-freshrss}
       POSTGRES_USER: ${DB_USER:-freshrss}
