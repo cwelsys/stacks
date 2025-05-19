@@ -3,6 +3,8 @@ name = "pbox"
 [server.config]
 address = "https://host.docker.internal:8120"
 enabled = true
+cpu_warning = 92.0
+disk_warning = 80.0
 
 ##
 
