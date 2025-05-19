@@ -17,11 +17,10 @@
     disk:
       - /
       - /mnt/cache/cache1
-      #   - /mnt/media
       - /mnt/bool
       - /mnt/backup
 
-- resource:
+- resources:
     disk:
       - /mnt/media
 
