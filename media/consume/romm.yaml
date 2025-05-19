@@ -17,12 +17,11 @@ services:
       - ROMM_AUTH_SECRET_KEY=${ROMM_AUTH} # Generate a key with `openssl rand -hex 32`
       - IGDB_CLIENT_ID=${IGDB_CLIENT_ID} # Generate an ID and SECRET in IGDB
       - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET} # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#igdb
-      #- MOBYGAMES_API_KEY= # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#mobygames
-      #- STEAMGRIDDB_API_KEY= # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#steamgriddb
+      - STEAMGRIDDB_API_KEY=${STEAMGRID_API_KEY} # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#steamgriddb
       #- SCREENSCRAPER_USER= # Use your ScreenScraper username and password
       #- SCREENSCRAPER_PASSWORD= # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#screenscraper
     volumes:
-      - ${DOCKERM}/romm:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
+      - ${DOCKERM}/romm/app:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
       - cache:/redis-data # Cached data for background tasks
       - ${FLASH}/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
       - ${FLASH}/romm/assets:/romm/assets # Uploaded saves, states, etc.
@@ -49,9 +48,9 @@ services:
       - MARIADB_USER=romm
       - MARIADB_PASSWORD=${ROMM_DB_PW}
     volumes:
-      - ${DOCKERM}/romm-db:/var/lib/mysql
+      - ${DOCKERM}/romm/data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
       start_period: 30s
       start_interval: 10s
       interval: 10s
