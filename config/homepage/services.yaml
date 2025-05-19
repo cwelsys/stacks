@@ -1,0 +1,507 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/ and https://gethomepage.dev/configs/service-widgets/
+
+- Calendar:
+    - Agenda:
+        icon: /images/proton-calendar.png
+        href: https://calendar.proton.me/u/0/
+        id: catppuccin-calendar
+        name: Agenda
+        widget:
+          type: calendar
+          view: agenda
+          maxEvents: 10
+          showTime: true
+          firstDayInWeek: sunday
+          integrations:
+            - type: ical
+              url: {{HOMEPAGE_VAR_PROTON_ICAL}}
+              name: Proton
+              color: blue
+            - type: ical
+              url: https://p24-calendars.icloud.com/holiday/US_en.ics
+              name: Holidays
+              color: yellow
+            - type: ical
+              url: https://ics.ecal.com/ecal-sub/67ec75df2727b0000808e2b3/NHL.ics
+              name: Caps
+              color: red
+            - type: sonarr
+              service_group: Management
+              service_name: Sonarr
+            - type: radarr
+              service_group: Management
+              service_name: Radarr
+    - Calendar:
+        icon: /images/proton-calendar.png
+        href: https://calendar.proton.me/u/0/
+        id: catppuccin-calendar
+        name: Calendar
+        widget:
+          type: calendar
+          view: monthly
+          showTime: true
+          firstDayInWeek: sunday
+          integrations:
+            - type: ical
+              url: {{HOMEPAGE_VAR_PROTON_ICAL}}
+              name: Proton
+              color: blue
+            - type: ical
+              url: https://p24-calendars.icloud.com/holiday/US_en.ics
+              name: Holidays
+              color: yellow
+            - type: ical
+              url: https://ics.ecal.com/ecal-sub/67ec75df2727b0000808e2b3/NHL.ics
+              name: Caps
+              color: red
+            - type: sonarr
+              service_group: Management
+              service_name: Sonarr
+            - type: radarr
+              service_group: Management
+              service_name: Radarr
+
+- Home:
+    - RSS:
+        icon: /images/freshrss.png
+        href: https://frss.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: freshrss
+        widget:
+          type: freshrss
+          url: https://frss.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+          username: cwel
+          password: {{HOMEPAGE_VAR_FRESHRSS_API_KEY}}
+
+    - Immich:
+        icon: /images/immich.png
+        href: https://img.cwel.sh
+        server: pbox
+        container: immich
+        widget:
+          type: immich
+          url: https://img.cwel.sh
+          fields: ['photos', 'videos', 'storage']
+          version: 2
+          key: {{HOMEPAGE_VAR_IMMICH_API_KEY}}
+
+    - Home Assistant:
+        icon: /images/home-assistant.png
+        href: https://home.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        widget:
+          type: homeassistant
+          url: https://home.cwel.sh
+          key: {{HOMEPAGE_VAR_HOMEASS_API_KEY}}
+
+    - Nextcloud:
+        icon: /images/nextcloud.png
+        href: https://cloud.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: nextcloud-aio-mastercontainer
+        widget:
+          type: nextcloud
+          url: https://cloud.cwel.sh
+          username: admin
+          password: {{HOMEPAGE_VAR_NEXTCLOUD_PW}}
+
+    - Gitea:
+        icon: /images/gitea.png
+        href: https://git.{{HOMEPAGE_VAR_DOMAIN_NAME}}
+        server: pbox
+        container: gitea
+        widget:
+          type: gitea
+          url: https://git.cwel.sh
+          key: {{HOMEPAGE_VAR_GITEA_API_KEY}}
+
+    - Mealie:
+        icon: /images/mealie.png
+        href: https://mealie.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: mealie-api
+        widget:
+          type: mealie
+          url: http://mealie-api:9000
+          key: {{HOMEPAGE_VAR_MEALIE_API_KEY}}
+
+    - Komodo:
+        icon: komodo.png
+        server: pbox
+        container: komodo
+        href: https://komo.{{HOMEPAGE_VAR_DOMAIN_NAME}}
+        widget:
+          type: customapi
+          url: https://komo.{{HOMEPAGE_VAR_DOMAIN_NAME}}/read
+          refreshInterval: 15000
+          method: POST
+          headers:
+            content-type: application/json
+            x-api-key: {{HOMEPAGE_VAR_KOMO_API_KEY}}
+            x-api-secret: {{HOMEPAGE_VAR_KOMO_API_SECRET}}
+          requestBody:
+            type: GetStacksSummary
+            params: {}
+
+          display: block
+          mappings:
+            - field: total
+              label: Total Stacks
+              format: number
+            - field: running
+              label: Running
+              format: number
+            - field: unhealthy
+              label: Unhealthy
+              format: number
+            - field: down
+              label: Stopped
+              format: number
+
+    - Dozzle:
+        icon: /images/dozzle.png
+        server: pbox
+        container: dozzle
+        href: https://logs.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+
+- Arr:
+    - Sabnzbd:
+        icon: /images/sabnzbd.png
+        href: https://sab.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: sabnzbd
+        widget:
+          type: sabnzbd
+          url: http://sabnzbd:8080
+          key: {{HOMEPAGE_VAR_SABNZBD_API_KEY}}
+
+    - qBittorrent:
+        icon: /images/qbittorrent.png
+        href: https://qbit.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: qbittorrent
+        widget:
+          type: qbittorrent
+          url: http://gluetun:8080
+          username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
+          password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
+
+    - Gluetun:
+        icon: /images/gluetun.png
+        server: pbox
+        container: gluetun
+        widget:
+          fields:
+            - public_ip
+            - region
+            - country
+          type: gluetun
+          url: http://gluetun:8000
+          key: {{HOMEPAGE_VAR_GLUETUN_API}}
+
+    - Prowlarr:
+        icon: /images/prowlarr.png
+        href: https://prowlarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: prowlarr
+        widget:
+          type: prowlarr
+          fields:
+            - numberOfGrabs
+            - numberOfQueries
+            - numberOfFailGrabs
+          url: http://prowlarr:9696
+          key: {{HOMEPAGE_VAR_PROWLARR_API_KEY}}
+
+    - Overseerr:
+        icon: /images/overseerr.png
+        href: https://req.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: overseerr
+        widget:
+          type: overseerr
+          url: http://overseerr:5055
+          key: {{HOMEPAGE_VAR_OVERSEERR_API_KEY}}
+
+    - Sonarr:
+        icon: /images/sonarr.png
+        href: https://sonarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: sonarr
+        widget:
+          type: sonarr
+          url: http://sonarr:8989
+          key: {{HOMEPAGE_VAR_SONARR_API_KEY}}
+
+    - Radarr:
+        icon: /images/radarr.png
+        href: https://radarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: radarr
+        widget:
+          type: radarr
+          url: http://radarr:7878
+          key: {{HOMEPAGE_VAR_RADARR_API_KEY}}
+
+    - Lidarr:
+        icon: /images/lidarr.png
+        href: https://lidarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: lidarr
+        widget:
+          type: lidarr
+          url: http://lidarr:8686
+          key: {{HOMEPAGE_VAR_LIDARR_API_KEY}}
+
+    - Readarr:
+        icon: /images/readarr.png
+        href: https://readarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: readarr
+        widget:
+          type: readarr
+          url: http://readarr:8787
+          key: {{HOMEPAGE_VAR_READARR_API_KEY}}
+
+    - Whisparr:
+        icon: /images/whisparr.png
+        href: https://whisparr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: whisparr
+        widget:
+          type: radarr
+          fields:
+            - movies
+            - missing
+          url: http://whisparr:6969
+          key: {{HOMEPAGE_VAR_WHISPARR_API_KEY}}
+
+    - Autobrr:
+        icon: /images/autobrr.png
+        href: https://brr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: autobrr
+        widget:
+          type: autobrr
+          url: https://brr.{{HOMEPAGE_VAR_DOMAIN_NAME}}
+          key: {{HOMEPAGE_VAR_AUTOBRR_API_KEY}}
+
+    - Bazarr:
+        icon: /images/bazarr.png
+        href: https://bazarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: bazarr
+        widget:
+          type: bazarr
+          url: http://bazarr:6767
+          key: {{HOMEPAGE_VAR_BAZARR_API_KEY}}
+
+- Media:
+    - Plex:
+        icon: /images/plex3.png
+        href: https://plex.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: plex
+        widget:
+          type: plex
+          fields:
+            - movies
+            - tv
+          url: http://plex:32400
+          key: {{HOMEPAGE_VAR_PLEX_API_KEY}}
+
+    - Jellyfin:
+        icon: /images/jellyfin.png
+        href: https://jellyfin.cwel.sh
+        server: pbox
+        container: jellyfin
+        widget:
+          type: jellyfin
+          url: http://jellyfin:8096
+          enableBlocks: true # optional, defaults to false
+          enableNowPlaying: true # optional, defaults to true
+          enableUser: true # optional, defaults to false
+          showEpisodeNumber: true # optional, defaults to false
+          expandOneStreamToTwoRows: false # optional, defaults to true
+          key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
+
+    - Tautulli:
+        icon: /images/tautulli.png
+        href: https://tautulli.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: tautulli
+        widget:
+          type: tautulli
+          url: http://tautulli:8181
+          key: {{HOMEPAGE_VAR_TAUTULLI_API_KEY}}
+
+    - Calibre:
+        icon: /images/calibreweb.png
+        href: https://calibre.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: calibre-web
+        widget:
+          type: calibreweb
+          fields:
+            - books
+          url: http://calibre-web:8083
+          username: admin
+          password: {{HOMEPAGE_VAR_CALIBRE_PASS}}
+
+    - Stash:
+        icon: /images/stash.png
+        href: https://stash.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: stash
+        widget:
+          type: stash
+          fields: ['scenes', 'images']
+          url: http://stash:9999
+          key: {{HOMEPAGE_VAR_STASH_API_KEY}}
+
+    - Romm:
+        icon: /images/romm.png
+        href: https://romm.cwel.sh
+        server: pbox
+        container: romm
+        widget:
+          type: romm
+          url: https://romm.cwel.sh
+          fields: ['platforms', 'totalRoms', 'saves', 'states']
+
+- System:
+    - Authentik:
+        icon: /images/authentik.png
+        href: https://auth.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        widget:
+          type: authentik
+          url: https://auth.cwel.sh
+          key: {{HOMEPAGE_VAR_AUTHENTIK_API}}
+
+    - Docker:
+        icon: sh-docker.png
+        server: pbox
+        container: komo-updates
+        widget:
+          type: customapi
+          url: http://komo-updates:5070/
+          refreshInterval: 30000
+          display: block
+          mappings:
+            - field: total
+              label: Containers
+              format: number
+            - field: updates
+              label: With Updates
+              format: number
+
+    - Beszel:
+        icon: beszel.png
+        href: https://bez.{{HOMEPAGE_VAR_DOMAIN_NAME}}/system/pbox
+        server: pbox
+        container: beszel
+        widget:
+          type: beszel
+          url: https://bez.cwel.sh
+          username: cwel@cwel.sh
+          password: {{HOMEPAGE_VAR_BESZEL_PW}}
+          systemId: 5v8evg82072c23f
+          version: 2
+
+    - Cloudflare:
+        icon: '/images/cloudflare (1).png'
+        href: https://dash.cloudflare.com/
+        server: pbox
+        container: cf-tunnel
+        widget:
+          type: cloudflared
+          accountid: {{HOMEPAGE_VAR_CLOUDFLARE_ACCOUNT_ID}}
+          tunnelid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID}}
+          key: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_API_KEY}}
+
+    - Crowdsec:
+        icon: /images/crowdsec.png
+        href: https://app.crowdsec.net/security-engines/
+        widget:
+          type: crowdsec
+          url: http://crowdsec:8080
+          username: {{HOMEPAGE_VAR_CROWDSEC_USERNAME}}
+          password: {{HOMEPAGE_VAR_CROWDSEC_PASSWORD}}
+
+    - DNS:
+        href: https://dns.cwel.sh
+        icon: /images/technitium.png
+        widget:
+          type: technitium
+          url: http://192.168.4.89:5380
+          key: {{HOMEPAGE_VAR_TECHNITIUM_API_KEY}}
+
+    - Tailscale:
+        href: https://login.tailscale.com/admin/machines
+        statusStyle: basic
+        icon: /images/tailscale.png
+        widget:
+          type: tailscale
+          deviceid: {{HOMEPAGE_VAR_TAILSCALE_DEVICE_ID}}
+          key: {{HOMEPAGE_VAR_TAILSCALE_API_KEY}}
+
+    - Netdata:
+        icon: /images/netdata.png
+        href: https://netdata.cwel.sh
+        widget:
+          type: netdata
+          url: http://192.168.4.89:19999
+
+    - Scrutiny:
+        icon: /images/scrutiny.png
+        href: https://scrutiny.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: scrutiny
+        widget:
+          type: scrutiny
+          url: http://scrutiny:8080
+
+    - Speedtest:
+        icon: /images/speedtest-tracker.png
+        href: https://speed.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: speedtest-tracker
+        widget:
+          type: speedtest
+          url: http://speedtest-tracker
+
+    - Traefik (Internal):
+        href: http://traefiki.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        icon: traefik-proxy.png
+        server: pbox
+        container: traefiki
+        widget:
+          type: traefik
+          url: http://traefiki:8080
+
+    - Traefik (External):
+        href: https://traefike.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        icon: traefik-proxy.png
+        server: pbox
+        container: traefike
+        widget:
+          type: traefik
+          url: http://192.168.4.89:8080
+
+    - Grafana:
+        icon: /images/grafana.png
+        href: https://grafana.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: grafana
+        widget:
+          type: grafana
+          url: https://grafana.{{HOMEPAGE_VAR_DOMAIN_NAME}}
+          username: admin
+          password: {{HOMEPAGE_VAR_GRAFANA_PASS}}
+
+    - Backrest:
+        icon: /images/restic.png
+        href: https://backrest.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: backrest

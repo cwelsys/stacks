@@ -1,0 +1,71 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/settings/
+
+layout:
+  Home:
+    header: false
+    # tab: Home
+    style: row
+    columns: 4
+  Arr:
+    # tab: Media
+    header: true
+    icon: mdi-pirate
+    style: row
+    columns: 4
+
+  Media:
+    # tab: Media
+    header: true
+    icon: mdi-play-box-multiple-outline
+    style: row
+    columns: 3
+
+  System:
+    icon: mdi-server
+    header: true
+    style: row
+    columns: 4
+
+  Apps:
+    icon: mdi-apps
+    header: true
+    style: row
+    columns: 4
+
+  Calendar:
+    # tab: Home
+    header: false
+    style: row
+    columns: 2
+
+  Bookmarks:
+    # tab: Home
+    icon: mdi-bookmark-multiple
+    style: row
+    header: true
+    columns: 4
+
+fiveColumns: true
+useEqualHeights: true
+hideErrors: true
+
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: true
+  hideVisitURL: true
+
+title: 唐人街
+favicon: /images/logo.png
+theme: dark
+description: and more
+statusStyle: 'dot'
+hideVersion: true
+color: gray
+cardBlur: xl
+headerStyle: boxed
+
+providers:
+  finnhub: {{HOMEPAGE_VAR_FINNHUB_TOKEN}}
+  openweathermap: {{HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN}}

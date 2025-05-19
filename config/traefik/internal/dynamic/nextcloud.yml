@@ -1,0 +1,32 @@
+http:
+  routers:
+    nextcloud:
+      entrypoints:
+        - 'websecure'
+      rule: 'Host(`cloud.cwel.sh`)'
+      middlewares:
+        - https-redirect
+        - nextcloud-secure-headers
+      tls:
+        domains:
+          - main: 'cloud.cwel.sh'
+      service: nextcloud
+  services:
+    nextcloud:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.4.89:11000'
+        passHostHeader: true
+  middlewares:
+    https-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    nextcloud-secure-headers:
+      headers:
+        hostsProxyHeaders:
+          - 'X-Forwarded-Host'
+        referrerPolicy: 'same-origin'
+        customResponseHeaders:
+          X-Robots-Tag: 'noindex,nofollow'
