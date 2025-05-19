@@ -3,12 +3,12 @@ services:
     image: gitea/gitea:latest
     container_name: gitea
     restart: unless-stopped
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'https://git.cwel.sh']
-      interval: 10s
-      retries: 3
-      start_period: 30s
-      timeout: 10s
+    # healthcheck:
+    #   test: ['CMD', 'curl', '-f', 'https://git.cwel.sh']
+    #   interval: 10s
+    #   retries: 3
+    #   start_period: 30s
+    #   timeout: 10s
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -50,10 +50,10 @@ services:
     restart: unless-stopped
     networks:
       - gitea
-    depends_on:
-      gitea:
-        condition: service_healthy
-        restart: true
+    # depends_on:
+    #   gitea:
+    #     condition: service_healthy
+    #     restart: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${DOCKERM}/gitea/runner/app:/data

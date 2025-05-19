@@ -36,10 +36,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
-file_paths = [
-  "authentik.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["authentik.yaml", "../../pbox.yaml"]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -62,6 +59,9 @@ run_directory = "apps"
 file_paths = ["homepage.yaml", "../pbox.yaml"]
 environment = """
 OPENWEATHERMAP_TOKEN=[[OPENWEATHERMAP__API]]
+HP_LOC_LABEL=[[HOMEPAGE__LOCATION]]
+HP_LOC_LAT=[[HOMEPAGE__LAT]]
+HP_LOC_LONG=[[HOMEPAGE__LONG]]
 TS_API=[[TAILSCALE__API]]
 CLOUDFLARE_API=[[CLOUDFLARE__API]]
 CLOUDFLARE_ACC_ID=[[CLOUDFLARE__ACCOUNT]]
@@ -116,7 +116,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -149,11 +149,7 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = [
-  "tortun.yaml",
-  "sab.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["tortun.yaml", "sab.yaml", "../../pbox.yaml"]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -195,7 +191,7 @@ file_paths = [
   "calibre.yaml",
   "freshrss.yaml",
   "romm.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -225,7 +221,7 @@ file_paths = [
   "beszel.yaml",
   "influx.yaml",
   "umami.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -245,12 +241,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = [
-  "internal.yaml",
-  "external.yaml",
-  "kop.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["internal.yaml", "external.yaml", "kop.yaml", "../../pbox.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -276,7 +267,7 @@ file_paths = [
   "mealie.yaml",
   "monkey.yaml",
   "posio.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 environment = """
 SMTP_USER=[[SMTP__USER]]
@@ -306,7 +297,7 @@ file_paths = [
   "it-tools.yaml",
   "codeserver.yaml",
   "linkding.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__SOCKET]]
