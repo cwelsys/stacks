@@ -8,6 +8,14 @@ disk_warning = 80.0
 
 ##
 
+[[server]]
+name = "stick"
+[server.config]
+address = "https://192.168.4.128:8120"
+enabled = true
+
+##
+
 [[stack]]
 name = "arr"
 [stack.config]
