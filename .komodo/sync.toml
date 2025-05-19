@@ -36,7 +36,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
-file_paths = ["authentik.yaml", "../../pbox.yaml"]
+file_paths = [
+  "authentik.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -117,7 +120,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -150,7 +153,11 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = ["tortun.yaml", "sab.yaml", "../../pbox.yaml"]
+file_paths = [
+  "tortun.yaml",
+  "sab.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -192,7 +199,7 @@ file_paths = [
   "calibre.yaml",
   "freshrss.yaml",
   "romm.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -209,6 +216,7 @@ IMMICH_PG_PASS=[[IMMICH__POSTGRES]]
 name = "monitor"
 [stack.config]
 server = "pbox"
+poll_for_updates = true
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
@@ -222,7 +230,7 @@ file_paths = [
   "beszel.yaml",
   "influx.yaml",
   "umami.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -239,10 +247,16 @@ UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 name = "proxy"
 [stack.config]
 server = "pbox"
+poll_for_updates = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["internal.yaml", "external.yaml", "kop.yaml", "../../pbox.yaml"]
+file_paths = [
+  "internal.yaml",
+  "external.yaml",
+  "kop.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -258,6 +272,8 @@ BOUNCER_HOST=crowdsec:8080
 name = "services"
 [stack.config]
 server = "pbox"
+poll_for_updates = true
+auto_update = true
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
@@ -268,7 +284,7 @@ file_paths = [
   "mealie.yaml",
   "monkey.yaml",
   "posio.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 SMTP_USER=[[SMTP__USER]]
@@ -287,6 +303,7 @@ CHROME_TOKEN=[[RXRESUME__CHROME]]
 name = "utils"
 [stack.config]
 server = "pbox"
+auto_update = true
 git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
@@ -298,7 +315,7 @@ file_paths = [
   "it-tools.yaml",
   "codeserver.yaml",
   "linkding.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__SOCKET]]
