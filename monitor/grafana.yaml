@@ -128,26 +128,6 @@ services:
     networks:
       - monitor
 
-  # influxdb:
-  #   image: influxdb:2.7
-  #   container_name: influxdb2
-  #   restart: unless-stopped
-  #   networks:
-  #     - monitor
-  #   expose:
-  #     - 8086
-  #   environment:
-  #     - DOCKER_INFLUXDB_INIT_USERNAME=admin
-  #     - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASS}
-  #     - DOCKER_INFLUXDB_INIT_ORG=influx-org
-  #     - DOCKER_INFLUXDB_INIT_BUCKET=influx-bucket
-  #     - DOCKER_INFLUXDB_INIT_RETENTION=30d
-  #     - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
-  #     - DOCKER_INFLUXDB_INIT_MODE=setup
-  #   volumes:
-  #     - ${DOCKERM}/influxdb:/var/lib/influxdb2
-  #     - ${DOCKERM}/influxdb-cfg:/etc/influxdb2
-
 volumes:
   prometheus:
     name: prometheus
