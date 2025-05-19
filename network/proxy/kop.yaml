@@ -1,34 +1,34 @@
 services:
-  traefik-kop-public:
+  ext-kop:
     container_name: ext-kop
-    image: "ghcr.io/jittering/traefik-kop:latest"
+    image: 'ghcr.io/jittering/traefik-kop:latest'
     restart: unless-stopped
     environment:
-      - "REDIS_ADDR=ext-redis:6379"
-      - "NAMESPACE=public"
-      - "DOCKER_HOST=tcp://socket-proxy:2375"
-      - "KOP_HOSTNAME=${HOSTNAME}-public"
-      - "BIND_IP=${SERVER_IP}"
+      - 'REDIS_ADDR=ext-redis:6379'
+      - 'NAMESPACE=public'
+      - 'DOCKER_HOST=tcp://kop-sockp:2375'
+      - 'KOP_HOSTNAME=${HOSTNAME}-public'
+      - 'BIND_IP=${SERVER_IP}'
     depends_on:
-      - socket-proxy
+      - kop-sockp
     networks:
       - kop
       - stack
-  traefik-kop-internal:
+  int-kop:
     container_name: int-kop
-    image: "ghcr.io/jittering/traefik-kop:latest"
+    image: 'ghcr.io/jittering/traefik-kop:latest'
     restart: unless-stopped
     environment:
-      - "REDIS_ADDR=int-redis:6379"
-      - "DOCKER_HOST=tcp://socket-proxy:2375"
-      - "KOP_HOSTNAME=${HOSTNAME}-internal"
-      - "BIND_IP=${SERVER_IP}"
+      - 'REDIS_ADDR=int-redis:6379'
+      - 'DOCKER_HOST=tcp://kop-sockp:2375'
+      - 'KOP_HOSTNAME=${HOSTNAME}-internal'
+      - 'BIND_IP=${SERVER_IP}'
     depends_on:
-      - socket-proxy
+      - kop-sockp
     networks:
       - kop
       - stack
-  socket-proxy:
+  kop-sockp:
     container_name: kop-sockp
     image: lscr.io/linuxserver/socket-proxy:latest
     networks:
@@ -51,4 +51,3 @@ services:
     read_only: true
     tmpfs:
       - /run
-
