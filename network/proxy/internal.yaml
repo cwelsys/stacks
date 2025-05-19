@@ -27,7 +27,7 @@ services:
       traefik.http.routers.traefik-dashboard-internal.rule: Host(`traefiki.${DOMAIN}`)
       traefik.http.routers.traefik-dashboard-internal.service: api@internal
 
-  logrotate:
+  int-logrotate:
     container_name: int-logrotate
     image: vegardit/traefik-logrotate:latest
     network_mode: none
