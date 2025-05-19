@@ -321,8 +321,9 @@ KOMO_API_SECRET=[[KOMODO__API_SECRET]]
 name = "komodo-op"
 [build.config]
 builder = "local"
-git_account = "cwelsys"
-repo = "cwelsys/komodo-op"
+git_provider = "git.cwel.sh"
+git_account = "cwel"
+repo = "cwel/komodo-op"
 
 ##
 
