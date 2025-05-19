@@ -6,13 +6,13 @@ services:
     networks:
       - stack
     volumes:
-      - ${DOCKERM}/rx-db:/var/lib/postgresql/data
+      - ${DOCKERM}/rxresume/data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: rxres
       POSTGRES_PASSWORD: ${RX_PG_PASS}
       POSTGRES_DB: rxres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U rxres -d rxres"]
+      test: ['CMD-SHELL', 'pg_isready -U rxres -d rxres']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -26,7 +26,7 @@ services:
     networks:
       - internal
     volumes:
-      - ${DOCKERM}/minio:/data
+      - ${DOCKERM}/rxresume/minio:/data
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: ${MINIO_PW}
@@ -44,11 +44,11 @@ services:
     networks:
       - internal
     environment:
-      HEALTH: "true"
+      HEALTH: 'true'
       TOKEN: ${CHROME_TOKEN}
-      PROXY_HOST: "crum.cwel.sh"
+      PROXY_HOST: 'crum.cwel.sh'
       PROXY_PORT: 443
-      PROXY_SSL: "true"
+      PROXY_SSL: 'true'
     labels:
       - traefik.enable=true
       - traefik.http.routers.crum.rule=Host(`crum.${DOMAIN}`)
@@ -97,15 +97,14 @@ services:
       STORAGE_BUCKET: default
       STORAGE_ACCESS_KEY: minioadmin
       STORAGE_SECRET_KEY: ${MINIO_PW}
-      STORAGE_USE_SSL: "false"
-      STORAGE_SKIP_BUCKET_CHECK: "false"
+      STORAGE_USE_SSL: 'false'
+      STORAGE_SKIP_BUCKET_CHECK: 'false'
 
     labels:
       - traefik.enable=true
       - traefik.http.routers.app.rule=Host(`resume.${DOMAIN}`)
       - traefik.http.services.app.loadbalancer.server.port=3000
       - traefik.docker.network=internal
-
 
   db-backup:
     container_name: rxres-db-backup
@@ -114,28 +113,20 @@ services:
       - stack
     volumes:
       - ${DOCKERM}/dumps/rxresume:/backup
-      #- ./post-script.sh:/assets/custom-scripts/post-script.sh
     environment:
       - TIMEZONE=${TZ}
       - CONTAINER_NAME=rxres-db-backup
       - CONTAINER_ENABLE_MONITORING=FALSE
       # - DEBUG_MODE=TRUE
 
-      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330      # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
-
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
       - DB01_TYPE=postgres
       - DB01_HOST=rxdb
       - DB01_NAME=rxres
       - DB01_USER=rxres
       - DB01_PASS=${RX_PG_PASS}
-      # - DB01_BACKUP_INTERVAL=60         # (override) Backup every 60 minutes
-      # - DB01_BACKUP_BEGIN=+10           # (override) Backup starts in ten minutes
-      # - DB01_CLEANUP_TIME=240         # (override) Cleanup backups they are older than 240 minutes
-      # - DB01_CHECKSUM=MD5             # (override) Create a SHA1 checksum
-      # - DB01_COMPRESSION=BZ           # (override) Compress with BZIP
-
