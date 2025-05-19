@@ -139,5 +139,5 @@ services:
       - /var/log/messages:/var/log/messages:ro
       - /var/log/secure:/var/log/secure:ro
       - ${DOCKERM}/crowdsec/config:/etc/crowdsec
-      - ${DOCKERM}/crowdsec-db:/var/lib/crowdsec/data
+      - ${DOCKERM}/crowdsec/data:/var/lib/crowdsec/data
       - ${DOCKERM}/crowdsec/logs:/var/log/crowdsec
