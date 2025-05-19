@@ -12,7 +12,7 @@ http:
     crowdsec:
       plugin:
         csbouncer:
-          #logLevel: DEBUG
+          # logLevel: DEBUG
           enabled: true
           httpTimeoutSeconds: 2
           banHTMLFilePath: /config/ban.html
@@ -28,8 +28,8 @@ http:
       headers:
         customResponseHeaders: # field names are case-insensitive
           #X-Robots-Tag: "all,noarchive,nosnippet,notranslate,noimageindex"
-          Server: "" # prevent version disclosure
-          X-Powered-By: "" # prevent version disclosure
+          Server: '' # prevent version disclosure
+          X-Powered-By: '' # prevent version disclosure
           #X-Forwarded-Proto: "https"
           #Permissions-Policy: "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), storage-access=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()"
           #Cross-Origin-Embedder-Policy: "unsafe-none"
@@ -38,13 +38,13 @@ http:
         # sslProxyHeaders:
         #   X-Forwarded-Proto: "https"
         hostsProxyHeaders:
-          - "X-Forwarded-Host"
+          - 'X-Forwarded-Host'
         # customRequestHeaders:
         #   X-Forwarded-Proto: "https"
         contentTypeNosniff: true # X-Content-Type-Options
-        customFrameOptionsValue: "SAMEORIGIN" # X-Frame-Options
+        customFrameOptionsValue: 'SAMEORIGIN' # X-Frame-Options
         browserXssFilter: false # X-XSS-Protection; deprecated
-        referrerPolicy: "strict-origin-when-cross-origin" # Referrer-Policy
+        referrerPolicy: 'strict-origin-when-cross-origin' # Referrer-Policy
         forceSTSHeader: true # HTTP-Strict-Transport-Security (HSTS)
         stsIncludeSubdomains: true # HTTP-Strict-Transport-Security (HSTS)
         stsSeconds: 63072000 # HTTP-Strict-Transport-Security (HSTS)
@@ -58,7 +58,7 @@ http:
   routers:
     # remove this if you would prefer non-matched routes to 404 instead of redirect to MY_SITE.com
     catchall:
-      rule: "PathPrefix(`/`)"
+      rule: 'PathPrefix(`/`)'
       priority: 1
       middlewares: anyreg
       service: noop@internal

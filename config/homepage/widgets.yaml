@@ -17,9 +17,13 @@
     disk:
       - /
       - /mnt/cache/cache1
-      - /mnt/media
+      #   - /mnt/media
       - /mnt/bool
       - /mnt/backup
+
+- resource:
+    disk:
+      - /mnt/media
 
 - datetime:
     text_size: sm
