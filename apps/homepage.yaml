@@ -56,7 +56,6 @@ services:
       - HOMEPAGE_VAR_AUTOBRR_API_KEY=${AUTOBRR_API_KEY}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
-      - ${DOCKERM}/homepage/kubernetes.yaml:/app/config/kubernetes.yaml
       - ${DOCKERM}/homepage/icons:/app/public/images
       # - /mnt/:/mnt:ro
     restart: always
