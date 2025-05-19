@@ -16,6 +16,7 @@ services:
     environment:
       - APACHE_PORT=11000
       - NEXTCLOUD_MOUNT=/mnt
+      - NEXTCLOUD_DATADIR=/opt/docker/nextcloud
 
   protonmail-bridge:
     image: shenxn/protonmail-bridge
