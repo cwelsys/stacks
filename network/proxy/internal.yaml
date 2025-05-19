@@ -1,5 +1,5 @@
 services:
-  traefik:
+  traefiki:
     container_name: traefiki
     image: traefik:latest
     networks:
@@ -33,7 +33,7 @@ services:
     network_mode: none
     restart: unless-stopped
     depends_on:
-      - traefik
+      - traefiki
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
       - /var/log/traefik/internal:/var/log/traefik:rw # folder containing access.log file
@@ -62,7 +62,7 @@ services:
       sh -c "tail -F /var/log/access.log"
     network_mode: none
     depends_on:
-      - traefik
+      - traefiki
     restart: unless-stopped
 
   int-redis:

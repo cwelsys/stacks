@@ -1,5 +1,5 @@
 services:
-  traefik:
+  traefike:
     container_name: traefike
     image: traefik:latest
     restart: unless-stopped
