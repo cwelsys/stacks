@@ -53,7 +53,7 @@ services:
       - HOMEPAGE_VAR_AUTOBRR_API_KEY=${AUTOBRR_API_KEY}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
-      - ${CONFIGDIR}/icons:/app/public/images
+      - ${DOCKERM}/homepage/icons:/app/public/images
       # - /mnt/:/mnt:ro
     restart: always
     labels:
@@ -92,7 +92,7 @@ services:
       sh -c "pip install flask requests python-dotenv &&
              python /app/komotainers.py"
     volumes:
-      - ${CONFIGDIR}/homepage/custom:/app:ro
+      - ${DOCKERM}/homepage/custom:/app:ro
     networks:
       - internal
     ports:

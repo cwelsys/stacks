@@ -460,11 +460,11 @@ accounts = [
 # ]
 # organizations = ["DockerhubOrganization"]
 
-# [[docker_registry]]
-# domain = "git.mogh.tech" # use a custom provider, like self-hosted gitea
-# accounts = [
-# 	{ username = "mbecker20", token = "access_token_for_account" },
-# ]
+[[docker_registry]]
+domain = "git.cwel.sh" # use a custom provider, like self-hosted gitea
+accounts = [
+	{ username = "cwel", token = "op://Secrets/Git/Gitea/pat" },
+]
 # organizations = ["Mogh"] # These become available in the UI
 
 ###########
@@ -478,6 +478,6 @@ accounts = [
 ## but you can also limit access more by placing them in a single Periphery's config file instead.
 ## These cannot be configured in the Komodo Core environment, they must be passed in the file.
 
-[secrets]
+#[secrets]
 # SECRET_1 = "value_1"
 # SECRET_2 = "value_2"

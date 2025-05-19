@@ -4,7 +4,7 @@ services:
     container_name: gitea
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://git.cwel.sh"]
+      test: ['CMD', 'curl', '-f', 'https://git.cwel.sh']
       interval: 10s
       retries: 3
       start_period: 30s
@@ -21,16 +21,16 @@ services:
       - 3000
       - 22
     volumes:
-      - ${DOCKERM}/gitea:/data
+      - ${DOCKERM}/gitea/app:/data
       - /etc/localtime:/etc/localtime:ro
     networks:
-     - internal
-     - gitea
+      - internal
+      - gitea
     labels:
-     - traefik.enable=true
-     - traefik.http.routers.gitea.rule=Host(`git.${DOMAIN}`)
-     - traefik.http.services.gitea.loadbalancer.server.port=3000
-     - traefik.docker.network=internal
+      - traefik.enable=true
+      - traefik.http.routers.gitea.rule=Host(`git.${DOMAIN}`)
+      - traefik.http.services.gitea.loadbalancer.server.port=3000
+      - traefik.docker.network=internal
 
   git-db:
     container_name: git-db
@@ -42,7 +42,7 @@ services:
     networks:
       - gitea
     volumes:
-      - ${DOCKERM}/git-db:/var/lib/postgresql/data
+      - ${DOCKERM}/gitea/data:/var/lib/postgresql/data
 
   runner:
     image: docker.io/gitea/act_runner:nightly
@@ -56,8 +56,8 @@ services:
         restart: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${DOCKERM}/git-runner/data:/data
-      - ${DOCKERM}/git-runner/config.yaml:/config.yaml
+      - ${DOCKERM}/gitea/runner/app:/data
+      - ${DOCKERM}/gitea/runner/config.yaml:/config.yaml
     environment:
       - CONFIG_FILE=/config.yaml
       - GITEA_INSTANCE_URL=https://git.cwel.sh
@@ -70,24 +70,20 @@ services:
     networks:
       - gitea
     volumes:
-       - ${BRICK}/dumps/gitea:/backup
+      - ${BRICK}/dumps/gitea:/backup
     environment:
       - TIMEZONE=${TZ}
       - CONTAINER_NAME=git-db-backup
       - CONTAINER_ENABLE_MONITORING=FALSE
       # - DEBUG_MODE=TRUE
-      - BACKUP_JOB_CONCURRENCY=1     # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE        # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD     # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440   # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330      # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640    # Cleanup backups after a week
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
       - DB01_TYPE=postgres
       - DB01_HOST=git-db
       - DB01_NAME=gitea
       - DB01_USER=gitea
       - DB01_PASS=${GIT_PG_PASS}
-
-
-
-

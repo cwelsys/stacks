@@ -148,17 +148,17 @@ logging.opentelemetry_service_name = "Periphery"
 ## They cannot be configured on the environment.
 
 ## configure git providers
-#[[git_provider]]
-#domain = "github.com"
-#accounts = [
-#	{ username = "cwelsys", token = "op://Secrets/Git/github token" },
-#]
+# [[git_provider]]
+# domain = "github.com"
+# accounts = [
+# 	{ username = "cwelsys", token = "op://Secrets/Git/github token" },
+# ]
 
-#[[git_provider]]
-#domain = "git.cwel.sh" # use a custom provider, like self-hosted gitea
-#accounts = [
-#	{ username = "cwel", token = "op://Secrets/Git/gitea token" },
-#]
+# [[git_provider]]
+# domain = "git.cwel.sh" # use a custom provider, like self-hosted gitea
+# accounts = [
+# 	{ username = "cwel", token = "op://Secrets/Git/gitea token" },
+# ]
 
 # [[git_provider]]
 # domain = "localhost:8000" # use a custom provider, like self-hosted gitea
@@ -201,6 +201,6 @@ logging.opentelemetry_service_name = "Periphery"
 ## but you can also limit access more by placing them in a single Periphery's config file instead.
 ## These cannot be configured in the Komodo Core environment, they must be passed in the file.
 
-[secrets]
+#[secrets]
 # SECRET_1 = "value_1"
 # SECRET_2 = "value_2"

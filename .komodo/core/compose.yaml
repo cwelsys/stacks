@@ -20,7 +20,7 @@ services:
     # ports:
     #   - 27017:27017
     volumes:
-      - ${DOCKERM:-./}/komo-db:/data/db
+      - ${DOCKERM:-./}/komodo:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}

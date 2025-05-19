@@ -2,28 +2,27 @@
 set -e
 
 # Check if 1Password CLI is installed
-if ! command -v op &> /dev/null; then
+if ! command -v op &>/dev/null; then
     echo "Error: 1Password CLI is not installed. Please install it first."
     echo "Visit https://1password.com/downloads/command-line/ for instructions."
     exit 1
 fi
 
 # Check if 1Password is signed in
-if ! op user list &> /dev/null; then
+if ! op user list &>/dev/null; then
     echo "Error: You are not signed in to 1Password CLI."
     echo "Please run 'op signin' before running this script."
     exit 1
 fi
 
 # Check for Python 3
-if ! command -v python3 &> /dev/null; then
+if ! command -v python3 &>/dev/null; then
     echo "Error: Python 3 is required but not installed."
     exit 1
 fi
 
 # Check if Docker is installed
-if ! command -v docker &> /dev/null
-then
+if ! command -v docker &>/dev/null; then
     echo "Docker could not be found. Please install Docker and try again."
     exit 1
 fi
@@ -38,14 +37,12 @@ docker network create --driver=bridge --internal --attachable crowdsec
 docker network create --driver bridge --subnet 172.28.0.0/16 traefik
 docker network create --driver bridge --attachable gitea
 docker network create --driver bridge --attachable media
-docker network create --driver bridge --attachable monitoring
+docker network create --driver bridge --attachable monitor
 docker network create --driver bridge --attachable nextcloud
 docker volume create repo-cache
 
-
 echo "Installing Komodo Periphery..."
 curl -sSL https://raw.githubusercontent.com/moghtech/komodo/main/scripts/setup-periphery.py | python3 - --user
-
 
 echo "Generating configuration from template..."
 if [ ! -f periphery/periphery.config.toml.tpl ]; then
@@ -62,8 +59,8 @@ else
     exit 1
 fi
 
-mv $HOME/.config/komodo/periphery.config.toml periphery.config.toml.bak
-mv periphery.config.toml $HOME/.config/komodo
+mv "$HOME"/.config/komodo/periphery.config.toml periphery.config.toml.bak
+mv periphery.config.toml "$HOME"/.config/komodo
 
 if [ ! -f core/.env.tpl ]; then
     echo "Error: Template file .env.tpl not found."
@@ -91,14 +88,14 @@ else
     exit 1
 fi
 
-if [ ! -f secrets/.env.tpl ]; then
+if [ ! -f /opt/docker/homepage/custom/.env.tpl ]; then
     echo "Error: Template file .env.tpl not found."
     exit 1
 fi
 
-op inject -i secrets/.env.tpl -o secrets/.env
+op inject -i /opt/docker/homepage/custom/.env.tpl -o /opt/docker/homepage/custom/.env
 if [ $? -eq 0 ]; then
-    echo "Configuration file: $(realpath secrets/.env)"
+    echo "Configuration file: $(realpath /opt/docker/homepage/custom/.env.tpl)"
 else
     echo "Error: Failed to generate configuration file."
     exit 1
