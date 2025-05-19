@@ -210,7 +210,6 @@ file_paths = [
   "jellyfin.yaml",
   "stash.yaml",
   "immich.yaml",
-  "calibre.yaml",
   "freshrss.yaml",
   "romm.yaml",
   "../../pbox.yaml"
