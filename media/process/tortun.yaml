@@ -39,7 +39,7 @@ services:
       - ${DOCKERM}/gluetun/config.toml:/gluetun/auth/config.toml:ro
     labels:
       - traefik.enable=true
-      - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.${DOMAIN}`)
+      - traefik.http.routers.qbittorrent.rule=Host(`qbit.${DOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
     environment:
