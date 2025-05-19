@@ -17,6 +17,7 @@ services:
     environment:
       - APACHE_PORT=11000
       - NEXTCLOUD_MOUNT=/mnt/bool/nextcloud
+      - NEXTCLOUD_ENABLE_NVIDIA_GPU=true
 
   protonmail-bridge:
     image: shenxn/protonmail-bridge
