@@ -13,6 +13,10 @@ name = "stick"
 [server.config]
 address = "https://192.168.4.128:8120"
 enabled = true
+send_unreachable_alerts = false
+send_cpu_alerts = false
+send_mem_alerts = false
+send_disk_alerts = false
 
 ##
 
