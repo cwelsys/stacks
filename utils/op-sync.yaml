@@ -23,7 +23,7 @@ services:
 
   komodo-op:
     container_name: komodo-op
-    image: git.cwel.sh/cwel/komodo-op
+    image: ghcr.io/cwelsys/komodo-op:latest
     depends_on:
       - op-connect-api
     environment:
