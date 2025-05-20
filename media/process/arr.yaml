@@ -340,7 +340,8 @@ services:
       FAILED_IMPORT_MESSAGE_PATTERNS: '
         [
         "Not a Custom Format upgrade for existing",
-        "Not an upgrade for existing"
+        "Not an upgrade for existing",
+        "Caution: Found potentially dangerous file with extension: .arj"
         ]'
 
       ## Radarr
