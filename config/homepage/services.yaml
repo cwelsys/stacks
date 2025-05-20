@@ -336,18 +336,27 @@
           url: http://tautulli:8181
           key: {{HOMEPAGE_VAR_TAUTULLI_API_KEY}}
 
-    - Calibre:
-        icon: /images/calibreweb.png
-        href: https://calibre.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+    - Kavita:
+        icon: /images/kavita.png
+        href: https://kavita.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
         server: pbox
-        container: calibre-web
+        container: kavita
         widget:
-          type: calibreweb
+          type: kavita
           fields:
             - books
-          url: http://calibre-web:8083
-          username: admin
-          password: {{HOMEPAGE_VAR_CALIBRE_PASS}}
+          url: http://kavita:5000
+          key: {{HOMEPAGE_VAR_KAVIA_API_KEY}}
+
+    - Audiobookshelf:
+        icon: /images/audiobookshelf.png
+        href: https://abs.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+        server: pbox
+        container: audiobookshelf
+        widget:
+          type: audiobookshelf
+          url: http://audiobookshelf:80
+          key: {{HOMEPAGE_VAR_ABS_API_KEY}}
 
     - Stash:
         icon: /images/stash.png

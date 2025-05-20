@@ -54,6 +54,8 @@ services:
       - HOMEPAGE_VAR_KOMO_API_SECRET=${KOMO_API_SECRET}
       - HOMEPAGE_VAR_FRESHRSS_API_KEY=${FRESHRSS_API_KEY}
       - HOMEPAGE_VAR_AUTOBRR_API_KEY=${AUTOBRR_API_KEY}
+      - HOMEPAGE_VAR_ABS_API_KEY=${ABS_API_KEY}
+      - HOMEPAGE_VAR_KAVITA_API_KEY=${KAVITA_API_KEY}
     volumes:
       - ${CONFIGDIR}/homepage:/app/config
       - ${DOCKERM}/homepage/icons:/app/public/images
