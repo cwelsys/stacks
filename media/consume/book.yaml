@@ -1,4 +1,26 @@
 services:
+  kavita:
+    image: lscr.io/linuxserver/kavita:latest
+    container_name: kavita
+    networks:
+      - internal
+      - media
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/kavita:/config
+      - ${RUST}/book:/data
+    # ports:
+    #   - 5000:5000
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.kavita.rule=Host(`kavita.${DOMAIN}`)
+      - traefik.http.services.kavita.loadbalancer.server.port=5000
+      - traefik.docker.network=internal
+
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
     container_name: audiobookshelf
