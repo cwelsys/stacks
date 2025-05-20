@@ -377,6 +377,5 @@ name = "stacks"
 git_provider = "git.cwel.sh"
 repo = "cwel/stacks"
 git_account = "cwel"
-webhook_enabled = false
 resource_path = [".komodo/sync.toml"]
 managed = true
