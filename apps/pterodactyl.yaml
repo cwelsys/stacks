@@ -1,0 +1,62 @@
+x-common:
+  database: &db-environment
+    MYSQL_PASSWORD: &db-password ${PT_SQL_PASS}
+    MYSQL_ROOT_PASSWORD: ${PT_SQL_RPASS}
+  panel: &panel-environment
+    APP_URL: 'http://pt.${DOMAIN}'
+    APP_TIMEZONE: ${TZ}
+    APP_SERVICE_AUTHOR: 'noreply@cwel.sh'
+    LE_EMAIL: 'pt@cwel.sh'
+  mail: &mail-environment
+    MAIL_FROM: 'noreply@cwel.sh'
+    MAIL_DRIVER: 'smtp'
+    MAIL_HOST: 'in-v3.mailjet.com'
+    MAIL_PORT: '587'
+    MAIL_USERNAME: ${SMTP_USER}
+    MAIL_PASSWORD: ${SMTP_PASS}
+    MAIL_ENCRYPTION: 'true'
+
+services:
+  database:
+    image: mariadb:10.5
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - '${DOCKERM}/pterodactyl/data:/var/lib/mysql'
+    environment:
+      <<: *db-environment
+      MYSQL_DATABASE: 'panel'
+      MYSQL_USER: 'pterodactyl'
+  cache:
+    image: redis:alpine
+    restart: always
+  panel:
+    image: ghcr.io/pterodactyl/panel:latest
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - database
+      - cache
+    volumes:
+      - '${DOCKERM}/pterodactyl/var/:/app/var/'
+      - '${DOCKERM}/pterodactyl/nginx/:/etc/nginx/http.d/'
+      - '${DOCKERM}/pterodactyl/certs/:/etc/letsencrypt/'
+      - '${DOCKERM}/pterodactyl/logs/:/app/storage/logs'
+    environment:
+      <<: [*panel-environment, *mail-environment]
+      DB_PASSWORD: *db-password
+      APP_ENV: 'production'
+      APP_ENVIRONMENT_ONLY: 'false'
+      CACHE_DRIVER: 'redis'
+      SESSION_DRIVER: 'redis'
+      QUEUE_DRIVER: 'redis'
+      REDIS_HOST: 'cache'
+      DB_HOST: 'database'
+      DB_PORT: '3306'
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

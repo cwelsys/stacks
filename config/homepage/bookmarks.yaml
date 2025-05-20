@@ -59,6 +59,10 @@
         - href: https://recommendarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
           icon: /images/recommendarr.png
 
+    - ebookbuddy:
+        - href: https://ebookbuddy.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+          icon: /images/ebookbuddy.png
+
     - profilarr:
         - href: https://profilarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
           icon: mdi-docker

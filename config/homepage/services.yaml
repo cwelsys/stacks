@@ -343,8 +343,6 @@
         container: kavita
         widget:
           type: kavita
-          fields:
-            - books
           url: http://kavita:5000
           key: {{HOMEPAGE_VAR_KAVIA_API_KEY}}
 
@@ -437,6 +435,13 @@
           url: http://crowdsec:8080
           username: {{HOMEPAGE_VAR_CROWDSEC_USERNAME}}
           password: {{HOMEPAGE_VAR_CROWDSEC_PASSWORD}}
+
+    - NetalertX:
+        icon: netalertx.png
+        href: https://home.cwel.sh/db21ed7f_netalertx/ingress
+        widget:
+          type: netalertx
+          url: http://192.168.4.114:20211
 
     - DNS:
         href: https://dns.cwel.sh
