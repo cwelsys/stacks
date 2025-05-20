@@ -1,0 +1,62 @@
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    networks:
+      - internal
+      - media
+    volumes:
+      - ${RUST}/book/abs:/books
+      - ${RUST}/book/audio:/audiobooks
+      - ${RUST}/audio:/podcasts
+      - ${DOCKERM}/audiobookshelf:/config
+      - ${DOCKERM}/audiobookshelf/metadata:/metadata
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.audiobookshelf.rule=Host(`abs.${DOMAIN}`)
+      - traefik.http.services.audiobookshelf.loadbalancer.server.port=80
+      - traefik.docker.network=internal
+
+  bookbounty:
+    image: thewicklowwolf/bookbounty:latest
+    container_name: bookbounty
+    networks:
+      - internal
+      - media
+    environment:
+      - selected_path_type=folder
+      - library_scan_on_completion=True
+    volumes:
+      - ${RUST}/book:/bookbounty/downloads
+      - ${DOCKERM}/bookbounty:/bookbounty/config
+      - /etc/localtime:/etc/localtime:ro
+    # ports:
+    #   - xxxx:5000
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bookbounty.rule=Host(`bookbounty.${DOMAIN}`)
+      - traefik.http.services.bookbounty.loadbalancer.server.port=5000
+      - traefik.docker.network=internal
+
+  ebookbuddy:
+    image: thewicklowwolf/ebookbuddy:latest
+    container_name: ebookbuddy
+    networks:
+      - internal
+      - media
+    environment:
+      - auto_start=True
+      - search_for_missing_book=True
+    volumes:
+      - ${DOCKERM}/ebookbuddy:/ebookbuddy/config
+      - /etc/localtime:/etc/localtime:ro
+    # ports:
+    #   - xxxx:5000
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ebookbuddy.rule=Host(`ebookbuddy.${DOMAIN}`)
+      - traefik.http.services.ebookbuddy.loadbalancer.server.port=5000
+      - traefik.docker.network=internal

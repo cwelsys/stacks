@@ -25,11 +25,15 @@
 
     - Resume:
         - icon: reactive-resume.png
-          href: https://resume.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
+          href: https://resume.{{HOMEPAGE_VAR_DOMAIN_NAME}}/dashboard/resumes
 
     - Umami:
         - href: https://umami.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
           icon: /images/umami.png
+
+    - AWS:
+        - href: https://us-east-1.console.aws.amazon.com/
+          icon: /images/aws.png
 
     - IT-Tools:
         - href: https://tools.{{HOMEPAGE_VAR_DOMAIN_NAME}}/
