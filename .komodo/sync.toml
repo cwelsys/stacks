@@ -50,7 +50,10 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
-file_paths = ["authentik.yaml", "../../pbox.yaml"]
+file_paths = [
+  "authentik.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -133,7 +136,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -142,26 +145,6 @@ MUSE_TOKEN=[[DISCORD__MUSE]]
 MEMBARR_TOKEN=[[DISCORD__MEMBARR]]
 DOPLARR_TOKEN=[[DISCORD__DOPLARR]]
 OVERSEERR_API_KEY=[[OVERSEERR__API]]
-
-"""
-
-##
-
-
-[[stack]]
-name = "Pterodactyl"
-[stack.config]
-server = "pbox"
-git_provider = "git.cwel.sh"
-git_account = "cwel"
-repo = "cwel/stacks"
-run_directory = "apps"
-file_paths = ["pterodactyl.yaml", "../pbox.yaml"]
-environment = """
-SMTP_USER=[[SMTP__USER]]
-SMTP_PASS=[[SMTP__PASSWORD]]
-PT_SQL_PASS=[[PTERODACTYL__SQL]]
-PT_SQL_RPASS=[[PTERODACTYL__ROOT]]
 
 """
 
@@ -186,7 +169,11 @@ git_provider = "git.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = ["tortun.yaml", "sab.yaml", "../../pbox.yaml"]
+file_paths = [
+  "tortun.yaml",
+  "sab.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -228,7 +215,7 @@ file_paths = [
   "immich.yaml",
   "freshrss.yaml",
   "romm.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -259,7 +246,7 @@ file_paths = [
   "beszel.yaml",
   "influx.yaml",
   "umami.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -280,7 +267,12 @@ poll_for_updates = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["internal.yaml", "external.yaml", "kop.yaml", "../../pbox.yaml"]
+file_paths = [
+  "internal.yaml",
+  "external.yaml",
+  "kop.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -308,7 +300,7 @@ file_paths = [
   "mealie.yaml",
   "monkey.yaml",
   "posio.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 SMTP_USER=[[SMTP__USER]]
@@ -339,7 +331,7 @@ file_paths = [
   "it-tools.yaml",
   "codeserver.yaml",
   "linkding.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__SOCKET]]
@@ -385,5 +377,6 @@ name = "stacks"
 git_provider = "git.cwel.sh"
 repo = "cwel/stacks"
 git_account = "cwel"
+webhook_enabled = false
 resource_path = [".komodo/sync.toml"]
 managed = true
