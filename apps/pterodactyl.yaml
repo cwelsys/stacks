@@ -90,7 +90,7 @@ services:
       - '/var/lib/pterodactyl/:/var/lib/pterodactyl/'
       - '/var/log/pterodactyl/:/var/log/pterodactyl/'
       - '/tmp/pterodactyl/:/tmp/pterodactyl/'
-      - ${DOCKERM}/traefik/letsencrypt:ro
+      - '${DOCKERM}/traefik/letsencrypt:/etc/ssl/certs:ro'
     networks:
       - internal
       - wings0
