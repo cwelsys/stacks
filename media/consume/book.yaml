@@ -6,7 +6,7 @@ services:
       - internal
       - media
     volumes:
-      - ${RUST}/book/abs:/books
+      - ${RUST}/book:/books
       - ${RUST}/book/audio:/audiobooks
       - ${RUST}/audio:/podcasts
       - ${DOCKERM}/audiobookshelf:/config
