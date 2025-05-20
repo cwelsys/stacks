@@ -149,7 +149,7 @@ OVERSEERR_API_KEY=[[OVERSEERR__API]]
 
 
 [[stack]]
-name = "pterodactyl.yaml"
+name = "Pterodactyl"
 [stack.config]
 server = "pbox"
 git_provider = "git.cwel.sh"
