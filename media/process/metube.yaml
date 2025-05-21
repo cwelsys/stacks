@@ -1,0 +1,22 @@
+services:
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: metube
+    networks:
+      - internal
+    restart: unless-stopped
+    # ports:
+    #   - "8081:8081"
+    environment:
+      - UID: 1000
+      - GID: 1001
+      - UMASK: 022
+      - DEFAULT_THEME: dark
+      - TEMP_DIR: /downloads/.cache
+    volumes:
+      - ${RUST}:/downloads
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.metube.rule=Host(`metube.${DOMAIN}`)
+      - traefik.http.services.metube.loadbalancer.server.port=8081
+      - traefik.docker.network=internal
