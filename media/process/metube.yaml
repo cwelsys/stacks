@@ -12,9 +12,10 @@ services:
       GID: 1001
       UMASK: 022
       DEFAULT_THEME: dark
-      TEMP_DIR: /downloads/.cache
     volumes:
-      - ${RUST}:/downloads
+      - ${RUST}/tube:/downloads
+      - ${RUST}/audio:/downloads/audio
+      - ${RUST}/stash:/downloads/stash
     labels:
       - traefik.enable=true
       - traefik.http.routers.metube.rule=Host(`metube.${DOMAIN}`)
