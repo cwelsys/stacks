@@ -1,6 +1,6 @@
 services:
   stash:
-    image: ghcr.io/hotio/stash
+    image: stashapp/stash:latest
     container_name: stash
     restart: unless-stopped
     # ports:
@@ -16,9 +16,9 @@ services:
         max-size: "2m"
     environment:
       - STASH_STASH=/data/
-      - STASH_GENERATED=/stash/generated/
-      - STASH_METADATA=/stash/metadata/
-      - STASH_CACHE=/stash/cache/
+      - STASH_GENERATED=/generated/
+      - STASH_METADATA=/metadata/
+      - STASH_CACHE=/cache/
       - STASH_PORT=9999
       - PUID=1000
       - PGID=1001
@@ -26,8 +26,12 @@ services:
       - TZ=${TZ}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERM}/stash:/config
+      - ${DOCKERM}/stash:/root/.stash
       - ${RUST}:/data
+      - ${DOCKERM}/stash/metadata:/metadata
+      - ${DOCKERM}/stash/cache:/cache
+      - ${DOCKERM}/stash/blobs:/blobs
+      - ${DOCKERM}/stash/generated:/generated
     labels:
       - traefik.enable=true
       - traefik.http.routers.stash.rule=Host(`stash.${DOMAIN}`)
