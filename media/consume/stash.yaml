@@ -15,11 +15,11 @@ services:
         max-file: "10"
         max-size: "2m"
     environment:
-      # - STASH_STASH=/data/
-      # - STASH_GENERATED=/stash/generated/
-      # - STASH_METADATA=/stash/metadata/
-      # - STASH_CACHE=/stash/cache/
-      # - STASH_PORT=9999
+      - STASH_STASH=/data/
+      - STASH_GENERATED=/stash/generated/
+      - STASH_METADATA=/stash/metadata/
+      - STASH_CACHE=/stash/cache/
+      - STASH_PORT=9999
       - PUID=1000
       - PGID=1001
       - UMASK=002
