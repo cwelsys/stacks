@@ -1,6 +1,6 @@
 services:
   stash:
-    image: stashapp/stash:latest
+    image: ghcr.io/hotio/stash
     container_name: stash
     restart: unless-stopped
     # ports:
@@ -26,7 +26,7 @@ services:
       - TZ=${TZ}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERM}/stash:/root/.stash
+      - ${DOCKERM}/stash:/config
       - ${RUST}:/data
       - ${DOCKERM}/stash/metadata:/metadata
       - ${DOCKERM}/stash/cache:/cache
