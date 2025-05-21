@@ -8,11 +8,11 @@ services:
     # ports:
     #   - "8081:8081"
     environment:
-      - UID: 1000
-      - GID: 1001
-      - UMASK: 022
-      - DEFAULT_THEME: dark
-      - TEMP_DIR: /downloads/.cache
+      UID: 1000
+      GID: 1001
+      UMASK: 022
+      DEFAULT_THEME: dark
+      TEMP_DIR: /downloads/.cache
     volumes:
       - ${RUST}:/downloads
     labels:
