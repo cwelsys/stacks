@@ -12,8 +12,8 @@ services:
     #   start_period: 30s
     #   timeout: 10s
     environment:
-      - USER_UID=1000
-      - USER_GID=1000
+      - USER_UID=1001
+      - USER_GID=1003
       - GITEA__database__DB_TYPE=postgres
       - GITEA__database__HOST=git-db:5432
       - GITEA__database__NAME=gitea
@@ -24,6 +24,7 @@ services:
       - 22
     volumes:
       - ${DOCKERM}/gitea/app:/data
+      - /home/git/.ssh/:/data/git/.ssh
       - /etc/localtime:/etc/localtime:ro
     networks:
       - internal
