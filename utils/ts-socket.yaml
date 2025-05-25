@@ -9,7 +9,7 @@ services:
       - TS_USERSPACE=false
       - TS_ENABLE_HEALTH_CHECK=true
       - TS_LOCAL_ADDR_PORT=127.0.0.1:41234
-      - TS_EXTRA_ARGS=--accept-dns=true
+      # - TS_EXTRA_ARGS=--accept-dns=true
     volumes:
       - ${DOCKERM}/ts-socket:/var/lib/tailscale
     devices:
@@ -18,7 +18,7 @@ services:
       - net_admin
       - sys_module
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz"]
+      test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:41234/healthz']
       interval: 1m
       timeout: 10s
       retries: 3
