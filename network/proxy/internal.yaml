@@ -19,8 +19,8 @@ services:
     volumes:
       - ${DOCKERM}/traefik/letsencrypt:/letsencrypt
       - /var/log/traefik/internal:/var/log/traefik:rw
-      - ${CONFIGDIR}/traefik/internal/static:/etc/traefik:rw
-      - ${CONFIGDIR}/traefik/internal/dynamic:/config/dynamic:rw
+      - ${DOCKERM}/traefik/internal/static:/etc/traefik:rw
+      - ${DOCKERM}/traefik/internal/dynamic:/config/dynamic:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: true

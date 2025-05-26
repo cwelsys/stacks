@@ -21,9 +21,9 @@ services:
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
     volumes:
       - /var/log/traefik/external:/var/log/traefik:rw
-      - ${CONFIGDIR}/traefik/external/static:/etc/traefik:rw
-      - ${CONFIGDIR}/traefik/external/dynamic:/config/dynamic:rw
-      - ${CONFIGDIR}/traefik/external/ban.html:/config/ban.html:ro
+      - ${DOCKERM}/traefik/external/static:/etc/traefik:rw
+      - ${DOCKERM}/traefik/external/dynamic:/config/dynamic:rw
+      - ${DOCKERM}/traefik/external/ban.html:/config/ban.html:ro
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
     labels:
       traefik.enable: true
