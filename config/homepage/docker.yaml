@@ -1,7 +1,0 @@
----
-# For configuration options and examples, please see:
-# https://gethomepage.dev/en/configs/docker/
-
-pbox:
-  host: hp-sockp
-  port: 2375
