@@ -57,7 +57,7 @@ services:
       - HOMEPAGE_VAR_ABS_API_KEY=${ABS_API_KEY}
       - HOMEPAGE_VAR_KAVITA_API_KEY=${KAVITA_API_KEY}
     volumes:
-      - ${CONFIGDIR}/homepage:/app/config
+      - ${DOCKERM}/homepage/app:/app/config
       - ${DOCKERM}/homepage/icons:/app/public/images
       - /mnt/:/mnt:ro
     restart: always
