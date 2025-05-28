@@ -67,7 +67,7 @@ services:
 
   int-redis:
     restart: always
-    image: redis:latest
+    image: redis:7-alpine
     container_name: int-redis
     ports:
       - 6379:6379
@@ -76,3 +76,5 @@ services:
       - kop
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
+    volumes:
+      - cache:/data
