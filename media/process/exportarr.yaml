@@ -47,3 +47,15 @@ services:
       - media
       - monitor
     restart: unless-stopped
+  qbittorrent-exporter:
+    image: caseyscarborough/qbittorrent-exporter:latest
+    container_name: qbittorrent-exporter
+    networks:
+      - media
+      - monitor
+    environment:
+        - QBITTORRENT_USERNAME=admin
+        - QBITTORRENT_PASSWORD=${QBITTORRENT_PASSWORD}
+        - QBITTORRENT_BASE_URL=http://gluetun:8080
+    # ports:
+    #     - 17871:17871
