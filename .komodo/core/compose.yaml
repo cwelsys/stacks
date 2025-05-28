@@ -60,6 +60,7 @@ services:
   db-backup:
     container_name: komo-db-backup
     image: tiredofit/db-backup
+    restart: unless-stopped
     networks:
       - stack
     volumes:
