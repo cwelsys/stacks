@@ -49,8 +49,6 @@ services:
       PORT: 9710
       URL: "http://prowlarr:9696"
       APIKEY: ${PROWLARR_API_KEY}
-      PROWLARR__BACKFILL: true
-      PROWLARR__BACKFILL_SINCE_DATE: "2025-01-01"
     networks:
       - media
       - monitor
