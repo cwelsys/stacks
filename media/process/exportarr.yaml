@@ -10,8 +10,6 @@ services:
     networks:
       - media
       - monitor
-    ports:
-      - "9707:9707"
     restart: unless-stopped
   radarr-exporter:
     image: ghcr.io/onedr0p/exportarr:v2.0
@@ -24,8 +22,6 @@ services:
     networks:
       - media
       - monitor
-    ports:
-      - "9708:9708"
     restart: unless-stopped
   prowlarr-exporter:
     image: ghcr.io/onedr0p/exportarr:v2.0
@@ -38,8 +34,6 @@ services:
     networks:
       - media
       - monitor
-    ports:
-     - "9710:9710"
     restart: unless-stopped
   sabnzbd-exporter:
     image: ghcr.io/onedr0p/exportarr:v2.0
@@ -52,6 +46,4 @@ services:
     networks:
       - media
       - monitor
-    ports:
-     - "9711:9711"
     restart: unless-stopped
