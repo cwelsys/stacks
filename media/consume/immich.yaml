@@ -3,7 +3,7 @@ services:
     image: altran1502/immich-server:${IMMICH_VERSION:-release}
     container_name: immich
     volumes:
-      - ${RUST}/image:/usr/src/app/upload
+      - ${FLASH}/image:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     environment:
       - NODE_ENV=production
@@ -34,7 +34,7 @@ services:
     image: altran1502/immich-machine-learning:${IMMICH_VERSION:-release}
     container_name: immich-ml
     volumes:
-      - ${RUST}/image:/usr/src/app/upload
+      - ${FLASH}/image:/usr/src/app/upload
       - cache:/cache
     environment:
       - NODE_ENV=production
