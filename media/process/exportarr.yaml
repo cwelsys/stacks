@@ -57,5 +57,5 @@ services:
         - QBITTORRENT_USERNAME=admin
         - QBITTORRENT_PASSWORD=${QBITTORRENT_PASSWORD}
         - QBITTORRENT_BASE_URL=http://gluetun:8080
-    # ports:
-    #     - 17871:17871j
+    ports:
+        - 17871:17871
