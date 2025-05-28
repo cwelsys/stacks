@@ -105,7 +105,7 @@ services:
 
   whisparr:
     container_name: whisparr
-    image: ghcr.io/hotio/whisparr:v3-3.0.0.1027
+    image: ghcr.io/hotio/whisparr:v3
     networks:
       - internal
       - media
