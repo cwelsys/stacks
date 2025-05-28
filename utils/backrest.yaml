@@ -9,7 +9,7 @@ services:
       - ${DOCKERM}/backrest/cache:/cache
       - ${DOCKERM}/backrest/tmp:/tmp
       - /usr/bin/rclone:/usr/local/bin/rclone
-      - /home/cwel/.config/rclone:/root/.config/rclone:ro 
+      - /home/cwel/.config/rclone:/root/.config/rclone
       - ${FLASH}:${FLASH}
       - ${RUST}:${RUST}
       - ${BRICK}:${BRICK}
