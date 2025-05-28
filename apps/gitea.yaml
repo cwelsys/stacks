@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     ports:
       - '127.0.0.1:2222:22'
+      - '3000:3000'
     # healthcheck:
     #   test: ['CMD', 'curl', '-f', 'https://git.cwel.sh']
     #   interval: 10s
