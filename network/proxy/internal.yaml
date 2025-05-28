@@ -67,7 +67,7 @@ services:
 
   int-redis:
     restart: always
-    image: redis:7-alpine
+    image: redis:latest
     container_name: int-redis
     ports:
       - 6379:6379
