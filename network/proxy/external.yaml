@@ -67,7 +67,7 @@ services:
 
   ext-redis:
     restart: always
-    image: redis:7-alpine
+    image: redis:latest
     container_name: ext-redis
     ports:
       - '6380:6379'
@@ -76,8 +76,6 @@ services:
       - kop
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
-    volumes:
-      - cache:/data
 
   cloudflare_tunnel:
     container_name: cf-tunnel
