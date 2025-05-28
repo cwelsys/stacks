@@ -9,7 +9,7 @@ services:
       APIKEY: ${SONARR_API_KEY}
     networks:
       - media
-      - monitoring
+      - monitor
     ports:
       - "9707:9707"
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
       APIKEY: ${RADARR_API_KEY}
     networks:
       - media
-      - monitoring
+      - monitor
     ports:
       - "9708:9708"
     restart: unless-stopped
@@ -37,7 +37,7 @@ services:
       APIKEY: ${LIDARR_API_KEY}
     networks:
       - media
-      - monitoring
+      - monitor
     ports:
       - "9709:9709"
     restart: unless-stopped
@@ -53,7 +53,7 @@ services:
       PROWLARR__BACKFILL_SINCE_DATE: "2025-01-01"
     networks:
       - media
-      - monitoring
+      - monitor
     ports:
      - "9710:9710"
     restart: unless-stopped
@@ -67,7 +67,7 @@ services:
       APIKEY: ${SABNZBD_API_KEY}
     networks:
       - media
-      - monitoring
+      - monitor
     ports:
      - "9711:9711"
     restart: unless-stopped
@@ -80,7 +80,7 @@ services:
       URL: "http://bazaar:6767"
     networks:
       - media
-      - monitoring
+      - monitor
     ports:
       - "9712:9712"
     restart: unless-stopped
@@ -94,7 +94,7 @@ services:
       APIKEY: ${READARR_API_KEY}
     networks:
       - media
-      - monitoring
+      - monitor
     ports:
       - "9713:9713"
     restart: unless-stopped
