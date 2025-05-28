@@ -1,7 +1,7 @@
 services:
   ext-kop:
     container_name: ext-kop
-    image: 'ghcr.io/jittering/traefik-kop:latest'
+    image: ghcr.io/jittering/traefik-kop:latest
     restart: unless-stopped
     environment:
       - 'REDIS_ADDR=ext-redis:6379'
@@ -16,7 +16,7 @@ services:
       - stack
   int-kop:
     container_name: int-kop
-    image: 'ghcr.io/jittering/traefik-kop:latest'
+    image: ghcr.io/jittering/traefik-kop:latest
     restart: unless-stopped
     environment:
       - 'REDIS_ADDR=int-redis:6379'
