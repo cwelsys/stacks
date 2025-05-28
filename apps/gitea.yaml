@@ -6,12 +6,12 @@ services:
     ports:
       - '127.0.0.1:2222:22'
       - '3000:3000'
-    # healthcheck:
-    #   test: ['CMD', 'curl', '-f', 'https://git.cwel.sh']
-    #   interval: 10s
-    #   retries: 3
-    #   start_period: 30s
-    #   timeout: 10s
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
+      interval: 10s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
     environment:
       - USER_UID=1001
       - USER_GID=1003
@@ -39,6 +39,7 @@ services:
   git-db:
     container_name: git-db
     image: docker.io/library/postgres:14
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=gitea
       - POSTGRES_PASSWORD=${GIT_PG_PASS}
@@ -54,23 +55,26 @@ services:
     restart: unless-stopped
     networks:
       - gitea
-    # depends_on:
-    #   gitea:
-    #     condition: service_healthy
-    #     restart: true
+    depends_on:
+      gitea:
+        condition: service_healthy
+        restart: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${DOCKERM}/gitea/runner/app:/data
-      - ${DOCKERM}/gitea/runner/config.yaml:/config.yaml
+      # - ${DOCKERM}/gitea/runner/config.yaml:/config.yaml
     environment:
-      - CONFIG_FILE=/config.yaml
-      - GITEA_INSTANCE_URL=https://git.cwel.sh
+      # - CONFIG_FILE=/config.yaml
+      - GITEA_INSTANCE_URL=http://gitea:3000
       # - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
       - GITEA_RUNNER_NAME=atlas
 
   db-backup:
     container_name: git-db-backup
     image: tiredofit/db-backup
+    restart: unless-stopped
+    depends_on:
+      - git-db
     networks:
       - gitea
     volumes:
