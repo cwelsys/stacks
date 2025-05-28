@@ -10,7 +10,6 @@ services:
     container_name: komo-mongo
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
-      docker-volume-backup.stop-during-backup: true
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
     networks:
