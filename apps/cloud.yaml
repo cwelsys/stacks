@@ -15,7 +15,7 @@ services:
     security_opt: ['label:disable']
     environment:
       - APACHE_PORT=11000
-      - NEXTCLOUD_MOUNT=/mnt/bool/nextcloud
+      - NEXTCLOUD_MOUNT=/mnt/
       - NEXTCLOUD_ENABLE_NVIDIA_GPU=true
 
   protonmail-bridge:
