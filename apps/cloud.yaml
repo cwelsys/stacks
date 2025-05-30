@@ -10,7 +10,6 @@ services:
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${DOCKERM}/nextcloud:/mnt/ncdata
     ports:
       - 8094:8080
     security_opt: ['label:disable']
