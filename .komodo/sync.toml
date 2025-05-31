@@ -8,18 +8,6 @@ disk_warning = 80.0
 
 ##
 
-[[server]]
-name = "stick"
-[server.config]
-address = "https://192.168.4.128:8120"
-enabled = true
-send_unreachable_alerts = false
-send_cpu_alerts = false
-send_mem_alerts = false
-send_disk_alerts = false
-
-##
-
 [[stack]]
 name = "arr"
 [stack.config]
@@ -170,7 +158,6 @@ file_paths = ["dns1.yaml", "../pbox.yaml"]
 [[stack]]
 name = "dns2"
 [stack.config]
-server = "stick"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
@@ -305,15 +292,11 @@ BOUNCER_HOST=crowdsec:8080
 [[stack]]
 name = "proxy2"
 [stack.config]
-server = "stick"
 poll_for_updates = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = [
-  "pstick.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["pstick.yaml", "../../pbox.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 
