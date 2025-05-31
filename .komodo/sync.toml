@@ -157,13 +157,24 @@ OVERSEERR_API_KEY=[[OVERSEERR__API]]
 ##
 
 [[stack]]
-name = "dns"
+name = "dns1"
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["dns.yaml", "../pbox.yaml"]
+file_paths = ["dns1.yaml", "../pbox.yaml"]
+
+##
+
+[[stack]]
+name = "dns2"
+[stack.config]
+server = "pstick"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network"
+file_paths = ["dns2.yaml", "../pbox.yaml"]
 
 ##
 
@@ -286,6 +297,25 @@ INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
 CF_TRAEFIK_TUNNEL_TOKEN=[[CLOUDFLARE__TUNNEL]]
 CS_TRAEFIK_BOUNCER_KEY=[[CROWDSEC__BOUNCER]]
 BOUNCER_HOST=crowdsec:8080
+
+"""
+
+##
+
+[[stack]]
+name = "proxy2"
+[stack.config]
+server = "ptick"
+poll_for_updates = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network/proxy"
+file_paths = [
+  "pstick.yaml",
+  "../../pbox.yaml"
+]
+environment = """
+CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 
 """
 
