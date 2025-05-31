@@ -11,12 +11,12 @@ services:
     ports:
       - '5380:5380/tcp'
     volumes:
-      - ${DOCKERM}/dns:/etc/dns
+      - /opt/docker/dns:/etc/dns
   keepalived:
     image: shawly/keepalived:edge-7f210c3
     restart: always
     environment:
-      TZ: ${TZ}
+      TZ: America/New_York
       KEEPALIVED_VIRTUAL_IP: 192.168.4.69
       KEEPALIVED_VIRTUAL_MASK: 24
       KEEPALIVED_CHECK_IP: 192.168.4.89
