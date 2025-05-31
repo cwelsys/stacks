@@ -305,7 +305,7 @@ BOUNCER_HOST=crowdsec:8080
 [[stack]]
 name = "proxy2"
 [stack.config]
-server = "ptick"
+server = "stick"
 poll_for_updates = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
