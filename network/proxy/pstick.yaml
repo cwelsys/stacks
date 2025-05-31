@@ -14,14 +14,14 @@ services:
     environment:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
     volumes:
-      - ${DOCKERM}/traefik/letsencrypt:/letsencrypt
+      - /opt/docker/traefik/letsencrypt:/letsencrypt
       - /var/log/traefik:/var/log/traefik:rw
-      - ${DOCKERM}/traefik/static:/etc/traefik:rw
-      - ${DOCKERM}/traefik/dynamic:/config/dynamic:rw
+      - /opt/docker/traefik/static:/etc/traefik:rw
+      - /opt/docker/traefik/dynamic:/config/dynamic:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-dashboard.rule: Host(`traefikp.${DOMAIN}`)
+      traefik.http.routers.traefik-dashboard.rule: Host(`traefikp.cwel.sh`)
       traefik.http.routers.traefik-dashboard.service: api
 
   ps-logrotate:
@@ -35,7 +35,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:rw # required to send USR1 signal to Traefik after log rotation
       - /var/log/traefik:/var/log/traefik:rw # folder containing access.log file
     environment:
-      TZ: ${TZ}
+      TZ: America/New_York
       # all environment variables are optional and show the default values:
       LOGROTATE_LOGS: '/var/log/traefik/*.log' # log files to rotate, directory must match volume mount
       LOGROTATE_TRIGGER_psERVAL: daily # rotate daily, must be one of: daily, weekly, monthly, yearly
