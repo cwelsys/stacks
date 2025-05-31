@@ -170,7 +170,7 @@ file_paths = ["dns1.yaml", "../pbox.yaml"]
 [[stack]]
 name = "dns2"
 [stack.config]
-server = "pstick"
+server = "stick"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
