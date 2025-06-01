@@ -10,14 +10,14 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-      - PROXY_DOMAIN=code.${DOMAIN}
+      - PROXY_DOMAIN=code.${INTDOMAIN}
     volumes:
       - ${DOCKERM}/vscode:/config
     restart: unless-stopped
     networks:
-     - internal
+      - internal
     labels:
-     - traefik.enable=true
-     - traefik.docker.network=internal
-     - traefik.http.routers.codeserver.rule=Host(`code.${DOMAIN}`)
-     - traefik.http.services.codeserver.loadbalancer.server.port=8443
+      - traefik.enable=true
+      - traefik.docker.network=internal
+      - traefik.http.routers.codeserver.rule=Host(`code.${INTDOMAIN}`)
+      - traefik.http.services.codeserver.loadbalancer.server.port=8443

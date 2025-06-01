@@ -27,7 +27,7 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-dashboard-external.rule: Host(`traefike.${DOMAIN}`)
+      traefik.http.routers.traefik-dashboard-external.rule: Host(`traefike.${INTDOMAIN}`)
       traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 8080
       kop.traefik-dashboard-external.bind.ip: '${SERVER_IP}'
 

@@ -24,7 +24,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-dashboard-internal.rule: Host(`traefiki.${DOMAIN}`)
+      traefik.http.routers.traefik-dashboard-internal.rule: Host(`traefiki.${INTDOMAIN}`)
       traefik.http.routers.traefik-dashboard-internal.service: api@internal
 
   int-logrotate:

@@ -1,5 +1,4 @@
 services:
-
   it-tools:
     image: corentinth/it-tools
     container_name: it-tools
@@ -8,10 +7,9 @@ services:
     expose:
       - 80
     networks:
-     - internal
+      - internal
     labels:
-     - traefik.enable=true
-     - traefik.http.routers.it-tools.rule=Host(`tools.${DOMAIN}`)
-     - traefik.http.services.it-tools.loadbalancer.server.port=80
-     - traefik.docker.network=internal
-
+      - traefik.enable=true
+      - traefik.http.routers.it-tools.rule=Host(`tools.${INTDOMAIN}`)
+      - traefik.http.services.it-tools.loadbalancer.server.port=80
+      - traefik.docker.network=internal
