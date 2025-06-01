@@ -103,7 +103,7 @@ jobs:
             HOOK_URL=$(echo "$hook" | jq -r '.config.url')
 
             # Check if this is a komodo webhook
-            if [[ "$HOOK_URL" == *"komo.cwel.sh/listener/github/stack/"* && "$HOOK_URL" == *"/deploy" ]]; then
+            if [[ "$HOOK_URL" == *"komo.cwel.casa/listener/github/stack/"* && "$HOOK_URL" == *"/deploy" ]]; then
               # Extract stack name from URL
               HOOK_STACK=$(echo "$HOOK_URL" | sed -E 's|.*/stack/([^/]+)/deploy|\1|')
 
@@ -129,7 +129,7 @@ jobs:
           # Create webhooks for new stacks
           for STACK_NAME in ${STACK_NAMES//,/ }; do
             echo "Processing stack: $STACK_NAME"
-            WEBHOOK_URL="https://komo.cwel.sh/listener/github/stack/$STACK_NAME/deploy"
+            WEBHOOK_URL="https://komo.cwel.casa/listener/github/stack/$STACK_NAME/deploy"
 
             # Check if webhook exists
             WEBHOOK_EXISTS=$(echo "$HOOKS_RESPONSE" | jq -r --arg url "$WEBHOOK_URL" \
