@@ -31,7 +31,7 @@ services:
       - traefik.enable=true
       # - traefik.http.routers.komodo-api.rule=Host(`komo.${DOMAIN}`) && PathPrefix(`/listener`)
       # - traefik.http.routers.komodo-api.service=komodo
-      - traefik.http.routers.komodo.rule=Host(`komo.cwel.casa`)
+      - traefik.http.routers.komodo.rule=Host(`komo.${CASA}`)
       - traefik.http.routers.komodo.service=komodo
       - traefik.http.services.komodo.loadbalancer.server.port=9120
       - traefik.docker.network=internal
