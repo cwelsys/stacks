@@ -18,7 +18,7 @@ jobs:
         id: komodo_stacks
         run: |
           # Extract stack names from .komodo/sync.toml
-          # Only include stacks that use Gitea (git_account = "cwel" or git_provider = "git.casa.cwel.sh")
+          # Only include stacks that use Gitea (git_account = "cwel" or git_provider = "git.cwel.casa")
           # And don't have webhook_enabled = false
           STACKS=$(awk '
           BEGIN { in_stack=0; is_stack_section=0; name=""; webhook_enabled=1; is_gitea=0 }
@@ -49,7 +49,7 @@ jobs:
             is_gitea=1
           }
 
-          is_stack_section && /git_provider *= *"git.casa.cwel.sh"/ && in_stack {
+          is_stack_section && /git_provider *= *"git.cwel.casa"/ && in_stack {
             is_gitea=1
           }
 
@@ -70,7 +70,7 @@ jobs:
           # Debug information
           echo "Checking API access..."
           CHECK_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-            "https://git.casa.cwel.sh/api/v1/repos/${{ github.repository }}")
+            "https://git.cwel.casa/api/v1/repos/${{ github.repository }}")
           echo "API access check status: $CHECK_RESPONSE"
 
           if [ "$CHECK_RESPONSE" != "200" ]; then
@@ -81,7 +81,7 @@ jobs:
           # Get all existing webhooks - Gitea API path
           echo "Fetching all existing webhooks..."
           HOOKS_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-            "https://git.casa.cwel.sh/api/v1/repos/${{ github.repository }}/hooks")
+            "https://git.cwel.casa/api/v1/repos/${{ github.repository }}/hooks")
 
           if [ $? -ne 0 ]; then
             echo "⚠️ Failed to fetch existing webhooks"
@@ -113,7 +113,7 @@ jobs:
 
                 DELETE_RESPONSE=$(curl -s -w "\n%{http_code}" -X DELETE \
                   -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-                  "https://git.casa.cwel.sh/api/v1/repos/${{ github.repository }}/hooks/$HOOK_ID")
+                  "https://git.cwel.casa/api/v1/repos/${{ github.repository }}/hooks/$HOOK_ID")
 
                 DELETE_STATUS=$(echo "$DELETE_RESPONSE" | tail -n1)
 
@@ -161,7 +161,7 @@ jobs:
               -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
               -H "Accept: application/json" \
               -H "Content-Type: application/json" \
-              "https://git.casa.cwel.sh/api/v1/repos/${{ github.repository }}/hooks" \
+              "https://git.cwel.casa/api/v1/repos/${{ github.repository }}/hooks" \
               -d @webhook.json)
 
             HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
