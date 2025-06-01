@@ -109,6 +109,7 @@ services:
   db-backup:
     container_name: rxres-db-backup
     image: tiredofit/db-backup
+    restart: unless-stopped
     networks:
       - stack
     volumes:
