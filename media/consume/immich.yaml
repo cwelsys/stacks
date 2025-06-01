@@ -86,6 +86,7 @@ services:
   db-backup:
     container_name: immich-db-backup
     image: tiredofit/db-backup
+    restart: unless-stopped
     networks:
       - stack
     volumes:

@@ -1,6 +1,3 @@
-volumes:
-  cache:
-
 services:
   romm:
     image: rommapp/romm:latest

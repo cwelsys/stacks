@@ -2,10 +2,10 @@ services:
   sonarr-exporter:
     image: ghcr.io/onedr0p/exportarr:v2.0
     container_name: sonarr-exporter
-    command: ["sonarr"]
+    command: ['sonarr']
     environment:
       PORT: 9707
-      URL: "http://sonarr:8989"
+      URL: 'http://sonarr:8989'
       APIKEY: ${SONARR_API_KEY}
     networks:
       - media
@@ -14,10 +14,10 @@ services:
   radarr-exporter:
     image: ghcr.io/onedr0p/exportarr:v2.0
     container_name: radarr-exporter
-    command: ["radarr"]
+    command: ['radarr']
     environment:
       PORT: 9708
-      URL: "http://radarr:7878"
+      URL: 'http://radarr:7878'
       APIKEY: ${RADARR_API_KEY}
     networks:
       - media
@@ -26,10 +26,10 @@ services:
   prowlarr-exporter:
     image: ghcr.io/onedr0p/exportarr:v2.0
     container_name: prowlarr-exporter
-    command: ["prowlarr"]
+    command: ['prowlarr']
     environment:
       PORT: 9710
-      URL: "http://prowlarr:9696"
+      URL: 'http://prowlarr:9696'
       APIKEY: ${PROWLARR_API_KEY}
     networks:
       - media
@@ -38,10 +38,10 @@ services:
   sabnzbd-exporter:
     image: ghcr.io/onedr0p/exportarr:v2.0
     container_name: sabnzbd-exporter
-    command: ["sabnzbd"]
+    command: ['sabnzbd']
     environment:
       PORT: 9711
-      URL: "http://sabnzbd:8080"
+      URL: 'http://sabnzbd:8080'
       APIKEY: ${SABNZBD_API_KEY}
     networks:
       - media
@@ -50,12 +50,13 @@ services:
   qbittorrent-exporter:
     image: caseyscarborough/qbittorrent-exporter:latest
     container_name: qbittorrent-exporter
+    restart: unless-stopped
     networks:
       - media
       - monitor
     environment:
-        - QBITTORRENT_USERNAME=admin
-        - QBITTORRENT_PASSWORD=${QBITTORRENT_PASSWORD}
-        - QBITTORRENT_BASE_URL=http://gluetun:8080
+      - QBITTORRENT_USERNAME=admin
+      - QBITTORRENT_PASSWORD=${QBITTORRENT_PASSWORD}
+      - QBITTORRENT_BASE_URL=http://gluetun:8080
     ports:
-        - 17871:17871
+      - 17871:17871

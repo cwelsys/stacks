@@ -140,6 +140,7 @@ services:
   db-backup:
     container_name: auth-db-backup
     image: tiredofit/db-backup
+    restart: unless-stopped
     networks:
       - stack
     volumes:

@@ -65,7 +65,7 @@ services:
       # - ${DOCKERM}/gitea/runner/config.yaml:/config.yaml
     environment:
       # - CONFIG_FILE=/config.yaml
-      - GITEA_INSTANCE_URL=http://gitea:3000
+      # - GITEA_INSTANCE_URL=http://gitea:3000
       # - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
       - GITEA_RUNNER_NAME=atlas
 

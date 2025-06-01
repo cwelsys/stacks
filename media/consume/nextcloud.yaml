@@ -98,6 +98,7 @@ services:
   db-backup:
     container_name: nextcloud-db-backup
     image: tiredofit/db-backup
+    restart: unless-stopped
     networks:
       - internal
     volumes:
