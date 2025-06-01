@@ -8,7 +8,7 @@ services:
       - monitor
       - traefik
     environment:
-      - HOMEPAGE_ALLOWED_HOSTS=hp.${CASA}
+      - HOMEPAGE_ALLOWED_HOSTS=${CASA}
       - HOMEPAGE_VAR_LOCAL_DOMAIN=${CASA}
       - HOMEPAGE_VAR_DOMAIN_NAME=${DOMAIN}
       - HOMEPAGE_VAR_SERVER_IP=192.168.4.89
@@ -65,7 +65,7 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.homepage.rule=Host(`hp.${CASA}`)
+      - traefik.http.routers.homepage.rule=Host(`${CASA}`)
       - traefik.http.services.homepage.loadbalancer.server.port=3000
       - traefik.docker.network=internal
 
