@@ -7,7 +7,7 @@ services:
       - 'REDIS_ADDR=ext-redis:6379'
       - 'NAMESPACE=public'
       - 'DOCKER_HOST=tcp://kop-sockp:2375'
-      - 'KOP_HOSTNAME=${HOSTNAME}-public'
+      - 'KOP_HOSTNAME=pbox-public'
       - 'BIND_IP=192.168.4.89'
     depends_on:
       - kop-sockp
@@ -21,7 +21,7 @@ services:
     environment:
       - 'REDIS_ADDR=int-redis:6379'
       - 'DOCKER_HOST=tcp://kop-sockp:2375'
-      - 'KOP_HOSTNAME=${HOSTNAME}-internal'
+      - 'KOP_HOSTNAME=pbox-internal'
       - 'BIND_IP=192.168.4.89'
     depends_on:
       - kop-sockp
