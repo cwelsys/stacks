@@ -132,7 +132,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../pbox.yaml"
+  "../../pbox.yaml"
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
