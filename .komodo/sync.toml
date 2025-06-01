@@ -277,6 +277,7 @@ server = "pbox"
 git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
+webhook_enabled = false
 run_directory = "apps"
 file_paths = [
   "pterodactyl.yaml",
