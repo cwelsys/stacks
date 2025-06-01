@@ -10,10 +10,10 @@ services:
       - internal
       - media
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
-        max-file: "10"
-        max-size: "2m"
+        max-file: '10'
+        max-size: '2m'
     environment:
       - STASH_STASH=/data/
       - STASH_GENERATED=/generated/
@@ -34,6 +34,6 @@ services:
       - ${DOCKERM}/stash/generated:/generated
     labels:
       - traefik.enable=true
-      - traefik.http.routers.stash.rule=Host(`stash.${DOMAIN}`)
+      - traefik.http.routers.stash.rule=Host(`stash.${INTDOMAIN}`)
       - traefik.http.services.stash.loadbalancer.server.port=9999
       - traefik.docker.network=internal

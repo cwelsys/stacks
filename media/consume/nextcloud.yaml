@@ -67,7 +67,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=internal
-      - traefik.http.routers.nextcloud.rule=Host(`cloud.${DOMAIN}`)
+      - traefik.http.routers.nextcloud.rule=Host(`cloud.${INTDOMAIN}`)
       - traefik.http.services.nextcloud.loadbalancer.server.port=80
       - traefik.http.services.nextcloud.loadbalancer.serverstransport=ignorecert@file
       - traefik.http.routers.nextcloud.middlewares=limit-nextcloud,nextcloud-dav
@@ -77,7 +77,7 @@ services:
       - traefik.http.middlewares.limit-nextcloud.buffering.maxResponseBodyBytes=50000000
       - traefik.http.middlewares.limit-nextcloud.buffering.memRequestBodyBytes=50000000
       - traefik.http.middlewares.limit-nextcloud.buffering.memResponseBodyBytes=50000000
-    security_opt: ["label:disable"]
+    security_opt: ['label:disable']
     restart: unless-stopped
     depends_on:
       nextcloud-db:

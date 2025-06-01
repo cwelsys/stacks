@@ -13,12 +13,12 @@ services:
       - DB_CONNECTION=sqlite
       - SPEEDTEST_SCHEDULE= 7 */3 * * *
       - APP_TIMEZONE=${TZ}
-      - APP_URL=https://speed.${DOMAIN}
-      - ASSET_URL=https://speed.${DOMAIN}
+      - APP_URL=https://speed.${INTDOMAIN}
+      - ASSET_URL=https://speed.${INTDOMAIN}
     volumes:
       - ${DOCKERM}/speedtest:/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.speed-test.rule=Host(`speed.${DOMAIN}`)
+      - traefik.http.routers.speed-test.rule=Host(`speed.${INTDOMAIN}`)
       - traefik.http.services.speed-test.loadbalancer.server.port=80
       - traefik.docker.network=internal

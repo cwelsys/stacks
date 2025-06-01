@@ -17,10 +17,10 @@ services:
     networks:
       - internal
     labels:
-     - traefik.enable=true
-     - traefik.http.routers.mealie.rule=Host(`mealie.${DOMAIN}`)
-     - traefik.http.services.mealie.loadbalancer.server.port=3000
-     - traefik.docker.network=internal
+      - traefik.enable=true
+      - traefik.http.routers.mealie.rule=Host(`mealie.${INTDOMAIN}`)
+      - traefik.http.services.mealie.loadbalancer.server.port=3000
+      - traefik.docker.network=internal
 
   mealie-api:
     image: hkotel/mealie:api-v1.0.0beta-5
@@ -33,7 +33,7 @@ services:
     volumes:
       - ${DOCKERM}/mealie:/app/data/
     networks:
-     - internal
+      - internal
     environment:
       - ALLOW_SIGNUP=true
       - PUID=1000
@@ -41,5 +41,5 @@ services:
       - TZ=${TZ}
       - MAX_WORKERS=1
       - WEB_CONCURRENCY=1
-      - BASE_URL=https://mealie.${DOMAIN}
+      - BASE_URL=https://mealie.${INTDOMAIN}
     restart: unless-stopped

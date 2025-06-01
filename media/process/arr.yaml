@@ -19,7 +19,7 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`sonarr.${DOMAIN}`)
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
 
@@ -46,7 +46,7 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.radarr.rule=Host(`radarr.${DOMAIN}`)
+      - traefik.http.routers.radarr.rule=Host(`radarr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.radarr.loadbalancer.server.port=7878
     networks:
@@ -72,7 +72,7 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.lidarr.rule=Host(`lidarr.${DOMAIN}`)
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.lidarr.loadbalancer.server.port=8686
     networks:
@@ -100,7 +100,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=internal
-      - traefik.http.routers.readarr.rule=Host(`readarr.${DOMAIN}`)
+      - traefik.http.routers.readarr.rule=Host(`readarr.${INTDOMAIN}`)
       - traefik.http.services.readarr.loadbalancer.server.port=8787
 
   whisparr:
@@ -120,7 +120,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=internal
-      - traefik.http.routers.whisparr.rule=Host(`whisparr.${DOMAIN}`)
+      - traefik.http.routers.whisparr.rule=Host(`whisparr.${INTDOMAIN}`)
       - traefik.http.services.whisparr.loadbalancer.server.port=6969
 
   prowlarr:
@@ -139,7 +139,7 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${DOMAIN}`)
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
     networks:
@@ -186,7 +186,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.bazarr.rule=Host(`bazarr.${DOMAIN}`)
+      - traefik.http.routers.bazarr.rule=Host(`bazarr.${INTDOMAIN}`)
       - traefik.http.services.bazarr.loadbalancer.server.port=6767
       - traefik.docker.network=internal
 
@@ -204,7 +204,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${DOMAIN}`)
+      - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.maintainerr.loadbalancer.server.port=6246
 
@@ -218,7 +218,7 @@ services:
       - NODE_ENV=production
       - DOCKER_ENV=false
       - PORT=3000
-      - PUBLIC_URL=https://recommendarr.${DOMAIN}
+      - PUBLIC_URL=https://recommendarr.${INTDOMAIN}
       - FORCE_SECURE_COOKIES=true
     volumes:
       - ${DOCKERM}/recommendarr:/app/server/data
@@ -227,7 +227,7 @@ services:
       - internal
     labels:
       - traefik.enable=true
-      - traefik.http.routers.recommendarr.rule=Host(`recommendarr.${DOMAIN}`)
+      - traefik.http.routers.recommendarr.rule=Host(`recommendarr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.recommendarr.loadbalancer.server.port=3000
 
@@ -242,7 +242,7 @@ services:
       - TZ=${TZ}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${DOMAIN}`)
+      - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
     networks:
@@ -280,7 +280,7 @@ services:
       - ${DOCKERM}/autobrr/config:/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.autobrr.rule=Host(`brr.${DOMAIN}`)
+      - traefik.http.routers.autobrr.rule=Host(`brr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.autobrr.loadbalancer.server.port=7474
 
@@ -297,7 +297,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.profilarr.rule=Host(`profilarr.${DOMAIN}`)
+      - traefik.http.routers.profilarr.rule=Host(`profilarr.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.profilarr.loadbalancer.server.port=6868
 

@@ -6,7 +6,7 @@ services:
       - PUID=1000
       - PGID=1001
       - TZ=${TZ}
-      - JELLYFIN_PublishedServerUrl=jellyfin.${DOMAIN}
+      - JELLYFIN_PublishedServerUrl=jellyfin.${INTDOMAIN}
     volumes:
       - ${DOCKERM}/jellyfin:/config
       - ${RUST}:/data
@@ -22,7 +22,7 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyfin.rule=Host(`jellyfin.${DOMAIN}`)
+      - traefik.http.routers.jellyfin.rule=Host(`jellyfin.${INTDOMAIN}`)
       - traefik.docker.network=internal
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
     networks:

@@ -32,7 +32,7 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_PW}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.minio.rule=Host(`minio.${DOMAIN}`)
+      - traefik.http.routers.minio.rule=Host(`minio.${INTDOMAIN}`)
       - traefik.http.services.minio.loadbalancer.server.port=9000
       - traefik.docker.network=internal
 
@@ -51,7 +51,7 @@ services:
       PROXY_SSL: 'true'
     labels:
       - traefik.enable=true
-      - traefik.http.routers.crum.rule=Host(`crum.${DOMAIN}`)
+      - traefik.http.routers.crum.rule=Host(`crum.${INTDOMAIN}`)
       - traefik.http.services.crum.loadbalancer.server.port=3000
       - traefik.docker.network=internal
 
@@ -102,7 +102,7 @@ services:
 
     labels:
       - traefik.enable=true
-      - traefik.http.routers.app.rule=Host(`resume.${DOMAIN}`)
+      - traefik.http.routers.app.rule=Host(`resume.${INTDOMAIN}`)
       - traefik.http.services.app.loadbalancer.server.port=3000
       - traefik.docker.network=internal
 

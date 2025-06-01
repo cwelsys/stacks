@@ -7,9 +7,9 @@ services:
     expose:
       - 5000
     networks:
-     - internal
+      - internal
     labels:
-     - traefik.enable=true
-     - traefik.http.routers.monkeytype.rule=Host(`monkey.${DOMAIN}`)
-     - traefik.http.services.monkeytype.loadbalancer.server.port=5000
-     - traefik.docker.network=internal
+      - traefik.enable=true
+      - traefik.http.routers.monkeytype.rule=Host(`monkey.${INTDOMAIN}`)
+      - traefik.http.services.monkeytype.loadbalancer.server.port=5000
+      - traefik.docker.network=internal

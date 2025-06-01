@@ -1,6 +1,6 @@
 services:
   ytptube:
-    user: "1000:1001" 
+    user: '1000:1001'
     image: ghcr.io/arabcoders/ytptube:latest
     container_name: ytptube
     restart: unless-stopped
@@ -15,6 +15,6 @@ services:
       - /tmp
     labels:
       - traefik.enable=true
-      - traefik.http.routers.metube.rule=Host(`tube.${DOMAIN}`)
+      - traefik.http.routers.metube.rule=Host(`tube.${INTDOMAIN}`)
       - traefik.http.services.metube.loadbalancer.server.port=8081
       - traefik.docker.network=internal

@@ -42,14 +42,14 @@ services:
       - internal
       - monitor
     environment:
-      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
+      - GF_SERVER_ROOT_URL=https://grafana.${INTDOMAIN}
     expose:
       - 3000
     volumes:
       - ${DOCKERM}/grafana:/var/lib/grafana
     labels:
       - traefik.enable=true
-      - traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)
+      - traefik.http.routers.grafana.rule=Host(`grafana.${INTDOMAIN}`)
       - traefik.http.services.grafana.loadbalancer.server.port=3000
       - traefik.docker.network=internal
 
