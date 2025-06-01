@@ -8,7 +8,7 @@ services:
       - 'NAMESPACE=public'
       - 'DOCKER_HOST=tcp://kop-sockp:2375'
       - 'KOP_HOSTNAME=${HOSTNAME}-public'
-      - 'BIND_IP=${SERVER_IP}'
+      - 'BIND_IP=192.168.4.89'
     depends_on:
       - kop-sockp
     networks:
@@ -22,7 +22,7 @@ services:
       - 'REDIS_ADDR=int-redis:6379'
       - 'DOCKER_HOST=tcp://kop-sockp:2375'
       - 'KOP_HOSTNAME=${HOSTNAME}-internal'
-      - 'BIND_IP=${SERVER_IP}'
+      - 'BIND_IP=192.168.4.89'
     depends_on:
       - kop-sockp
     networks:
