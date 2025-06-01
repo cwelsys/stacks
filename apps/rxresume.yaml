@@ -46,7 +46,7 @@ services:
     environment:
       HEALTH: 'true'
       TOKEN: ${CHROME_TOKEN}
-      PROXY_HOST: 'crum.cwel.sh'
+      PROXY_HOST: 'crum.${CASA}'
       PROXY_PORT: 443
       PROXY_SSL: 'true'
     labels:
@@ -72,12 +72,12 @@ services:
       NODE_ENV: production
 
       # -- URLs --
-      PUBLIC_URL: https://resume.cwel.sh
-      STORAGE_URL: https://minio.cwel.sh
+      PUBLIC_URL: https://resume.${CASA}
+      STORAGE_URL: https://minio.${CASA}
 
       # -- Printer (Chrome) --
       CHROME_TOKEN: ${CHROME_TOKEN}
-      CHROME_URL: wss://crum.cwel.sh
+      CHROME_URL: wss://crum.${CASA}
 
       # -- Database (Postgres) --
       DATABASE_URL: postgresql://rxres:${RX_PG_PASS}@rxdb:5432/rxres
