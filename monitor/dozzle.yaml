@@ -9,6 +9,6 @@ services:
       - internal
     labels:
       - traefik.enable=true
-      - traefik.http.routers.dozzle.rule=Host(`logs.${INTDOMAIN}`)
+      - traefik.http.routers.dozzle.rule=Host(`logs.${CASA}`)
       - traefik.http.services.dozzle.loadbalancer.server.port=8080
       - traefik.docker.network=internal

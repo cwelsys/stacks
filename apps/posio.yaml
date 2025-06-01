@@ -13,5 +13,5 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=internal
-      - traefik.http.routers.posio.rule=Host(`posio.${INTDOMAIN}`)
+      - traefik.http.routers.posio.rule=Host(`posio.${CASA}`)
       - traefik.http.services.posio.loadbalancer.server.port=5000

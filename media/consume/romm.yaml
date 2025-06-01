@@ -28,7 +28,7 @@ services:
       # - ${DOCKERM}/media/romm:/romm/config # Path where config.yml is stored
     labels:
       - traefik.enable=true
-      - traefik.http.routers.romm.rule=Host(`romm.${INTDOMAIN}`)
+      - traefik.http.routers.romm.rule=Host(`romm.${CASA}`)
       - traefik.http.services.romm.loadbalancer.server.port=8080
       - traefik.docker.network=internal
     depends_on:
@@ -76,7 +76,7 @@ services:
       - ${FLASH}/romm/library/roms/ps:/roms/psx:ro
     labels:
       - traefik.enable=true
-      - traefik.http.routers.emujs.rule=Host(`emu.${INTDOMAIN}`)
+      - traefik.http.routers.emujs.rule=Host(`emu.${CASA}`)
       - traefik.http.services.emujs.loadbalancer.server.port=80
       - traefik.docker.network=internal
     ports:

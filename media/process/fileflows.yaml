@@ -22,6 +22,6 @@ fileflows:
     - ${DOCKERM}/flows:/app/common
   labels:
     - traefik.enable=true
-    - traefik.http.routers.fileflows.rule=Host(`flows.${INTDOMAIN}`)
+    - traefik.http.routers.fileflows.rule=Host(`flows.${CASA}`)
     - traefik.http.services.fileflows.loadbalancer.server.port=5000
     - traefik.docker.network=internal

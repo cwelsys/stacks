@@ -18,7 +18,7 @@ services:
       - internal
     labels:
       - traefik.enable=true
-      - traefik.http.routers.mealie.rule=Host(`mealie.${INTDOMAIN}`)
+      - traefik.http.routers.mealie.rule=Host(`mealie.${CASA}`)
       - traefik.http.services.mealie.loadbalancer.server.port=3000
       - traefik.docker.network=internal
 
@@ -41,5 +41,5 @@ services:
       - TZ=${TZ}
       - MAX_WORKERS=1
       - WEB_CONCURRENCY=1
-      - BASE_URL=https://mealie.${INTDOMAIN}
+      - BASE_URL=https://mealie.${CASA}
     restart: unless-stopped

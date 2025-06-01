@@ -15,7 +15,7 @@ services:
       - beszel-socket:/beszel_socket
     labels:
       - traefik.enable=true
-      - traefik.http.routers.beszel.rule=Host(`bez.${INTDOMAIN}`)
+      - traefik.http.routers.beszel.rule=Host(`bez.${CASA}`)
       - traefik.http.services.beszel.loadbalancer.server.port=8090
       - traefik.docker.network=internal
 

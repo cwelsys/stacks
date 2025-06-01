@@ -17,7 +17,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=internal
-      - traefik.http.routers.calibre.rule=Host(`calibre.${INTDOMAIN}`)
+      - traefik.http.routers.calibre.rule=Host(`calibre.${CASA}`)
       - traefik.http.services.calibre.loadbalancer.server.port=8083
 
   calibre-web-automated-book-downloader:
@@ -41,5 +41,5 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=internal
-      - traefik.http.routers.bookr.rule=Host(`bookr.${INTDOMAIN}`)
+      - traefik.http.routers.bookr.rule=Host(`bookr.${CASA}`)
       - traefik.http.services.bookr.loadbalancer.server.port=8084

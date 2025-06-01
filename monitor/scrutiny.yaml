@@ -17,7 +17,7 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.scrutiny.rule=Host(`scrutiny.${INTDOMAIN}`)
+      - traefik.http.routers.scrutiny.rule=Host(`scrutiny.${CASA}`)
       - traefik.docker.network=internal
       - traefik.http.services.scrutiny.loadbalancer.server.port=8080
     networks:

@@ -31,6 +31,6 @@ services:
       - internal
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backrest.rule=Host(`backrest.${INTDOMAIN}`)
+      - traefik.http.routers.backrest.rule=Host(`backrest.${CASA}`)
       - traefik.http.services.backrest.loadbalancer.server.port=9898
       - traefik.docker.network=internal

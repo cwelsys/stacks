@@ -24,7 +24,7 @@ services:
       BASE_URL: https://frss.cwel.sh
     labels:
       - traefik.enable=true
-      - traefik.http.routers.freshrss.rule=Host(`frss.${INTDOMAIN}`)
+      - traefik.http.routers.freshrss.rule=Host(`frss.${CASA}`)
       - traefik.http.services.freshrss.loadbalancer.server.port=80
       - traefik.docker.network=internal
 

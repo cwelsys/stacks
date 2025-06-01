@@ -15,6 +15,6 @@ services:
       - /tmp
     labels:
       - traefik.enable=true
-      - traefik.http.routers.metube.rule=Host(`tube.${INTDOMAIN}`)
+      - traefik.http.routers.metube.rule=Host(`tube.${CASA}`)
       - traefik.http.services.metube.loadbalancer.server.port=8081
       - traefik.docker.network=internal

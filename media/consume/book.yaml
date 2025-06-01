@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.kavita.rule=Host(`kavita.${INTDOMAIN}`)
+      - traefik.http.routers.kavita.rule=Host(`kavita.${CASA}`)
       - traefik.http.services.kavita.loadbalancer.server.port=5000
       - traefik.docker.network=internal
 
@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.audiobookshelf.rule=Host(`abs.${INTDOMAIN}`)
+      - traefik.http.routers.audiobookshelf.rule=Host(`abs.${CASA}`)
       - traefik.http.services.audiobookshelf.loadbalancer.server.port=80
       - traefik.docker.network=internal
 
@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.bookbounty.rule=Host(`bookbounty.${INTDOMAIN}`)
+      - traefik.http.routers.bookbounty.rule=Host(`bookbounty.${CASA}`)
       - traefik.http.services.bookbounty.loadbalancer.server.port=5000
       - traefik.docker.network=internal
 
@@ -79,6 +79,6 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.ebookbuddy.rule=Host(`ebookbuddy.${INTDOMAIN}`)
+      - traefik.http.routers.ebookbuddy.rule=Host(`ebookbuddy.${CASA}`)
       - traefik.http.services.ebookbuddy.loadbalancer.server.port=5000
       - traefik.docker.network=internal

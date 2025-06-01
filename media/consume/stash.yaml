@@ -34,6 +34,6 @@ services:
       - ${DOCKERM}/stash/generated:/generated
     labels:
       - traefik.enable=true
-      - traefik.http.routers.stash.rule=Host(`stash.${INTDOMAIN}`)
+      - traefik.http.routers.stash.rule=Host(`stash.${CASA}`)
       - traefik.http.services.stash.loadbalancer.server.port=9999
       - traefik.docker.network=internal

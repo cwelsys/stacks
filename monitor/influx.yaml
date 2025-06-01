@@ -18,6 +18,6 @@ services:
       - ${DOCKERM}/influxdb/cfg:/etc/influxdb2
     labels:
       - traefik.enable=true
-      - traefik.http.routers.influxdb.rule=Host(`influxdb.${INTDOMAIN}`)
+      - traefik.http.routers.influxdb.rule=Host(`influxdb.${CASA}`)
       - traefik.http.services.influxdb.loadbalancer.server.port=8086
       - traefik.docker.network=internal

@@ -35,7 +35,7 @@ services:
       start_period: 30s
     labels:
       - traefik.enable=true
-      - traefik.http.routers.plex.rule=Host(`plex.${INTDOMAIN}`)
+      - traefik.http.routers.plex.rule=Host(`plex.${CASA}`)
       - traefik.http.services.plex.loadbalancer.server.port=32400
       - traefik.docker.network=internal
     runtime: nvidia
@@ -61,7 +61,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.tautulli.rule=Host(`tautulli.${INTDOMAIN}`)
+      - traefik.http.routers.tautulli.rule=Host(`tautulli.${CASA}`)
       - traefik.docker.network=internal
       - traefik.http.services.tautulli.loadbalancer.server.port=8181
 
