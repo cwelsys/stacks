@@ -352,6 +352,19 @@ KOMO_API_SECRET=[[KOMODO__API_SECRET]]
 ##
 
 [[build]]
+name = "homepage"
+[build.config]
+builder = "local"
+git_provider = "git.cwel.casa"
+git_account = "cwel"
+repo = "cwel/homepage"
+branch = "dev"
+image_registry.domain = "git.cwel.casa"
+image_registry.account = "cwel"
+
+##
+
+[[build]]
 name = "komodo-op"
 [build.config]
 builder = "local"
