@@ -13,7 +13,7 @@ name = "arr"
 [stack.config]
 server = "pbox"
 poll_for_updates = true
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
@@ -40,7 +40,7 @@ name = "auth"
 [stack.config]
 server = "pbox"
 poll_for_updates = true
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
@@ -63,7 +63,7 @@ SMTPASS=[[SMTP__PASSWORD]]
 name = "dash"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps"
@@ -123,7 +123,7 @@ ABS_API_KEY=[[AUDIOBOOKSHELF__API]]
 name = "discord"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps/discord"
@@ -150,7 +150,7 @@ OVERSEERR_API_KEY=[[OVERSEERR__API]]
 name = "downs"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
@@ -189,7 +189,7 @@ GITEA_RUNNER_TOKEN=[[GITEA__RUNNER]]
 name = "media"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/consume"
@@ -219,7 +219,7 @@ name = "monitor"
 [stack.config]
 server = "pbox"
 poll_for_updates = true
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "monitor"
@@ -274,7 +274,7 @@ BOUNCER_HOST=crowdsec:8080
 name = "pterodactyl"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps"
@@ -298,7 +298,7 @@ name = "services"
 server = "pbox"
 poll_for_updates = true
 auto_update = true
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "apps"
@@ -328,7 +328,7 @@ name = "utils"
 [stack.config]
 server = "pbox"
 auto_update = true
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "utils"
@@ -354,7 +354,7 @@ KOMO_API_SECRET=[[KOMODO__API_SECRET]]
 name = "komodo-op"
 [build.config]
 builder = "local"
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/komodo-op"
 
@@ -365,7 +365,7 @@ name = "stacks"
 [repo.config]
 server = "pbox"
 builder = "local"
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 git_account = "cwel"
 repo = "cwel/stacks"
 
@@ -382,7 +382,7 @@ params.server_id = "pbox"
 [[resource_sync]]
 name = "stacks"
 [resource_sync.config]
-git_provider = "git.cwel.sh"
+git_provider = "git.casa.cwel.sh"
 repo = "cwel/stacks"
 git_account = "cwel"
 resource_path = [".komodo/sync.toml"]
