@@ -453,11 +453,11 @@ accounts = [
 ## They cannot be configured on the environment.
 
 ## configure docker registries
-# [[docker_registry]]
-# domain = "docker.io"
-# accounts = [
-# 	{ username = "mbecker2020", token = "access_token_for_account" }
-# ]
+  [[docker_registry]]
+  domain = "ghcr.io"
+  accounts = [
+  { username = "cwelsys", token = "op://Secrets/Git/github token" }
+]
 # organizations = ["DockerhubOrganization"]
 
 [[docker_registry]]
