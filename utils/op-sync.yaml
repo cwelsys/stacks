@@ -14,8 +14,6 @@ services:
       - ${DOCKERM}/ts-opc:/var/lib/tailscale
     devices:
       - /dev/net/tun:/dev/net/tun
-    expose:
-      - 8080
     cap_add:
       - net_admin
       - sys_module
@@ -62,6 +60,7 @@ services:
     depends_on:
       tscar-opc:
         condition: service_healthy
+      op-connect-api:
     environment:
       KOMODO_HOST: 'https://komo.cwel.sh'
       KOMODO_API_KEY: ${KOMO_API_KEY}
