@@ -1,6 +1,6 @@
 services:
   op-connect-api:
-    network_mode: service:tailscale
+    network_mode: service:tscar-opc
     container_name: op-connect-api
     image: 1password/connect-api:latest
     expose:
@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
 
   op-connect-sync:
-    network_mode: service:tailscale
+    network_mode: service:tscar-opc
     container_name: op-connect-sync
     image: 1password/connect-sync:latest
     volumes:
@@ -26,7 +26,7 @@ services:
   komodo-op:
     container_name: komodo-op
     image: ghcr.io/cwelsys/komodo-op:latest
-    network_mode: service:tailscale
+    network_mode: service:tscar-opc
     depends_on:
       - op-connect-api
     environment:
@@ -40,7 +40,7 @@ services:
       LOG_LEVEL: 'INFO'
     restart: unless-stopped
 
-  tailscale:
+  tscar-opc:
     image: tailscale/tailscale:latest
     container_name: tscar-opc
     hostname: opc
