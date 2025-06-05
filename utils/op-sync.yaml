@@ -3,8 +3,6 @@ services:
     network_mode: service:tscar-opc
     container_name: op-connect-api
     image: 1password/connect-api:latest
-    expose:
-      - 8080
     volumes:
       - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
       - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
@@ -53,6 +51,8 @@ services:
       - TS_EXTRA_ARGS=--accept-dns=true
     volumes:
       - ${DOCKERM}/ts-opc:/var/lib/tailscale
+    ports:
+      - '8080:8080'
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
