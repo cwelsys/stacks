@@ -1,47 +1,4 @@
 services:
-  op-connect-api:
-    network_mode: service:tscar-opc
-    container_name: op-connect-api
-    image: 1password/connect-api:latest
-    volumes:
-      - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
-      - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
-    environment:
-      OP_SESSION: /home/opuser/.op/1password-credentials.json
-    restart: unless-stopped
-    depends_on:
-      - tscar-opc
-
-  op-connect-sync:
-    network_mode: service:tscar-opc
-    container_name: op-connect-sync
-    image: 1password/connect-sync:latest
-    volumes:
-      - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
-      - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
-    environment:
-      OP_SESSION: /home/opuser/.op/1password-credentials.json
-    restart: unless-stopped
-    depends_on:
-      - tscar-opc
-
-  komodo-op:
-    container_name: komodo-op
-    image: ghcr.io/cwelsys/komodo-op:latest
-    network_mode: service:tscar-opc
-    depends_on:
-      - op-connect-api
-    environment:
-      KOMODO_HOST: 'https://komo.cwel.sh'
-      KOMODO_API_KEY: ${KOMO_API_KEY}
-      KOMODO_API_SECRET: ${KOMO_API_SECRET}
-      OP_CONNECT_HOST: 'http://op-connect-api:8080'
-      OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
-      OP_VAULT: '2ckfzps6ihnew6pf5rvbdysm2u'
-      SYNC_INTERVAL: '1h'
-      LOG_LEVEL: 'INFO'
-    restart: unless-stopped
-
   tscar-opc:
     image: tailscale/tailscale:latest
     container_name: tscar-opc
@@ -64,8 +21,54 @@ services:
       - sys_module
     healthcheck:
       test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:41244/healthz']
-      interval: 1m
+      interval: 10s
       timeout: 10s
       retries: 3
       start_period: 10s
     restart: always
+
+  op-connect-api:
+    network_mode: service:tscar-opc
+    container_name: op-connect-api
+    image: 1password/connect-api:latest
+    volumes:
+      - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
+      - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
+    environment:
+      OP_SESSION: /home/opuser/.op/1password-credentials.json
+    restart: unless-stopped
+    depends_on:
+      tscar-opc:
+        condition: service_healthy
+
+  op-connect-sync:
+    network_mode: service:tscar-opc
+    container_name: op-connect-sync
+    image: 1password/connect-sync:latest
+    volumes:
+      - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
+      - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
+    environment:
+      OP_SESSION: /home/opuser/.op/1password-credentials.json
+    restart: unless-stopped
+    depends_on:
+      tscar-opc:
+        condition: service_healthy
+
+  komodo-op:
+    container_name: komodo-op
+    image: ghcr.io/cwelsys/komodo-op:latest
+    network_mode: service:tscar-opc
+    depends_on:
+      tscar-opc:
+        condition: service_healthy
+    environment:
+      KOMODO_HOST: 'https://komo.cwel.sh'
+      KOMODO_API_KEY: ${KOMO_API_KEY}
+      KOMODO_API_SECRET: ${KOMO_API_SECRET}
+      OP_CONNECT_HOST: 'http://op-connect-api:8080'
+      OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
+      OP_VAULT: '2ckfzps6ihnew6pf5rvbdysm2u'
+      SYNC_INTERVAL: '1h'
+      LOG_LEVEL: 'INFO'
+    restart: unless-stopped
