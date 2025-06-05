@@ -51,10 +51,10 @@ services:
       - TS_EXTRA_ARGS=--accept-dns=true
     volumes:
       - ${DOCKERM}/ts-opc:/var/lib/tailscale
-    ports:
-      - '8080:8080'
     devices:
       - /dev/net/tun:/dev/net/tun
+    expose:
+      - 8080
     cap_add:
       - net_admin
       - sys_module
