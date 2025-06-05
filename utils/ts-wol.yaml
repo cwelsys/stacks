@@ -6,7 +6,7 @@ services:
     environment:
       - TAILSCALE_HOSTNAME=wol
       - TAILSCALE_AUTHKEY=${TS_AUTHKEY}
-      - WOL_NETWORK=192.168.4.0/22
+      - WOL_NETWORK=192.168.1.0/24
     restart: unless-stopped
     volumes:
       - tailscale-wakeonlan-state:/var/lib/tailscale
