@@ -9,6 +9,8 @@ services:
     environment:
       OP_SESSION: /home/opuser/.op/1password-credentials.json
     restart: unless-stopped
+    depends_on:
+      - tscar-opc
 
   op-connect-sync:
     network_mode: service:tscar-opc
@@ -20,6 +22,8 @@ services:
     environment:
       OP_SESSION: /home/opuser/.op/1password-credentials.json
     restart: unless-stopped
+    depends_on:
+      - tscar-opc
 
   komodo-op:
     container_name: komodo-op
