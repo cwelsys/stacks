@@ -66,7 +66,7 @@ services:
       KOMODO_API_SECRET: ${KOMO_API_SECRET}
       OP_CONNECT_HOST: 'http://opc:8420'
       OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
-      OP_VAULT: '2ckfzps6ihnew6pf5rvbdysm2u'
+      OP_VAULT: ${OP_VAULT_UUID}
       SYNC_INTERVAL: '1h'
       LOG_LEVEL: 'INFO'
     restart: unless-stopped
