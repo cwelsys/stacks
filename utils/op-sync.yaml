@@ -61,7 +61,7 @@ services:
       tscar-opc:
         condition: service_healthy
     environment:
-      KOMODO_HOST: 'https://komo.cwel.sh'
+      KOMODO_HOST: 'https://komo.cwel.casa'
       KOMODO_API_KEY: ${KOMO_API_KEY}
       KOMODO_API_SECRET: ${KOMO_API_SECRET}
       OP_CONNECT_HOST: 'http://opc:8420'
