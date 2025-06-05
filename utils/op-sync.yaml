@@ -9,7 +9,7 @@ services:
       - TS_USERSPACE=false
       - TS_ENABLE_HEALTH_CHECK=true
       - TS_LOCAL_ADDR_PORT=127.0.0.1:41244
-      - TS_EXTRA_ARGS=--accept-dns=true
+      - TS_EXTRA_ARGS=--accept-dns
     volumes:
       - ${DOCKERM}/ts-opc:/var/lib/tailscale
     devices:
