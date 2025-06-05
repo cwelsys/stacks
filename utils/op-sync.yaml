@@ -64,7 +64,7 @@ services:
       KOMODO_HOST: 'https://komo.cwel.sh'
       KOMODO_API_KEY: ${KOMO_API_KEY}
       KOMODO_API_SECRET: ${KOMO_API_SECRET}
-      OP_CONNECT_HOST: 'https://opc:8420'
+      OP_CONNECT_HOST: 'http://opc:8420'
       OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
       OP_VAULT: '2ckfzps6ihnew6pf5rvbdysm2u'
       SYNC_INTERVAL: '1h'
