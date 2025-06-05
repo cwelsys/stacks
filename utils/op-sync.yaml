@@ -33,6 +33,7 @@ services:
       - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
     environment:
       OP_SESSION: /home/opuser/.op/1password-credentials.json
+      OP_HTTP_PORT: 8420
     restart: unless-stopped
     depends_on:
       tscar-opc:
@@ -63,7 +64,7 @@ services:
       KOMODO_HOST: 'https://komo.cwel.sh'
       KOMODO_API_KEY: ${KOMO_API_KEY}
       KOMODO_API_SECRET: ${KOMO_API_SECRET}
-      OP_CONNECT_HOST: 'http://op-connect-api:8080'
+      OP_CONNECT_HOST: 'http://op-connect-api:8420'
       OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
       OP_VAULT: '2ckfzps6ihnew6pf5rvbdysm2u'
       SYNC_INTERVAL: '1h'
