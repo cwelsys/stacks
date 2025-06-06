@@ -359,7 +359,8 @@ file_paths = [
   "it-tools.yaml",
   "codeserver.yaml",
   "linkding.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
+  "ts-wol.yaml"
 ]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__SOCKET]]
