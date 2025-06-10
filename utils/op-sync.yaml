@@ -9,6 +9,8 @@ services:
       - TS_USERSPACE=false
       - TS_ENABLE_HEALTH_CHECK=true
       - TS_LOCAL_ADDR_PORT=127.0.0.1:41244
+    ports:
+      - 8420:8420
     volumes:
       - ${DOCKERM}/ts-opc:/var/lib/tailscale
     devices:
