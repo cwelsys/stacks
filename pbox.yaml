@@ -6,8 +6,6 @@ networks:
     internal: true
   media:
     external: true
-  traefik:
-    external: true
   internal:
     external: true
   public:
@@ -18,7 +16,10 @@ networks:
     external: true
   gitea:
     external: true
-  nextcloud:
-    external: true
   monitor:
     external: true
+  traefik:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
