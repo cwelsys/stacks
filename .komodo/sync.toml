@@ -13,6 +13,7 @@ name = "arr"
 [stack.config]
 server = "pbox"
 poll_for_updates = true
+auto_update = true
 git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
@@ -63,6 +64,7 @@ SMTPASS=[[SMTP__PASSWORD]]
 name = "dash"
 [stack.config]
 server = "pbox"
+auto_update = true
 git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
@@ -219,6 +221,7 @@ name = "monitor"
 [stack.config]
 server = "pbox"
 poll_for_updates = true
+auto_update = true
 git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
