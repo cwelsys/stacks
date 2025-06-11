@@ -1,6 +1,6 @@
 services:
   romm:
-    image: rommapp/romm:3.10.1
+    image: rommapp/romm:latest
     container_name: romm
     restart: unless-stopped
     networks:
