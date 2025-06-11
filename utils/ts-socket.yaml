@@ -3,8 +3,6 @@ services:
     image: tailscale/tailscale:latest
     container_name: tscar-sockp
     hostname: psock
-    ports:
-      - 2420:2375
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
