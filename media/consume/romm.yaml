@@ -3,6 +3,7 @@ services:
     image: rommapp/romm
     container_name: romm
     restart: unless-stopped
+    platform: linux/amd64
     networks:
       - internal
       - default
