@@ -1,3 +1,12 @@
+# docker network create --driver=bridge --attachable internal
+# docker network create --driver=bridge --attachable --subnet=10.99.0.0/24 public
+# docker network create --driver=bridge --internal -attachable stack
+# docker network create --driver=bridge --internal --attachable kop
+# docker network create --driver=bridge --internal --attachable crowdsec
+# docker network create --driver=bridge --attachable media
+# docker network create --driver=bridge --attachable gitea
+# docker network create --driver=bridge --attachable monitor
+
 volumes:
   cache:
 
