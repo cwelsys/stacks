@@ -13,7 +13,7 @@ services:
       - kop-sockp
     networks:
       - kop
-      - stack
+      - default
   int-kop:
     container_name: int-kop
     image: ghcr.io/jittering/traefik-kop:latest
@@ -27,12 +27,12 @@ services:
       - kop-sockp
     networks:
       - kop
-      - stack
+      - default
   kop-sockp:
     container_name: kop-sockp
     image: lscr.io/linuxserver/socket-proxy:latest
     networks:
-      - stack
+      - default
     environment:
       - ALLOW_START=0
       - ALLOW_STOP=0
