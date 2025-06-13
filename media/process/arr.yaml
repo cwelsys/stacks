@@ -191,23 +191,23 @@ services:
       - traefik.http.services.bazarr.loadbalancer.server.port=6767
       - traefik.docker.network=internal
 
-  maintainerr:
-    image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
-    container_name: maintainerr
-    user: 1001:1001
-    networks:
-      - internal
-      - media
-    volumes:
-      - ${DOCKERM}/maintainerr:/opt/data
-    environment:
-      - TZ=${TZ}
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${CASA}`)
-      - traefik.docker.network=internal
-      - traefik.http.services.maintainerr.loadbalancer.server.port=6246
+  # maintainerr:
+  #   image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
+  #   container_name: maintainerr
+  #   user: 1001:1001
+  #   networks:
+  #     - internal
+  #     - media
+  #   volumes:
+  #     - ${DOCKERM}/maintainerr:/opt/data
+  #   environment:
+  #     - TZ=${TZ}
+  #   restart: unless-stopped
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${CASA}`)
+  #     - traefik.docker.network=internal
+  #     - traefik.http.services.maintainerr.loadbalancer.server.port=6246
 
   recommendarr:
     image: tannermiddleton/recommendarr:latest
