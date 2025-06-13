@@ -27,7 +27,7 @@ services:
     networks:
       - internal
       - media
-      - stack
+      - default
     cap_add:
       - NET_ADMIN
     devices:
@@ -58,7 +58,7 @@ services:
     container_name: qsticky
     restart: unless-stopped
     networks:
-      - stack
+      - default
     environment:
       # qBittorrent settings
       QBITTORRENT_HOST: gluetun
