@@ -54,30 +54,30 @@ services:
       timeout: 5s
       retries: 5
 
-  emulatorjs:
-    image: lscr.io/linuxserver/emulatorjs:latest
-    container_name: emulatorjs
-    networks:
-      - internal
-    environment:
-      - PUID=1000
-      - PGID=1001
-      - TZ=${TZ}
-      # - SUBFOLDER=/ #optional
-    volumes:
-      - ${DOCKERM}/emujs:/config
-      - ${DOCKERM}/emujs:/data
-      - ${FLASH}/romm/library/roms/nes:/roms/nes:ro
-      - ${FLASH}/romm/library/roms/snes:/roms/snes:ro
-      - ${FLASH}/romm/library/roms/n64:/roms/n64:ro
-      - ${FLASH}/romm/library/roms/ps:/roms/psx:ro
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.emujs.rule=Host(`emu.${CASA}`)
-      - traefik.http.services.emujs.loadbalancer.server.port=80
-      - traefik.docker.network=internal
-    ports:
-      - 3025:3000
-      # - 85:80
-      #- 4001:4001 #optional
-    restart: unless-stopped
+  # emulatorjs:
+  #   image: lscr.io/linuxserver/emulatorjs:latest
+  #   container_name: emulatorjs
+  #   networks:
+  #     - internal
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1001
+  #     - TZ=${TZ}
+  #     # - SUBFOLDER=/ #optional
+  #   volumes:
+  #     - ${DOCKERM}/emujs:/config
+  #     - ${DOCKERM}/emujs:/data
+  #     - ${FLASH}/romm/library/roms/nes:/roms/nes:ro
+  #     - ${FLASH}/romm/library/roms/snes:/roms/snes:ro
+  #     - ${FLASH}/romm/library/roms/n64:/roms/n64:ro
+  #     - ${FLASH}/romm/library/roms/ps:/roms/psx:ro
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.emujs.rule=Host(`emu.${CASA}`)
+  #     - traefik.http.services.emujs.loadbalancer.server.port=80
+  #     - traefik.docker.network=internal
+  #   ports:
+  #     - 3025:3000
+  #     # - 85:80
+  #     #- 4001:4001 #optional
+  #   restart: unless-stopped
