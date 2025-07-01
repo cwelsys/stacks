@@ -36,6 +36,7 @@ services:
       - traefik.http.services.komodo.loadbalancer.server.port=9120
       - traefik.docker.network=internal
       # - kop.namespace=public
+      - com.centurylinklabs.watchtower.enable="true"
     restart: unless-stopped
     networks:
       - internal
@@ -65,6 +66,7 @@ services:
       - stack
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+      com.centurylinklabs.watchtower.enable: 'true'
     restart: unless-stopped
     logging:
       driver: ${COMPOSE_LOGGING_DRIVER:-local}
@@ -77,6 +79,8 @@ services:
     container_name: komo-db-backup
     image: tiredofit/db-backup
     restart: unless-stopped
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - stack
     volumes:
@@ -95,3 +99,12 @@ services:
       - DB01_HOST=mongo
       - DB01_USER=${KOMODO_DB_USERNAME}
       - DB01_PASS=${KOMODO_DB_PASSWORD}
+  watchtower:
+    image: containrrr/watchtower
+    container_name: komo-watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --label-enable --cleanup --interval 3600
+    networks:
+      - stack
