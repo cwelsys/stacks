@@ -1,0 +1,105 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tscar-sockp
+    hostname: psock
+    ports:
+      - 8420:8420
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+      - TS_ENABLE_HEALTH_CHECK=true
+      - TS_LOCAL_ADDR_PORT=127.0.0.1:41234
+      # - TS_EXTRA_ARGS=--accept-dns=true
+    volumes:
+      - ${DOCKERM}/tailscale:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:41234/healthz']
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: always
+  psock:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: ts-sockp
+    network_mode: service:tailscale
+    environment:
+      - ALLOW_START=1
+      - ALLOW_STOP=1
+      - ALLOW_RESTARTS=1
+      - AUTH=1
+      - BUILD=1
+      - COMMIT=1
+      - CONFIGS=1
+      - CONTAINERS=1
+      - DISABLE_IPV6=0
+      - DISTRIBUTION=1
+      - EVENTS=1
+      - EXEC=1
+      - IMAGES=1
+      - INFO=1
+      - LOG_LEVEL=info
+      - NETWORKS=1
+      - NODES=1
+      - PING=1
+      - PLUGINS=1
+      - POST=1
+      - SECRETS=1
+      - SERVICES=1
+      - SESSION=1
+      - SWARM=1
+      - SYSTEM=1
+      - TASKS=1
+      - VERSION=1
+      - VOLUMES=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: always
+    read_only: true
+    tmpfs:
+      - /run
+
+  op-connect-api:
+    container_name: op-connect-api
+    image: 1password/connect-api:latest
+    network_mode: service:tailscale
+    volumes:
+      - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
+      - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
+    environment:
+      OP_SESSION: /home/opuser/.op/1password-credentials.json
+      OP_HTTP_PORT: 8420
+    restart: always
+
+  op-connect-sync:
+    container_name: op-connect-sync
+    image: 1password/connect-sync:latest
+    network_mode: service:tailscale
+    volumes:
+      - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
+      - ${DOCKERM}/op-sync/data:/home/opuser/.op/data
+    environment:
+      OP_SESSION: /home/opuser/.op/1password-credentials.json
+    restart: always
+
+  komodo-op:
+    container_name: komodo-op
+    image: ghcr.io/cwelsys/komodo-op:latest
+    network_mode: service:tailscale
+    environment:
+      KOMODO_HOST: 'https://komo.cwel.casa'
+      KOMODO_API_KEY: ${KOMO_API_KEY}
+      KOMODO_API_SECRET: ${KOMO_API_SECRET}
+      OP_CONNECT_HOST: 'http://localhost:8420'
+      OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
+      OP_VAULT: ${OP_VAULT_UUID}
+      SYNC_INTERVAL: '1h'
+      LOG_LEVEL: 'INFO'
+    restart: always
