@@ -18,7 +18,11 @@ git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = ["arr.yaml", "exportarr.yaml", "../../pbox.yaml"]
+file_paths = [
+  "arr.yaml",
+  "exportarr.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
 RADARR_API_KEY=[[RADARR__API]]
@@ -41,7 +45,10 @@ git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
-file_paths = ["authentik.yaml", "../../pbox.yaml"]
+file_paths = [
+  "authentik.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -127,7 +134,7 @@ file_paths = [
   "muse.yaml",
   "doplarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -149,7 +156,12 @@ git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = ["tortun.yaml", "sab.yaml", "metube.yaml", "../../pbox.yaml"]
+file_paths = [
+  "tortun.yaml",
+  "sab.yaml",
+  "metube.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -191,7 +203,7 @@ file_paths = [
   "immich.yaml",
   "freshrss.yaml",
   "romm.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -223,7 +235,7 @@ file_paths = [
   "beszel.yaml",
   "influx.yaml",
   "umami.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -264,7 +276,12 @@ poll_for_updates = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["internal.yaml", "external.yaml", "kop.yaml", "../../pbox.yaml"]
+file_paths = [
+  "internal.yaml",
+  "external.yaml",
+  "kop.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -285,7 +302,10 @@ git_account = "cwel"
 repo = "cwel/stacks"
 webhook_enabled = false
 run_directory = "apps"
-file_paths = ["pterodactyl.yaml", "../pbox.yaml"]
+file_paths = [
+  "pterodactyl.yaml",
+  "../pbox.yaml"
+]
 environment = """
 SMTP_USER=[[SMTP__USER]]
 SMTP_PASS=[[SMTP__PASSWORD]]
@@ -312,7 +332,7 @@ file_paths = [
   "mealie.yaml",
   "monkey.yaml",
   "posio.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 SMTP_USER=[[SMTP__USER]]
@@ -342,8 +362,7 @@ file_paths = [
   "it-tools.yaml",
   "codeserver.yaml",
   "linkding.yaml",
-  "../pbox.yaml",
-  "ts-wol.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__SOCKET]]
