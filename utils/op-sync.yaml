@@ -59,9 +59,6 @@ services:
     container_name: komodo-op
     image: ghcr.io/cwelsys/komodo-op:latest
     network_mode: service:tscar-opc
-    depends_on:
-      tscar-opc:
-        condition: service_healthy
     environment:
       KOMODO_HOST: 'https://komo.cwel.casa'
       KOMODO_API_KEY: ${KOMO_API_KEY}
