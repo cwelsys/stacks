@@ -6,7 +6,7 @@ services:
       - ${DOCKERM}/rustdesk:/db
       - ${DOCKERM}/rustdesk:/data
     restart: unless-stopped
-    network:
+    networks:
       - internal
     environment:
       - RELAY=rdp.${CASA}:21117
