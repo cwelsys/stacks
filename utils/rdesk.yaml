@@ -1,16 +1,20 @@
-## Add your compose file here
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
+  hbbs:
+    container_name: hbbs
+    image: rustdesk/rustdesk-server:latest
+    command: hbbs
+    volumes:
+      - ${DOCKERM}/rustdesk:/root
+    network_mode: 'host'
+    depends_on:
+      - hbbr
+    restart: unless-stopped
 
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  hbbr:
+    container_name: hbbr
+    image: rustdesk/rustdesk-server:latest
+    command: hbbr
+    volumes:
+      - ${DOCKERM}/rustdesk:/root
+    network_mode: 'host'
+    restart: unless-stopped
