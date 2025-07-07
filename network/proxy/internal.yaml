@@ -13,6 +13,9 @@ services:
       - 80:80
       - 443:443
       # - "8180:8080"
+      - 21115:21115
+      - 21116:21116
+      - 21117:21117
     environment:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
