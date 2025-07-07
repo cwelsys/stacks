@@ -6,6 +6,8 @@ services:
       - ${DOCKERM}/rustdesk:/db
       - ${DOCKERM}/rustdesk:/data
     restart: unless-stopped
+    network:
+      - internal
     environment:
       - RELAY=rdp.${CASA}:21117
       - ENCRYPTED_ONLY=1
@@ -17,3 +19,4 @@ services:
       - 21116:21116/udp
     labels:
       - traefik.enable=true
+      - traefik.docker.network=internal
