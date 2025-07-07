@@ -1,22 +1,20 @@
 services:
-  rustdesk:
-    container_name: rustdesk
-    image: ghcr.io/rustdesk/rustdesk-server-s6:latest
+  hbbs:
+    container_name: hbbs
+    image: rustdesk/rustdesk-server:latest
+    command: hbbs
     volumes:
-      - ${DOCKERM}/rustdesk:/db
-      - ${DOCKERM}/rustdesk:/data
+      - ${DOCKERM}/rustdesk:/root
+    network_mode: 'host'
+    depends_on:
+      - hbbr
     restart: unless-stopped
-    networks:
-      - internal
-    environment:
-      - RELAY=rdp.${CASA}:21117
-      - ENCRYPTED_ONLY=1
-      - DB_URL=/db/db_v2.sqlite3
-      - KEY_PRIV=${RUSTDESK_PRIV}
-      - KEY_PUB=${RUSTDESK_PUB}
-      - RUST_LOG=debug
-    ports:
-      - 21116:21116/udp
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=internal
+
+  hbbr:
+    container_name: hbbr
+    image: rustdesk/rustdesk-server:latest
+    command: hbbr
+    volumes:
+      - ${DOCKERM}/rustdesk:/root
+    network_mode: 'host'
+    restart: unless-stopped

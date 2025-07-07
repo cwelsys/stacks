@@ -345,10 +345,6 @@ file_paths = [
   "linkding.yaml",
   "../pbox.yaml",
 ]
-environment = """
-RUSTDESK_PRIV=[[RUSTDESK__PRIV]]
-RUSTDESK_PUB=[[RUSTDESK__PUB]]
-"""
 
 ##
 
