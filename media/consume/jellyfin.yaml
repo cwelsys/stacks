@@ -6,7 +6,7 @@ services:
       - PUID=1000
       - PGID=1001
       - TZ=${TZ}
-      - JELLYFIN_PublishedServerUrl=jellyfin.${CASA}
+      - JELLYFIN_PublishedServerUrl=jellyfin.${DOMAIN}
     volumes:
       - ${DOCKERM}/jellyfin:/config
       - ${RUST}:/data
@@ -22,11 +22,11 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyfin.rule=Host(`jelly.${CASA}`)
-      - traefik.docker.network=internal
+      - traefik.http.routers.jellyfin.rule=Host(`jelly.${DOMAIN}`)
+      - traefik.docker.network=public
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
     networks:
-      - internal
+      - public
       - media
     runtime: nvidia
     deploy:
