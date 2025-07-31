@@ -147,27 +147,55 @@ services:
       - internal
       - media
 
-  overseerr:
-    image: lscr.io/linuxserver/overseerr:latest
-    container_name: overseerr
+  # overseerr:
+  #   image: lscr.io/linuxserver/overseerr:latest
+  #   container_name: overseerr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1001
+  #     - TZ=${TZ}
+  #   volumes:
+  #     - ${DOCKERM}/overseerr:/config
+  #   restart: unless-stopped
+  #   ports:
+  #     - 5055:5055
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.overseerr.rule=Host(`req.${DOMAIN}`)
+  #     - traefik.docker.network=public
+  #     - traefik.http.services.overseerr.loadbalancer.server.port=5055
+  #     - kop.namespace=public
+  #   networks:
+  #     - public
+  #     - media
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
     environment:
-      - PUID=1000
-      - PGID=1001
+      - LOG_LEVEL=debug
       - TZ=${TZ}
-    volumes:
-      - ${DOCKERM}/overseerr:/config
-    restart: unless-stopped
-    ports:
-      - 5055:5055
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.overseerr.rule=Host(`req.${DOMAIN}`)
-      - traefik.docker.network=public
-      - traefik.http.services.overseerr.loadbalancer.server.port=5055
-      - kop.namespace=public
+      - PORT=5055 #optional
     networks:
       - public
       - media
+    ports:
+      - 5055:5055
+    volumes:
+      - ${DOCKERM}/jellyseerr:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
+      - traefik.docker.network=public
+      - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
+      - kop.namespace=public
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    restart: unless-stopped
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
