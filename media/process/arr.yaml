@@ -103,26 +103,26 @@ services:
       - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
       - traefik.http.services.readarr.loadbalancer.server.port=8787
 
-  whisparr:
-    container_name: whisparr
-    image: ghcr.io/hotio/whisparr:v3
-    restart: unless-stopped
-    networks:
-      - internal
-      - media
-    environment:
-      - PUID=1000
-      - PGID=1001
-      - UMASK=002
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKERM}/whisparr:/config
-      - ${RUST}:/data
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=internal
-      - traefik.http.routers.whisparr.rule=Host(`whisparr.${CASA}`)
-      - traefik.http.services.whisparr.loadbalancer.server.port=6969
+  # whisparr:
+  #   container_name: whisparr
+  #   image: ghcr.io/hotio/whisparr:v3
+  #   restart: unless-stopped
+  #   networks:
+  #     - internal
+  #     - media
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1001
+  #     - UMASK=002
+  #     - TZ=${TZ}
+  #   volumes:
+  #     - ${DOCKERM}/whisparr:/config
+  #     - ${RUST}:/data
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.docker.network=internal
+  #     - traefik.http.routers.whisparr.rule=Host(`whisparr.${CASA}`)
+  #     - traefik.http.services.whisparr.loadbalancer.server.port=6969
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
