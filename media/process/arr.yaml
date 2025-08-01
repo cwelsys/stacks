@@ -27,31 +27,31 @@ services:
       - internal
       - media
 
-  # radarr:
-  #   image: lscr.io/linuxserver/radarr
-  #   container_name: radarr
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1001
-  #     - TZ=${TZ}
-  #   volumes:
-  #     - ${DOCKERM}/radarr/app:/config
-  #     - ${RUST}:/data
-  #     - ${DOCKERM}/radarr/scripts/init:/custom-cont-init.d
-  #     - ${DOCKERM}/radarr/scripts/service:/custom-services.d
-  #   restart: always
-  #   healthcheck:
-  #     test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping']
-  #     interval: 30s
-  #     retries: 10
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.radarr.rule=Host(`radarr.${CASA}`)
-  #     - traefik.docker.network=internal
-  #     - traefik.http.services.radarr.loadbalancer.server.port=7878
-  #   networks:
-  #     - internal
-  #     - media
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/radarr/app:/config
+      - ${RUST}:/data
+      - ${DOCKERM}/radarr/scripts/init:/custom-cont-init.d
+      - ${DOCKERM}/radarr/scripts/service:/custom-services.d
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping']
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.radarr.rule=Host(`radarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.radarr.loadbalancer.server.port=7878
+    networks:
+      - internal
+      - media
 
   # lidarr:
   #   image: lscr.io/linuxserver/lidarr
