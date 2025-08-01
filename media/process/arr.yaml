@@ -53,211 +53,161 @@ services:
       - internal
       - media
 
-  lidarr:
-    image: lscr.io/linuxserver/lidarr
-    container_name: lidarr
-    environment:
-      - PUID=1000
-      - PGID=1001
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKERM}/lidarr/app:/config
-      - ${RUST}:/data
-      - ${DOCKERM}/lidarr/scripts/init:/custom-cont-init.d
-      - ${DOCKERM}/lidarr/scripts/service:/custom-services.d
-    restart: always
-    healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping']
-      interval: 30s
-      retries: 10
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.lidarr.rule=Host(`lidarr.${CASA}`)
-      - traefik.docker.network=internal
-      - traefik.http.services.lidarr.loadbalancer.server.port=8686
-    networks:
-      - internal
-      - media
-
-  readarr:
-    image: linuxserver/readarr:develop
-    container_name: readarr
-    environment:
-      - PUID=1000
-      - PGID=1001
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKERM}/readarr:/config
-      - ${RUST}:/data
-    healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8787/ping']
-      interval: 30s
-      retries: 10
-    restart: unless-stopped
-    networks:
-      - media
-      - internal
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=internal
-      - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
-      - traefik.http.services.readarr.loadbalancer.server.port=8787
-
-  # # whisparr:
-  # #   container_name: whisparr
-  # #   image: ghcr.io/hotio/whisparr:v3
-  # #   restart: unless-stopped
-  # #   networks:
-  # #     - internal
-  # #     - media
-  # #   environment:
-  # #     - PUID=1000
-  # #     - PGID=1001
-  # #     - UMASK=002
-  # #     - TZ=${TZ}
-  # #   volumes:
-  # #     - ${DOCKERM}/whisparr:/config
-  # #     - ${RUST}:/data
-  # #   labels:
-  # #     - traefik.enable=true
-  # #     - traefik.docker.network=internal
-  # #     - traefik.http.routers.whisparr.rule=Host(`whisparr.${CASA}`)
-  # #     - traefik.http.services.whisparr.loadbalancer.server.port=6969
-
-  # prowlarr:
-  #   image: lscr.io/linuxserver/prowlarr:latest
-  #   container_name: prowlarr
+  # whisparr:
+  #   container_name: whisparr
+  #   image: ghcr.io/hotio/whisparr:v3
+  #   restart: unless-stopped
+  #   networks:
+  #     - internal
+  #     - media
   #   environment:
   #     - PUID=1000
   #     - PGID=1001
+  #     - UMASK=002
   #     - TZ=${TZ}
   #   volumes:
-  #     - ${DOCKERM}/prowlarr:/config
-  #   restart: always
-  #   healthcheck:
-  #     test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping']
-  #     interval: 30s
-  #     retries: 10
+  #     - ${DOCKERM}/whisparr:/config
+  #     - ${RUST}:/data
   #   labels:
   #     - traefik.enable=true
-  #     - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${CASA}`)
   #     - traefik.docker.network=internal
-  #     - traefik.http.services.prowlarr.loadbalancer.server.port=9696
-  #   networks:
-  #     - internal
-  #     - media
+  #     - traefik.http.routers.whisparr.rule=Host(`whisparr.${CASA}`)
+  #     - traefik.http.services.whisparr.loadbalancer.server.port=6969
 
-  # jellyseerr:
-  #   image: fallenbagel/jellyseerr:latest
-  #   container_name: jellyseerr
-  #   environment:
-  #     - LOG_LEVEL=debug
-  #     - TZ=${TZ}
-  #     - PORT=5055
-  #   networks:
-  #     - public
-  #     - media
-  #   ports:
-  #     - 5055:5055
-  #   volumes:
-  #     - ${DOCKERM}/jellyseerr:/config
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
-  #     - traefik.docker.network=public
-  #     - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
-  #     - kop.namespace=public
-  #   healthcheck:
-  #     test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
-  #     start_period: 20s
-  #     timeout: 3s
-  #     interval: 15s
-  #     retries: 3
-  #   restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/prowlarr:/config
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping']
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.prowlarr.loadbalancer.server.port=9696
+    networks:
+      - internal
+      - media
 
-  # flaresolverr:
-  #   image: 21hsmw/flaresolverr:nodriver
-  #   container_name: flaresolverr
-  #   restart: always
-  #   environment:
-  #     - LOG_LEVEL=info
-  #     - LOG_HTML=false
-  #     - CAPTCHA_SOLVER=none
-  #     - TZ=${TZ}
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${CASA}`)
-  #     - traefik.docker.network=internal
-  #     - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
-  #   networks:
-  #     - internal
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=${TZ}
+      - PORT=5055
+    networks:
+      - public
+      - media
+    ports:
+      - 5055:5055
+    volumes:
+      - ${DOCKERM}/jellyseerr:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
+      - traefik.docker.network=public
+      - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
+      - kop.namespace=public
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    restart: unless-stopped
 
-  # unpackerr:
-  #   image: ghcr.io/unpackerr/unpackerr:latest
-  #   container_name: unpackerr
-  #   volumes:
-  #     - ${RUST}/tor:/data/tor
-  #   restart: always
-  #   user: 1001:1001
-  #   environment:
-  #     - TZ=${TZ}
-  #     - UN_SONARR_0_URL=http://sonarr:8989/
-  #     - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
-  #     - UN_RADARR_0_URL=http://radarr:7878/
-  #     - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
-  #   security_opt:
-  #     - no-new-privileges:true
-  #   networks:
-  #     - media
+  flaresolverr:
+    image: 21hsmw/flaresolverr:nodriver
+    container_name: flaresolverr
+    restart: always
+    environment:
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+      - TZ=${TZ}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
+    networks:
+      - internal
 
-  # decluttarr:
-  #   image: ghcr.io/manimatter/decluttarr:latest
-  #   container_name: decluttarr
-  #   restart: always
-  #   networks:
-  #     - media
-  #   environment:
-  #     TZ: ${TZ}
-  #     PUID: 1000
-  #     PGID: 1001
-  #     # TEST_RUN: True
-  #     # SSL_VERIFICATION: False
-  #     LOG_LEVEL: INFO
-  #     REMOVE_TIMER: 10
-  #     REMOVE_FAILED: True
-  #     REMOVE_FAILED_IMPORTS: True
-  #     REMOVE_METADATA_MISSING: True
-  #     REMOVE_MISSING_FILES: True
-  #     REMOVE_ORPHANS: True
-  #     REMOVE_SLOW: False
-  #     REMOVE_STALLED: True
-  #     REMOVE_UNMONITORED: True
-  #     RUN_PERIODIC_RESCANS: '
-  #       {
-  #       "SONARR": {"MISSING": true, "CUTOFF_UNMET": true, "MAX_CONCURRENT_SCANS": 3, "MIN_DAYS_BEFORE_RESCAN": 7},
-  #       "RADARR": {"MISSING": true, "CUTOFF_UNMET": true, "MAX_CONCURRENT_SCANS": 3, "MIN_DAYS_BEFORE_RESCAN": 7}
-  #       }'
+  unpackerr:
+    image: ghcr.io/unpackerr/unpackerr:latest
+    container_name: unpackerr
+    volumes:
+      - ${RUST}/tor:/data/tor
+    restart: always
+    user: 1001:1001
+    environment:
+      - TZ=${TZ}
+      - UN_SONARR_0_URL=http://sonarr:8989/
+      - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
+      - UN_RADARR_0_URL=http://radarr:7878/
+      - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - media
 
-  #     PERMITTED_ATTEMPTS: 3
-  #     NO_STALLED_REMOVAL_QBIT_TAG: Don't Kill
-  #     MIN_DOWNLOAD_SPEED: 100
-  #     FAILED_IMPORT_MESSAGE_PATTERNS: '
-  #       [
-  #       "Not a Custom Format upgrade for existing",
-  #       "Not an upgrade for existing",
-  #       "Caution: Found potentially dangerous file with extension: .arj"
-  #       ]'
+  decluttarr:
+    image: ghcr.io/manimatter/decluttarr:latest
+    container_name: decluttarr
+    restart: always
+    networks:
+      - media
+    environment:
+      TZ: ${TZ}
+      PUID: 1000
+      PGID: 1001
+      # TEST_RUN: True
+      # SSL_VERIFICATION: False
+      LOG_LEVEL: INFO
+      REMOVE_TIMER: 10
+      REMOVE_FAILED: True
+      REMOVE_FAILED_IMPORTS: True
+      REMOVE_METADATA_MISSING: True
+      REMOVE_MISSING_FILES: True
+      REMOVE_ORPHANS: True
+      REMOVE_SLOW: False
+      REMOVE_STALLED: True
+      REMOVE_UNMONITORED: True
+      RUN_PERIODIC_RESCANS: '
+        {
+        "SONARR": {"MISSING": true, "CUTOFF_UNMET": true, "MAX_CONCURRENT_SCANS": 3, "MIN_DAYS_BEFORE_RESCAN": 7},
+        "RADARR": {"MISSING": true, "CUTOFF_UNMET": true, "MAX_CONCURRENT_SCANS": 3, "MIN_DAYS_BEFORE_RESCAN": 7}
+        }'
 
-  #     RADARR_URL: http://radarr:7878
-  #     RADARR_KEY: ${RADARR_API_KEY}
-  #     SONARR_URL: http://sonarr:8989
-  #     SONARR_KEY: ${SONARR_API_KEY}
-  #     LIDARR_URL: http://lidarr:8686
-  #     LIDARR_KEY: ${LIDARR_API_KEY}
-  #     READARR_URL: http://readarr:8787
-  #     READARR_KEY: ${READARR_API_KEY}
-  #     WHISPARR_URL: http://whisparr:6969
-  #     WHISPARR_KEY: ${WHISPARR_API_KEY}
-  #     QBITTORRENT_URL: http://gluetun:8080
-  #     QBITTORRENT_USERNAME: admin
-  #     QBITTORRENT_PASSWORD: $QBITTORRENT_PASSWORD
+      PERMITTED_ATTEMPTS: 3
+      NO_STALLED_REMOVAL_QBIT_TAG: Don't Kill
+      MIN_DOWNLOAD_SPEED: 100
+      FAILED_IMPORT_MESSAGE_PATTERNS: '
+        [
+        "Not a Custom Format upgrade for existing",
+        "Not an upgrade for existing",
+        "Caution: Found potentially dangerous file with extension: .arj"
+        ]'
+
+      RADARR_URL: http://radarr:7878
+      RADARR_KEY: ${RADARR_API_KEY}
+      SONARR_URL: http://sonarr:8989
+      SONARR_KEY: ${SONARR_API_KEY}
+      LIDARR_URL: http://lidarr:8686
+      LIDARR_KEY: ${LIDARR_API_KEY}
+      READARR_URL: http://readarr:8787
+      READARR_KEY: ${READARR_API_KEY}
+      WHISPARR_URL: http://whisparr:6969
+      WHISPARR_KEY: ${WHISPARR_API_KEY}
+      QBITTORRENT_URL: http://gluetun:8080
+      QBITTORRENT_USERNAME: admin
+      QBITTORRENT_PASSWORD: $QBITTORRENT_PASSWORD
