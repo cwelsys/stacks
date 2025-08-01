@@ -53,55 +53,55 @@ services:
       - internal
       - media
 
-  # lidarr:
-  #   image: lscr.io/linuxserver/lidarr
-  #   container_name: lidarr
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1001
-  #     - TZ=${TZ}
-  #   volumes:
-  #     - ${DOCKERM}/lidarr/app:/config
-  #     - ${RUST}:/data
-  #     - ${DOCKERM}/lidarr/scripts/init:/custom-cont-init.d
-  #     - ${DOCKERM}/lidarr/scripts/service:/custom-services.d
-  #   restart: always
-  #   healthcheck:
-  #     test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping']
-  #     interval: 30s
-  #     retries: 10
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.lidarr.rule=Host(`lidarr.${CASA}`)
-  #     - traefik.docker.network=internal
-  #     - traefik.http.services.lidarr.loadbalancer.server.port=8686
-  #   networks:
-  #     - internal
-  #     - media
+  lidarr:
+    image: lscr.io/linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/lidarr/app:/config
+      - ${RUST}:/data
+      - ${DOCKERM}/lidarr/scripts/init:/custom-cont-init.d
+      - ${DOCKERM}/lidarr/scripts/service:/custom-services.d
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping']
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.lidarr.loadbalancer.server.port=8686
+    networks:
+      - internal
+      - media
 
-  # readarr:
-  #   image: linuxserver/readarr:develop
-  #   container_name: readarr
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1001
-  #     - TZ=${TZ}
-  #   volumes:
-  #     - ${DOCKERM}/readarr:/config
-  #     - ${RUST}:/data
-  #   healthcheck:
-  #     test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8787/ping']
-  #     interval: 30s
-  #     retries: 10
-  #   restart: unless-stopped
-  #   networks:
-  #     - media
-  #     - internal
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.docker.network=internal
-  #     - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
-  #     - traefik.http.services.readarr.loadbalancer.server.port=8787
+  readarr:
+    image: linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/readarr:/config
+      - ${RUST}:/data
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8787/ping']
+      interval: 30s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - media
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=internal
+      - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
+      - traefik.http.services.readarr.loadbalancer.server.port=8787
 
   # # whisparr:
   # #   container_name: whisparr
