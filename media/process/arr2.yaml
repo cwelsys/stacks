@@ -1,25 +1,25 @@
 services:
-  # overseerr:
-  #   image: lscr.io/linuxserver/overseerr:latest
-  #   container_name: overseerr
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1001
-  #     - TZ=${TZ}
-  #   volumes:
-  #     - ${DOCKERM}/overseerr:/config
-  #   restart: unless-stopped
-  #   ports:
-  #     - 5055:5055
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.overseerr.rule=Host(`req.${DOMAIN}`)
-  #     - traefik.docker.network=public
-  #     - traefik.http.services.overseerr.loadbalancer.server.port=5055
-  #     - kop.namespace=public
-  #   networks:
-  #     - public
-  #     - media
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/overseerr:/config
+    restart: unless-stopped
+    ports:
+      - 5055:5055
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.overseerr.rule=Host(`req.${DOMAIN}`)
+      - traefik.docker.network=public
+      - traefik.http.services.overseerr.loadbalancer.server.port=5055
+      - kop.namespace=public
+    networks:
+      - public
+      - media
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
