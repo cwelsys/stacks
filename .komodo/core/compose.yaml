@@ -1,6 +1,3 @@
-include:
-  - ../../pbox.yaml
-
 volumes:
   repo-cache:
     external: true
@@ -108,3 +105,8 @@ services:
     command: --label-enable --cleanup --interval 3600
     networks:
       - stack
+networks:
+  internal:
+    external: true
+  stack:
+    internal: true
