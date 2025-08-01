@@ -199,7 +199,6 @@ file_paths = [
   "stash.yaml",
   "book.yaml",
   "immich.yaml",
-  "freshrss.yaml",
   "romm.yaml",
   "../../pbox.yaml"
 ]
