@@ -124,12 +124,13 @@ services:
       - media
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:latest
+    image: ghcr.io/hotio/jellyseerr
     container_name: jellyseerr
     environment:
-      - LOG_LEVEL=debug
       - TZ=${TZ}
-      - PORT=5055
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
     networks:
       - public
       - media
