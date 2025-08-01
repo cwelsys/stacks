@@ -18,11 +18,7 @@ git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = [
-  "arr.yaml",
-  "exportarr.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["arr.yaml", "exportarr.yaml", "../../pbox.yaml"]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
 RADARR_API_KEY=[[RADARR__API]]
@@ -30,7 +26,6 @@ LIDARR_API_KEY=[[LIDARR__API]]
 PROWLARR_API_KEY=[[PROWLARR__API]]
 WHISPARR_API_KEY=[[WHISPARR__API]]
 SABNZBD_API_KEY=[[SABNZBD__API]]
-READARR_API_KEY=[[READARR__API]]
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
 """
 
@@ -45,10 +40,7 @@ git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "network/auth"
-file_paths = [
-  "authentik.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["authentik.yaml", "../../pbox.yaml"]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -87,7 +79,6 @@ WHISPARR_API_KEY=[[WHISPARR__API]]
 PROWLARR_API_KEY=[[PROWLARR__API]]
 BAZARR_API_KEY=[[BAZARR__API]]
 JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
-READARR_API_KEY=[[READARR__API]]
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
 TAUTULLI_API_KEY=[[TAUTULLI__API]]
 SPEED_API=[[SPEEDTEST__API]]
@@ -134,7 +125,7 @@ file_paths = [
   "muse.yaml",
   "requestarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -156,12 +147,7 @@ git_provider = "git.cwel.casa"
 git_account = "cwel"
 repo = "cwel/stacks"
 run_directory = "media/process"
-file_paths = [
-  "tortun.yaml",
-  "sab.yaml",
-  "metube.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["tortun.yaml", "sab.yaml", "metube.yaml", "../../pbox.yaml"]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -203,7 +189,7 @@ file_paths = [
   "immich.yaml",
   "freshrss.yaml",
   "romm.yaml",
-  "../../pbox.yaml"
+  "../../pbox.yaml",
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -235,7 +221,7 @@ file_paths = [
   "beszel.yaml",
   "influx.yaml",
   "umami.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -257,12 +243,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = [
-  "internal.yaml",
-  "external.yaml",
-  "kop.yaml",
-  "../../pbox.yaml"
-]
+file_paths = ["internal.yaml", "external.yaml", "kop.yaml", "../../pbox.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -283,10 +264,7 @@ git_account = "cwel"
 repo = "cwel/stacks"
 webhook_enabled = false
 run_directory = "apps"
-file_paths = [
-  "pterodactyl.yaml",
-  "../pbox.yaml"
-]
+file_paths = ["pterodactyl.yaml", "../pbox.yaml"]
 environment = """
 SMTP_USER=[[SMTP__USER]]
 SMTP_PASS=[[SMTP__PASSWORD]]
@@ -313,7 +291,7 @@ file_paths = [
   "mealie.yaml",
   "monkey.yaml",
   "posio.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 environment = """
 SMTP_USER=[[SMTP__USER]]
@@ -363,7 +341,7 @@ file_paths = [
   "rdesk.yaml",
   "codeserver.yaml",
   "linkding.yaml",
-  "../pbox.yaml"
+  "../pbox.yaml",
 ]
 
 ##
