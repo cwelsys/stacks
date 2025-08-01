@@ -132,6 +132,7 @@ run_directory = "apps/discord"
 file_paths = [
   "redbot.yaml",
   "muse.yaml",
+  "requestarr.yaml",
   "doplarr.yaml",
   "membarr.yaml",
   "../../pbox.yaml"

@@ -1,0 +1,17 @@
+services:
+  requestrr:
+    container_name: requestrr
+    image: thomst08/requestrr
+    networks:
+      - internal
+      - media
+    # ports:
+    #   - 5000:5000
+    volumes:
+      - ${DOCKERM}/requestrr:/root/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.requestrr.rule=Host(`requestrr.${CASA}`)
+      - traefik.http.services.requestrr.loadbalancer.server.port=5000
+      - traefik.docker.network=internal
+    restart: unless-stopped
