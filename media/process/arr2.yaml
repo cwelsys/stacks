@@ -69,7 +69,7 @@ services:
       - media
 
   readarr:
-    image: linuxserver/readarr:develop
+    image: linuxserver/readarr
     container_name: readarr
     environment:
       - PUID=1000
