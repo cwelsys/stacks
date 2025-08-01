@@ -135,7 +135,7 @@ services:
       - public
       - media
     ports:
-      - 5055:5055
+      - "5055:5055"
     volumes:
       - ${DOCKERM}/jellyseerr:/config
     labels:
