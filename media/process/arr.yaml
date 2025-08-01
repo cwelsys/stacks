@@ -126,6 +126,7 @@ services:
   jellyseerr:
     image: ghcr.io/hotio/jellyseerr
     container_name: jellyseerr
+    restart: always
     environment:
       - TZ=${TZ}
       - PUID=1000
