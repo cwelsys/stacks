@@ -9,8 +9,8 @@ services:
       - PGID=1000
       - TZ=${TZ}
       - DISCORD__TOKEN=${DOPLARR_TOKEN}
-      - OVERSEERR__API=${OVERSEERR_API_KEY}
-      - OVERSEERR__URL=http://overseerr:5055
+      - OVERSEERR__API=${JELLYSEERR_API_KEY}
+      - OVERSEERR__URL=http://jellyseerr:5055
       - DISCORD__MAX_RESULTS=25
       - DISCORD__REQUESTED_MSG_STYLE=:plain
       - LOG_LEVEL=:info
