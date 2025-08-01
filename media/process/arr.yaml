@@ -169,33 +169,33 @@ services:
   #     - public
   #     - media
 
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
-    environment:
-      - LOG_LEVEL=debug
-      - TZ=${TZ}
-      - PORT=5055 #optional
-    networks:
-      - public
-      - media
-    ports:
-      - 5055:5055
-    volumes:
-      - ${DOCKERM}/jellyseerr:/config
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
-      - traefik.docker.network=public
-      - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
-      - kop.namespace=public
-    # healthcheck:
-    #   test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
-    #   start_period: 20s
-    #   timeout: 3s
-    #   interval: 15s
-    #   retries: 3
-    # restart: unless-stopped
+  # jellyseerr:
+  #   image: fallenbagel/jellyseerr:latest
+  #   container_name: jellyseerr
+  #   environment:
+  #     - LOG_LEVEL=debug
+  #     - TZ=${TZ}
+  #     - PORT=5055 #optional
+  #   networks:
+  #     - public
+  #     - media
+  #   ports:
+  #     - 5055:5055
+  #   volumes:
+  #     - ${DOCKERM}/jellyseerr:/config
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
+  #     - traefik.docker.network=public
+  #     - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
+  #     - kop.namespace=public
+  #   healthcheck:
+  #     test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+  #     start_period: 20s
+  #     timeout: 3s
+  #     interval: 15s
+  #     retries: 3
+  #   restart: unless-stopped
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
