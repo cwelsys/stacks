@@ -12,6 +12,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.requestrr.rule=Host(`requestrr.${CASA}`)
-      - traefik.http.services.requestrr.loadbalancer.server.port=5000
+      - traefik.http.services.requestrr.loadbalancer.server.port=4545
       - traefik.docker.network=internal
     restart: unless-stopped
