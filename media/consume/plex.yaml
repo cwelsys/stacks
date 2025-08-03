@@ -38,14 +38,14 @@ services:
       - traefik.http.routers.plex.rule=Host(`plex.${CASA}`)
       - traefik.http.services.plex.loadbalancer.server.port=32400
       - traefik.docker.network=internal
-    runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+    # runtime: nvidia
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
 
   # tautulli:
   #   image: lscr.io/linuxserver/tautulli:latest
