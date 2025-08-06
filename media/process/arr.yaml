@@ -217,7 +217,7 @@ services:
           name: "qBittorrent"
 
       SABNZBD: |
-        - base_url: "http://sab.cwel.sh"
+        - base_url: "http://sab.cwel.casa"
           api_key: "${SABNZBD_API_KEY}"
           name: "SABnzbd"
   unpackerr:
