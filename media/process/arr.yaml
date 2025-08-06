@@ -210,29 +210,14 @@ services:
       SEARCH_MISSING: 'true'
       DETECT_DELETIONS: 'true'
 
-      # Instances
-      SONARR: >
-        - base_url: "http://sonarr:8989"
-          api_key: "${SONARR_API_KEY}"
-
-      RADARR: >
-        - base_url: "http://radarr:7878"
-          api_key: "${RADARR_API_KEY}"
-
-      LIDARR: >
-        - base_url: "http://lidarr:8686"
-          api_key: "${LIDARR_API_KEY}"
-
-      WHISPARR: >
-        - base_url: "http://whisparr:6969"
-          api_key: "${WHISPARR_API_KEY}"
+      # Instances - simplified format
+      SONARR: '[{"base_url": "http://sonarr:8989", "api_key": "${SONARR_API_KEY}"}]'
+      RADARR: '[{"base_url": "http://radarr:7878", "api_key": "${RADARR_API_KEY}"}]'
+      LIDARR: '[{"base_url": "http://lidarr:8686", "api_key": "${LIDARR_API_KEY}"}]'
+      WHISPARR: '[{"base_url": "http://whisparr:6969", "api_key": "${WHISPARR_API_KEY}"}]'
 
       # Download Clients
-      QBITTORRENT: >
-        - base_url: "http://qbittorrent:8080"
-          username: "${QBITTORRENT_USERNAME}"
-          password: "${QBITTORRENT_PASSWORD}"
-          name: "qBittorrent"
+      QBITTORRENT: '[{"base_url": "http://qbittorrent:8080", "username": "${QBITTORRENT_USERNAME}", "password": "${QBITTORRENT_PASSWORD}", "name": "qBittorrent"}]'
   # overseerr:
   #   image: lscr.io/linuxserver/overseerr:latest
   #   container_name: overseerr
