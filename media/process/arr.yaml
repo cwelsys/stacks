@@ -173,9 +173,24 @@ services:
       TZ: ${TZ}
       PUID: 1000
       PGID: 1001
-    volumes:
-      - /opt/docker/decluttarr/config.conf:/app/config/config.conf
-      # - ${RUST}:/data
+      LOG_LEVEL: INFO
+      TEST_RUN: False
+      TIMER: 10
+      REMOVE_FAILED_DOWNLOADS: True
+      REMOVE_FAILED_IMPORTS: True
+      REMOVE_STALLED: True
+      SONARR: >
+        - base_url: "http://sonarr:8989"
+          api_key: "${SONARR_API_KEY}"
+      QBITTORRENT: >
+        - base_url: "http://gluetun:8080"
+          username: "${QBIT_USERNAME}"
+          password: "${QBIT_PASSWORD}"
+          name: "qBittorrent"
+      SABNZBD: >
+        - base_url: "http://sabnzbd:8080"
+          api_key: "${SABNZBD_API_KEY}"
+          name: "SABnzbd"
   unpackerr:
     image: ghcr.io/unpackerr/unpackerr:latest
     container_name: unpackerr
