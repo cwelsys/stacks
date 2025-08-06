@@ -210,7 +210,7 @@ services:
       # Download Clients (v2 format)
       QBITTORRENT: |
         - base_url: "http://gluetun:8080"
-          username: "admin"
+          username: admin
           password: "${QBIT_PASSWORD}"
           name: "qBittorrent"
 
