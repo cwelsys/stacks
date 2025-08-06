@@ -173,43 +173,14 @@ services:
       TZ: ${TZ}
       PUID: 1000
       PGID: 1001
-
-      LOG_LEVEL: INFO
-      TEST_RUN: False
-      TIMER: 10
-
-      # Jobs
-      REMOVE_FAILED_DOWNLOADS: True
-      REMOVE_FAILED_IMPORTS: True
-      REMOVE_METADATA_MISSING: True
-      REMOVE_MISSING_FILES: True
-      REMOVE_ORPHANS: True
-      REMOVE_SLOW: True
-      REMOVE_STALLED: True
-      REMOVE_UNMONITORED: True
-      SEARCH_UNMET_CUTOFF: True
-      SEARCH_MISSING: True
-
-      # Instances (v2 format)
-      SONARR: |
-        - base_url: "http://sonarr:8989"
-          api_key: "${SONARR_API_KEY}"
-
-      RADARR: |
-        - base_url: "http://radarr:7878"
-          api_key: "${RADARR_API_KEY}"
-
-      # Download Clients (v2 format)
-      QBITTORRENT: |
-        - base_url: "http://gluetun:8080"
-          username: "admin"
-          password: "${QBIT_PASSWORD}"
-          name: "qBittorrent"
-
-      SABNZBD: |
-        - base_url: "http://sabnzbd:8080"
-          api_key: "${SABNZBD_API_KEY}"
-          name: "SABnzbd"
+      SONARR_API_KEY: ${SONARR_API_KEY}
+      RADARR_API_KEY: ${RADARR_API_KEY}
+      LIDARR_API_KEY: ${LIDARR_API_KEY}
+      WHISPARR_API_KEY: ${WHISPARR_API_KEY}
+      QBIT_PASSWORD: ${QBIT_PASSWORD}
+      SABNZBD_API_KEY: ${SABNZBD_API_KEY}
+    volumes:
+      - /opt/docker/decluttarr/config.yaml:/app/config/config.yaml
   unpackerr:
     image: ghcr.io/unpackerr/unpackerr:latest
     container_name: unpackerr
