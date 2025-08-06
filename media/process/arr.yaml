@@ -169,6 +169,8 @@ services:
     restart: always
     networks:
       - media
+    volumes:
+      - ${RUST}:/data
     environment:
       TZ: ${TZ}
       PUID: 1000
