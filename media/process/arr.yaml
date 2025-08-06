@@ -191,16 +191,19 @@ services:
       SEARCH_MISSING: True
 
       # Instances
-      SONARR_URL: "http://sonarr:8989"
-      SONARR_KEY: "${SONARR_API_KEY}"
+      SONARR_URL: 'http://sonarr:8989'
+      SONARR_KEY: '${SONARR_API_KEY}'
+
+      RADARR_URL: 'http://radarr:7878'
+      RADARR_KEY: '${RADARR_API_KEY}'
 
       # Download Clients
-      QBITTORRENT_URL: "http://gluetun:8080"
-      QBITTORRENT_USERNAME: "${QBIT_USERNAME}"
-      QBITTORRENT_PASSWORD: "${QBIT_PASSWORD}"
-      
-      SABNZBD_URL: "http://sabnzbd:8080"
-      SABNZBD_KEY: "${SABNZBD_API_KEY}"
+      QBITTORRENT_URL: 'http://gluetun:8080'
+      QBITTORRENT_USERNAME: 'admin'
+      QBITTORRENT_PASSWORD: '${QBIT_PASSWORD}'
+
+      SABNZBD_URL: 'http://sabnzbd:8080'
+      SABNZBD_KEY: '${SABNZBD_API_KEY}'
   unpackerr:
     image: ghcr.io/unpackerr/unpackerr:latest
     container_name: unpackerr
