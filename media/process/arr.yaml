@@ -225,8 +225,6 @@ services:
       SONARR_KEY: ${SONARR_API_KEY}
       LIDARR_URL: http://lidarr:8686
       LIDARR_KEY: ${LIDARR_API_KEY}
-      READARR_URL: http://readarr:8787
-      READARR_KEY: ${READARR_API_KEY}
       WHISPARR_URL: http://whisparr:6969
       WHISPARR_KEY: ${WHISPARR_API_KEY}
       QBITTORRENT_URL: http://gluetun:8080
