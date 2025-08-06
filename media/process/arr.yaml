@@ -164,7 +164,7 @@ services:
       - internal
 
   decluttarr:
-    image: ghcr.io/manimatter/decluttarr:v2
+    image: ghcr.io/manimatter/decluttarr:latest
     container_name: decluttarr
     restart: always
     networks:
