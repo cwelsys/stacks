@@ -174,8 +174,8 @@ services:
       PUID: 1000
       PGID: 1001
     volumes:
-      - ${DOCKERM}/decluttarr/config.yaml:/app/config/config.yaml
-      - ${RUST}:/data
+      - /opt/docker/decluttarr/config.yaml:/app/config/config.yaml
+      # - ${RUST}:/data
   unpackerr:
     image: ghcr.io/unpackerr/unpackerr:latest
     container_name: unpackerr
