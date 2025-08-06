@@ -169,6 +169,7 @@ services:
     restart: always
     networks:
       - media
+      - internal
     volumes:
       - ${RUST}:/data
     environment:
