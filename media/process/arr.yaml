@@ -208,6 +208,12 @@ services:
           api_key: "${WHISPARR_API_KEY}"
 
       # Download Clients (v2 format)
+      QBITTORRENT: |
+        - base_url: "http://gluetun:8080"
+          username: "admin"
+          password: "${QBIT_PASSWORD}"
+          name: "qBittorrent"
+
       SABNZBD: |
         - base_url: "http://sabnzbd:8080"
           api_key: "${SABNZBD_API_KEY}"
