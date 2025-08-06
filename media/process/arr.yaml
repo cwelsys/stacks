@@ -181,43 +181,6 @@ services:
     networks:
       - media
 
-  decluttarr:
-    image: ghcr.io/manimatter/decluttarr:latest
-    container_name: decluttarr
-    restart: always
-    networks:
-      - media
-    environment:
-      TZ: ${TZ}
-      PUID: 1000
-      PGID: 1001
-
-      LOG_LEVEL: INFO
-      TEST_RUN: 'true'
-      TIMER: 10
-
-      # Jobs
-      REMOVE_BAD_FILES: 'true'
-      REMOVE_FAILED_DOWNLOADS: 'true'
-      REMOVE_FAILED_IMPORTS: 'true'
-      REMOVE_METADATA_MISSING: 'true'
-      REMOVE_MISSING_FILES: 'true'
-      REMOVE_ORPHANS: 'true'
-      REMOVE_SLOW: 'true'
-      REMOVE_STALLED: 'true'
-      REMOVE_UNMONITORED: 'true'
-      SEARCH_BETTER: 'true'
-      SEARCH_MISSING: 'true'
-      DETECT_DELETIONS: 'true'
-
-      # Instances - simplified format
-      SONARR: '[{"base_url": "http://sonarr:8989", "api_key": "${SONARR_API_KEY}"}]'
-      RADARR: '[{"base_url": "http://radarr:7878", "api_key": "${RADARR_API_KEY}"}]'
-      LIDARR: '[{"base_url": "http://lidarr:8686", "api_key": "${LIDARR_API_KEY}"}]'
-      WHISPARR: '[{"base_url": "http://whisparr:6969", "api_key": "${WHISPARR_API_KEY}"}]'
-
-      # Download Clients
-      QBITTORRENT: '[{"base_url": "http://qbittorrent:8080", "username": "${QBITTORRENT_USERNAME}", "password": "${QBITTORRENT_PASSWORD}", "name": "qBittorrent"}]'
   # overseerr:
   #   image: lscr.io/linuxserver/overseerr:latest
   #   container_name: overseerr
