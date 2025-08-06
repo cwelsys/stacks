@@ -17,5 +17,5 @@ services:
       - traefik.docker.network=internal
       - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
     networks:
-      - internal
       - media
+      - internal
