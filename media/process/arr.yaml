@@ -163,6 +163,19 @@ services:
     networks:
       - internal
 
+  decluttarr:
+    image: ghcr.io/manimatter/decluttarr:latest
+    container_name: decluttarr
+    restart: always
+    networks:
+      - media
+    environment:
+      TZ: ${TZ}
+      PUID: 1000
+      PGID: 1001
+    volumes:
+      - ${DOCKERM}/decluttarr/config.yaml:/app/config/config.yaml
+      - ${RUST}:/data
   unpackerr:
     image: ghcr.io/unpackerr/unpackerr:latest
     container_name: unpackerr
