@@ -154,21 +154,6 @@ GLUETUN_APIKEY=[[GLUETUN__API]]
 ##
 
 [[stack]]
-name = "git"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "apps"
-file_paths = ["gitea.yaml", "../pbox.yaml"]
-environment = """
-GIT_PG_PASS=[[GITEA__POSTGRES]]
-GITEA_RUNNER_TOKEN=[[GITEA__RUNNER]]
-"""
-
-##
-
-[[stack]]
 name = "media"
 [stack.config]
 server = "pbox"
