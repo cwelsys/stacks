@@ -14,9 +14,8 @@ name = "arr"
 server = "pbox"
 poll_for_updates = true
 auto_update = true
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "media/process"
 file_paths = ["arr.yaml", "exportarr.yaml", "../../pbox.yaml"]
 environment = """
@@ -36,9 +35,8 @@ name = "auth"
 [stack.config]
 server = "pbox"
 poll_for_updates = true
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "network/auth"
 file_paths = ["authentik.yaml", "../../pbox.yaml"]
 environment = """
@@ -57,9 +55,8 @@ name = "dash"
 [stack.config]
 server = "pbox"
 auto_update = true
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "apps"
 file_paths = ["homepage.yaml", "../pbox.yaml"]
 environment = """
@@ -116,9 +113,8 @@ ABS_API_KEY=[[AUDIOBOOKSHELF__API]]
 name = "discord"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "apps/discord"
 file_paths = [
   "redbot.yaml",
@@ -143,9 +139,8 @@ JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
 name = "downs"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "media/process"
 file_paths = ["tortun.yaml", "sab.yaml", "metube.yaml", "../../pbox.yaml"]
 environment = """
@@ -177,9 +172,8 @@ GITEA_RUNNER_TOKEN=[[GITEA__RUNNER]]
 name = "media"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "media/consume"
 file_paths = [
   "plex.yaml",
@@ -208,9 +202,8 @@ name = "monitor"
 server = "pbox"
 poll_for_updates = true
 auto_update = true
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "monitor"
 file_paths = [
   "grafana.yaml",
@@ -258,9 +251,8 @@ BOUNCER_HOST=crowdsec:8080
 name = "pterodactyl"
 [stack.config]
 server = "pbox"
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 webhook_enabled = false
 run_directory = "apps"
 file_paths = ["pterodactyl.yaml", "../pbox.yaml"]
@@ -280,9 +272,9 @@ name = "services"
 server = "pbox"
 poll_for_updates = true
 auto_update = true
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "apps"
 file_paths = [
   "rxresume.yaml",
@@ -309,9 +301,9 @@ name = "ts-utils"
 [stack.config]
 server = "pbox"
 auto_update = true
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "utils"
 file_paths = ["tailscale.yaml", "../pbox.yaml"]
 environment = """
@@ -329,9 +321,9 @@ name = "utils"
 [stack.config]
 server = "pbox"
 auto_update = true
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "utils"
 file_paths = [
   "backrest.yaml",
@@ -348,9 +340,8 @@ file_paths = [
 name = "komodo-op"
 [build.config]
 builder = "local"
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/komodo-op"
+git_account = "cwelsys"
+repo = "cwelsys/komodo-op"
 
 ##
 
@@ -359,9 +350,8 @@ name = "stacks"
 [repo.config]
 server = "pbox"
 builder = "local"
-git_provider = "git.cwel.casa"
-git_account = "cwel"
-repo = "cwel/stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 
 ##
 
@@ -376,8 +366,7 @@ params.server_id = "pbox"
 [[resource_sync]]
 name = "stacks"
 [resource_sync.config]
-git_provider = "git.cwel.casa"
-repo = "cwel/stacks"
-git_account = "cwel"
+repo = "cwelsys/stacks"
+git_account = "cwelsys"
 resource_path = [".komodo/sync.toml"]
 managed = true
