@@ -18,17 +18,17 @@ jobs:
         id: komodo_stacks
         run: |
           # Extract stack names from .komodo/sync.toml
-          # Only include stacks that use Gitea (git_account = "cwel" or git_provider = "git.cwel.casa")
+          # Only include stacks that use GitHub (git_account = "cwelsys" or git_provider = "github.com")
           # And don't have webhook_enabled = false
           STACKS=$(awk '
-          BEGIN { in_stack=0; is_stack_section=0; name=""; webhook_enabled=1; is_gitea=0 }
+          BEGIN { in_stack=0; is_stack_section=0; name=""; webhook_enabled=1; is_github=0 }
 
           /^\[\[stack\]\]/ {
             is_stack_section=1;
-            if (in_stack && name != "" && webhook_enabled == 1 && is_gitea == 1) {
+            if (in_stack && name != "" && webhook_enabled == 1 && is_github == 1) {
               printf "%s,", name
             }
-            in_stack=1; name=""; webhook_enabled=1; is_gitea=0
+            in_stack=1; name=""; webhook_enabled=1; is_github=0
           }
 
           /^\[\[server\]\]/ || /^\[\[repo\]\]/ || /^\[\[builder\]\]/ || /^\[\[resource_sync\]\]/ {
@@ -45,32 +45,32 @@ jobs:
             webhook_enabled=0
           }
 
-          is_stack_section && /git_account *= *"cwel"/ && in_stack {
-            is_gitea=1
+          is_stack_section && /git_account *= *"cwelsys"/ && in_stack {
+            is_github=1
           }
 
-          is_stack_section && /git_provider *= *"git.cwel.casa"/ && in_stack {
-            is_gitea=1
+          is_stack_section && /git_provider *= *"github.com"/ && in_stack {
+            is_github=1
           }
 
           END {
-            if (in_stack && name != "" && webhook_enabled == 1 && is_gitea == 1) {
+            if (in_stack && name != "" && webhook_enabled == 1 && is_github == 1) {
               printf "%s,", name
             }
           }' .komodo/sync.toml | sed 's/,$//')
 
           echo "KOMODO_STACK_NAMES=$STACKS" >> $GITHUB_OUTPUT
-          echo "Found stacks in .komodo/sync.toml for Gitea webhooks: $STACKS"
+          echo "Found stacks in .komodo/sync.toml for GitHub webhooks: $STACKS"
 
       - name: Debug KOMODO_STACK_NAMES
         run: echo "KOMODO_STACK_NAMES=${{ steps.komodo_stacks.outputs.KOMODO_STACK_NAMES }}"
 
-      - name: Manage Gitea Webhooks
+      - name: Manage GitHub Webhooks
         run: |
           # Debug information
           echo "Checking API access..."
-          CHECK_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-            "https://git.cwel.casa/api/v1/repos/${{ github.repository }}")
+          CHECK_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer ${{ secrets.WEBHOOK_PAT }}" \
+            "https://api.github.com/repos/${{ github.repository }}")
           echo "API access check status: $CHECK_RESPONSE"
 
           if [ "$CHECK_RESPONSE" != "200" ]; then
@@ -78,10 +78,10 @@ jobs:
             exit 1
           fi
 
-          # Get all existing webhooks - Gitea API path
+          # Get all existing webhooks - GitHub API path
           echo "Fetching all existing webhooks..."
-          HOOKS_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-            "https://git.cwel.casa/api/v1/repos/${{ github.repository }}/hooks")
+          HOOKS_RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.WEBHOOK_PAT }}" \
+            "https://api.github.com/repos/${{ github.repository }}/hooks")
 
           if [ $? -ne 0 ]; then
             echo "⚠️ Failed to fetch existing webhooks"
@@ -112,8 +112,8 @@ jobs:
                 echo "🗑️ Removing webhook for non-existent stack: $HOOK_STACK (ID: $HOOK_ID)"
 
                 DELETE_RESPONSE=$(curl -s -w "\n%{http_code}" -X DELETE \
-                  -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-                  "https://git.cwel.casa/api/v1/repos/${{ github.repository }}/hooks/$HOOK_ID")
+                  -H "Authorization: Bearer ${{ secrets.WEBHOOK_PAT }}" \
+                  "https://api.github.com/repos/${{ github.repository }}/hooks/$HOOK_ID")
 
                 DELETE_STATUS=$(echo "$DELETE_RESPONSE" | tail -n1)
 
@@ -142,12 +142,12 @@ jobs:
 
             echo "Creating webhook for stack $STACK_NAME with URL: $WEBHOOK_URL"
 
-            # Create JSON payload - Gitea format
+            # Create JSON payload - GitHub format
             jq -n \
               --arg url "$WEBHOOK_URL" \
               --arg secret "${{ secrets.KOMODO_WEBHOOK_SECRET }}" \
               '{
-                type: "gitea",
+                name: "web",
                 config: {
                   url: $url,
                   content_type: "json",
@@ -158,10 +158,10 @@ jobs:
               }' > webhook.json
 
             RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
-              -H "Authorization: token ${{ secrets.WEBHOOK_PAT }}" \
-              -H "Accept: application/json" \
+              -H "Authorization: Bearer ${{ secrets.WEBHOOK_PAT }}" \
+              -H "Accept: application/vnd.github.v3+json" \
               -H "Content-Type: application/json" \
-              "https://git.cwel.casa/api/v1/repos/${{ github.repository }}/hooks" \
+              "https://api.github.com/repos/${{ github.repository }}/hooks" \
               -d @webhook.json)
 
             HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
