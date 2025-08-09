@@ -330,7 +330,6 @@ file_paths = [
   "backrest.yaml",
   "it-tools.yaml",
   "rdesk.yaml",
-  "codeserver.yaml",
   "linkding.yaml",
   "../pbox.yaml"
 ]
