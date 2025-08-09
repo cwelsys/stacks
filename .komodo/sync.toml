@@ -1,7 +1,7 @@
 [[server]]
 name = "pbox"
 [server.config]
-address = "https://periphery:8120"
+address = "https://host.docker.internal:8120"
 enabled = true
 cpu_warning = 92.0
 disk_warning = 80.0
@@ -17,7 +17,11 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/process"
-file_paths = ["arr.yaml", "exportarr.yaml", "../../pbox.yaml"]
+file_paths = [
+  "arr.yaml",
+  "exportarr.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
 RADARR_API_KEY=[[RADARR__API]]
@@ -38,7 +42,10 @@ poll_for_updates = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/auth"
-file_paths = ["authentik.yaml", "../../pbox.yaml"]
+file_paths = [
+  "authentik.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -121,7 +128,7 @@ file_paths = [
   "muse.yaml",
   "requestarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -142,7 +149,12 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/process"
-file_paths = ["tortun.yaml", "sab.yaml", "metube.yaml", "../../pbox.yaml"]
+file_paths = [
+  "tortun.yaml",
+  "sab.yaml",
+  "metube.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -167,7 +179,7 @@ file_paths = [
   "book.yaml",
   "immich.yaml",
   "romm.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -198,7 +210,7 @@ file_paths = [
   "beszel.yaml",
   "influx.yaml",
   "umami.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -220,7 +232,12 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["internal.yaml", "external.yaml", "kop.yaml", "../../pbox.yaml"]
+file_paths = [
+  "internal.yaml",
+  "external.yaml",
+  "kop.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -240,7 +257,10 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 webhook_enabled = false
 run_directory = "apps"
-file_paths = ["pterodactyl.yaml", "../pbox.yaml"]
+file_paths = [
+  "pterodactyl.yaml",
+  "../pbox.yaml"
+]
 environment = """
 SMTP_USER=[[SMTP__USER]]
 SMTP_PASS=[[SMTP__PASSWORD]]
@@ -257,7 +277,6 @@ name = "services"
 server = "pbox"
 poll_for_updates = true
 auto_update = true
-
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
@@ -266,7 +285,7 @@ file_paths = [
   "cloud.yaml",
   "monkey.yaml",
   "posio.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 SMTP_USER=[[SMTP__USER]]
@@ -286,7 +305,6 @@ name = "ts-utils"
 [stack.config]
 server = "pbox"
 auto_update = true
-
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "utils"
@@ -306,7 +324,6 @@ name = "utils"
 [stack.config]
 server = "pbox"
 auto_update = true
-
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "utils"
@@ -316,7 +333,7 @@ file_paths = [
   "rdesk.yaml",
   "codeserver.yaml",
   "linkding.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 
 ##
