@@ -62,23 +62,23 @@ services:
       - traefik.http.services.bookbounty.loadbalancer.server.port=5000
       - traefik.docker.network=internal
 
-  ebookbuddy:
-    image: thewicklowwolf/ebookbuddy:latest
-    container_name: ebookbuddy
-    networks:
-      - internal
-      - media
-    environment:
-      - auto_start=True
-      - search_for_missing_book=True
-    volumes:
-      - ${DOCKERM}/ebookbuddy:/ebookbuddy/config
-      - /etc/localtime:/etc/localtime:ro
-    # ports:
-    #   - xxxx:5000
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.ebookbuddy.rule=Host(`ebookbuddy.${CASA}`)
-      - traefik.http.services.ebookbuddy.loadbalancer.server.port=5000
-      - traefik.docker.network=internal
+  # ebookbuddy:
+  #   image: thewicklowwolf/ebookbuddy:latest
+  #   container_name: ebookbuddy
+  #   networks:
+  #     - internal
+  #     - media
+  #   environment:
+  #     - auto_start=True
+  #     - search_for_missing_book=True
+  #   volumes:
+  #     - ${DOCKERM}/ebookbuddy:/ebookbuddy/config
+  #     - /etc/localtime:/etc/localtime:ro
+  #   # ports:
+  #   #   - xxxx:5000
+  #   restart: unless-stopped
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.ebookbuddy.rule=Host(`ebookbuddy.${CASA}`)
+  #     - traefik.http.services.ebookbuddy.loadbalancer.server.port=5000
+  #     - traefik.docker.network=internal
