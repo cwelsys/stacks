@@ -284,7 +284,6 @@ file_paths = [
   "rxresume.yaml",
   "cloud.yaml",
   "monkey.yaml",
-  "posio.yaml",
   "../pbox.yaml"
 ]
 environment = """
