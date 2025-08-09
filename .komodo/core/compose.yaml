@@ -55,23 +55,23 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
 
-  # periphery:
-  #   container_name: komo-p1
-  #   image: ghcr.io/moghtech/komodo-periphery:latest
-  #   networks:
-  #     - public
-  #     - stack
-  #   labels:
-  #     komodo.skip: # Prevent Komodo from stopping with StopAllContainers
-  #     com.centurylinklabs.watchtower.enable: 'true'
-  #   restart: unless-stopped
-  #   logging:
-  #     driver: ${COMPOSE_LOGGING_DRIVER:-local}
-  #   env_file: ./.env
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - /proc:/proc
-  #     - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
+  periphery:
+    container_name: komo-p1
+    image: ghcr.io/moghtech/komodo-periphery:latest
+    networks:
+      - public
+      - stack
+    labels:
+      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: unless-stopped
+    logging:
+      driver: ${COMPOSE_LOGGING_DRIVER:-local}
+    env_file: ./.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc:/proc
+      - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
   db-backup:
     container_name: komo-db-backup
     image: tiredofit/db-backup
