@@ -250,28 +250,6 @@ BOUNCER_HOST=crowdsec:8080
 ##
 
 [[stack]]
-name = "pterodactyl"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-webhook_enabled = false
-run_directory = "apps"
-file_paths = [
-  "pterodactyl.yaml",
-  "../pbox.yaml"
-]
-environment = """
-SMTP_USER=[[SMTP__USER]]
-SMTP_PASS=[[SMTP__PASSWORD]]
-PT_SQL_PASS=[[PTERODACTYL__SQL]]
-PT_SQL_RPASS=[[PTERODACTYL__ROOT]]
-
-"""
-
-##
-
-[[stack]]
 name = "services"
 [stack.config]
 server = "pbox"
