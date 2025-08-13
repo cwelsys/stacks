@@ -173,7 +173,6 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/consume"
 file_paths = [
-  "plex.yaml",
   "jellyfin.yaml",
   "stash.yaml",
   "book.yaml",
