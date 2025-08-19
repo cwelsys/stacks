@@ -31,7 +31,6 @@ services:
       - traefik.http.services.komodo.loadbalancer.server.port=9120
       - traefik.docker.network=public
       - kop.namespace=public
-      - com.centurylinklabs.watchtower.enable="true"
     restart: unless-stopped
     networks:
       - public
@@ -48,10 +47,10 @@ services:
       KOMODO_DATABASE_USERNAME: ${KOMODO_DB_USERNAME}
       KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
     volumes:
-      - repo-cache:/repo-cache
       - ./core.config.toml:/config/config.toml
-    extra_hosts:
-      - host.docker.internal:host-gateway
+      - ${COMPOSE_KOMODO_BACKUPS_PATH}:/backups
+    # extra_hosts:
+    #   - host.docker.internal:host-gateway
 
   periphery:
     container_name: komo-p1
@@ -61,7 +60,6 @@ services:
       - stack
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
-      com.centurylinklabs.watchtower.enable: 'true'
     restart: unless-stopped
     logging:
       driver: ${COMPOSE_LOGGING_DRIVER:-local}
@@ -70,40 +68,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
-  db-backup:
-    container_name: komo-db-backup
-    image: tiredofit/db-backup
-    restart: unless-stopped
-    labels:
-      com.centurylinklabs.watchtower.enable: 'true'
-    networks:
-      - stack
-    volumes:
-      - ${DOCKERM:-./}/dumps/komodo:/backup
-    environment:
-      - TIMEZONE=${TZ}
-      - CONTAINER_NAME=komo-db-backup
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
-      - DB01_TYPE=mongo
-      - DB01_HOST=mongo
-      - DB01_USER=${KOMODO_DB_USERNAME}
-      - DB01_PASS=${KOMODO_DB_PASSWORD}
-  watchtower:
-    image: containrrr/watchtower
-    container_name: komo-watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --label-enable --cleanup --interval 3600
-    networks:
-      - stack
+
 networks:
+  internal:
+    external: true
   public:
     external: true
   stack:
