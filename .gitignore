@@ -2,7 +2,4 @@
 !README.md
 !LICENSE
 logs/
-*.log
-*.env
 *.config.toml
-.vscode
