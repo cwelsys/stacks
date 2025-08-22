@@ -40,6 +40,26 @@ services:
       - traefik.http.services.audiobookshelf.loadbalancer.server.port=80
       - traefik.docker.network=internal
 
+  # calibre-web:
+  #   image: crocodilestick/calibre-web-automated:latest
+  #   container_name: cweb
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1001
+  #     - TZ=${TZ}
+  #     - HARDCOVER_TOKEN=${HARDCOVER_TOKEN}
+  #   volumes:
+  #     - ${DOCKERM}/cweb:/config
+  #     - ${RUST}/book/inb:/cwa-book-ingest
+  #     - ${RUST}/book:/calibre-library
+  #     - ${DOCKERM}/cweb/plugs:/config/.config/calibre/plugins
+  #   restart: unless-stopped
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.cweb.rule=Host(`cweb.${CASA}`)
+  #     - traefik.http.services.cweb.loadbalancer.server.port=8083
+  #     - traefik.docker.network=internal
+
   # bookbounty:
   #   image: thewicklowwolf/bookbounty:latest
   #   container_name: bookbounty

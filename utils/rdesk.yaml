@@ -1,3 +1,7 @@
+# ID server: DOMAIN_NAME:21116
+# Relay server: DOMAIN_NAME:21117
+# Key: THE_PUBLIC_KEY
+
 services:
   hbbs:
     container_name: hbbs
