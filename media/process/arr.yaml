@@ -8,8 +8,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCKERM}/sonarr/app:/config
-      - ${DOCKERM}/sonarr/scripts/init:/custom-cont-init.d
-      - ${DOCKERM}/sonarr/scripts/service:/custom-services.d
+      # - ${DOCKERM}/sonarr/scripts/init:/custom-cont-init.d
+      # - ${DOCKERM}/sonarr/scripts/service:/custom-services.d
       - ${RUST}:/data
     restart: always
     healthcheck:
