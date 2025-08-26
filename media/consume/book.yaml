@@ -77,7 +77,7 @@ services:
       TZ: ${TZ}
       APP_ENV: prod
       UID: 1000
-      GID: 1001
+      GID: 1000
       CWA_DB_PATH: /auth/app.db
     restart: unless-stopped
     labels:

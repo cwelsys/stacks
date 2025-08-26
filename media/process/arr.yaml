@@ -178,7 +178,7 @@ services:
     environment:
       TZ: ${TZ}
       PUID: 1000
-      PGID: 1001
+      PGID: 1000
 
       LOG_LEVEL: INFO
       TEST_RUN: False
@@ -231,7 +231,7 @@ services:
     volumes:
       - ${RUST}/tor:/data/tor
     restart: always
-    user: 1001:1001
+    user: 1000:1000
     environment:
       - TZ=${TZ}
       - UN_SONARR_0_URL=http://sonarr:8989/
@@ -288,7 +288,7 @@ services:
   # maintainerr:
   #   image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
   #   container_name: maintainerr
-  #   user: 1001:1001
+  #   user: 1000:1000
   #   networks:
   #     - internal
   #     - media

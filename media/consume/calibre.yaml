@@ -35,7 +35,7 @@ services:
       TZ: ${TZ}
       APP_ENV: prod
       UID: 1000
-      GID: 1001
+      GID: 1000
     volumes:
       - ${RUST}/book/ing:/cwa-book-ingest
     labels:
