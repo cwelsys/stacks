@@ -6,8 +6,8 @@ services:
       - internal
       - media
     environment:
-      - PUID=1001
-      - PGID=1001
+      - PUID=1000
+      - PGID=1000
       - TZ=${TZ}
       - VERSION=docker
       # - PLEX_CLAIM=
@@ -52,7 +52,7 @@ services:
   #   container_name: tautulli
   #   environment:
   #     - PUID=1000
-  #     - PGID=1001
+  #     - PGID=1000
   #     - TZ=${TZ}
   #   volumes:
   #     - ${DOCKERM}/tautulli:/config
@@ -77,5 +77,5 @@ services:
   #     -  ${DOCKERM}/plex-trakt:/config
   #   environment:
   #     - PUID=1000
-  #     - PGID=1001
+  #     - PGID=1000
   #     - TZ=${TZ}

@@ -7,7 +7,7 @@ services:
       - media
     environment:
       - PUID=1000
-      - PGID=1001
+      - PGID=1000
       - TZ=${TZ}
     volumes:
       - ${DOCKERM}/kavita:/config
@@ -48,7 +48,7 @@ services:
       - media
     environment:
       - PUID=1000
-      - PGID=1001
+      - PGID=1000
       - TZ=${TZ}
       - HARDCOVER_TOKEN=${HARDCOVER_TOKEN}
     volumes:

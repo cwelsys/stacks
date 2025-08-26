@@ -61,7 +61,7 @@ services:
   #     - internal
   #   environment:
   #     - PUID=1000
-  #     - PGID=1001
+  #     - PGID=1000
   #     - TZ=${TZ}
   #     # - SUBFOLDER=/ #optional
   #   volumes:
