@@ -3,8 +3,6 @@ services:
     container_name: rx-db
     image: postgres:16-alpine
     restart: unless-stopped
-    networks:
-      - stack
     volumes:
       - ${DOCKERM}/rxresume/data:/var/lib/postgresql/data
     environment:
@@ -12,21 +10,22 @@ services:
       POSTGRES_PASSWORD: ${RX_PG_PASS}
       POSTGRES_DB: rxres
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U rxres -d rxres']
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d postgres']
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # Storage (for image uploads)
   minio:
     container_name: minio
     image: minio/minio:latest
     restart: unless-stopped
     command: server /data
+    ports:
+      - '9000:9000'
     networks:
       - internal
     volumes:
-      - ${DOCKERM}/rxresume/minio:/data
+      - minio_data:/data
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: ${MINIO_PW}
@@ -36,36 +35,33 @@ services:
       - traefik.http.services.minio.loadbalancer.server.port=9000
       - traefik.docker.network=internal
 
-  # Chrome Browser (for printing and previews)
   chrome:
-    container_name: rxchrome
-    image: ghcr.io/browserless/chromium:latest
+    image: ghcr.io/browserless/chromium:v2.18.0 # Upgrading to newer versions causes issues
     restart: unless-stopped
-    networks:
-      - internal
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     environment:
-      HEALTH: 'true'
+      TIMEOUT: 10000
+      CONCURRENT: 10
       TOKEN: ${CHROME_TOKEN}
-      PROXY_HOST: 'crum.${CASA}'
-      PROXY_PORT: 443
-      PROXY_SSL: 'true'
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.crum.rule=Host(`crum.${CASA}`)
-      - traefik.http.services.crum.loadbalancer.server.port=3000
-      - traefik.docker.network=internal
+      EXIT_ON_HEALTH_FAILURE: 'true'
+      PRE_REQUEST_HEALTH_CHECK: 'true'
 
   rxresume:
     container_name: rxresume
     image: amruthpillai/reactive-resume:latest
     restart: unless-stopped
-    networks:
-      - internal
-      - stack
+    ports:
+      - '3000:3000'
     depends_on:
       - rxdb
       - minio
       - chrome
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.app.rule=Host(`resume.${CASA}`)
+      - traefik.http.services.app.loadbalancer.server.port=3000
+      - traefik.docker.network=internal
     environment:
       # -- Environment Variables --
       PORT: 3000
@@ -100,34 +96,5 @@ services:
       STORAGE_USE_SSL: 'false'
       STORAGE_SKIP_BUCKET_CHECK: 'false'
 
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.app.rule=Host(`resume.${CASA}`)
-      - traefik.http.services.app.loadbalancer.server.port=3000
-      - traefik.docker.network=internal
-
-  db-backup:
-    container_name: rxres-db-backup
-    image: tiredofit/db-backup
-    restart: unless-stopped
-    networks:
-      - stack
-    volumes:
-      - ${DOCKERM}/dumps/rxresume:/backup
-    environment:
-      - TIMEZONE=${TZ}
-      - CONTAINER_NAME=rxres-db-backup
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      # - DEBUG_MODE=TRUE
-
-      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
-      - DB01_TYPE=postgres
-      - DB01_HOST=rxdb
-      - DB01_NAME=rxres
-      - DB01_USER=rxres
-      - DB01_PASS=${RX_PG_PASS}
+volumes:
+  minio_data:
