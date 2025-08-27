@@ -36,7 +36,6 @@ services:
       - traefik.http.routers.minio.rule=Host(`minio.${CASA}`)
       - traefik.http.services.minio.loadbalancer.server.port=9000
       - traefik.docker.network=internal
-
   chrome:
     image: ghcr.io/browserless/chromium:v2.18.0 # Upgrading to newer versions causes issues
     restart: unless-stopped
@@ -75,7 +74,7 @@ services:
 
       # -- URLs --
       PUBLIC_URL: https://resume.${CASA}
-      STORAGE_URL: http://minio:9000
+      STORAGE_URL: https://minio.${CASA}
 
       # -- Printer (Chrome) --
       CHROME_TOKEN: ${CHROME_TOKEN}
