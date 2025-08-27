@@ -171,7 +171,7 @@ services:
     container_name: ownfoil
     image: a1ex4/ownfoil
     networks:
-      - internal
+      - public
     # ports:
     #   - '8465:8465'
     environment:
@@ -182,9 +182,10 @@ services:
       - ${DOCKERM}/foil:/app/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.ownfoil.rule=Host(`tin.${CASA}`)
-      - traefik.docker.network=internal
+      - traefik.http.routers.ownfoil.rule=Host(`tin.${DOMAIN}`)
+      - traefik.docker.network=public
       - traefik.http.services.ownfoil.loadbalancer.server.port=8465
+      - kop.namespace=public
 
   decluttarr:
     image: ghcr.io/manimatter/decluttarr:dev
