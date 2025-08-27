@@ -75,7 +75,7 @@ services:
 
       # -- URLs --
       PUBLIC_URL: https://resume.${CASA}
-      STORAGE_URL: http://192.168.4.89:9000
+      STORAGE_URL: http://minio:9000
 
       # -- Printer (Chrome) --
       CHROME_TOKEN: ${CHROME_TOKEN}
