@@ -79,7 +79,7 @@ services:
 
       # -- Printer (Chrome) --
       CHROME_TOKEN: ${CHROME_TOKEN}
-      CHROME_URL: wss://crum.${CASA}
+      CHROME_URL: ws://chrome:3000
 
       # -- Database (Postgres) --
       DATABASE_URL: postgresql://rxres:${RX_PG_PASS}@rxdb:5432/rxres
