@@ -332,7 +332,7 @@ PGID = 1000
 """
 labels = """
 traefik.enable: true
-traefik.http.routers.ownfoil.rule: Host(`tin.${CASA}`)
+traefik.http.routers.ownfoil.rule: Host(\`tin.${CASA}\`)
 traefik.docker.network: internal
 traefik.http.services.ownfoil.loadbalancer.server.port: 8465
 """
