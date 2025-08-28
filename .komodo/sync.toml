@@ -16,7 +16,11 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/process"
-file_paths = ["arr.yaml", "exportarr.yaml", "../../pbox.yaml"]
+file_paths = [
+  "arr.yaml",
+  "exportarr.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
 RADARR_API_KEY=[[RADARR__API]]
@@ -37,7 +41,10 @@ poll_for_updates = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/auth"
-file_paths = ["authentik.yaml", "../../pbox.yaml"]
+file_paths = [
+  "authentik.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 PG_PASS=[[AUTHENTIK__POSTGRES]]
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK__KEY]]
@@ -120,7 +127,7 @@ file_paths = [
   "muse.yaml",
   "requestarr.yaml",
   "membarr.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -141,7 +148,12 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/process"
-file_paths = ["tortun.yaml", "sab.yaml", "metube.yaml", "../../pbox.yaml"]
+file_paths = [
+  "tortun.yaml",
+  "sab.yaml",
+  "metube.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 QBITTORRENT_USERNAME=admin
 QBITTORRENT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -164,7 +176,7 @@ file_paths = [
   "stash.yaml",
   "book.yaml",
   "immich.yaml",
-  "../../pbox.yaml",
+  "../../pbox.yaml"
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -196,7 +208,7 @@ file_paths = [
   "beszel.yaml",
   "influx.yaml",
   "umami.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -218,7 +230,12 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = ["internal.yaml", "external.yaml", "kop.yaml", "../../pbox.yaml"]
+file_paths = [
+  "internal.yaml",
+  "external.yaml",
+  "kop.yaml",
+  "../../pbox.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -239,7 +256,11 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
-file_paths = ["cloud.yaml", "monkey.yaml", "../pbox.yaml"]
+file_paths = [
+  "cloud.yaml",
+  "monkey.yaml",
+  "../pbox.yaml"
+]
 environment = """
 SMTP_USER=[[SMTP__USER]]
 SMTP_PASS=[[SMTP__PASSWORD]]
@@ -285,8 +306,36 @@ file_paths = [
   "it-tools.yaml",
   "rdesk.yaml",
   "linkding.yaml",
-  "../pbox.yaml",
+  "../pbox.yaml"
 ]
+
+##
+
+[[deployment]]
+name = "ownfoil"
+[deployment.config]
+server = "pbox"
+image.type = "Build"
+image.params.build = "ownfoil"
+redeploy_on_build = true
+network = "internal"
+ports = """
+8465:8465
+"""
+volumes = """
+${RUST}/game:/games
+${DOCKERM}/foil:/app/config
+"""
+environment = """
+PUID = 1000
+PGID = 1000
+"""
+labels = """
+traefik.enable: true
+traefik.http.routers.ownfoil.rule: Host(`tin.${CASA}`)
+traefik.docker.network: internal
+traefik.http.services.ownfoil.loadbalancer.server.port: 8465
+"""
 
 ##
 
@@ -296,7 +345,16 @@ name = "komodo-op"
 builder = "local"
 git_account = "cwelsys"
 repo = "cwelsys/komodo-op"
-image_registry = [{}]
+image_registry = [{  }]
+
+##
+
+[[build]]
+name = "ownfoil"
+[build.config]
+builder = "local"
+git_account = "cwelsys"
+repo = "cwelsys/ownfoil"
 
 ##
 
