@@ -164,7 +164,6 @@ file_paths = [
   "stash.yaml",
   "book.yaml",
   "immich.yaml",
-  "romm.yaml",
   "../../pbox.yaml",
 ]
 environment = """
