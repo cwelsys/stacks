@@ -169,7 +169,7 @@ services:
 
   ownfoil:
     container_name: ownfoil
-    image: cwelsys/ownfoil:dev
+    image: ownfoil-local:latest
     networks:
       - public
     # ports:
