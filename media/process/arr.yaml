@@ -170,6 +170,7 @@ services:
   ownfoil:
     container_name: ownfoil
     image: ownfoil-local:latest
+    pull_policy: never
     networks:
       - public
     # ports:
