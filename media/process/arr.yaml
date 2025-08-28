@@ -167,28 +167,6 @@ services:
     environment:
       - TZ=${TZ}
 
-  ownfoil:
-    container_name: ownfoil
-    image: ownfoil-local:latest
-    pull_policy: never
-    networks:
-      - internal
-      - media
-    # ports:
-    #   - '8465:8465'
-    environment:
-      - PUID=1000
-      - PGID=1000
-    volumes:
-      - ${RUST}/game:/games
-      - ${DOCKERM}/foil:/app/config
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.ownfoil.rule=Host(`tin.${CASA}`)
-      - traefik.docker.network=internal
-      - traefik.http.services.ownfoil.loadbalancer.server.port=8465
-      # - kop.namespace=public
-
   decluttarr:
     image: ghcr.io/manimatter/decluttarr:dev
     container_name: decluttarr
