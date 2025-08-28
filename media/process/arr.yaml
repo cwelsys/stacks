@@ -173,6 +173,7 @@ services:
     pull_policy: never
     networks:
       - public
+      - media
     # ports:
     #   - '8465:8465'
     environment:
