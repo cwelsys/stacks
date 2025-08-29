@@ -325,6 +325,7 @@ ports = """
 volumes = """
 ${RUST}/game:/games
 ${DOCKERM}/foil:/app/config
+${DOCKERM}/foil/data:/app/data
 """
 environment = """
 PUID = 1000
