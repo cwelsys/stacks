@@ -205,10 +205,6 @@ services:
         - base_url: "http://radarr:7878"
           api_key: "${RADARR_API_KEY}"
 
-      LIDARR: |
-        - base_url: "http://lidarr:8686"
-          api_key: "${LIDARR_API_KEY}"
-
       WHISPARR: |
         - base_url: "http://whisparr:6969"
           api_key: "${WHISPARR_API_KEY}"
