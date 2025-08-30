@@ -235,15 +235,15 @@ services:
       - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
       - UN_RADARR_0_URL=http://radarr:7878/
       - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
-      - UN_FOLDER_0_PATH=/data/tor/game
-      - UN_FOLDER_0_EXTRACT_PATH=
-      - UN_FOLDER_0_DELETE_AFTER=10m
-      - UN_FOLDER_0_DISABLE_RECURSION=false
-      - UN_FOLDER_0_DELETE_FILES=false
-      - UN_FOLDER_0_DELETE_ORIGINAL=false
-      - UN_FOLDER_0_DISABLE_LOG=false
-      - UN_FOLDER_0_MOVE_BACK=false
-      - UN_FOLDER_0_EXTRACT_ISOS=false
+      # - UN_FOLDER_0_PATH=/data/tor/game
+      # - UN_FOLDER_0_EXTRACT_PATH=
+      # - UN_FOLDER_0_DELETE_AFTER=10m
+      # - UN_FOLDER_0_DISABLE_RECURSION=false
+      # - UN_FOLDER_0_DELETE_FILES=false
+      # - UN_FOLDER_0_DELETE_ORIGINAL=false
+      # - UN_FOLDER_0_DISABLE_LOG=false
+      # - UN_FOLDER_0_MOVE_BACK=false
+      # - UN_FOLDER_0_EXTRACT_ISOS=false
     networks:
       - media
 
