@@ -230,6 +230,7 @@ services:
     user: 1000:1000
     environment:
       - TZ=${TZ}
+      - UN_DEBUG=true
       - UN_SONARR_0_URL=http://sonarr:8989/
       - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
       - UN_RADARR_0_URL=http://radarr:7878/
