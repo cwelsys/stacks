@@ -226,6 +226,7 @@ services:
     container_name: unpackerr
     volumes:
       - ${RUST}/tor:/data/tor
+      - ${RUST}/tor/game:/downloads
     restart: always
     user: 1000:1000
     environment:
@@ -234,7 +235,7 @@ services:
       - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
       - UN_RADARR_0_URL=http://radarr:7878/
       - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
-      - UN_FOLDER_0_PATH=/data/tor/game
+      - UN_FOLDER_0_PATH=/downloads
       - UN_FOLDER_0_EXTRACT_PATH=
       - UN_FOLDER_0_DELETE_AFTER=10m
       - UN_FOLDER_0_DISABLE_RECURSION=false
