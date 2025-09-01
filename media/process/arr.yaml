@@ -48,6 +48,26 @@ services:
       - internal
       - media
 
+  ownfoil:
+    container_name: ownfoil
+    image: a1ex4/ownfoil
+    networks:
+      - public
+    # ports:
+    #   - '8465:8465'
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${RUST}/game:/games
+      - ${DOCKERM}/foil:/app/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ownfoil.rule=Host(`tin.${DOMAIN}`)
+      - traefik.docker.network=public
+      - traefik.http.services.ownfoil.loadbalancer.server.port=8465
+      - kop.namespace=public
+
   # lidarr:
   #   image: lscr.io/linuxserver/lidarr
   #   container_name: lidarr
