@@ -53,8 +53,6 @@ services:
     image: a1ex4/ownfoil
     networks:
       - public
-    # ports:
-    #   - '8465:8465'
     environment:
       - PUID=1000
       - PGID=1000
