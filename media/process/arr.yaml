@@ -168,7 +168,7 @@ services:
       - TZ=${TZ}
 
   decluttarr:
-    image: ghcr.io/manimatter/decluttarr:dev
+    image: ghcr.io/manimatter/decluttarr:latest
     container_name: decluttarr
     restart: always
     networks:
