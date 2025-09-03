@@ -184,41 +184,37 @@ services:
       TEST_RUN: False
       TIMER: 10
 
-      # Jobs
       REMOVE_FAILED_DOWNLOADS: True
       REMOVE_FAILED_IMPORTS: True
       REMOVE_METADATA_MISSING: True
       REMOVE_MISSING_FILES: True
-      REMOVE_ORPHANS: True
       REMOVE_SLOW: True
       REMOVE_STALLED: True
-      REMOVE_UNMONITORED: True
-      SEARCH_UNMET_CUTOFF: True
-      SEARCH_MISSING: True
+      REMOVE_UNMONITORED: False
+      DETECT_DELETIONS: True
+      PRIVATE_TRACKER_HANDLING: 'skip'
+      PUBLIC_TRACKER_HANDLING: 'remove'
 
-      # Instances (v2 format)
-      SONARR: |
+      SONARR: >
         - base_url: "http://sonarr:8989"
-          api_key: "${SONARR_API_KEY}"
+          api_key: "$SONARR_API_KEY"
 
-      RADARR: |
+      RADARR: >
         - base_url: "http://radarr:7878"
-          api_key: "${RADARR_API_KEY}"
+          api_key: "$RADARR_API_KEY"
 
-      WHISPARR: |
+      WHISPARR: >
         - base_url: "http://whisparr:6969"
-          api_key: "${WHISPARR_API_KEY}"
+          api_key: "$WHISPARR_API_KEY"
 
-      # Download Clients (v2 format)
-      QBITTORRENT: |
+      QBITTORRENT: >
         - base_url: "http://gluetun:8080"
-          # username: admin
-          # password: "${QBIT_PASSWORD}"
-          name: "qBittorrent"
+          username: "admin"
+          password: "$QBIT_PASSWORD"
 
-      SABNZBD: |
-        - base_url: "http://sab.cwel.casa"
-          api_key: "${SABNZBD_API_KEY}"
+      SABNZBD: >
+        - base_url: "http://sabnzbd:8080"
+          api_key: "$SABNZBD_API_KEY"
           name: "SABnzbd"
 
   unpackerr:
@@ -235,60 +231,31 @@ services:
       - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
       - UN_RADARR_0_URL=http://radarr:7878/
       - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
-      # - UN_FOLDER_0_PATH=/data/tor/game
-      # - UN_FOLDER_0_EXTRACT_PATH=
-      # - UN_FOLDER_0_DELETE_AFTER=10m
-      # - UN_FOLDER_0_DISABLE_RECURSION=false
-      # - UN_FOLDER_0_DELETE_FILES=false
-      # - UN_FOLDER_0_DELETE_ORIGINAL=false
-      # - UN_FOLDER_0_DISABLE_LOG=false
-      # - UN_FOLDER_0_MOVE_BACK=false
-      # - UN_FOLDER_0_EXTRACT_ISOS=false
     networks:
       - media
 
-  # overseerr:
-  #   image: lscr.io/linuxserver/overseerr:latest
-  #   container_name: overseerr
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=${TZ}
-  #   volumes:
-  #     - ${DOCKERM}/overseerr:/config
-  #   restart: unless-stopped
-  #   ports:
-  #     - 5055:5055
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.overseerr.rule=Host(`req.${DOMAIN}`)
-  #     - traefik.docker.network=public
-  #     - traefik.http.services.overseerr.loadbalancer.server.port=5055
-  #     - kop.namespace=public
-  #   networks:
-  #     - public
-  #     - media
-  # bazarr:
-  #   image: lscr.io/linuxserver/bazarr:latest
-  #   container_name: bazarr
-  #   networks:
-  #     - internal
-  #     - media
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=${TZ}
-  #   volumes:
-  #     - ${DOCKERM}/bazarr:/config
-  #     - ${RUST}/movie:/movies
-  #     - ${RUST}/tv:/tv
-  #     - ${RUST}/anime:/anime
-  #   restart: unless-stopped
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
-  #     - traefik.http.services.bazarr.loadbalancer.server.port=6767
-  #     - traefik.docker.network=internal
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    networks:
+      - internal
+      - media
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/bazarr:/config
+      - ${RUST}/movie:/movies
+      - ${RUST}/tv:/tv
+      - ${RUST}/anime:/anime
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
+      - traefik.http.services.bazarr.loadbalancer.server.port=6767
+      - traefik.docker.network=internal
+
   # maintainerr:
   #   image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
   #   container_name: maintainerr
@@ -328,38 +295,3 @@ services:
   #     - traefik.http.routers.recommendarr.rule=Host(`recommendarr.${CASA}`)
   #     - traefik.docker.network=internal
   #     - traefik.http.services.recommendarr.loadbalancer.server.port=3000
-
-  # autobrr:
-  #   container_name: autobrr
-  #   image: ghcr.io/autobrr/autobrr:latest
-  #   restart: unless-stopped
-  #   networks:
-  #     - internal
-  #     - media
-  #   environment:
-  #     - TZ=${TZ}
-  #   user: 1000:1000
-  #   volumes:
-  #     - ${DOCKERM}/autobrr/config:/config
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.autobrr.rule=Host(`brr.${CASA}`)
-  #     - traefik.docker.network=internal
-  #     - traefik.http.services.autobrr.loadbalancer.server.port=7474
-
-  # profilarr:
-  #   image: santiagosayshey/profilarr:beta
-  #   container_name: profilarr
-  #   networks:
-  #     - internal
-  #     - media
-  #   volumes:
-  #     - ${DOCKERM}/profilarr:/config
-  #   environment:
-  #     - TZ=${TZ}
-  #   restart: unless-stopped
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.profilarr.rule=Host(`profilarr.${CASA}`)
-  #     - traefik.docker.network=internal
-  #     - traefik.http.services.profilarr.loadbalancer.server.port=6868
