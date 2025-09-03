@@ -171,6 +171,9 @@ services:
     image: ghcr.io/cleanuparr/cleanuparr:latest
     container_name: cleanarr
     restart: unless-stopped
+    networks:
+      - internal
+      - media
     # ports:
     #   - '11011:11011'
     volumes:
