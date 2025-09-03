@@ -195,26 +195,26 @@ services:
       PRIVATE_TRACKER_HANDLING: 'skip'
       PUBLIC_TRACKER_HANDLING: 'remove'
 
-      SONARR: >
+      SONARR: |
         - base_url: "http://sonarr:8989"
-          api_key: "$SONARR_API_KEY"
+          api_key: "${SONARR_API_KEY}"
 
-      RADARR: >
+      RADARR: |
         - base_url: "http://radarr:7878"
-          api_key: "$RADARR_API_KEY"
+          api_key: "${RADARR_API_KEY}"
 
-      WHISPARR: >
+      WHISPARR: |
         - base_url: "http://whisparr:6969"
-          api_key: "$WHISPARR_API_KEY"
+          api_key: "${WHISPARR_API_KEY}"
 
-      QBITTORRENT: >
+      QBITTORRENT: |
         - base_url: "http://gluetun:8080"
           username: "admin"
-          password: "$QBIT_PASSWORD"
+          password: "${QBIT_PASSWORD}"
 
-      SABNZBD: >
+      SABNZBD: |
         - base_url: "http://sabnzbd:8080"
-          api_key: "$SABNZBD_API_KEY"
+          api_key: "${SABNZBD_API_KEY}"
           name: "SABnzbd"
 
   unpackerr:
