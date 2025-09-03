@@ -167,55 +167,26 @@ services:
     environment:
       - TZ=${TZ}
 
-  decluttarr:
-    image: ghcr.io/manimatter/decluttarr:latest
-    container_name: decluttarr
-    restart: always
-    networks:
-      - media
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanarr
+    restart: unless-stopped
+    # ports:
+    #   - '11011:11011'
     volumes:
-      - ${RUST}:/data
+      - ${DOCKERM}/cleanarr:/config
     environment:
-      TZ: ${TZ}
-      PUID: 1000
-      PGID: 1000
-
-      LOG_LEVEL: INFO
-      TEST_RUN: False
-      TIMER: 10
-
-      REMOVE_FAILED_DOWNLOADS: True
-      REMOVE_FAILED_IMPORTS: True
-      REMOVE_METADATA_MISSING: True
-      REMOVE_MISSING_FILES: True
-      REMOVE_SLOW: True
-      REMOVE_STALLED: True
-      REMOVE_UNMONITORED: False
-      DETECT_DELETIONS: True
-      PRIVATE_TRACKER_HANDLING: 'skip'
-      PUBLIC_TRACKER_HANDLING: 'remove'
-
-      SONARR: |
-        - base_url: "http://sonarr:8989"
-          api_key: "${SONARR_API_KEY}"
-
-      RADARR: |
-        - base_url: "http://radarr:7878"
-          api_key: "${RADARR_API_KEY}"
-
-      WHISPARR: |
-        - base_url: "http://whisparr:6969"
-          api_key: "${WHISPARR_API_KEY}"
-
-      QBITTORRENT: |
-        - base_url: "http://gluetun:8080"
-          username: "admin"
-          password: "${QBIT_PASSWORD}"
-
-      SABNZBD: |
-        - base_url: "http://sabnzbd:8080"
-          api_key: "${SABNZBD_API_KEY}"
-          name: "SABnzbd"
+      - PORT=11011
+      - BASE_PATH=
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+      - TZ=${TZ}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cleanuparr.rule=Host(`cleanarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.cleanuparr.loadbalancer.server.port=11011
 
   unpackerr:
     image: ghcr.io/unpackerr/unpackerr:latest
