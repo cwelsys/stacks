@@ -180,7 +180,6 @@ services:
       - ${DOCKERM}/cleanarr:/config
     environment:
       - PORT=11011
-      - BASE_PATH=
       - PUID=1000
       - PGID=1000
       - UMASK=022
