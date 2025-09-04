@@ -2,6 +2,7 @@ services:
   ownfoil:
     container_name: ownfoil
     image: a1ex4/ownfoil
+    restart: unless-stopped
     networks:
       - public
       - media
