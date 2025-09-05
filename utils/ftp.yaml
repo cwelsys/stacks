@@ -1,11 +1,13 @@
 services:
   sftpgo:
     image: drakkan/sftpgo:v2-alpine
+    networks:
+      - internal
+      - stack
     container_name: sftpgo
     user: 1000:1000
     restart: unless-stopped
     ports:
-      - 8888:8080 # HTTP
       - 2022:2022 # SFTP
     expose:
       - 8080 # HTTP
@@ -28,10 +30,17 @@ services:
     volumes:
       - ${DOCKERM}/sftpgo/data:/srv/sftpgo
       - ${RUST}:/srv/sftpgo/media
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sftpgo.rule=Host(`ftp.${CASA}`)"
+      - traefik.docker.network=internal
+      - traefik.http.services.sftpgo.loadbalancer.server.port=8080
 
   mysql:
     image: mysql:latest
     container_name: sftpgo-db
+    networks:
+      - stack
     restart: always
     expose:
       - 3306
