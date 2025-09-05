@@ -27,6 +27,7 @@ services:
       SFTPGO_COMMON__DEFENDER__OBSERVATION_TIME: 15
     volumes:
       - ${DOCKERM}/sftpgo/data:/srv/sftpgo
+      - ${RUST}:/srv/sftpgo/media
 
   mysql:
     image: mysql:latest
