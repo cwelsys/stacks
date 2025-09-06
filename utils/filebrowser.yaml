@@ -1,0 +1,17 @@
+services:
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    restart: unless-stopped
+    user: 1000:1000
+    volumes:
+      - ${DOCKERM}/filebrowser/data:/srv
+      - ${DOCKERM}/filebrowser/config:/config
+      - ${DOCKERM}/filebrowser/database:/database
+    networks:
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=internal
+      - traefik.http.routers.filebrowser.rule=Host(`files.$CASA`)
+      - traefik.http.services.filebrowser.loadbalancer.server.port=80
