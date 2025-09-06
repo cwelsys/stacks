@@ -1,12 +1,14 @@
 services:
   qbittorrent:
-    image: ghcr.io/hotio/qbittorrent
+    image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
       - PUID=1000
       - PGID=1000
+      - UMASK_SET=022
       - TZ=${TZ}
-      - WEBUI_PORTS=8080/tcp,8080/udp
+      - WEBUI_PORT=8080
+      - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     volumes:
       - ${DOCKERM}/qbit:/config
       - ${RUST}/tor:/data/tor
@@ -14,7 +16,7 @@ services:
       # - ${FLASH}/romm/library/roms:/roms
     restart: always
     healthcheck:
-      test: ['CMD-SHELL', 'curl -sf https://api.ipify.org || exit 1']
+      test: ["CMD-SHELL", "curl -sf https://api.ipify.org || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -33,9 +35,9 @@ services:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
-    ports:
-      - 8082:8080
-      # - 8000:8000
+    # ports:
+    #   - 8082:8080
+    #   - 8000:8000
     volumes:
       - ${DOCKERM}/gluetun/config.toml:/gluetun/auth/config.toml:ro
     labels:
@@ -47,12 +49,9 @@ services:
       VPN_SERVICE_PROVIDER: protonvpn
       VPN_TYPE: wireguard
       VPN_PORT_FORWARDING: on
-      # PORT_FORWARD_ONLY: on
       WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
-      WIREGUARD_ADDRESSES: '10.2.0.2/32'
+      WIREGUARD_ADDRESSES: "10.2.0.2/32"
       GLUETUN_HTTP_CONTROL_SERVER_ENABLE: on
-      # FIREWALL_OUTBOUND_SUBNETS: 192.168.1.0/24,192.168.4.0/22,10.0.0.0/16,172.21.0.0/16
-      # SERVER_COUNTRIES: CANADA
 
   qsticky:
     image: ghcr.io/monstermuffin/qsticky:latest
@@ -80,7 +79,12 @@ services:
 
     healthcheck:
       test:
-        ['CMD', 'python3', '-c', "import json; exit(0 if json.load(open('/app/health/status.json'))['healthy'] else 1)"]
+        [
+          "CMD",
+          "python3",
+          "-c",
+          "import json; exit(0 if json.load(open('/app/health/status.json'))['healthy'] else 1)",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
