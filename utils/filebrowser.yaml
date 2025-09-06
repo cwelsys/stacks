@@ -6,6 +6,8 @@ services:
     user: 1000:1000
     volumes:
       - ${DOCKERM}/filebrowser/data:/srv
+      - ${DOCKERM}:/srv/docker
+      - ${RUST}:/srv/rust
       - ${DOCKERM}/filebrowser/config:/config
       - ${DOCKERM}/filebrowser/database:/database
     networks:
