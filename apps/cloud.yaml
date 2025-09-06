@@ -7,23 +7,15 @@ services:
     image: nextcloud/all-in-one:latest
     restart: unless-stopped
     container_name: nextcloud-aio-mastercontainer
+    network_mode: bridge
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 8094:8080
-    security_opt: ['label:disable']
     environment:
-      - APACHE_PORT=11000
-      - NEXTCLOUD_MOUNT=/mnt/
-      - NEXTCLOUD_ENABLE_NVIDIA_GPU=true
-
-  protonmail-bridge:
-    image: shenxn/protonmail-bridge
-    container_name: protonmail-bridge
-    ports:
-      - "1025:25/tcp"  
-      - "1143:143/tcp" 
-    restart: unless-stopped
-    volumes:
-      - ${DOCKERM}/proton-bridge:/root
+      APACHE_PORT: 11000
+      NEXTCLOUD_MOUNT: /mnt/
+      NEXTCLOUD_ADDITIONAL_PHP_EXTENSIONS: imagick
+      NEXTCLOUD_ADDITIONAL_APKS: imagemagick
+      NEXTCLOUD_ENABLE_DRI_DEVICE: true
