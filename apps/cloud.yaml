@@ -10,6 +10,7 @@ services:
     network_mode: bridge
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /mnt/backup/ncdata:/mnt/ncdata:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 8094:8080
