@@ -168,7 +168,6 @@ HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
         file_paths = [
             "../../pbox.yaml",
             "book.yaml",
-            "game.yaml",
             "immich.yaml",
             "jellyfin.yaml",
             "stash.yaml",
