@@ -11,7 +11,7 @@ services:
       - ${DOCKERM}/qbit:/config
       - ${RUST}/tor:/data/tor
       - ${RUST}/game:/game
-      # - ${FLASH}/romm/library/roms:/roms
+      - ${DOCKERM}/qbit/vuetorrent:/vuetorrent
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "curl -sf https://api.ipify.org || exit 1"]
