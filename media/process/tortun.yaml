@@ -1,6 +1,6 @@
 services:
   qbittorrent:
-    image: engels74/qbittorrent
+    image: ghcr.io/hotio/qbittorrent
     container_name: qbittorrent
     environment:
       - PUID=1000
