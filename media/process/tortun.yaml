@@ -5,7 +5,6 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - UMASK_SET=022
       - TZ=${TZ}
       - WEBUI_PORT=8080
       - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
