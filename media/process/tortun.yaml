@@ -1,17 +1,16 @@
 services:
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: ghcr.io/hotio/qbittorrent
     container_name: qbittorrent
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-      - WEBUI_PORT=8080
-      - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
+      - WEBUI_PORTS=8080/tcp,8080/udp
     volumes:
-      - ${DOCKERM}/qbit:/config:rw
-      - ${RUST}/tor:/data/tor:rw
-      - ${RUST}/game:/game:rw
+      - ${DOCKERM}/qbit:/config
+      - ${RUST}/tor:/data/tor
+      - ${RUST}/game:/game
       # - ${FLASH}/romm/library/roms:/roms
     restart: always
     healthcheck:
