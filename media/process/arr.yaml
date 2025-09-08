@@ -226,27 +226,28 @@ services:
         networks:
             - media
 
-    bazarr:
-        image: lscr.io/linuxserver/bazarr:latest
-        container_name: bazarr
-        networks:
-            - internal
-            - media
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=${TZ}
-        volumes:
-            - ${DOCKERM}/bazarr:/config
-            - ${RUST}/movie:/movies
-            - ${RUST}/tv:/tv
-            - ${RUST}/anime:/anime
-        restart: unless-stopped
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
-            - traefik.http.services.bazarr.loadbalancer.server.port=6767
-            - traefik.docker.network=internal
+    # bazarr:
+    #     image: lscr.io/linuxserver/bazarr:latest
+    #     container_name: bazarr
+    #     networks:
+    #         - internal
+    #         - media
+    #     environment:
+    #         - PUID=1000
+    #         - PGID=1000
+    #         - TZ=${TZ}
+    #     volumes:
+    #         - ${DOCKERM}/bazarr:/config
+    #         - ${RUST}/movie:/movies
+    #         - ${RUST}/tv:/tv
+    #         - ${RUST}/anime:/anime
+    #     restart: unless-stopped
+    #     labels:
+    #         - traefik.enable=true
+    #         - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
+    #         - traefik.http.services.bazarr.loadbalancer.server.port=6767
+    #         - traefik.docker.network=internal
+    
     # maintainerr:
     #   image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
     #   container_name: maintainerr
