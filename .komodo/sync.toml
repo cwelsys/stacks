@@ -124,7 +124,6 @@ repo = "cwelsys/stacks"
 run_directory = "apps/discord"
 file_paths = [
   "../../pbox.yaml",
-  "ipmap.yaml",
   "membarr.yaml",
   "muse.yaml",
   "redbot.yaml",
