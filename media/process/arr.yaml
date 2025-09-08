@@ -151,6 +151,21 @@ services:
             - internal
             - media
 
+    suggestarr:
+        image: ciuse99/suggestarr:latest
+        container_name: SuggestArr
+        restart: unless-stopped
+        networks:
+            - media
+            - internal
+        volumes:
+            - ${DOCKERM}/suggestarr:/app/config/config_files
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.suggestarr.rule=Host(`suggestarr.${CASA}`)
+            - traefik.docker.network=internal
+            - traefik.http.services.suggestarr.loadbalancer.server.port=5000
+
     jellyseerr:
         image: ghcr.io/hotio/jellyseerr
         container_name: jellyseerr
