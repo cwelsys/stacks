@@ -168,14 +168,9 @@ STEAMGRID_API_KEY=[[STEAMGRID__API]]
 HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
 """
         file_paths = ["../../pbox.yaml", "book.yaml", "immich.yaml", "jellyfin.yaml", "stash.yaml"]
-        file_paths = ["../../pbox.yaml", "book.yaml", "immich.yaml", "jellyfin.yaml", "stash.yaml"]
-        git_account = "cwelsys"
         git_account = "cwelsys"
         repo = "cwelsys/stacks"
-        repo = "cwelsys/stacks"
         run_directory = "media/consume"
-        run_directory = "media/consume"
-        server = "pbox"
         server = "pbox"
 
         ##
