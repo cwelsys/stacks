@@ -6,6 +6,9 @@ services:
             - PUID=1000
             - PGID=1000
             - TZ=${TZ}
+            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sonarr
+            - TP_COMMUNITY_THEME="true"
+            - TP_THEME="catppuccin-mocha"
         volumes:
             - ${DOCKERM}/sonarr/app:/config
             - ${RUST}:/data
@@ -247,7 +250,7 @@ services:
     #         - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
     #         - traefik.http.services.bazarr.loadbalancer.server.port=6767
     #         - traefik.docker.network=internal
-    
+
     # maintainerr:
     #   image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
     #   container_name: maintainerr
