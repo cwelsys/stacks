@@ -11,7 +11,7 @@ services:
             - ${RUST}:/data
         restart: always
         healthcheck:
-            test: ["CMD", "curl", "--fail", "http://127.0.0.1:8989/ping"]
+            test: [ "CMD", "curl", "--fail", "http://127.0.0.1:8989/ping" ]
             interval: 30s
             retries: 10
         labels:
@@ -35,7 +35,7 @@ services:
             - ${RUST}:/data
         restart: always
         healthcheck:
-            test: ["CMD", "curl", "--fail", "http://127.0.0.1:7878/ping"]
+            test: [ "CMD", "curl", "--fail", "http://127.0.0.1:7878/ping" ]
             interval: 30s
             retries: 10
         labels:
@@ -47,25 +47,25 @@ services:
             - internal
             - media
 
-  readarr:
-    image: ghcr.io/pennydreadful/bookshelf:hardcover
-    container_name: readarr
-    environment:
-      - PUID=1000
-      - PGID=1001
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKERM}/readarr:/config
-      - ${RUST}:/data
-    restart: unless-stopped
-    networks:
-      - media
-      - internal
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=internal
-      - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
-      - traefik.http.services.readarr.loadbalancer.server.port=8787
+    readarr:
+        image: ghcr.io/pennydreadful/bookshelf:hardcover
+        container_name: readarr
+        environment:
+            - PUID=1000
+            - PGID=1001
+            - TZ=${TZ}
+        volumes:
+            - ${DOCKERM}/readarr:/config
+            - ${RUST}:/data
+        restart: unless-stopped
+        networks:
+            - media
+            - internal
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=internal
+            - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
+            - traefik.http.services.readarr.loadbalancer.server.port=8787
 
     # lidarr:
     #   image: lscr.io/linuxserver/lidarr
@@ -123,7 +123,7 @@ services:
             - ${DOCKERM}/prowlarr:/config
         restart: always
         healthcheck:
-            test: ["CMD", "curl", "--fail", "http://127.0.0.1:9696/ping"]
+            test: [ "CMD", "curl", "--fail", "http://127.0.0.1:9696/ping" ]
             interval: 30s
             retries: 10
         labels:
@@ -247,7 +247,6 @@ services:
             - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
             - traefik.http.services.bazarr.loadbalancer.server.port=6767
             - traefik.docker.network=internal
-
     # maintainerr:
     #   image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
     #   container_name: maintainerr
