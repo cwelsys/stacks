@@ -6,6 +6,9 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sabnzbd
+      - TP_COMMUNITY_THEME=true
+      - TP_THEME=catppuccin-mocha
     volumes:
       - ${DOCKERM}/sabnzbd:/config
       # - ${DOCKERM}/sabnzbd/custom:/custom-cont-init.d
