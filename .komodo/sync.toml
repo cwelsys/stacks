@@ -123,13 +123,6 @@ JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
 """
         file_paths = [
             "../../pbox.yaml",
-            "membarr.yaml",
-            "muse.yaml",
-            "redbot.yaml",
-            "requestarr.yaml",
-        ]
-        file_paths = [
-            "../../pbox.yaml",
             "ipmap.yaml",
             "membarr.yaml",
             "muse.yaml",
@@ -137,12 +130,8 @@ JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
             "requestarr.yaml",
         ]
         git_account = "cwelsys"
-        git_account = "cwelsys"
-        repo = "cwelsys/stacks"
         repo = "cwelsys/stacks"
         run_directory = "apps/discord"
-        run_directory = "apps/discord"
-        server = "pbox"
         server = "pbox"
 
         ##
