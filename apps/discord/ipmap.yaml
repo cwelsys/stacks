@@ -1,6 +1,7 @@
 services:
   ipmap:
     image: ipmap:latest
+    pull_policy: never
     container_name: ipmap
     networks:
       - internal
