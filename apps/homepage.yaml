@@ -58,6 +58,7 @@ services:
       - HOMEPAGE_VAR_AUTOBRR_API_KEY=${AUTOBRR_API_KEY}
       - HOMEPAGE_VAR_ABS_API_KEY=${ABS_API_KEY}
       - HOMEPAGE_VAR_KAVITA_API_KEY=${KAVITA_API_KEY}
+      - HOMEPAGE_VAR_READARR_API_KEY=${READARR_API_KEY}
     volumes:
       - ${DOCKERM}/homepage/app:/app/config
       - ${DOCKERM}/homepage/icons:/app/public/images
