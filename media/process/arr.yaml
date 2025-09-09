@@ -86,11 +86,7 @@ services:
     #   volumes:
     #     - ${DOCKERM}/lidarr/app:/config
     #     - ${RUST}:/data
-    #   restart: always
-    #   healthcheck:
-    #     test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8686/ping']
-    #     interval: 30s
-    #     retries: 10
+    #   restart: unless-stopped
     #   labels:
     #     - traefik.enable=true
     #     - traefik.http.routers.lidarr.rule=Host(`lidarr.${CASA}`)
@@ -190,21 +186,23 @@ services:
             - kop.namespace=public
 
     flaresolverr:
-        image: 21hsmw/flaresolverr:nodriver
+        image: ghcr.io/flaresolverr/flaresolverr:latest
         container_name: flaresolverr
-        restart: always
+        restart: unless-stopped
+        networks:
+            - media
+        ports:
+            - 8191:8191
         environment:
             - LOG_LEVEL=info
             - LOG_HTML=false
             - CAPTCHA_SOLVER=none
             - TZ=${TZ}
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${CASA}`)
-            - traefik.docker.network=internal
-            - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
-        networks:
-            - internal
+        # labels:
+        #     - traefik.enable=true
+        #     - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${CASA}`)
+        #     - traefik.docker.network=internal
+        #     - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
 
     recyclarr:
         image: ghcr.io/recyclarr/recyclarr
@@ -224,8 +222,6 @@ services:
         networks:
             - internal
             - media
-        # ports:
-        #   - '11011:11011'
         volumes:
             - ${DOCKERM}/cleanarr:/config
         environment:
@@ -281,21 +277,3 @@ services:
     #         - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
     #         - traefik.http.services.bazarr.loadbalancer.server.port=6767
     #         - traefik.docker.network=internal
-
-    # maintainerr:
-    #   image: ghcr.io/jorenn92/maintainerr:latest # or jorenn92/maintainerr:latest
-    #   container_name: maintainerr
-    #   user: 1000:1000
-    #   networks:
-    #     - internal
-    #     - media
-    #   volumes:
-    #     - ${DOCKERM}/maintainerr:/opt/data
-    #   environment:
-    #     - TZ=${TZ}
-    #   restart: unless-stopped
-    #   labels:
-    #     - traefik.enable=true
-    #     - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${CASA}`)
-    #     - traefik.docker.network=internal
-    #     - traefik.http.services.maintainerr.loadbalancer.server.port=6246
