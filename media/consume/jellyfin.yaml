@@ -37,3 +37,40 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+
+  jellystat-db:
+    image: 'postgres:15.2'
+    shm_size: 1gb
+    container_name: jellystat-db
+    restart: unless-stopped
+    networks:
+      - media
+    environment:
+      POSTGRES_USER: jellystat
+      POSTGRES_PASSWORD: ${JELLYPG_PASS}
+    volumes:
+      - ${DOCKERM}/jellystat/data:/var/lib/postgresql/data
+
+  jellystat:
+    image: 'cyfershepard/jellystat:latest'
+    container_name: jellystat
+    restart: unless-stopped
+    networks:
+      - internal
+      - media
+    environment:
+      POSTGRES_USER: jellystat
+      POSTGRES_PASSWORD: ${JELLYPG_PASS}
+      POSTGRES_IP: jellystat-db
+      POSTGRES_PORT: 5432
+      JWT_SECRET: ${JELLYS_JWT}
+      TZ: ${TZ}
+    volumes:
+      - ${DOCKERM}/jellystat/backup:/app/backend/backup-data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellystat.rule=Host(`jellystat.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.jellystat.loadbalancer.server.port=3000
+    depends_on:
+      - jellystat-db
