@@ -191,8 +191,8 @@ services:
         restart: unless-stopped
         networks:
             - media
-        ports:
-            - 8191:8191
+        # ports:
+        #     - 8191:8191
         environment:
             - LOG_LEVEL=info
             - LOG_HTML=false
