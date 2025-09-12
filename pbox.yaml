@@ -11,10 +11,6 @@ volumes:
   cache:
 
 networks:
-  stack:
-    internal: true
-  media:
-    external: true
   internal:
     external: true
   public:
@@ -23,7 +19,9 @@ networks:
     external: true
   crowdsec:
     external: true
-  gitea:
+  stack:
+    internal: true
+  media:
     external: true
   monitor:
     external: true
