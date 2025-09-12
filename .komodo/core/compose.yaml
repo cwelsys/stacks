@@ -1,6 +1,6 @@
-volumes:
-  repo-cache:
-    external: true
+include:
+  - ../../pbox.yaml
+
 services:
   mongo:
     image: mongo
@@ -69,10 +69,27 @@ services:
       - /proc:/proc
       - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
 
-networks:
-  internal:
-    external: true
-  public:
-    external: true
-  stack:
-    internal: true
+  db-backup:
+    container_name: komo-db-backup
+    image: tiredofit/db-backup
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    networks:
+      - stack
+    volumes:
+      - ${DOCKERM}/dumps/komodo:/backup
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=komo-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
+      - DB01_TYPE=mongo
+      - DB01_HOST=mongo
+      - DB01_USER=${KOMODO_DB_USERNAME}
+      - DB01_PASS=${KOMODO_DB_PASSWORD}
