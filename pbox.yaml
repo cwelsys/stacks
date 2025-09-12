@@ -5,7 +5,6 @@
 # docker network create --driver=overlay --internal --attachable kop
 # docker network create --driver=overlay --internal --attachable crowdsec
 # docker network create --driver=bridge --attachable media
-# docker network create --driver=bridge --attachable gitea
 # docker network create --driver=bridge --attachable monitor
 
 volumes:
