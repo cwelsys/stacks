@@ -90,7 +90,7 @@ services:
     networks:
       - stack
     volumes:
-      - ${BRICK}/dumps/immich:/backup
+      - ${DOCKERM}/dumps/immich:/backup
     environment:
       - TIMEZONE=${TZ}
       - CONTAINER_NAME=immich-db-backup
