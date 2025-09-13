@@ -89,7 +89,6 @@ services:
   op-connect-sync:
     container_name: op-connect-sync
     image: 1password/connect-sync:latest
-    init: true
     network_mode: service:tailscale
     volumes:
       - ${DOCKERM}/op-sync/1password-credentials.json:/home/opuser/.op/1password-credentials.json
