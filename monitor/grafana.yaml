@@ -43,6 +43,7 @@ services:
       - monitor
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${CASA}
+      - GF_ANALYTICS_REPORTING_ENABLED=false
     expose:
       - 3000
     volumes:
