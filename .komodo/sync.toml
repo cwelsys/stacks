@@ -312,6 +312,8 @@ volumes = """
 """
 environment = """
 TZ = ${TZ}
+JELLYFIN_URL = https://jelly.cwel.sh
+JELLYFIN_API_KEY = [[JELLYFIN__API]]
 """
 
 ##
