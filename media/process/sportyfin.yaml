@@ -1,8 +1,5 @@
 services:
   sportyfin:
-    build:
-      context: https://github.com/cwelsys/sportyfin.git
-      dockerfile: Dockerfile
     image: sportyfin:latest
     container_name: sportyfin
     user: '1000:1000'
