@@ -306,7 +306,7 @@ image.type = "Build"
 image.params.build = "sportyfin"
 redeploy_on_build = true
 network = "media"
-command = "python3 -m sportyfin -football -nfl -f1 -v -d"
+command = "python3 -m sportyfin -nfl -v -d"
 volumes = """
 /opt/docker/sportyfin:/sportyfin/output
 """
