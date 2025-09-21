@@ -36,8 +36,6 @@ services:
       DELAY_SIMPLE_INDEX_CATEGORY: 60
       FUTURE_LIMIT: 7
       PAST_LIMIT: 1
-      CATEGORIES_EMOJIS: '{"Sport":"⚽","Football":"🏈","Basketball":"🏀","Baseball":"⚾","Hockey":"🏒"}'
-      GROUPS: '{"Sport":["NBA","NFL","NHL","MLB"]}'
       CREATE_PUBLISHER_DISCORD: false
       CREATE_PUBLISHER_MATRIX: false
       CREATE_PUBLISHER_GOTIFY: false
