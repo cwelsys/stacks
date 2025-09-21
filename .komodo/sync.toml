@@ -19,8 +19,7 @@ run_directory = "media/process"
 file_paths = [
   "../../pbox.yaml",
   "arr.yaml",
-  "exportarr.yaml",
-  "sportyfin.yaml"
+  "exportarr.yaml"
 ]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
