@@ -1,4 +1,50 @@
 services:
+  bootstrap:
+    container_name: broadcastarr-bootstrap
+    image: docker.io/billos/broadcastarr:latest
+    command: "start:bootstrap"
+    networks:
+      - stack
+    volumes:
+      - ${DOCKERM}/bcast/data:/data:rw
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
+      LOG_DATA: true
+      MONGO_URL: mongodb://mongo
+      MONGO_AGENDA_DB: agenda
+      MONGO_DB: broadcastarr
+      DATA_FOLDER: /data
+      # Bootstrap configuration
+      DELAY_REGULAR_INDEX_CATEGORY: 300
+      DELAY_RETRY_INDEX_CATEGORY: 60
+      DELAY_RETRY_GRAB_BROADCAST_STREAM: 30
+      DELAY_RETRY_UPDATE_CATEGORY_CHANNEL_NAME: 60
+      DELAY_GRAB_STREAM: 10
+      DELAY_JELLYFIN_LIVETV_REFRESH: 300
+      DELAY_PUBLISH_GROUP: 5
+      DELAY_UPDATE_CATEGORY_CHANNEL_NAME: 300
+      DELAY_RENEW_STREAM: 30
+      DELAY_SIMPLE_INDEX_CATEGORY: 60
+      FUTURE_LIMIT: 7
+      PAST_LIMIT: 1
+      CATEGORIES_EMOJIS: '{"Sport":"⚽","Football":"🏈","Basketball":"🏀","Baseball":"⚾","Hockey":"🏒"}'
+      GROUPS: '{"Sport":["NBA","NFL","NHL","MLB","Premier League"]}'
+      CREATE_PUBLISHER_DISCORD: false
+      CREATE_PUBLISHER_MATRIX: false
+      CREATE_PUBLISHER_GOTIFY: false
+      CREATE_RELEASER_JELLYFIN: true
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+    restart: "no"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    profiles:
+      - bootstrap
+
   server:
     container_name: broadcastarr
     image: docker.io/billos/broadcastarr:latest
