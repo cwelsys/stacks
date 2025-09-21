@@ -19,6 +19,10 @@ services:
       DATA_FOLDER: /data
       M3U8_FOLDER: /bcast/streams/m3u8
       IMAGES_FOLDER: /bcast/streams/images
+      JELLYFIN_URL: http://jellyfin:8096
+      JELLYFIN_TOKEN: ${JELLYFIN_API_KEY}
+      BROADCASTARR_REMOTE_URL: https://bcast.${CASA}
+      TZ: ${TZ}
       # Bootstrap configuration
       DELAY_REGULAR_INDEX_CATEGORY: 300
       DELAY_RETRY_INDEX_CATEGORY: 60
