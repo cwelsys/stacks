@@ -1,0 +1,47 @@
+services:
+  server:
+    container_name: broadcastarr
+    image: docker.io/billos/broadcastarr:latest
+    command: "start:server"
+    volumes:
+      - ${DOCKERM}/streams/m3u8:/streams/m3u8:rw
+      - ${DOCKERM}/streams/images:/streams/images:rw
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
+      LOG_DATA: true
+      MONGO_URL: mongodb://mongo
+      MONGO_AGENDA_DB: agenda
+      MONGO_DB: broadcastarr
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  worker:
+    extends:
+      service: server
+    container_name: worker
+    command: "start:worker"
+
+  mongo:
+    image: docker.io/library/mongo:7.0
+    container_name: mongo
+    restart: unless-stopped
+    volumes:
+      - broadcastarr_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo/test --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  broadcastarr_data:
+    external: true
