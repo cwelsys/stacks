@@ -7,6 +7,8 @@ services:
       - stack
     volumes:
       - ${DOCKERM}/bcast/data:/data:rw
+      - ${DOCKERM}/bcast/streams/m3u8:/bcast/streams/m3u8:rw
+      - ${DOCKERM}/bcast/streams/images:/bcast/streams/images:rw
     environment:
       NODE_ENV: development
       LOG_LEVEL: debug
@@ -15,6 +17,8 @@ services:
       MONGO_AGENDA_DB: agenda
       MONGO_DB: broadcastarr
       DATA_FOLDER: /data
+      M3U8_FOLDER: /bcast/streams/m3u8
+      IMAGES_FOLDER: /bcast/streams/images
       # Bootstrap configuration
       DELAY_REGULAR_INDEX_CATEGORY: 300
       DELAY_RETRY_INDEX_CATEGORY: 60
