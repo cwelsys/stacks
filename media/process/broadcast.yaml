@@ -34,6 +34,7 @@ services:
       CREATE_PUBLISHER_MATRIX: false
       CREATE_PUBLISHER_GOTIFY: false
       CREATE_RELEASER_JELLYFIN: true
+      MATRIX_ADDITIONAL_ADMINS: ""
     deploy:
       resources:
         limits:
