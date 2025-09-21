@@ -1,0 +1,15 @@
+services:
+  sportyfin:
+    image: sportyfin:latest
+    container_name: sportyfin
+    user: '1000:1000'
+    restart: "no"  # Run once to generate files
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/sportyfin:/sportyfin/output
+    networks:
+      - media
+    command: ["python3", "-m", "sportyfin", "run", "-a", "-o", "/sportyfin/output"]
+    profiles:
+      - manual  # Only run when explicitly requested
