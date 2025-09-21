@@ -304,6 +304,7 @@ name = "sportyfin"
 server = "pbox"
 image.type = "Build"
 image.params.build = "sportyfin"
+redeploy_on_build = true
 network = "media"
 command = "\"python3\", \"-m\", \"sportyfin\", \"-a\", \"-v\", \"-d\""
 volumes = """
