@@ -11,4 +11,4 @@ services:
       - ${DOCKERM}/sportyfin:/sportyfin/output
     networks:
       - media
-    command: ["python3", "-m", "sportyfin", "run", "-a", "-o", "/sportyfin/output"]
+    command: ["python3", "-m", "sportyfin", "-a", "-v", "-d"]
