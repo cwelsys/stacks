@@ -5,6 +5,7 @@ services:
     command: "start:bootstrap"
     networks:
       - stack
+      - media
     volumes:
       - ${DOCKERM}/bcast/data:/data:rw
       - ${DOCKERM}/bcast/streams/m3u8:/bcast/streams/m3u8:rw
