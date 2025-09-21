@@ -3,18 +3,61 @@ services:
     container_name: broadcastarr
     image: docker.io/billos/broadcastarr:latest
     command: "start:server"
+    networks:
+      - media
+      - internal
+      - stack
     volumes:
-      - ${DOCKERM}/streams/m3u8:/streams/m3u8:rw
-      - ${DOCKERM}/streams/images:/streams/images:rw
-    env_file:
-      - .env
+      - ${DOCKERM}/bcast/streams/m3u8:/bcast/streams/m3u8:rw
+      - ${DOCKERM}/bcast/streams/images:/bcast/streams/images:rw
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.broadcastarr.rule=Host(`bcast.${CASA}`)"
+      - traefik.docker.network=internal
+      - "traefik.http.services.broadcastarr.loadbalancer.server.port=3000"
     environment:
       NODE_ENV: development
-      LOG_LEVEL: debug
-      LOG_DATA: true
       MONGO_URL: mongodb://mongo
       MONGO_AGENDA_DB: agenda
       MONGO_DB: broadcastarr
+      UID: 1000
+      # silly, trace, debug, info, warn, error, fatal
+      LOG_LEVEL: ${LOG_LEVEL:-debug}
+      # Print the data in the logs
+      LOG_DATA: ${LOG_DATA:-true}
+      # The port on which the server will listen
+      PORT: 3000
+      # The folder where the M3U8 files are stored, must be accessible by the Jellyfin container too at the same path
+      M3U8_FOLDER: ${DOCKERM}/bcast/streams/m3u8
+      IMAGES_FOLDER: ${DOCKERM}/bcast/streams/images
+      TZ: ${TZ}
+      # The user agent to use for the scrapper
+      # USER_AGENT: ${USER_AGENT}
+      # The URL of which you'll access the API
+      BROADCASTARR_REMOTE_URL: https://bcast.${CASA}
+      # The URL of the Jellyfin server
+      JELLYFIN_URL: http://jellyfin:8096
+      # The token to use to access the Jellyfin server
+      JELLYFIN_TOKEN: ${JELLYFIN_API_KEY}
+      # # The token of the user to use to send messages
+      # DISCORD_USER_TOKEN: ${DISCORD_USER_TOKEN}
+      # # The URL of the avatar to use for the webhook, can be empty
+      # DISCORD_WEBHOOK_AVATAR: ${DISCORD_WEBHOOK_AVATAR}
+      # # The username to use for the webhook, can be empty
+      # DISCORD_WEBHOOK_USERNAME: ${DISCORD_WEBHOOK_USERNAME}
+      # # Whether the Discord bot is active or not
+      # DISCORD_BOT_ACTIVE: ${DISCORD_BOT_ACTIVE}
+      # # The token of the Discord bot
+      # DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      # # The client ID of the Discord bot
+      # DISCORD_BOT_CLIENT_ID: ${DISCORD_BOT_CLIENT_ID}
+      # MATRIX_URL: ${MATRIX_URL}
+      # MATRIX_SERVER_NAME: ${MATRIX_SERVER_NAME}
+      # MATRIX_USER: ${MATRIX_USER}
+      # MATRIX_ACCESS_TOKEN: ${MATRIX_ACCESS_TOKEN}
+      # MATRIX_ADDITIONAL_ADMINS: ${MATRIX_ADDITIONAL_ADMINS}
+      # GOTIFY_URL: ${GOTIFY_URL}
+      # GOTIFY_TOKEN: ${GOTIFY_TOKEN}
     deploy:
       resources:
         limits:
@@ -34,6 +77,8 @@ services:
     image: docker.io/library/mongo:7.0
     container_name: mongo
     restart: unless-stopped
+    networks:
+      - stack
     volumes:
       - broadcastarr_data:/data/db
     healthcheck:

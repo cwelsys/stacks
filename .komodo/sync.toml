@@ -19,6 +19,7 @@ PROWLARR_API_KEY=[[PROWLARR__API]]
 WHISPARR_API_KEY=[[WHISPARR__API]]
 SABNZBD_API_KEY=[[SABNZBD__API]]
 QBIT_PASSWORD=[[QBITTORRENT__PASSWORD]]
+JELLYFIN_API_KEY=[[JELLYFIN__API]]
 """
         file_paths = ["../../pbox.yaml", "arr.yaml", "broadcast.yaml", "exportarr.yaml"]
         git_account = "cwelsys"
