@@ -11,5 +11,3 @@ services:
     networks:
       - media
     command: ["python3", "-m", "sportyfin", "run", "-a", "-o", "/sportyfin/output"]
-    profiles:
-      - manual  # Only run when explicitly requested
