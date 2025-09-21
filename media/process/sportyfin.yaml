@@ -1,6 +1,7 @@
 services:
   sportyfin:
     image: sportyfin:latest
+    pull_policy: never
     container_name: sportyfin
     user: '1000:1000'
     restart: "no"  # Run once to generate files
