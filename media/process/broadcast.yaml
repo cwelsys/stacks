@@ -42,8 +42,6 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
-    profiles:
-      - bootstrap
 
   server:
     container_name: broadcastarr
