@@ -100,13 +100,9 @@ MUSE_TOKEN=[[DISCORD__MUSE]]
 MEMBARR_TOKEN=[[DISCORD__MEMBARR]]
 DOPLARR_TOKEN=[[DISCORD__DOPLARR]]
 JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
-JELLYFIN_API_KEY=[[JELLYFIN__API]]
-BROADCASTARR_TOKEN=[[DISCORD__SPORT]]
-BROADCASTARR_ID=[[DISCORD__SPORTID]]
 """
         file_paths = [
             "../../pbox.yaml",
-            "broadcast.yaml",
             "ipmap.yaml",
             "membarr.yaml",
             "muse.yaml",
