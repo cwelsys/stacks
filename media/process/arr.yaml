@@ -245,12 +245,12 @@ services:
         Uncomment the following lines for NVIDIA GPU support
         NVidia GPU support (requires NVIDIA Container Toolkit)
         deploy:
-        resources:
-            reservations:
-                devices:
-                    - driver: nvidia
-                    count: all
-                    capabilities: [gpu]
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: all
+                          capabilities: [gpu]
 
     cleanuparr:
         image: ghcr.io/cleanuparr/cleanuparr:latest
