@@ -149,14 +149,7 @@ HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
 JELLYPG_PASS=[[JELLYSTAT__POSTGRES]]
 JELLYS_JWT=[[JELLYSTAT__JWT]]
 """
-        file_paths = [
-            "../../pbox.yaml",
-            "../process/threadfin.yaml",
-            "book.yaml",
-            "immich.yaml",
-            "jellyfin.yaml",
-            "stash.yaml",
-        ]
+        file_paths = ["../../pbox.yaml", "book.yaml", "immich.yaml", "jellyfin.yaml", "stash.yaml"]
         git_account = "cwelsys"
         repo = "cwelsys/stacks"
         run_directory = "media/consume"

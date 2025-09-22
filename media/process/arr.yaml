@@ -215,6 +215,41 @@ services:
             - ${DOCKERM}/recyclarr:/config
         environment:
             - TZ=${TZ}
+  dispatcharr:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: ghcr.io/dispatcharr/dispatcharr:latest
+    container_name: dispatcharr
+    networks:
+      - internal
+      - media
+    # ports:
+    #   - 9191:9191
+    volumes:
+      - ${DOCKERM}/dispatcharr:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dispatcharr.rule=Host(`dispatcharr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.dispatcharr.loadbalancer.server.port=9191
+    environment:
+      - DISPATCHARR_ENV=aio
+      - REDIS_HOST=localhost
+      - CELERY_BROKER_URL=redis://localhost:6379/0
+      - DISPATCHARR_LOG_LEVEL=info
+    # Optional for hardware acceleration
+    devices:
+     - /dev/dri:/dev/dri  # For Intel/AMD GPU acceleration (VA-API)
+    Uncomment the following lines for NVIDIA GPU support
+    NVidia GPU support (requires NVIDIA Container Toolkit)
+    deploy:
+     resources:
+         reservations:
+             devices:
+                 - driver: nvidia
+                   count: all
+                   capabilities: [gpu]
 
     cleanuparr:
         image: ghcr.io/cleanuparr/cleanuparr:latest
