@@ -20,3 +20,27 @@ services:
       - traefik.docker.network=internal
       - traefik.http.services.threadfin.loadbalancer.server.port=34400
     restart: unless-stopped
+
+  epg-scraper:
+    image: iptv-org/epg:latest
+    container_name: epg-scraper
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - CRON_SCHEDULE=0 6 * * *  # Daily at 6 AM
+      - MAX_CONNECTIONS=5
+      - GZIP=true
+      - DAYS=7
+      - TIMEOUT=10
+      - DELAY=3
+    volumes:
+      - ${DOCKERM}/threadfin/epg:/epg/output
+      - ${DOCKERM}/threadfin/epg/channels.xml:/epg/channels.xml
+    networks:
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.epg.rule=Host(`epg.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.epg.loadbalancer.server.port=3000
