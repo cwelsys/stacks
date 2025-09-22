@@ -22,7 +22,9 @@ services:
     restart: unless-stopped
 
   epg-scraper:
-    image: iptv-org/epg:latest
+    build:
+      context: https://github.com/iptv-org/epg.git
+      dockerfile: Dockerfile
     container_name: epg-scraper
     restart: unless-stopped
     ports:
