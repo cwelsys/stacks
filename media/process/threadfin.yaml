@@ -1,0 +1,22 @@
+services:
+  threadfin:
+    image: fyb3roptik/threadfin
+    container_name: threadfin
+    networks:
+      - internal
+      - media
+    # ports:
+    #   - 34400:34400
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/threadfin/data/conf:/home/threadfin/conf
+      - ${DOCKERM}/threadfin/data/temp:/tmp/threadfin:rw
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.threadfin.rule=Host(`threadfin.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.threadfin.loadbalancer.server.port=34400
+    restart: unless-stopped
