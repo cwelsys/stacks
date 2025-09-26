@@ -111,8 +111,9 @@ services:
       OP_CONNECT_HOST: 'http://localhost:8420'
       OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
       OP_VAULT: ${OP_VAULT_UUID}
-      SYNC_INTERVAL: '1h'
+      SYNC_INTERVAL: '3h'
       LOG_LEVEL: 'INFO'
     restart: unless-stopped
     depends_on:
       - op-connect-api
+      - tailscale
