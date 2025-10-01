@@ -103,7 +103,6 @@ JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
 """
 file_paths = [
     "../../pbox.yaml",
-    "ipmap.yaml",
     "membarr.yaml",
     "muse.yaml",
     "redbot.yaml",
