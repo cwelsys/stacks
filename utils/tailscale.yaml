@@ -81,12 +81,6 @@ services:
       OP_SESSION: /home/opuser/.op/1password-credentials.json
       OP_HTTP_PORT: 8420
       OP_HTTP_HOST: 0.0.0.0
-    healthcheck:
-      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:8420/health']
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
     restart: unless-stopped
     depends_on:
       tailscale:
@@ -106,7 +100,8 @@ services:
       tailscale:
         condition: service_healthy
       op-connect-api:
-        condition: service_healthy
+        condition: service_started
+        restart: true
 
   komodo-op:
     container_name: komodo-op
