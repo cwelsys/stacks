@@ -73,3 +73,9 @@ services:
       - DB01_NAME=umami
       - DB01_USER=umami
       - DB01_PASS=${UMAMI_DB_PASSWORD}
+
+networks:
+  public:
+    external: true
+  stack:
+    internal: true
