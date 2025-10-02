@@ -245,26 +245,26 @@ services:
                           count: all
                           capabilities: [gpu]
 
-    cleanuparr:
-        image: ghcr.io/cleanuparr/cleanuparr:latest
-        container_name: cleanarr
-        restart: unless-stopped
-        networks:
-            - internal
-            - media
-        volumes:
-            - ${DOCKERM}/cleanarr:/config
-        environment:
-            - PORT=11011
-            - PUID=1000
-            - PGID=1000
-            - UMASK=022
-            - TZ=${TZ}
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.cleanuparr.rule=Host(`cleanarr.${CASA}`)
-            - traefik.docker.network=internal
-            - traefik.http.services.cleanuparr.loadbalancer.server.port=11011
+    # cleanuparr:
+    #     image: ghcr.io/cleanuparr/cleanuparr:latest
+    #     container_name: cleanarr
+    #     restart: unless-stopped
+    #     networks:
+    #         - internal
+    #         - media
+    #     volumes:
+    #         - ${DOCKERM}/cleanarr:/config
+    #     environment:
+    #         - PORT=11011
+    #         - PUID=1000
+    #         - PGID=1000
+    #         - UMASK=022
+    #         - TZ=${TZ}
+    #     labels:
+    #         - traefik.enable=true
+    #         - traefik.http.routers.cleanuparr.rule=Host(`cleanarr.${CASA}`)
+    #         - traefik.docker.network=internal
+    #         - traefik.http.services.cleanuparr.loadbalancer.server.port=11011
 
     unpackerr:
         image: ghcr.io/unpackerr/unpackerr:latest
