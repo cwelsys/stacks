@@ -1,0 +1,47 @@
+include:
+  - pbox.yaml
+
+services:
+  mongo:
+    image: mongo
+    container_name: komo-mongo
+    labels:
+      - komodo.skip
+    command: --quiet --wiredTigerCacheSizeGB 0.25
+    restart: unless-stopped
+    networks:
+      - stack
+    logging:
+      driver: local
+    # ports:
+    #   - 27017:27017
+    volumes:
+      - ${DOCKERM}/komodo:/data/db
+
+  core:
+    image: ghcr.io/moghtech/komodo-core:latest
+    container_name: komodo
+    networks:
+      - internal
+      - public
+      - stack
+    labels:
+      - komodo.skip
+      - traefik.enable=true
+      - traefik.http.routers.komodo.rule=Host(`komo.${CASA}`)
+      - traefik.http.routers.komodo.service=komodo
+      - traefik.http.services.komodo.loadbalancer.server.port=9120
+      - traefik.docker.network=internal
+      # - kop.namespace=public
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    logging:
+      driver: local
+    ports:
+      - 9120:9120
+    volumes:
+      - ${DOCKERM}/core.config.toml:/config/config.toml
+      - ${DOCKERM}/dumps/komodo:/backups
+    extra_hosts:
+      - host.docker.internal:host-gateway
