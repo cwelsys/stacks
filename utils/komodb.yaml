@@ -1,0 +1,20 @@
+services:
+  mongo:
+    image: mongo
+    container_name: komo-mongo
+    labels:
+      - komodo.skip
+    command: --quiet --wiredTigerCacheSizeGB 0.25
+    restart: unless-stopped
+    networks:
+      - komodo
+    logging:
+      driver: local
+    # ports:
+    #   - 27017:27017
+    volumes:
+      - ${DOCKERM}/komodo:/data/db
+
+networks:
+  komodo:
+    external: true
