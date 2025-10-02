@@ -1,0 +1,24 @@
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
+
+services:
+  nextcloud:
+    image: nextcloud/all-in-one:latest
+    restart: unless-stopped
+    container_name: nextcloud-aio-mastercontainer
+    network_mode: bridge
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 8094:8080
+    environment:
+      APACHE_PORT: 11000
+      NEXTCLOUD_MOUNT: /mnt/
+      NEXTCLOUD_ADDITIONAL_PHP_EXTENSIONS: imagick
+      NEXTCLOUD_ADDITIONAL_APKS: imagemagick
+      NEXTCLOUD_ENABLE_DRI_DEVICE: true
+
+networks:
+  # Nextcloud uses network_mode: bridge - no external network declaration needed

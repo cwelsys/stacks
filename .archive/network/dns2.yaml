@@ -1,0 +1,31 @@
+services:
+  dns2:
+    container_name: dns2
+    image: 'technitium/dns-server:latest'
+    privileged: true
+    restart: always
+    environment:
+      - DNS_SERVER_DOMAIN=dns2.cwel.sh
+      - DNS_SERVER_LOG_USING_LOCAL_TIME=true
+    network_mode: 'host'
+    ports:
+      - '5380:5380/tcp'
+    volumes:
+      - /opt/docker/dns:/etc/dns
+  keepalived:
+    image: shawly/keepalived:edge-7f210c3
+    restart: always
+    environment:
+      TZ: America/New_York
+      KEEPALIVED_VIRTUAL_IP: 192.168.4.69
+      KEEPALIVED_VIRTUAL_MASK: 24
+      KEEPALIVED_CHECK_IP: 192.168.4.89
+      KEEPALIVED_CHECK_PORT: 53
+      KEEPALIVED_VRID: 150
+      KEEPALIVED_INTERFACE: enp0s20u1c2
+      KEEPALIVED_PRIORITY: 100
+      KEEPALIVED_STATE: BACKUP
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_BROADCAST

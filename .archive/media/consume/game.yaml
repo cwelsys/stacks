@@ -1,0 +1,102 @@
+services:
+  ownfoil:
+    container_name: ownfoil
+    image: a1ex4/ownfoil
+    restart: unless-stopped
+    networks:
+      - public
+      - media
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${RUST}/game:/games
+      - ${DOCKERM}/foil:/app/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ownfoil.rule=Host(`tin.${DOMAIN}`)
+      - traefik.docker.network=public
+      - traefik.http.services.ownfoil.loadbalancer.server.port=8465
+      - kop.namespace=public
+  # romm:
+  #   image: rommapp/romm:latest
+  #   container_name: romm
+  #   restart: unless-stopped
+  #   networks:
+  #     - internal
+  #     - default
+  #   environment:
+  #     - DB_HOST=romm-db
+  #     - DB_NAME=romm # Should match MARIADB_DATABASE in mariadb
+  #     - DB_USER=romm # Should match MARIADB_USER in mariadb
+  #     - DB_PASSWD=${ROMM_DB_PW} # Should match MARIADB_PASSWORD in mariadb
+  #     - ROMM_AUTH_SECRET_KEY=${ROMM_AUTH} # Generate a key with `openssl rand -hex 32`
+  #     - IGDB_CLIENT_ID=${IGDB_CLIENT_ID} # Generate an ID and SECRET in IGDB
+  #     - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET} # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#igdb
+  #     - STEAMGRIDDB_API_KEY=${STEAMGRID_API_KEY} # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#steamgriddb
+  #     #- SCREENSCRAPER_USER= # Use your ScreenScraper username and password
+  #     #- SCREENSCRAPER_PASSWORD= # https://docs.romm.app/latest/Getting-Started/Generate-API-Keys/#screenscraper
+  #   volumes:
+  #     - ${DOCKERM}/romm/app:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
+  #     - cache:/redis-data # Cached data for background tasks
+  #     - ${FLASH}/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
+  #     - ${FLASH}/romm/assets:/romm/assets # Uploaded saves, states, etc.
+  #     # - ${DOCKERM}/media/romm:/romm/config # Path where config.yml is stored
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.romm.rule=Host(`romm.${CASA}`)
+  #     - traefik.http.services.romm.loadbalancer.server.port=8080
+  #     - traefik.docker.network=internal
+  #   depends_on:
+  #     romm-db:
+  #       condition: service_healthy
+  #       restart: true
+
+  # romm-db:
+  #   image: mariadb:latest
+  #   container_name: romm-db
+  #   restart: unless-stopped
+  #   networks:
+  #     - default
+  #   environment:
+  #     - MARIADB_ROOT_PASSWORD=${MARIADB_PW}
+  #     - MARIADB_DATABASE=romm
+  #     - MARIADB_USER=romm
+  #     - MARIADB_PASSWORD=${ROMM_DB_PW}
+  #   volumes:
+  #     - ${DOCKERM}/romm/data:/var/lib/mysql
+  #   healthcheck:
+  #     test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+  #     start_period: 30s
+  #     start_interval: 10s
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  # emulatorjs:
+  #   image: lscr.io/linuxserver/emulatorjs:latest
+  #   container_name: emulatorjs
+  #   networks:
+  #     - internal
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=${TZ}
+  #     # - SUBFOLDER=/ #optional
+  #   volumes:
+  #     - ${DOCKERM}/emujs:/config
+  #     - ${DOCKERM}/emujs:/data
+  #     - ${FLASH}/romm/library/roms/nes:/roms/nes:ro
+  #     - ${FLASH}/romm/library/roms/snes:/roms/snes:ro
+  #     - ${FLASH}/romm/library/roms/n64:/roms/n64:ro
+  #     - ${FLASH}/romm/library/roms/ps:/roms/psx:ro
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.emujs.rule=Host(`emu.${CASA}`)
+  #     - traefik.http.services.emujs.loadbalancer.server.port=80
+  #     - traefik.docker.network=internal
+  #   ports:
+  #     - 3025:3000
+  #     # - 85:80
+  #     #- 4001:4001 #optional
+  #   restart: unless-stopped

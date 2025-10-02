@@ -1,0 +1,19 @@
+services:
+  doplarr:
+    image: lscr.io/linuxserver/doplarr:latest
+    container_name: doplarr
+    networks:
+      - media
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DISCORD__TOKEN=${DOPLARR_TOKEN}
+      - OVERSEERR__API=${JELLYSEERR_API_KEY}
+      - OVERSEERR__URL=http://jellyseerr:5055
+      - DISCORD__MAX_RESULTS=25
+      - DISCORD__REQUESTED_MSG_STYLE=:plain
+      - LOG_LEVEL=:info
+    volumes:
+      - ${DOCKERM}/doplarr:/config
+    restart: unless-stopped

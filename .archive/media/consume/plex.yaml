@@ -1,0 +1,81 @@
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    networks:
+      - internal
+      - media
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - VERSION=docker
+      # - PLEX_CLAIM=
+    ports:
+      - '32400:32400/tcp'
+      - '3005:3005/tcp'
+      - '8324:8324/tcp'
+      - '32469:32469/tcp'
+      - '1900:1900/udp'
+      - '32410:32410/udp'
+      - '32412:32412/udp'
+      - '32413:32413/udp'
+      - '32414:32414/udp'
+    restart: unless-stopped
+    volumes:
+      - ${DOCKERM}/plex:/config
+      - ${RUST}/tv:/tv
+      - ${RUST}/movie:/movie
+      - ${RUST}/anime:/anime
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:32400/web/index.html']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.plex.rule=Host(`plex.${CASA}`)
+      - traefik.http.services.plex.loadbalancer.server.port=32400
+      - traefik.docker.network=internal
+    # runtime: nvidia
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  # tautulli:
+  #   image: lscr.io/linuxserver/tautulli:latest
+  #   container_name: tautulli
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=${TZ}
+  #   volumes:
+  #     - ${DOCKERM}/tautulli:/config
+  #   networks:
+  #     - internal
+  #   restart: unless-stopped
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.tautulli.rule=Host(`tautulli.${CASA}`)
+  #     - traefik.docker.network=internal
+  #     - traefik.http.services.tautulli.loadbalancer.server.port=8181
+
+  # plextraktsync:
+  #   image: lscr.io/linuxserver-labs/plextraktsync:latest
+  #   container_name: plextraktsync
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - plex
+  #   networks:
+  #     - media
+  #   volumes:
+  #     -  ${DOCKERM}/plex-trakt:/config
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=${TZ}

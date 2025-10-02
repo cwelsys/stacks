@@ -1,0 +1,24 @@
+services:
+  linkding:
+    container_name: linkding
+    image: sissbruecker/linkding:latest
+    volumes:
+      - ${DOCKERM}/linkding:/etc/linkding/data
+    restart: unless-stopped
+    # environment:
+    # - LD_SUPERUSER_PASSWORD=${LINKDING_PASS}
+    # - LD_SUPERUSER_NAME=admin
+    # - LD_DISABLE_BACKGROUND_TASKS=False # Option to disable background tasks
+    # - LD_DISABLE_URL_VALIDATION=False # Option to disable URL validation for bookmarks completely
+    # - LD_ENABLE_AUTH_PROXY=False # Enables support for authentication proxies such as Authelia
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.linkding.rule=Host(`link.${CASA}`)
+      - traefik.http.services.linkding.loadbalancer.server.port=9090
+      - traefik.docker.network=internal
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true

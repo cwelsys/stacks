@@ -1,0 +1,120 @@
+services:
+  immich-server:
+    image: altran1502/immich-server:${IMMICH_VERSION:-release}
+    container_name: immich
+    volumes:
+      - ${FLASH}/image:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - NODE_ENV=production
+      - TZ=${TZ}
+      - DB_USERNAME=immich
+      - DB_PASSWORD=${IMMICH_PG_PASS}
+      - REDIS_HOST=immich-redis
+      - REDIS_HOSTNAME=immich-redis
+      - DB_HOSTNAME=immich-db
+    expose:
+      - 2283
+    depends_on:
+      - immich-redis
+      - immich-db
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+    networks:
+      - internal
+      - stack
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.immich.rule=Host(`img.${CASA}`)
+      - traefik.http.services.immich.loadbalancer.server.port=2283
+      - traefik.docker.network=internal
+
+  immich-machine-learning:
+    image: altran1502/immich-machine-learning:${IMMICH_VERSION:-release}
+    container_name: immich-ml
+    volumes:
+      - ${FLASH}/image:/usr/src/app/upload
+      - cache:/cache
+    environment:
+      - NODE_ENV=production
+      - TZ=${TZ}
+      - DB_DATABASE_NAME=immich
+      - DB_USERNAME=immich
+      - DB_PASSWORD=${IMMICH_PG_PASS}
+      - REDIS_HOST=immich-redis
+      - REDIS_HOSTNAME=immich-redis
+      - DB_HOSTNAME=immich-db
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+    networks:
+      - internal
+      - stack
+
+  immich-redis:
+    image: docker.io/valkey/valkey:8-bookworm
+    container_name: immich-redis
+    restart: unless-stopped
+    healthcheck:
+      test: redis-cli ping || exit 1
+    networks:
+      - stack
+
+  immich-db:
+    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
+    container_name: immich-db
+    environment:
+      POSTGRES_PASSWORD: ${IMMICH_PG_PASS}
+      POSTGRES_USER: immich
+      POSTGRES_DB: immich
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    volumes:
+      - ${DOCKERM}/immich:/var/lib/postgresql/data
+    command: >-
+      postgres -c shared_preload_libraries=vectors.so -c 'search_path="$$user", public, vectors' -c logging_collector=on -c max_wal_size=2GB -c shared_buffers=512MB -c wal_compression=on
+    restart: unless-stopped
+    healthcheck:
+      test: >-
+        pg_isready --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" || exit 1; Chksum="$$(psql --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" --tuples-only --no-align --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')"; echo "checksum failure count is $$Chksum"; [ "$$Chksum" = '0' ] || exit 1
+      interval: 5m
+      start_interval: 30s
+      start_period: 5m
+    networks:
+      - stack
+
+  db-backup:
+    container_name: immich-db-backup
+    image: tiredofit/db-backup
+    restart: unless-stopped
+    networks:
+      - stack
+    volumes:
+      - ${DOCKERM}/dumps/immich:/backup
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=immich-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
+
+      - DB01_TYPE=postgres
+      - DB01_HOST=immich-db
+      - DB01_NAME=immich
+      - DB01_USER=immich
+      - DB01_PASS=${IMMICH_PG_PASS}
+
+networks:
+  internal:
+    external: true
+  stack:
+    internal: true
+
+volumes:
+  cache:

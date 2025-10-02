@@ -1,0 +1,17 @@
+services:
+  posio:
+    image: l4rm4nd/posio:latest
+    container_name: posio
+    restart: unless-stopped
+    expose:
+      - 5000/tcp
+    environment:
+      - POSIO_SETTINGS=/app/posio/config.py
+      - FLASK_APP=/app/posio/game_master.py
+    networks:
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=internal
+      - traefik.http.routers.posio.rule=Host(`posio.${CASA}`)
+      - traefik.http.services.posio.loadbalancer.server.port=5000

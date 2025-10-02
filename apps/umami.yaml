@@ -1,0 +1,75 @@
+services:
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    container_name: umami
+    environment:
+      DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD}@db:5432/umami
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${UMAMI_APP_SECRET}
+    init: true
+    restart: always
+    # ports:
+    #   - '3000:3000'
+    networks:
+      - public
+      - stack
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'curl http://localhost:3000/api/heartbeat']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.umami.rule=Host(`umami.${DOMAIN}`)
+      - traefik.docker.network=public
+      - traefik.http.services.umami.loadbalancer.server.port=3000
+      # - traefik.http.routers.umami.middlewares=auth-proxy@docker
+      - kop.namespace=public
+
+  db:
+    image: postgres:15-alpine
+    container_name: umami-db
+    networks:
+      - stack
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD}
+    volumes:
+      - ${DOCKERM}/umami:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db-backup:
+    container_name: umami-db-backup
+    image: tiredofit/db-backup
+    restart: unless-stopped
+    networks:
+      - stack
+    volumes:
+      - ${DOCKERM}/dumps/umami:/backup
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=umami-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
+
+      - DB01_TYPE=postgres
+      - DB01_HOST=db
+      - DB01_NAME=umami
+      - DB01_USER=umami
+      - DB01_PASS=${UMAMI_DB_PASSWORD}

@@ -1,0 +1,164 @@
+services:
+  auth-db:
+    container_name: auth-db
+    image: docker.io/library/postgres:16-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - ${DOCKERM}/authentik/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_USER: ${PG_USER:-authentik}
+      POSTGRES_DB: ${PG_DB:-authentik}
+    networks:
+      - stack
+
+  auth-redis:
+    image: docker.io/library/redis:alpine
+    container_name: auth-redis
+    command: --save 60 1 --loglevel warning
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    volumes:
+      - cache:/data
+    networks:
+      - stack
+
+  auth-server:
+    container_name: auth-server
+    image: ghcr.io/goauthentik/server:latest
+    restart: unless-stopped
+    command: server
+    # ports:
+    #   - 9000:9000
+    #   - 9443:9443
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_POSTGRESQL__HOST: auth-db
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+    volumes:
+      - ${DOCKERM}/authentik/app/media:/media
+      - ${DOCKERM}/authentik/app/templates:/templates
+      # - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - public
+      - stack
+    depends_on:
+      auth-db:
+        condition: service_healthy
+      auth-redis:
+        condition: service_healthy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.authentik.rule: Host(`auth.${DOMAIN}`)
+      traefik.http.services.authentik.loadbalancer.server.port: 9000
+      traefik.docker.network: public
+      traefik.public: true
+
+  auth-proxy:
+    image: ghcr.io/goauthentik/proxy:latest
+    restart: unless-stopped
+    container_name: auth-proxy
+    # ports:
+    #   - 9000:9000
+    #   - 9443:9443
+    networks:
+      - public
+      - stack
+    environment:
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_HOST: http://auth-server:9000
+      # AUTHENTIK_INSECURE: "true"
+      AUTHENTIK_TOKEN: ${OUTPOST_TOKEN}
+      # Starting with 2021.9, you can optionally set this too
+      # when authentik_host for internal communication doesn't match the public URL
+      AUTHENTIK_HOST_BROWSER: https://auth.${DOMAIN}
+      # for logging edit log_level in outpost config from ui
+    labels:
+      traefik.enable: true
+      traefik.port: 9000
+      traefik.http.routers.auth-proxy.rule: Host(`auth.${DOMAIN}`) && PathPrefix(`/outpost.goauthentik.io/`)
+      # `auth-proxy` refers to the service name in the compose file.
+      traefik.http.middlewares.auth-proxy.forwardauth.address: http://auth-proxy:9000/outpost.goauthentik.io/auth/traefik
+      traefik.http.middlewares.auth-proxy.forwardauth.trustForwardHeader: true
+      traefik.http.middlewares.auth-proxy.forwardauth.authResponseHeaders: X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
+      traefik.public: true
+      kop.namespace: none
+
+  worker:
+    image: ghcr.io/goauthentik/server:latest
+    restart: unless-stopped
+    container_name: auth-worker
+    command: worker
+    networks:
+      - stack
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_POSTGRESQL__HOST: auth-db
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_EMAIL__HOST: ${SMTPHOST}
+      AUTHENTIK_EMAIL__PORT: 587
+      AUTHENTIK_EMAIL__USERNAME: ${SMTPUSER}
+      AUTHENTIK_EMAIL__PASSWORD: ${SMTPASS}
+      AUTHENTIK_EMAIL__USE_TLS: true
+      AUTHENTIK_EMAIL__TIMEOUT: 10
+      AUTHENTIK_EMAIL__FROM: auth@cwel.sh
+    # `user: root` and the docker socket volume are optional.
+    # See more for the docker socket integration here:
+    # https://goauthentik.io/docs/outposts/integrations/docker
+    # Removing `user: root` also prevents the worker from fixing the permissions
+    # on the mounted folders, so when removing this make sure the folders have the correct UID/GID
+    # (1000:1000 by default)
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKERM}/authentik/app/media:/media
+      - ${DOCKERM}/authentik/app/certs:/certs
+      - ${DOCKERM}/authentik/app/templates:/templates
+    depends_on:
+      auth-db:
+        condition: service_healthy
+      auth-redis:
+        condition: service_healthy
+
+  db-backup:
+    container_name: auth-db-backup
+    image: tiredofit/db-backup
+    restart: unless-stopped
+    networks:
+      - stack
+    volumes:
+      - ${DOCKERM}/dumps/authentik:/backup
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=auth-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
+      - DB01_TYPE=postgres
+      - DB01_HOST=auth-db
+      - DB01_NAME=${PG_DB:-authentik}
+      - DB01_USER=${PG_USER:-authentik}
+      - DB01_PASS=${PG_PASS}

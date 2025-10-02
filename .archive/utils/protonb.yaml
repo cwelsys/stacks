@@ -1,0 +1,12 @@
+services:
+  protonmail-bridge:
+    container_name: proton-bridge
+    image: shenxn/protonmail-bridge
+    networks:
+      - nextcloud
+    ports:
+      - 1025:25/tcp
+      - 1143:143/tcp
+    restart: unless-stopped
+    volumes:
+      - ${DOCKERM}/proton-bridge:/root

@@ -1,0 +1,97 @@
+services:
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:2222:22'
+      - '3000:3000'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
+      interval: 10s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
+    environment:
+      - USER_UID=1001
+      - USER_GID=1003
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=git-db:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=${GIT_PG_PASS}
+    expose:
+      - 3000
+      - 22
+    volumes:
+      - ${DOCKERM}/gitea/app:/data
+      - /home/git/.ssh/:/data/git/.ssh
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - internal
+      - gitea
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.gitea.rule=Host(`git.${CASA}`)
+      - traefik.http.services.gitea.loadbalancer.server.port=3000
+      - traefik.docker.network=internal
+
+  git-db:
+    container_name: git-db
+    image: docker.io/library/postgres:14
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=${GIT_PG_PASS}
+      - POSTGRES_DB=gitea
+    networks:
+      - gitea
+    volumes:
+      - ${DOCKERM}/gitea/data:/var/lib/postgresql/data
+
+  runner:
+    image: docker.io/gitea/act_runner
+    container_name: gitea-runner
+    restart: unless-stopped
+    networks:
+      - gitea
+    depends_on:
+      gitea:
+        condition: service_healthy
+        restart: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKERM}/gitea/runner/app:/data
+      # - ${DOCKERM}/gitea/runner/config.yaml:/config.yaml
+    environment:
+      # - CONFIG_FILE=/config.yaml
+      - GITEA_INSTANCE_URL=https://git.cwel.casa
+      - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_TOKEN}
+      - GITEA_RUNNER_NAME=atlas
+
+  db-backup:
+    container_name: git-db-backup
+    image: tiredofit/db-backup
+    restart: unless-stopped
+    depends_on:
+      - git-db
+    networks:
+      - gitea
+    volumes:
+      - ${BRICK}/dumps/gitea:/backup
+    environment:
+      - TIMEZONE=${TZ}
+      - CONTAINER_NAME=git-db-backup
+      - CONTAINER_ENABLE_MONITORING=FALSE
+      # - DEBUG_MODE=TRUE
+      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
+      - DEFAULT_CHECKSUM=NONE # Don't create checksums
+      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
+      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
+      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
+      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
+      - DB01_TYPE=postgres
+      - DB01_HOST=git-db
+      - DB01_NAME=gitea
+      - DB01_USER=gitea
+      - DB01_PASS=${GIT_PG_PASS}
