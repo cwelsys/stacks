@@ -7,7 +7,7 @@ services:
       - public
       - traefik
       - crowdsec
-      - monitor
+      - internal
     depends_on:
       - ext-redis
     ports:
@@ -120,7 +120,7 @@ services:
     image: 'crowdsecurity/crowdsec:latest'
     networks:
       - crowdsec
-      - monitor
+      - internal
     environment:
       - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching
       - 'DISABLE_SCENARIOS=crowdsecurity/http-bad-user-agent'
@@ -139,3 +139,15 @@ services:
       - ${DOCKERM}/crowdsec/config:/etc/crowdsec
       - ${DOCKERM}/crowdsec/data:/var/lib/crowdsec/data
       - ${DOCKERM}/crowdsec/logs:/var/log/crowdsec
+
+networks:
+  public:
+    external: true
+  traefik:
+    external: true
+  crowdsec:
+    external: true
+  internal:
+    external: true
+  kop:
+    external: true

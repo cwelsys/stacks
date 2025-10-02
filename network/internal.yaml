@@ -5,7 +5,6 @@ services:
     networks:
       - traefik
       - internal
-      - monitor
     depends_on:
       - int-redis
     restart: unless-stopped
@@ -76,3 +75,11 @@ services:
       - kop
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
+
+networks:
+  traefik:
+    external: true
+  internal:
+    external: true
+  kop:
+    external: true
