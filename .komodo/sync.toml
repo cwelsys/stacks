@@ -1,16 +1,27 @@
 [[server]]
 name = "pbox"
 [server.config]
+address = "https://host.docker.internal:8120"
+enabled = true
 cpu_warning = 92.0
 disk_warning = 80.0
-enabled = true
 
 ##
 
 [[stack]]
 name = "arr"
 [stack.config]
+server = "pbox"
+poll_for_updates = true
 auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media/process"
+file_paths = [
+  "../../pbox.yaml",
+  "arr.yaml",
+  "exportarr.yaml"
+]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
 RADARR_API_KEY=[[RADARR__API]]
@@ -20,19 +31,29 @@ WHISPARR_API_KEY=[[WHISPARR__API]]
 SABNZBD_API_KEY=[[SABNZBD__API]]
 QBIT_PASSWORD=[[QBITTORRENT__PASSWORD]]
 """
-file_paths = ["../../pbox.yaml", "arr.yaml", "exportarr.yaml"]
-git_account = "cwelsys"
-poll_for_updates = true
-repo = "cwelsys/stacks"
-run_directory = "media/process"
+
+##
+
+[[stack]]
+name = "core"
+[stack.config]
 server = "pbox"
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+file_paths = ["core.yaml", "pbox.yaml"]
 
 ##
 
 [[stack]]
 name = "dash"
 [stack.config]
+server = "pbox"
 auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["../pbox.yaml", "homepage.yaml"]
 environment = """
 OPENWEATHERMAP_TOKEN=[[OPENWEATHERMAP__API]]
 HP_LOC_LABEL=[[HOMEPAGE__LOCATION]]
@@ -81,17 +102,23 @@ KAVITA_API_KEY=[[KAVITA__API]]
 ABS_API_KEY=[[AUDIOBOOKSHELF__API]]
 READARR_API_KEY=[[READARR__API]]
 """
-file_paths = ["../pbox.yaml", "homepage.yaml"]
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "apps"
-server = "pbox"
 
 ##
 
 [[stack]]
 name = "discord"
 [stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps/discord"
+file_paths = [
+  "../../pbox.yaml",
+  "membarr.yaml",
+  "muse.yaml",
+  "redbot.yaml",
+  "requestarr.yaml"
+]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
 GEOAPIFY_API=[[GEOAPIFY__API]]
@@ -101,23 +128,22 @@ MEMBARR_TOKEN=[[DISCORD__MEMBARR]]
 DOPLARR_TOKEN=[[DISCORD__DOPLARR]]
 JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
 """
-file_paths = [
-    "../../pbox.yaml",
-    "membarr.yaml",
-    "muse.yaml",
-    "redbot.yaml",
-    "requestarr.yaml",
-]
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "apps/discord"
-server = "pbox"
 
 ##
 
 [[stack]]
 name = "downs"
 [stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media/process"
+file_paths = [
+  "../../pbox.yaml",
+  "metube.yaml",
+  "sab.yaml",
+  "tortun.yaml"
+]
 environment = """
 QBIT_USERNAME=admin
 QBIT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -125,17 +151,23 @@ SABNZBD_API_KEY=[[SABNZBD__API]]
 WIREGUARD_PRIVATE_KEY=[[PROTON__WIREGUARD]]
 GLUETUN_APIKEY=[[GLUETUN__API]]
 """
-file_paths = ["../../pbox.yaml", "metube.yaml", "sab.yaml", "tortun.yaml"]
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "media/process"
-server = "pbox"
 
 ##
 
 [[stack]]
 name = "media"
 [stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media/consume"
+file_paths = [
+  "../../pbox.yaml",
+  "book.yaml",
+  "immich.yaml",
+  "jellyfin.yaml",
+  "stash.yaml"
+]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
 MARIADB_PW=[[ROMM__MARIADB]]
@@ -148,24 +180,28 @@ HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
 JELLYPG_PASS=[[JELLYSTAT__POSTGRES]]
 JELLYS_JWT=[[JELLYSTAT__JWT]]
 """
-file_paths = [
-    "../../pbox.yaml",
-    "book.yaml",
-    "immich.yaml",
-    "jellyfin.yaml",
-    "stash.yaml",
-]
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "media/consume"
-server = "pbox"
 
 ##
 
 [[stack]]
 name = "monitor"
 [stack.config]
+server = "pbox"
+poll_for_updates = true
 auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = [
+  "../pbox.yaml",
+  "beszel.yaml",
+  "dozzle.yaml",
+  "grafana.yaml",
+  "influx.yaml",
+  "scrutiny.yaml",
+  "speed.yaml",
+  "umami.yaml"
+]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -174,28 +210,24 @@ SPEED_API=[[SPEEDTEST__API]]
 UMAMI_APP_SECRET=[[UMAMI__SECRET]]
 UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 """
-file_paths = [
-    "../pbox.yaml",
-    "beszel.yaml",
-    "dozzle.yaml",
-    "grafana.yaml",
-    "influx.yaml",
-    "scrutiny.yaml",
-    "speed.yaml",
-    "umami.yaml",
-]
-git_account = "cwelsys"
-poll_for_updates = true
-repo = "cwelsys/stacks"
-run_directory = "monitor"
-server = "pbox"
 
 ##
 
 [[stack]]
 name = "proxy"
 [stack.config]
+server = "pbox"
+poll_for_updates = true
 auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "network/proxy"
+file_paths = [
+  "../../pbox.yaml",
+  "external.yaml",
+  "internal.yaml",
+  "kop.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -204,19 +236,23 @@ CS_TRAEFIK_BOUNCER_KEY=[[CROWDSEC__BOUNCER]]
 BOUNCER_HOST=crowdsec:8080
 
 """
-file_paths = ["../../pbox.yaml", "external.yaml", "internal.yaml", "kop.yaml"]
-git_account = "cwelsys"
-poll_for_updates = true
-repo = "cwelsys/stacks"
-run_directory = "network/proxy"
-server = "pbox"
 
 ##
 
 [[stack]]
 name = "services"
 [stack.config]
+server = "pbox"
+poll_for_updates = true
 auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = [
+  "../pbox.yaml",
+  "cloud.yaml",
+  "monkey.yaml"
+]
 environment = """
 SMTP_USER=[[SMTP__USER]]
 SMTP_PASS=[[SMTP__PASSWORD]]
@@ -227,19 +263,18 @@ RX_SECRET=[[RXRESUME__SECRET]]
 RX_REFRESH_SECRET=[[RXRESUME__REFRESH]]
 CHROME_TOKEN=[[RXRESUME__CHROME]]
 """
-file_paths = ["../pbox.yaml", "cloud.yaml", "monkey.yaml"]
-git_account = "cwelsys"
-poll_for_updates = true
-repo = "cwelsys/stacks"
-run_directory = "apps"
-server = "pbox"
 
 ##
 
 [[stack]]
 name = "ts-utils"
 [stack.config]
+server = "pbox"
 auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "utils"
+file_paths = ["../pbox.yaml", "tailscale.yaml"]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__SOCKET]]
 OP_ACCESS_TOKEN=[[OP__ACCESS_TOKEN]]
@@ -247,68 +282,46 @@ KOMO_API_KEY=[[KOMODO__API]]
 KOMO_API_SECRET=[[KOMODO__API_SECRET]]
 OP_VAULT_UUID=[[OP__UUID]]
 """
-file_paths = ["../pbox.yaml", "tailscale.yaml"]
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "utils"
-server = "pbox"
 
 ##
 
 [[stack]]
 name = "utils"
 [stack.config]
+server = "pbox"
 auto_update = true
-environment = """
-SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
-"""
-file_paths = [
-    "../pbox.yaml",
-    "backrest.yaml",
-    "filebrowser.yaml",
-    "ftp.yaml",
-    "it-tools.yaml",
-    "linkding.yaml",
-    "rdesk.yaml",
-]
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "utils"
-server = "pbox"
-
-##
-
-[[procedure]]
-name = "Global Auto Update"
-description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
-tags = ["system"]
-config.schedule = "Every day at 03:00"
-
-##
-
-[[procedure.config.stage]]
-name = "Stage 1"
-enabled = true
-executions = [
-    { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true },
+file_paths = [
+  "../pbox.yaml",
+  "backrest.yaml",
+  "filebrowser.yaml",
+  "ftp.yaml",
+  "it-tools.yaml",
+  "linkding.yaml",
+  "rdesk.yaml"
 ]
+environment = """
+SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
+"""
 
 ##
 
 [[deployment]]
 name = "sportyfin"
 [deployment.config]
-command = "python3 -m sportyfin -nfl -v -d"
-environment = """
-TZ = ${TZ}
-"""
-image.params.build = "sportyfin"
-image.type = "Build"
-network = "media"
-redeploy_on_build = true
 server = "pbox"
+image.type = "Build"
+image.params.build = "sportyfin"
+redeploy_on_build = true
+network = "media"
+command = "python3 -m sportyfin -nfl -v -d"
 volumes = """
 /opt/docker/sportyfin:/sportyfin/output
+"""
+environment = """
+TZ = ${TZ}
 """
 
 ##
@@ -327,8 +340,8 @@ name = "komodo-op"
 [build.config]
 builder = "local"
 git_account = "cwelsys"
-image_registry = [{}]
 repo = "cwelsys/komodo-op"
+image_registry = [{  }]
 
 ##
 
@@ -353,25 +366,40 @@ repo = "cwelsys/sportyfin"
 [[repo]]
 name = "stacks"
 [repo.config]
+server = "pbox"
 builder = "local"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-server = "pbox"
+
+##
+
+[[procedure]]
+name = "Global Auto Update"
+description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags = ["system"]
+config.schedule = "Every day at 03:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
+]
 
 ##
 
 [[builder]]
 name = "local"
 [builder.config]
-params.server_id = "pbox"
 type = "Server"
+params.server_id = "pbox"
 
 ##
 
 [[resource_sync]]
 name = "stacks"
 [resource_sync.config]
-git_account = "cwelsys"
-managed = true
 repo = "cwelsys/stacks"
+git_account = "cwelsys"
 resource_path = [".komodo/sync.toml"]
+managed = true
