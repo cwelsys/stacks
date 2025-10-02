@@ -19,6 +19,3 @@ services:
       NEXTCLOUD_ADDITIONAL_PHP_EXTENSIONS: imagick
       NEXTCLOUD_ADDITIONAL_APKS: imagemagick
       NEXTCLOUD_ENABLE_DRI_DEVICE: true
-
-networks:
-  # Nextcloud uses network_mode: bridge - no external network declaration needed
