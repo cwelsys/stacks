@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '.komodo/sync.toml'
+      - 'sync.toml'
   schedule:
     - cron: '0 0 * * 1'
 
@@ -17,7 +17,7 @@ jobs:
       - name: Extract stack names
         id: komodo_stacks
         run: |
-          # Extract stack names from .komodo/sync.toml
+          # Extract stack names
           # Only include stacks that use GitHub (git_account = "cwelsys" or git_provider = "github.com")
           # And don't have webhook_enabled = false
           STACKS=$(awk '
@@ -57,10 +57,10 @@ jobs:
             if (in_stack && name != "" && webhook_enabled == 1 && is_github == 1) {
               printf "%s,", name
             }
-          }' .komodo/sync.toml | sed 's/,$//')
+          }' sync.toml | sed 's/,$//')
 
           echo "KOMODO_STACK_NAMES=$STACKS" >> $GITHUB_OUTPUT
-          echo "Found stacks in .komodo/sync.toml for GitHub webhooks: $STACKS"
+          echo "Found stacks in sync.toml for GitHub webhooks: $STACKS"
 
       - name: Debug KOMODO_STACK_NAMES
         run: echo "KOMODO_STACK_NAMES=${{ steps.komodo_stacks.outputs.KOMODO_STACK_NAMES }}"
