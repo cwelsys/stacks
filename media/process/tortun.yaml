@@ -108,4 +108,4 @@ services:
       - PGID=1000
       - QBT_WEB_SERVER=true
       - QBT_PORT=8027
-    restart: on-failure:2
+    restart: unless-stopped
