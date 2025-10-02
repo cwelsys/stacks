@@ -17,11 +17,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/process"
-file_paths = [
-  "../../pbox.yaml",
-  "arr.yaml",
-  "exportarr.yaml"
-]
+file_paths = ["../../pbox.yaml", "arr.yaml", "exportarr.yaml"]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
 RADARR_API_KEY=[[RADARR__API]]
@@ -118,7 +114,7 @@ file_paths = [
   "membarr.yaml",
   "muse.yaml",
   "redbot.yaml",
-  "requestarr.yaml"
+  "requestarr.yaml",
 ]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
@@ -139,12 +135,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/process"
-file_paths = [
-  "../../pbox.yaml",
-  "metube.yaml",
-  "sab.yaml",
-  "tortun.yaml"
-]
+file_paths = ["../../pbox.yaml", "metube.yaml", "sab.yaml", "tortun.yaml"]
 environment = """
 QBIT_USERNAME=admin
 QBIT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -167,7 +158,7 @@ file_paths = [
   "book.yaml",
   "immich.yaml",
   "jellyfin.yaml",
-  "stash.yaml"
+  "stash.yaml",
 ]
 environment = """
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -201,7 +192,7 @@ file_paths = [
   "influx.yaml",
   "scrutiny.yaml",
   "speed.yaml",
-  "umami.yaml"
+  "umami.yaml",
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -223,12 +214,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network/proxy"
-file_paths = [
-  "../../pbox.yaml",
-  "external.yaml",
-  "internal.yaml",
-  "kop.yaml"
-]
+file_paths = ["../../pbox.yaml", "external.yaml", "internal.yaml", "kop.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -249,11 +235,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
-file_paths = [
-  "../pbox.yaml",
-  "cloud.yaml",
-  "monkey.yaml"
-]
+file_paths = ["../pbox.yaml", "cloud.yaml", "monkey.yaml"]
 environment = """
 SMTP_USER=[[SMTP__USER]]
 SMTP_PASS=[[SMTP__PASSWORD]]
@@ -301,7 +283,7 @@ file_paths = [
   "ftp.yaml",
   "it-tools.yaml",
   "linkding.yaml",
-  "rdesk.yaml"
+  "rdesk.yaml",
 ]
 environment = """
 SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
@@ -342,7 +324,7 @@ name = "komodo-op"
 builder = "local"
 git_account = "cwelsys"
 repo = "cwelsys/komodo-op"
-image_registry = [{  }]
+image_registry = [{}]
 
 ##
 
@@ -384,7 +366,7 @@ config.schedule = "Every day at 03:00"
 name = "Stage 1"
 enabled = true
 executions = [
-  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true },
 ]
 
 ##
@@ -402,5 +384,5 @@ name = "stacks"
 [resource_sync.config]
 repo = "cwelsys/stacks"
 git_account = "cwelsys"
-resource_path = [".komodo/sync.toml"]
+resource_path = ["sync.toml"]
 managed = true
