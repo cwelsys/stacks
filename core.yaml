@@ -1,6 +1,3 @@
-# include:
-#   - pbox.yaml
-
 services:
   mongo:
     image: mongo
@@ -45,3 +42,11 @@ services:
       - ${DOCKERM}/dumps/komodo:/backups
     extra_hosts:
       - host.docker.internal:host-gateway
+
+networks:
+  internal:
+    external: true
+  public:
+    external: true
+  stack:
+    internal: true
