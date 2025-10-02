@@ -4,7 +4,6 @@ services:
     image: thomst08/requestrr
     networks:
       - internal
-      - media
     # ports:
     #   - 5000:5000
     volumes:
@@ -15,3 +14,7 @@ services:
       - traefik.http.services.requestrr.loadbalancer.server.port=4545
       - traefik.docker.network=internal
     restart: unless-stopped
+
+networks:
+  internal:
+    external: true

@@ -51,3 +51,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${SFTPGO_DB_PASS}
     volumes:
       - ${DOCKERM}/sftpgo/mysql:/var/lib/mysql
+
+networks:
+  internal:
+    external: true
+  stack:
+    internal: true

@@ -27,7 +27,6 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - media
       - default
     cap_add:
       - NET_ADMIN
@@ -87,7 +86,6 @@ services:
     image: ghcr.io/stuffanthings/qbit_manage:latest
     networks:
       - internal
-      - media
     volumes:
       - ${DOCKERM}/qbit_manage:/config:rw
       - ${RUST}/tor:/data/tor:rw
@@ -116,3 +114,7 @@ services:
   #     - ${DOCKERM}/qbit/data/BT_backup:/torrents:ro
   #   command: daemon
   #   restart: unless-stopped
+
+networks:
+  internal:
+    external: true

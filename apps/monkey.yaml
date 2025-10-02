@@ -13,3 +13,7 @@ services:
       - traefik.http.routers.monkeytype.rule=Host(`monkey.${CASA}`)
       - traefik.http.services.monkeytype.loadbalancer.server.port=5000
       - traefik.docker.network=internal
+
+networks:
+  internal:
+    external: true

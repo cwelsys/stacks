@@ -34,3 +34,7 @@ services:
       - traefik.http.routers.backrest.rule=Host(`restic.${CASA}`)
       - traefik.http.services.backrest.loadbalancer.server.port=9898
       - traefik.docker.network=internal
+
+networks:
+  internal:
+    external: true

@@ -4,7 +4,7 @@ services:
     image: ghcr.io/museofficial/muse:latest
     restart: always
     networks:
-      - media
+      - internal
     volumes:
       - ${DOCKERM}/muse:/data
     environment:
@@ -12,3 +12,7 @@ services:
       - YOUTUBE_API_KEY=${GOOGLE_API}
       # - SPOTIFY_CLIENT_ID=
       # - SPOTIFY_CLIENT_SECRET=
+
+networks:
+  internal:
+    external: true

@@ -4,7 +4,6 @@ services:
     container_name: kavita
     networks:
       - internal
-      - media
     environment:
       - PUID=1000
       - PGID=1000
@@ -26,7 +25,6 @@ services:
     container_name: audiobookshelf
     networks:
       - internal
-      - media
     volumes:
       - ${RUST}/book:/books
       - ${RUST}/book/audio:/audiobooks
@@ -45,7 +43,6 @@ services:
     container_name: cweb
     networks:
       - internal
-      - media
     environment:
       - PUID=1000
       - PGID=1000
@@ -68,7 +65,6 @@ services:
     container_name: cweb-dl
     networks:
       - internal
-      - media
     environment:
       FLASK_PORT: 8084
       LOG_LEVEL: info
@@ -88,3 +84,7 @@ services:
     volumes:
       - ${RUST}/book/ing:/cwa-book-ingest
       - ${DOCKERM}/cweb/app.db:/auth/app.db:ro
+
+networks:
+  internal:
+    external: true

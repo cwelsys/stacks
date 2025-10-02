@@ -8,7 +8,6 @@ services:
     # network_mode: host
     networks:
       - internal
-      - media
     logging:
       driver: 'json-file'
       options:
@@ -37,3 +36,7 @@ services:
       - traefik.http.routers.stash.rule=Host(`stash.${CASA}`)
       - traefik.http.services.stash.loadbalancer.server.port=9999
       - traefik.docker.network=internal
+
+networks:
+  internal:
+    external: true

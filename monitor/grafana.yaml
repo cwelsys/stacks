@@ -3,7 +3,7 @@ services:
     image: grafana/loki:latest
     container_name: loki
     networks:
-      - monitor
+      - internal
     user: 1000:1000
     command: -config.file=/etc/loki/config.yml
     restart: unless-stopped
@@ -18,7 +18,7 @@ services:
     image: grafana/promtail:latest
     container_name: promtail
     networks:
-      - monitor
+      - internal
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yml
     expose:
@@ -40,7 +40,6 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - monitor
     environment:
       - GF_SERVER_ROOT_URL=https://grafana.${CASA}
       - GF_ANALYTICS_REPORTING_ENABLED=false
@@ -59,9 +58,8 @@ services:
     container_name: victoriametrics
     restart: unless-stopped
     networks:
-      - monitor
-      - crowdsec
       - internal
+      - crowdsec
     expose:
       - 8428
     volumes:
@@ -89,7 +87,7 @@ services:
     expose:
       - 9090
     networks:
-      - monitor
+      - internal
     extra_hosts:
       - 'host.docker.internal:host-gateway'
 
@@ -127,8 +125,14 @@ services:
       - '--docker_only=true'
     restart: unless-stopped
     networks:
-      - monitor
+      - internal
 
 volumes:
   prometheus:
     name: prometheus
+
+networks:
+  internal:
+    external: true
+  crowdsec:
+    external: true

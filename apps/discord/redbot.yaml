@@ -4,7 +4,7 @@ services:
     image: phasecorex/red-discordbot
     restart: unless-stopped
     networks:
-      - media
+      - internal
     volumes:
       - ${DOCKERM}/redbot:/data
     environment:
@@ -12,3 +12,7 @@ services:
       # - PREFIX=.
       - TZ=${TZ}
       - PUID=1000
+
+networks:
+  internal:
+    external: true

@@ -1,309 +1,282 @@
 services:
-    sonarr:
-        image: lscr.io/linuxserver/sonarr:latest
-        container_name: sonarr
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=${TZ}
-            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sonarr
-            - TP_COMMUNITY_THEME=true
-            - TP_THEME=catppuccin-mocha
-        volumes:
-            - ${DOCKERM}/sonarr/app:/config
-            - ${RUST}:/data
-        restart: always
-        healthcheck:
-            test: [ "CMD", "curl", "--fail", "http://127.0.0.1:8989/ping" ]
-            interval: 30s
-            retries: 10
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.sonarr.rule=Host(`sonarr.${CASA}`)
-            - traefik.docker.network=internal
-            - traefik.http.services.sonarr.loadbalancer.server.port=8989
-        networks:
-            - internal
-            - media
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sonarr
+      - TP_COMMUNITY_THEME=true
+      - TP_THEME=catppuccin-mocha
+    volumes:
+      - ${DOCKERM}/sonarr/app:/config
+      - ${RUST}:/data
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping']
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.sonarr.loadbalancer.server.port=8989
+    networks:
+      - internal
 
-    radarr:
-        image: lscr.io/linuxserver/radarr
-        container_name: radarr
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=${TZ}
-            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:radarr
-            - TP_COMMUNITY_THEME=true
-            - TP_THEME=catppuccin-mocha
-        volumes:
-            - ${DOCKERM}/radarr/app:/config
-            - ${RUST}:/data
-        restart: always
-        healthcheck:
-            test: [ "CMD", "curl", "--fail", "http://127.0.0.1:7878/ping" ]
-            interval: 30s
-            retries: 10
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.radarr.rule=Host(`radarr.${CASA}`)
-            - traefik.docker.network=internal
-            - traefik.http.services.radarr.loadbalancer.server.port=7878
-        networks:
-            - internal
-            - media
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:radarr
+      - TP_COMMUNITY_THEME=true
+      - TP_THEME=catppuccin-mocha
+    volumes:
+      - ${DOCKERM}/radarr/app:/config
+      - ${RUST}:/data
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping']
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.radarr.rule=Host(`radarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.radarr.loadbalancer.server.port=7878
+    networks:
+      - internal
 
-    readarr:
-        image: ghcr.io/pennydreadful/bookshelf:hardcover
-        container_name: readarr
-        environment:
-            - PUID=1000
-            - PGID=1001
-            - TZ=${TZ}
-        volumes:
-            - ${DOCKERM}/readarr:/config
-            - ${RUST}:/data
-        restart: unless-stopped
-        networks:
-            - media
-            - internal
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=internal
-            - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
-            - traefik.http.services.readarr.loadbalancer.server.port=8787
+  readarr:
+    image: ghcr.io/pennydreadful/bookshelf:hardcover
+    container_name: readarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/readarr:/config
+      - ${RUST}:/data
+    restart: unless-stopped
+    networks:
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=internal
+      - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
+      - traefik.http.services.readarr.loadbalancer.server.port=8787
 
-    # lidarr:
-    #   image: lscr.io/linuxserver/lidarr
-    #   container_name: lidarr
-    #   environment:
-    #     - PUID=1000
-    #     - PGID=1000
-    #     - TZ=${TZ}
-    #     - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:lidarr
-    #     - TP_COMMUNITY_THEME=true
-    #     - TP_THEME=catppuccin-mocha
-    #   volumes:
-    #     - ${DOCKERM}/lidarr/app:/config
-    #     - ${RUST}:/data
-    #   restart: unless-stopped
-    #   labels:
+  # lidarr:
+  #   image: lscr.io/linuxserver/lidarr
+  #   container_name: lidarr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=${TZ}
+  #     - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:lidarr
+  #     - TP_COMMUNITY_THEME=true
+  #     - TP_THEME=catppuccin-mocha
+  #   volumes:
+  #     - ${DOCKERM}/lidarr/app:/config
+  #     - ${RUST}:/data
+  #   restart: unless-stopped
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.lidarr.rule=Host(`lidarr.${CASA}`)
+  #     - traefik.docker.network=internal
+  #     - traefik.http.services.lidarr.loadbalancer.server.port=8686
+  #   networks:
+  #     - internal
+  #     - media
+
+  whisparr:
+    container_name: whisparr
+    image: ghcr.io/hotio/whisparr:v3
+    restart: unless-stopped
+    networks:
+      - internal
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=${TZ}
+      - TP_HOTIO=true
+      - TP_COMMUNITY_THEME=true
+      - TP_THEME=catppuccin-mocha
+    volumes:
+      - ${DOCKERM}/whisparr:/config
+      - ${DOCKERM}/whisparr/98-themepark/98-themepark-whisparr:/etc/cont-init.d/98-themepark
+      - ${RUST}:/data
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=internal
+      - traefik.http.routers.whisparr.rule=Host(`whisparr.${CASA}`)
+      - traefik.http.services.whisparr.loadbalancer.server.port=6969
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:prowlarr
+      - TP_COMMUNITY_THEME=true
+      - TP_THEME=catppuccin-mocha
+    volumes:
+      - ${DOCKERM}/prowlarr:/config
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping']
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.prowlarr.loadbalancer.server.port=9696
+    networks:
+      - internal
+
+  suggestarr:
+    image: ciuse99/suggestarr:latest
+    container_name: SuggestArr
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - ${DOCKERM}/suggestarr:/app/config/config_files
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.suggestarr.rule=Host(`suggestarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.suggestarr.loadbalancer.server.port=5000
+
+  jellyseerr:
+    image: ghcr.io/hotio/jellyseerr
+    container_name: jellyseerr
+    restart: always
+    environment:
+      - TZ=${TZ}
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    networks:
+      - public
+      - internal
+    ports:
+      - '5055:5055'
+    volumes:
+      - ${DOCKERM}/jellyseerr:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
+      - traefik.docker.network=public
+      - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
+      - kop.namespace=public
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    networks:
+      - internal
+    # ports:
+    #     - 8191:8191
+    environment:
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+      - TZ=${TZ}
+    # labels:
     #     - traefik.enable=true
-    #     - traefik.http.routers.lidarr.rule=Host(`lidarr.${CASA}`)
+    #     - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${CASA}`)
     #     - traefik.docker.network=internal
-    #     - traefik.http.services.lidarr.loadbalancer.server.port=8686
-    #   networks:
-    #     - internal
-    #     - media
+    #     - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
 
-    whisparr:
-        container_name: whisparr
-        image: ghcr.io/hotio/whisparr:v3
-        restart: unless-stopped
-        networks:
-            - internal
-            - media
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - UMASK=002
-            - TZ=${TZ}
-            - TP_HOTIO=true
-            - TP_COMMUNITY_THEME=true
-            - TP_THEME=catppuccin-mocha
-        volumes:
-            - ${DOCKERM}/whisparr:/config
-            - ${DOCKERM}/whisparr/98-themepark/98-themepark-whisparr:/etc/cont-init.d/98-themepark
-            - ${RUST}:/data
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=internal
-            - traefik.http.routers.whisparr.rule=Host(`whisparr.${CASA}`)
-            - traefik.http.services.whisparr.loadbalancer.server.port=6969
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    restart: unless-stopped
+    user: 1000:1000
+    networks:
+      - internal
+    volumes:
+      - ${DOCKERM}/recyclarr:/config
+    environment:
+      - TZ=${TZ}
 
-    prowlarr:
-        image: lscr.io/linuxserver/prowlarr:latest
-        container_name: prowlarr
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=${TZ}
-            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:prowlarr
-            - TP_COMMUNITY_THEME=true
-            - TP_THEME=catppuccin-mocha
-        volumes:
-            - ${DOCKERM}/prowlarr:/config
-        restart: always
-        healthcheck:
-            test: [ "CMD", "curl", "--fail", "http://127.0.0.1:9696/ping" ]
-            interval: 30s
-            retries: 10
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${CASA}`)
-            - traefik.docker.network=internal
-            - traefik.http.services.prowlarr.loadbalancer.server.port=9696
-        networks:
-            - internal
-            - media
+  dispatcharr:
+    image: ghcr.io/dispatcharr/dispatcharr:latest
+    container_name: dispatcharr
+    restart: unless-stopped
+    networks:
+      - internal
+    # ports:
+    #   - 9191:9191
+    volumes:
+      - ${DOCKERM}/dispatcharr:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dispatcharr.rule=Host(`dispatcharr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.dispatcharr.loadbalancer.server.port=9191
+    environment:
+      - DISPATCHARR_ENV=aio
+      - REDIS_HOST=localhost
+      - CELERY_BROKER_URL=redis://localhost:6379/0
+      - DISPATCHARR_LOG_LEVEL=info
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
-    suggestarr:
-        image: ciuse99/suggestarr:latest
-        container_name: SuggestArr
-        restart: unless-stopped
-        networks:
-            - media
-            - internal
-        volumes:
-            - ${DOCKERM}/suggestarr:/app/config/config_files
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.suggestarr.rule=Host(`suggestarr.${CASA}`)
-            - traefik.docker.network=internal
-            - traefik.http.services.suggestarr.loadbalancer.server.port=5000
+  unpackerr:
+    image: ghcr.io/unpackerr/unpackerr:latest
+    container_name: unpackerr
+    volumes:
+      - ${RUST}/tor:/data/tor
+    restart: always
+    user: 1000:1000
+    environment:
+      - TZ=${TZ}
+      - UN_DEBUG=true
+      - UN_SONARR_0_URL=http://sonarr:8989/
+      - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
+      - UN_RADARR_0_URL=http://radarr:7878/
+      - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
+    networks:
+      - internal
 
-    jellyseerr:
-        image: ghcr.io/hotio/jellyseerr
-        container_name: jellyseerr
-        restart: always
-        environment:
-            - TZ=${TZ}
-            - PUID=1000
-            - PGID=1000
-            - UMASK=002
-        networks:
-            - public
-            - media
-        ports:
-            - "5055:5055"
-        volumes:
-            - ${DOCKERM}/jellyseerr:/config
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
-            - traefik.docker.network=public
-            - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
-            - kop.namespace=public
+  ytptube:
+    user: '1000:1000'
+    image: ghcr.io/arabcoders/ytptube:latest
+    container_name: ytptube
+    restart: unless-stopped
+    networks:
+      - internal
+    # ports:
+    #   - "8081:8081"
+    volumes:
+      - ${DOCKERM}/metube/config:/config:rw
+      - ${RUST}/tube:/downloads
+    tmpfs:
+      - /tmp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.metube.rule=Host(`tube.${CASA}`)
+      - traefik.http.services.metube.loadbalancer.server.port=8081
+      - traefik.docker.network=internal
 
-    flaresolverr:
-        image: ghcr.io/flaresolverr/flaresolverr:latest
-        container_name: flaresolverr
-        restart: unless-stopped
-        networks:
-            - media
-        # ports:
-        #     - 8191:8191
-        environment:
-            - LOG_LEVEL=info
-            - LOG_HTML=false
-            - CAPTCHA_SOLVER=none
-            - TZ=${TZ}
-        # labels:
-        #     - traefik.enable=true
-        #     - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${CASA}`)
-        #     - traefik.docker.network=internal
-        #     - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
-
-    recyclarr:
-        image: ghcr.io/recyclarr/recyclarr
-        container_name: recyclarr
-        restart: unless-stopped
-        user: 1000:1000
-        networks:
-            - media
-        volumes:
-            - ${DOCKERM}/recyclarr:/config
-        environment:
-            - TZ=${TZ}
-
-    dispatcharr:
-        image: ghcr.io/dispatcharr/dispatcharr:latest
-        container_name: dispatcharr
-        restart: unless-stopped
-        networks:
-            - internal
-            - media
-        # ports:
-        #   - 9191:9191
-        volumes:
-            - ${DOCKERM}/dispatcharr:/data
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.dispatcharr.rule=Host(`dispatcharr.${CASA}`)
-            - traefik.docker.network=internal
-            - traefik.http.services.dispatcharr.loadbalancer.server.port=9191
-        environment:
-            - DISPATCHARR_ENV=aio
-            - REDIS_HOST=localhost
-            - CELERY_BROKER_URL=redis://localhost:6379/0
-            - DISPATCHARR_LOG_LEVEL=info
-        deploy:
-            resources:
-                reservations:
-                    devices:
-                        - driver: nvidia
-                          count: all
-                          capabilities: [gpu]
-
-    # cleanuparr:
-    #     image: ghcr.io/cleanuparr/cleanuparr:latest
-    #     container_name: cleanarr
-    #     restart: unless-stopped
-    #     networks:
-    #         - internal
-    #         - media
-    #     volumes:
-    #         - ${DOCKERM}/cleanarr:/config
-    #     environment:
-    #         - PORT=11011
-    #         - PUID=1000
-    #         - PGID=1000
-    #         - UMASK=022
-    #         - TZ=${TZ}
-    #     labels:
-    #         - traefik.enable=true
-    #         - traefik.http.routers.cleanuparr.rule=Host(`cleanarr.${CASA}`)
-    #         - traefik.docker.network=internal
-    #         - traefik.http.services.cleanuparr.loadbalancer.server.port=11011
-
-    unpackerr:
-        image: ghcr.io/unpackerr/unpackerr:latest
-        container_name: unpackerr
-        volumes:
-            - ${RUST}/tor:/data/tor
-        restart: always
-        user: 1000:1000
-        environment:
-            - TZ=${TZ}
-            - UN_DEBUG=true
-            - UN_SONARR_0_URL=http://sonarr:8989/
-            - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
-            - UN_RADARR_0_URL=http://radarr:7878/
-            - UN_RADARR_0_API_KEY=${RADARR_API_KEY}
-        networks:
-            - media
-
-    # bazarr:
-    #     image: lscr.io/linuxserver/bazarr:latest
-    #     container_name: bazarr
-    #     networks:
-    #         - internal
-    #         - media
-    #     environment:
-    #         - PUID=1000
-    #         - PGID=1000
-    #         - TZ=${TZ}
-    #         - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:bazarr
-    #         - TP_COMMUNITY_THEME=true
-    #         - TP_THEME=catppuccin-mocha
-    #     volumes:
-    #         - ${DOCKERM}/bazarr:/config
-    #         - ${RUST}/movie:/movies
-    #         - ${RUST}/tv:/tv
-    #         - ${RUST}/anime:/anime
-    #     restart: unless-stopped
-    #     labels:
-    #         - traefik.enable=true
-    #         - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
-    #         - traefik.http.services.bazarr.loadbalancer.server.port=6767
-    #         - traefik.docker.network=internal
+networks:
+  internal:
+    external: true
+  public:
+    external: true

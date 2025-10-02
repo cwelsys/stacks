@@ -28,7 +28,7 @@ services:
       - kop.namespace=public
     networks:
       - public
-      - media
+      - internal
     runtime: nvidia
     deploy:
       resources:
@@ -44,7 +44,7 @@ services:
     container_name: jellystat-db
     restart: unless-stopped
     networks:
-      - media
+      - stack
     environment:
       POSTGRES_USER: jellystat
       POSTGRES_PASSWORD: ${JELLYPG_PASS}
@@ -57,7 +57,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - media
+      - stack
     environment:
       POSTGRES_USER: jellystat
       POSTGRES_PASSWORD: ${JELLYPG_PASS}
@@ -74,3 +74,11 @@ services:
       - traefik.http.services.jellystat.loadbalancer.server.port=3000
     depends_on:
       - jellystat-db
+
+networks:
+  internal:
+    external: true
+  public:
+    external: true
+  stack:
+    internal: true

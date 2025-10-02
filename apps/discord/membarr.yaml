@@ -4,8 +4,12 @@ services:
       restart: unless-stopped
       container_name: membarr
       networks:
-        - media
+        - internal
       volumes:
         - ${DOCKERM}/membarr:/app/app/config
       environment:
         - token=${MEMBARR_TOKEN}
+
+networks:
+  internal:
+    external: true
