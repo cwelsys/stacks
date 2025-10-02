@@ -41,7 +41,7 @@ server = "pbox"
 auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-file_paths = ["core.yaml", "pbox.yaml"]
+file_paths = ["core.yaml"]
 
 ##
 
