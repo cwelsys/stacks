@@ -86,3 +86,46 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  qbit_manage:
+    container_name: qbit_manage
+    image: ghcr.io/stuffanthings/qbit_manage:latest
+    networks:
+      - internal
+      - media
+    volumes:
+      - ${DOCKERM}/qbit_manage/:/config:rw
+      - ${RUST}/tor/:/data/tor:rw
+      - ${DOCKERM}/qbit/:/qbittorrent/:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbitmanage.rule=Host(`qbitmanage.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.qbitmanage.loadbalancer.server.port=8027
+    environment:
+      - QBT_WEB_SERVER=true
+      - QBT_PORT=8027
+      - QBT_RUN=false
+      - QBT_SCHEDULE=1440
+      - QBT_CONFIG_DIR=/config
+      - QBT_LOGFILE=qbit_manage.log
+      - QBT_RECHECK=false
+      - QBT_CAT_UPDATE=false
+      - QBT_TAG_UPDATE=false
+      - QBT_REM_UNREGISTERED=false
+      - QBT_REM_ORPHANED=false
+      - QBT_TAG_TRACKER_ERROR=false
+      - QBT_TAG_NOHARDLINKS=false
+      - QBT_SHARE_LIMITS=false
+      - QBT_SKIP_CLEANUP=false
+      - QBT_DRY_RUN=false
+      - QBT_STARTUP_DELAY=0
+      - QBT_SKIP_QB_VERSION_CHECK=false
+      - QBT_DEBUG=false
+      - QBT_TRACE=false
+      - QBT_LOG_LEVEL=INFO
+      - QBT_LOG_SIZE=10
+      - QBT_LOG_COUNT=5
+      - QBT_DIVIDER==
+      - QBT_WIDTH=100
+    restart: on-failure:2
