@@ -70,29 +70,6 @@ services:
       - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
       - traefik.http.services.readarr.loadbalancer.server.port=8787
 
-  # lidarr:
-  #   image: lscr.io/linuxserver/lidarr
-  #   container_name: lidarr
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=${TZ}
-  #     - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:lidarr
-  #     - TP_COMMUNITY_THEME=true
-  #     - TP_THEME=catppuccin-mocha
-  #   volumes:
-  #     - ${DOCKERM}/lidarr/app:/config
-  #     - ${RUST}:/data
-  #   restart: unless-stopped
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.lidarr.rule=Host(`lidarr.${CASA}`)
-  #     - traefik.docker.network=internal
-  #     - traefik.http.services.lidarr.loadbalancer.server.port=8686
-  #   networks:
-  #     - internal
-  #     - media
-
   whisparr:
     container_name: whisparr
     image: ghcr.io/hotio/whisparr:v3
