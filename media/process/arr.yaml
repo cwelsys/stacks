@@ -14,7 +14,7 @@ services:
       - ${RUST}:/data
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8989/ping']
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:8989/ping"]
       interval: 30s
       retries: 10
     labels:
@@ -40,7 +40,7 @@ services:
       - ${RUST}:/data
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:7878/ping']
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:7878/ping"]
       interval: 30s
       retries: 10
     labels:
@@ -108,7 +108,7 @@ services:
       - ${DOCKERM}/prowlarr:/config
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:9696/ping']
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:9696/ping"]
       interval: 30s
       retries: 10
     labels:
@@ -146,7 +146,7 @@ services:
       - public
       - internal
     ports:
-      - '5055:5055'
+      - "5055:5055"
     volumes:
       - ${DOCKERM}/jellyseerr:/config
     labels:
@@ -233,7 +233,7 @@ services:
       - internal
 
   ytptube:
-    user: '1000:1000'
+    user: "1000:1000"
     image: ghcr.io/arabcoders/ytptube:latest
     container_name: ytptube
     restart: unless-stopped
@@ -243,7 +243,7 @@ services:
     #   - "8081:8081"
     volumes:
       - ${DOCKERM}/metube/config:/config:rw
-      - ${RUST}/tube:/downloads
+      - ${RUST}/stash:/downloads
     tmpfs:
       - /tmp
     labels:
