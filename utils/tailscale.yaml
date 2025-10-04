@@ -108,7 +108,7 @@ services:
     image: ghcr.io/cwelsys/komodo-op:latest
     network_mode: service:tailscale
     environment:
-      KOMODO_HOST: 'http://komo.cwel.casa'
+      KOMODO_HOST: 'http://pbox:9120'
       KOMODO_API_KEY: ${KOMO_API_KEY}
       KOMODO_API_SECRET: ${KOMO_API_SECRET}
       OP_CONNECT_HOST: 'http://localhost:8420'
