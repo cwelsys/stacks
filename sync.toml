@@ -36,8 +36,6 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 file_paths = ["core.yaml"]
-# NOTE: komo-updates service is in apps/homepage.yaml in the monitor stack
-# Consider extracting it to a separate file if you want it here
 
 ##
 
@@ -48,7 +46,12 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps/discord"
-file_paths = ["membarr.yaml", "muse.yaml", "redbot.yaml", "requestarr.yaml"]
+file_paths = [
+  "membarr.yaml",
+  "muse.yaml",
+  "redbot.yaml",
+  "requestarr.yaml"
+]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
 GEOAPIFY_API=[[GEOAPIFY__API]]
@@ -86,7 +89,11 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/consume"
-file_paths = ["book.yaml", "jellyfin.yaml", "stash.yaml"]
+file_paths = [
+  "book.yaml",
+  "jellyfin.yaml",
+  "stash.yaml"
+]
 environment = """
 HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
 JELLYPG_PASS=[[JELLYSTAT__POSTGRES]]
@@ -112,7 +119,7 @@ file_paths = [
   "scrutiny.yaml",
   "speed.yaml",
   "homepage.yaml",
-  "exportarr.yaml",
+  "exportarr.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -177,7 +184,11 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["external.yaml", "internal.yaml", "kop.yaml"]
+file_paths = [
+  "external.yaml",
+  "internal.yaml",
+  "kop.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -204,7 +215,7 @@ file_paths = [
   "immich.yaml",
   "umami.yaml",
   "it-tools.yaml",
-  "linkding.yaml",
+  "linkding.yaml"
 ]
 environment = """
 IMMICH_PG_PASS=[[IMMICH__POSTGRES]]
@@ -224,10 +235,9 @@ repo = "cwelsys/stacks"
 run_directory = "utils"
 file_paths = [
   "tailscale.yaml",
-  "filebrowser.yaml",
   "ftp.yaml",
   "rdesk.yaml",
-  "backrest.yaml",
+  "backrest.yaml"
 ]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__SOCKET]]
@@ -273,7 +283,7 @@ name = "komodo-op"
 builder = "local"
 git_account = "cwelsys"
 repo = "cwelsys/komodo-op"
-image_registry = [{}]
+image_registry = [{  }]
 
 ##
 
@@ -315,7 +325,7 @@ config.schedule = "Every day at 03:00"
 name = "Stage 1"
 enabled = true
 executions = [
-  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true },
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
 ]
 
 ##
