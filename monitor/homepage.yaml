@@ -61,6 +61,8 @@ services:
       - ${DOCKERM}/homepage/app:/app/config
       - ${DOCKERM}/homepage/icons:/app/public/images
       - /mnt/:/mnt:ro
+    extra_hosts:
+      - host.docker.internal:host-gateway
     restart: always
     labels:
       - traefik.enable=true
