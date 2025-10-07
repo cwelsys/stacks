@@ -250,33 +250,6 @@ SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
 
 ##
 
-[[deployment]]
-name = "sportyfin"
-[deployment.config]
-server = "pbox"
-image.type = "Build"
-image.params.build = "sportyfin"
-redeploy_on_build = true
-network = "media"
-command = "python3 -m sportyfin -nfl -v -d"
-volumes = """
-/opt/docker/sportyfin:/sportyfin/output
-"""
-environment = """
-TZ = ${TZ}
-"""
-
-##
-
-[[build]]
-name = "ipmap"
-[build.config]
-builder = "local"
-git_account = "cwelsys"
-repo = "cwelsys/ipmap"
-
-##
-
 [[build]]
 name = "komodo-op"
 [build.config]
@@ -284,24 +257,6 @@ builder = "local"
 git_account = "cwelsys"
 repo = "cwelsys/komodo-op"
 image_registry = [{  }]
-
-##
-
-[[build]]
-name = "ownfoil"
-[build.config]
-builder = "local"
-git_account = "cwelsys"
-repo = "cwelsys/ownfoil"
-
-##
-
-[[build]]
-name = "sportyfin"
-[build.config]
-builder = "local"
-git_account = "cwelsys"
-repo = "cwelsys/sportyfin"
 
 ##
 
