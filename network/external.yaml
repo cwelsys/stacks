@@ -10,10 +10,10 @@ services:
       - internal
     depends_on:
       - ext-redis
-    # ports:
+    ports:
       # - "80:80"
       # - "443:443"
-      # - '6940:8080'
+      - '6940:8080'
     environment:
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
       CS_TRAEFIK_BOUNCER_KEY: ${CS_TRAEFIK_BOUNCER_KEY}
@@ -29,7 +29,7 @@ services:
       traefik.enable: true
       traefik.http.routers.traefik-dashboard-external.rule: Host(`traefike.${CASA}`)
       traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 8080
-      # kop.traefik-dashboard-external.bind.ip: '192.168.4.89'
+      kop.traefik-dashboard-external.bind.ip: '192.168.4.89'
       traefik.docker.network: internal
 
   ext-logrotate:
