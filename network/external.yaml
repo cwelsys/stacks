@@ -29,7 +29,7 @@ services:
       traefik.enable: true
       traefik.http.routers.traefik-dashboard-external.rule: Host(`traefike.${CASA}`)
       traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 6940
-      # kop.traefik-dashboard-external.bind.ip: '192.168.4.89'
+      kop.traefik-dashboard-external.bind.ip: '192.168.4.89'
 
   ext-logrotate:
     container_name: ext-logrotate
