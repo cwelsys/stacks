@@ -18,7 +18,8 @@ jobs:
         id: komodo_stacks
         run: |
           # Extract stack names
-          # Only include stacks that use GitHub (git_account = "cwelsys" or git_provider = "github.com")
+          # Only include stacks that use GitHub (git_account = "cwelsys" or git_provider = "gith
+ub.com")
           # And don't have webhook_enabled = false
           STACKS=$(awk '
           BEGIN { in_stack=0; is_stack_section=0; name=""; webhook_enabled=1; is_github=0 }
@@ -31,7 +32,11 @@ jobs:
             in_stack=1; name=""; webhook_enabled=1; is_github=0
           }
 
-          /^\[\[server\]\]/ || /^\[\[repo\]\]/ || /^\[\[builder\]\]/ || /^\[\[resource_sync\]\]/ || /^\[\[build\]\]/ || /^\[\[procedure\]\]/ {
+          /^\[\[server\]\]/ || /^\[\[repo\]\]/ || /^\[\[builder\]\]/ || /^\[\[resource_sync\]\]/
+ || /^\[\[build\]\]/ || /^\[\[procedure\]\]/ {
+            if (in_stack && name != "" && webhook_enabled == 1 && is_github == 1) {
+              printf "%s,", name
+            }
             is_stack_section=0;
             in_stack=0
           }
@@ -69,7 +74,8 @@ jobs:
         run: |
           # Debug information
           echo "Checking API access..."
-          CHECK_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer ${{ secrets.WEBHOOK_PAT }}" \
+          CHECK_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer ${{
+secrets.WEBHOOK_PAT }}" \
             "https://api.github.com/repos/${{ github.repository }}")
           echo "API access check status: $CHECK_RESPONSE"
 
@@ -103,7 +109,8 @@ jobs:
             HOOK_URL=$(echo "$hook" | jq -r '.config.url')
 
             # Check if this is a komodo webhook
-            if [[ "$HOOK_URL" == *"komo.cwel.sh/listener/github/stack/"* && "$HOOK_URL" == *"/deploy" ]]; then
+            if [[ "$HOOK_URL" == *"komo.cwel.sh/listener/github/stack/"* && "$HOOK_URL" == *"/de
+ploy" ]]; then
               # Extract stack name from URL
               HOOK_STACK=$(echo "$HOOK_URL" | sed -E 's|.*/stack/([^/]+)/deploy|\1|')
 
@@ -118,7 +125,8 @@ jobs:
                 DELETE_STATUS=$(echo "$DELETE_RESPONSE" | tail -n1)
 
                 if [ "$DELETE_STATUS" -ne 204 ]; then
-                  echo "⚠️ Failed to delete webhook for stack $HOOK_STACK. Status: $DELETE_STATUS"
+                  echo "⚠️ Failed to delete webhook for stack $HOOK_STACK. Status: $DELETE_STATUS
+"
                 else
                   echo "✅ Successfully removed webhook for stack $HOOK_STACK"
                 fi
