@@ -31,7 +31,7 @@ jobs:
             in_stack=1; name=""; webhook_enabled=1; is_github=0
           }
 
-          /^\[\[server\]\]/ || /^\[\[repo\]\]/ || /^\[\[builder\]\]/ || /^\[\[resource_sync\]\]/ {
+          /^\[\[server\]\]/ || /^\[\[repo\]\]/ || /^\[\[builder\]\]/ || /^\[\[resource_sync\]\]/ || /^\[\[build\]\]/ || /^\[\[procedure\]\]/ {
             is_stack_section=0;
             in_stack=0
           }
