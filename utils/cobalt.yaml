@@ -16,8 +16,7 @@ services:
       API_PORT: '1337'
       API_AUTH_REQUIRED: '1'
       API_KEY_URL: 'file:///keys.json'
-      YOUTUBE_SESSION_SERVER: 'http://yt-session-generator:8080'
-      # COOKIE_PATH: '/cookies.json'
+      COOKIE_PATH: '/cookies.json'
 
     networks:
       - public
@@ -31,17 +30,7 @@ services:
 
     volumes:
       - ${DOCKERM}/cobalt/keys.json:/keys.json:ro
-      # - ${DOCKERM}/cobalt/cookies.json:/cookies.json:ro
-
-  yt-session-generator:
-    image: ghcr.io/imputnet/yt-session-generator:webserver
-
-    init: true
-    restart: unless-stopped
-    container_name: yt-session-generator
-
-    networks:
-      - public
+      - ${DOCKERM}/cobalt/cookies.json:/cookies.json:ro
 
 networks:
   public:
