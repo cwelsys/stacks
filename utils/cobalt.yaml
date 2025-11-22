@@ -16,6 +16,7 @@ services:
       API_PORT: '1337'
       API_AUTH_REQUIRED: '1'
       API_KEY_URL: 'file:///keys.json'
+      YOUTUBE_SESSION_SERVER: 'http://yt-session-generator:8080'
       # COOKIE_PATH: '/cookies.json'
 
     networks:
@@ -38,6 +39,9 @@ services:
     init: true
     restart: unless-stopped
     container_name: yt-session-generator
+
+    networks:
+      - public
 
 networks:
   public:
