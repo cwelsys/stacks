@@ -1,0 +1,42 @@
+services:
+  cobalt:
+    image: ghcr.io/imputnet/cobalt:11
+
+    init: true
+    read_only: true
+    restart: unless-stopped
+    container_name: cobalt
+
+    # ports:
+    #   - 127.0.0.1:9000:9000
+
+    # https://github.com/imputnet/cobalt/blob/main/docs/api-env-variables.md
+    environment:
+      API_URL: 'https://grab.cwel.casa/'
+      API_PORT: '1337'
+      # COOKIE_PATH: '/cookies.json'
+
+    networks:
+      - internal
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cobalt.rule=Host(`grab.${CASA}`)
+      - traefik.http.services.cobalt.loadbalancer.server.port=1337
+      - traefik.docker.network=internal
+
+    # volumes:
+    #   - ${DOCKERM}/cobalt/cookies.json:/cookies.json
+
+  # yt-session-generator:
+  #     image: ghcr.io/imputnet/yt-session-generator:webserver
+
+  #     init: true
+  #     restart: unless-stopped
+  #     container_name: yt-session-generator
+  #     labels:
+  #       - com.centurylinklabs.watchtower.scope=cobalt
+
+networks:
+  internal:
+    external: true
