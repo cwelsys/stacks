@@ -12,22 +12,25 @@ services:
 
     # https://github.com/imputnet/cobalt/blob/main/docs/api-env-variables.md
     environment:
-      API_URL: 'https://grab.cwel.casa'
+      API_URL: 'https://grab.cwel.sh'
       API_PORT: '1337'
       CORS_WILDCARD: '1'
+      API_AUTH_REQUIRED: '1'
+      API_KEY_URL: 'file:///keys.json'
       # COOKIE_PATH: '/cookies.json'
 
     networks:
-      - internal
+      - public
 
     labels:
       - traefik.enable=true
-      - traefik.http.routers.cobalt.rule=Host(`grab.${CASA}`)
+      - traefik.http.routers.cobalt.rule=Host(`grab.${DOMAIN}`)
       - traefik.http.services.cobalt.loadbalancer.server.port=1337
-      - traefik.docker.network=internal
+      - traefik.docker.network=public
 
-    # volumes:
-    #   - ${DOCKERM}/cobalt/cookies.json:/cookies.json
+    volumes:
+      - ${DOCKERM}/cobalt/keys.json:/keys.json:ro
+      # - ${DOCKERM}/cobalt/cookies.json:/cookies.json
 
   # yt-session-generator:
   #     image: ghcr.io/imputnet/yt-session-generator:webserver
