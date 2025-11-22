@@ -12,8 +12,9 @@ services:
 
     # https://github.com/imputnet/cobalt/blob/main/docs/api-env-variables.md
     environment:
-      API_URL: 'https://grab.cwel.casa/'
+      API_URL: 'https://grab.cwel.casa'
       API_PORT: '1337'
+      CORS_WILDCARD: '1'
       # COOKIE_PATH: '/cookies.json'
 
     networks:
