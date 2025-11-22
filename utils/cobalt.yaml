@@ -30,16 +30,14 @@ services:
 
     volumes:
       - ${DOCKERM}/cobalt/keys.json:/keys.json:ro
-      # - ${DOCKERM}/cobalt/cookies.json:/cookies.json
+      # - ${DOCKERM}/cobalt/cookies.json:/cookies.json:ro
 
-  # yt-session-generator:
-  #     image: ghcr.io/imputnet/yt-session-generator:webserver
+  yt-session-generator:
+    image: ghcr.io/imputnet/yt-session-generator:webserver
 
-  #     init: true
-  #     restart: unless-stopped
-  #     container_name: yt-session-generator
-  #     labels:
-  #       - com.centurylinklabs.watchtower.scope=cobalt
+    init: true
+    restart: unless-stopped
+    container_name: yt-session-generator
 
 networks:
   public:
