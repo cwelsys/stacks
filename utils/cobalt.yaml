@@ -14,7 +14,6 @@ services:
     environment:
       API_URL: 'https://grab.cwel.sh'
       API_PORT: '1337'
-      CORS_WILDCARD: '1'
       API_AUTH_REQUIRED: '1'
       API_KEY_URL: 'file:///keys.json'
       # COOKIE_PATH: '/cookies.json'
@@ -27,6 +26,7 @@ services:
       - traefik.http.routers.cobalt.rule=Host(`grab.${DOMAIN}`)
       - traefik.http.services.cobalt.loadbalancer.server.port=1337
       - traefik.docker.network=public
+      - kop.namespace=public
 
     volumes:
       - ${DOCKERM}/cobalt/keys.json:/keys.json:ro
