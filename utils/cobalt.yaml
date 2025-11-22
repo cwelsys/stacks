@@ -25,11 +25,10 @@ services:
       - traefik.http.routers.cobalt.rule=Host(`grab.${CASA}`)
       - traefik.http.services.cobalt.loadbalancer.server.port=1337
       - traefik.docker.network=internal
-      # Redirect old /api/json endpoint to /
-      - traefik.http.middlewares.cobalt-api-redirect.redirectregex.regex=^(https?://[^/]+)/api/json$$
-      - traefik.http.middlewares.cobalt-api-redirect.redirectregex.replacement=$${1}/
-      - traefik.http.middlewares.cobalt-api-redirect.redirectregex.permanent=false
-      - traefik.http.routers.cobalt.middlewares=cobalt-api-redirect
+      # Rewrite old /api/json endpoint to / for compatibility with old extensions
+      - traefik.http.middlewares.cobalt-api-rewrite.replacepathregex.regex=^/api/json
+      - traefik.http.middlewares.cobalt-api-rewrite.replacepathregex.replacement=/
+      - traefik.http.routers.cobalt.middlewares=cobalt-api-rewrite
 
     # volumes:
     #   - ${DOCKERM}/cobalt/cookies.json:/cookies.json
