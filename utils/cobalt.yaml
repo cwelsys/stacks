@@ -41,12 +41,11 @@ services:
     container_name: yt-session-generator
     ports:
       - 1335:8080
+      - 5910:5910
     volumes:
       - ${DOCKERM}/cobalt/certs:/certs
     networks:
       - public
-    devices:
-      - /dev/dri:/dev/dri
     environment:
       - SWAY_UNSUPPORTED_GPU=true
       - SWAY_RESOLUTION=1280x720
@@ -54,23 +53,14 @@ services:
       - WAYVNC_ENABLE_AUTH=true
       - WAYVNC_USERNAME=wayvnc
       - WAYVNC_PASSWORD=wayvnc
-      - VIRTUAL_GPU=true
-    runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
     security_opt:
       - seccomp:unconfined
     healthcheck:
       test: ['CMD', 'curl', '--fail', 'http://localhost:8080/token']
-      interval: 2s
+      interval: 5s
       timeout: 3s
-      retries: 15
-      start_period: 10s
+      retries: 30
+      start_period: 60s # Give it more time to start Chrome
 
 networks:
   public:
