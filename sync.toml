@@ -220,13 +220,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "utils"
-file_paths = [
-  "tailscale.yaml",
-  "ftp.yaml",
-  "cobalt.yaml",
-  "rdesk.yaml",
-  "backrest.yaml",
-]
+file_paths = ["tailscale.yaml", "ftp.yaml", "rdesk.yaml", "backrest.yaml"]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__PSOCK]]
 OP_ACCESS_TOKEN=[[OP__ACCESS_TOKEN]]
