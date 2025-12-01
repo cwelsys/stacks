@@ -1,20 +1,17 @@
 services:
   couchdb:
     container_name: obsi-db
-    image: couchdb:latest
+    image: docker.io/oleduc/docker-obsidian-livesync-couchdb:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - UMASK=022
-      - TZ=${TZ}
+      - SERVER_URL=obdb.${CASA}
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=${OBSI_LS_PW}
+      - COUCHDB_DATABASE=obsidian
     networks:
       - internal
     volumes:
       - ${DOCKERM}/couchdb/data:/opt/couchdb/data
-      - ${DOCKERM}/couchdb/local.ini:/opt/couchdb/etc/local.ini
     labels:
       - traefik.enable=true
       - traefik.http.routers.couchdb.rule=Host(`obdb.${CASA}`)
