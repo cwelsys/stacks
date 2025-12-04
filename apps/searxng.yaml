@@ -1,12 +1,13 @@
 services:
   searxng:
     container_name: searxng
-    image: searxng/searxng:latest
+    image: docker.io/searxng/searxng:latest
+    restart: unless-stopped
     networks:
       - internal
-      - default
     volumes:
       - ${DOCKERM}/searxng:/etc/searxng:rw
+      - searxng-data:/var/cache/searxng:rw
     environment:
       - SEARXNG_BASE_URL=https://sx.${CASA}
     labels:
@@ -19,16 +20,26 @@ services:
       options:
         max-size: '1m'
         max-file: '1'
-    restart: unless-stopped
 
   sx-valkey:
-    image: valkey/valkey:latest
+    image: docker.io/valkey/valkey:8-alpine
     container_name: sx-valkey
-    command: valkey-server --save 30 1 --loglevel warning
-    tmpfs:
-      - /var/lib/valkey
     restart: unless-stopped
+    networks:
+      - internal
+    command: valkey-server --save 30 1 --loglevel warning
+    volumes:
+      - sx-valkey:/data
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+        max-file: '1'
 
 networks:
   internal:
     external: true
+
+volumes:
+  sx-valkey:
+  searxng-data:
