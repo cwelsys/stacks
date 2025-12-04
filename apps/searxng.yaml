@@ -1,0 +1,46 @@
+services:
+  searxng:
+    container_name: searxng
+    image: searxng/searxng:latest
+    networks:
+      - internal
+      - default
+    volumes:
+      - ${DOCKERM}searxng:/etc/searxng:rw
+    environment:
+      - SEARXNG_BASE_URL=https://sx.${CASA}
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.searxng.rule=Host(`sx.${CASA}`)
+      - traefik.http.services.searxng.loadbalancer.server.port=8080
+      - traefik.docker.network=internal
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+        max-file: '1'
+    restart: unless-stopped
+
+  sx-redis:
+    image: redis:alpine
+    container_name: sx-redis
+    command: redis-server --save "" --appendonly "no"
+    tmpfs:
+      - /var/lib/redis
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+
+networks:
+  internal:
+    external: true
