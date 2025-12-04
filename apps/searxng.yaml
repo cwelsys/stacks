@@ -9,12 +9,12 @@ services:
       - ${DOCKERM}searxng:/etc/searxng:rw
     environment:
       - SEARXNG_BASE_URL=https://sx.${CASA}
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - CHOWN
+    #   - SETGID
+    #   - SETUID
     labels:
       - traefik.enable=true
       - traefik.http.routers.searxng.rule=Host(`sx.${CASA}`)
@@ -34,12 +34,12 @@ services:
     tmpfs:
       - /var/lib/redis
     restart: unless-stopped
-    cap_drop:
-      - ALL
-    cap_add:
-      - SETGID
-      - SETUID
-      - DAC_OVERRIDE
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - SETGID
+    #   - SETUID
+    #   - DAC_OVERRIDE
 
 networks:
   internal:
