@@ -6,7 +6,7 @@ services:
       - internal
       - default
     volumes:
-      - ${DOCKERM}searxng:/etc/searxng:rw
+      - ${DOCKERM}/searxng:/etc/searxng:rw
     environment:
       - SEARXNG_BASE_URL=https://sx.${CASA}
     # cap_drop:
