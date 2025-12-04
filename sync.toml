@@ -198,6 +198,7 @@ repo = "cwelsys/stacks"
 run_directory = "apps"
 file_paths = [
   "nextcloud.yaml",
+  "searxng.yaml",
   "monkey.yaml",
   "immich.yaml",
   "umami.yaml",
