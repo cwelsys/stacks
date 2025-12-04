@@ -1,0 +1,13 @@
+services:
+  atvloadly:
+    container_name: atvloadly
+    hostname: atvloadly
+    image: bitxeno/atvloadly:latest
+    privileged: true
+    volumes:
+      - ${DOCKERM}/atvloadly:/data
+      - /var/run/dbus:/var/run/dbus
+      - /var/run/avahi-daemon:/var/run/avahi-daemon
+    ports:
+      - 5533:80/tcp
+    restart: unless-stopped
