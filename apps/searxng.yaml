@@ -9,12 +9,6 @@ services:
       - ${DOCKERM}/searxng:/etc/searxng:rw
     environment:
       - SEARXNG_BASE_URL=https://sx.${CASA}
-    # cap_drop:
-    #   - ALL
-    # cap_add:
-    #   - CHOWN
-    #   - SETGID
-    #   - SETUID
     labels:
       - traefik.enable=true
       - traefik.http.routers.searxng.rule=Host(`sx.${CASA}`)
@@ -27,19 +21,13 @@ services:
         max-file: '1'
     restart: unless-stopped
 
-  sx-redis:
-    image: redis:alpine
-    container_name: sx-redis
-    command: redis-server --save "" --appendonly "no"
+  sx-valkey:
+    image: valkey:latest
+    container_name: sx-valkey
+    command: valkey-server --save 30 1 --loglevel warning
     tmpfs:
-      - /var/lib/redis
+      - /var/lib/valkey
     restart: unless-stopped
-    # cap_drop:
-    #   - ALL
-    # cap_add:
-    #   - SETGID
-    #   - SETUID
-    #   - DAC_OVERRIDE
 
 networks:
   internal:
