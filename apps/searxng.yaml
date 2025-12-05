@@ -8,6 +8,8 @@ services:
     volumes:
       - ${DOCKERM}/searxng:/etc/searxng:rw
       - searxng-data:/var/cache/searxng:rw
+      - ${DOCKERM}/searxng/favicon.png:/usr/local/searxng/searx/static/themes/simple/img/favicon.png:ro
+      - ${DOCKERM}/searxng/favicon.svg:/usr/local/searxng/searx/static/themes/simple/img/favicon.svg:ro
     environment:
       - SEARXNG_BASE_URL=https://sx.${CASA}
     labels:
