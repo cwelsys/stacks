@@ -1,0 +1,64 @@
+services:
+  romm:
+    image: rommapp/romm:latest
+    container_name: romm
+    restart: unless-stopped
+    networks:
+      - internal
+    environment:
+      - DB_HOST=romm-db
+      - DB_NAME=romm
+      - DB_USER=romm-user
+      - DB_PASSWD=${ROMM_DB_PW}
+      - ROMM_AUTH_SECRET_KEY=${ROMM_AUTH}
+      - SCREENSCRAPER_USER=nug69
+      - SCREENSCRAPER_PASSWORD=${SCREENSCRAPER_PW}
+      - RETROACHIEVEMENTS_API_KEY=${RETROC_API_KEY}
+      - STEAMGRIDDB_API_KEY=${STEAMGRID_API_KEY}
+      - IGDB_CLIENT_ID=${IGDB_CLIENT_ID}
+      - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET}
+      - HASHEOUS_API_ENABLED=true
+    volumes:
+      - ${DOCKERM}/romm/data:/romm/resources
+      - romm_cache:/redis-data
+      - ${RUST}/game:/romm/library
+      - ${DOCKERM}/romm/assets:/romm/assets
+      # - ${DOCKERM}/romm/config:/romm/config
+    # ports:
+    #   - 80:8080
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.romm.rule=Host(`romm.${CASA}`)
+      - traefik.http.services.romm.loadbalancer.server.port=8080
+      - traefik.docker.network=internal
+    depends_on:
+      romm-db:
+        condition: service_healthy
+        restart: true
+
+  romm-db:
+    image: mariadb:latest
+    container_name: romm-db
+    restart: unless-stopped
+    networks:
+      - internal
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_PW}
+      - MARIADB_DATABASE=romm
+      - MARIADB_USER=romm-user
+      - MARIADB_PASSWORD=${ROMM_DB_PW}
+    volumes:
+      - ${DOCKERM}/romm/db:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      start_period: 30s
+      start_interval: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  romm_cache:
+networks:
+  internal:
+    external: true
