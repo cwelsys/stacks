@@ -23,7 +23,7 @@ services:
       - romm_cache:/redis-data
       - ${RUST}/game:/romm/library
       - ${DOCKERM}/romm/assets:/romm/assets
-      # - ${DOCKERM}/romm/config:/romm/config
+      - ${DOCKERM}/romm/config:/romm/config
     # ports:
     #   - 80:8080
     labels:
