@@ -1,0 +1,21 @@
+services:
+  kavita:
+    image: lscr.io/linuxserver/kavita:latest
+    container_name: kavita
+    networks:
+      - internal
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/kavita:/config
+      - ${RUST}/book:/data
+    # ports:
+    #   - 5000:5000
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.kavita.rule=Host(`kavita.${CASA}`)
+      - traefik.http.services.kavita.loadbalancer.server.port=5000
+      - traefik.docker.network=internal
