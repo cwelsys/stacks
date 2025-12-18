@@ -10,7 +10,7 @@ services:
     volumes:
       - ${DOCKERM}/qbit:/config
       - ${RUST}/tor:/data/tor
-      - ${RUST}/game:/game
+      # - ${RUST}/game:/game
       - ${DOCKERM}/qbit/vuetorrent:/vuetorrent
     restart: always
     healthcheck:
