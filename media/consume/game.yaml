@@ -18,8 +18,8 @@ services:
       - IGDB_CLIENT_ID=${IGDB_CLIENT_ID}
       - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET}
       - HASHEOUS_API_ENABLED=true
-      - ENABLE_RESCAN_ON_FILESYSTEM_CHANGE=true
-      - RESCAN_ON_FILESYSTEM_CHANGE_DELAY=5
+      # - ENABLE_RESCAN_ON_FILESYSTEM_CHANGE=true
+      # - RESCAN_ON_FILESYSTEM_CHANGE_DELAY=5
     volumes:
       - ${DOCKERM}/romm/data:/romm/resources
       - romm_cache:/redis-data
