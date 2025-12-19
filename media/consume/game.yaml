@@ -23,7 +23,8 @@ services:
     volumes:
       - ${DOCKERM}/romm/data:/romm/resources
       - romm_cache:/redis-data
-      - ${RUST}/game:/romm/library
+      - ${RUST}/game/roms:/romm/library/roms
+      - ${RUST}/game/bios:/romm/library/bios
       - ${DOCKERM}/romm/assets:/romm/assets
       - ${DOCKERM}/romm/config:/romm/config
     # ports:
