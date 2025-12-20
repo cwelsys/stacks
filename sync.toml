@@ -262,16 +262,6 @@ OBSI_LS_PW=[[COUCHDB__PASSWORD]]
 
 ##
 
-[[build]]
-name = "komodo-op"
-[build.config]
-builder = "local"
-git_account = "cwelsys"
-repo = "cwelsys/komodo-op"
-image_registry = [{  }]
-
-##
-
 [[repo]]
 name = "stacks"
 [repo.config]

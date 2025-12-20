@@ -104,9 +104,9 @@ services:
       op-connect-api:
         condition: service_started
 
-  komodo-op:
-    container_name: komodo-op
-    image: ghcr.io/cwelsys/komodo-op:latest
+  komops:
+    container_name: komops
+    image: ghcr.io/cwelsys/komops:latest
     network_mode: service:tailscale
     environment:
       KOMODO_HOST: 'http://pbox:9120'
