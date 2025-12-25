@@ -9,6 +9,11 @@ services:
       - internal
     volumes:
       - ollama:/root/.ollama
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ollama.rule=Host(`ai.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.ollama.loadbalancer.server.port=11434
     runtime: nvidia
     deploy:
       resources:
