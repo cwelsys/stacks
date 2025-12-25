@@ -1,9 +1,9 @@
 [[server]]
 name = "pbox"
 [server.config]
-address = "https://host.docker.internal:8120"
-enabled = true
-cpu_warning = 92.0
+address      = "https://host.docker.internal:8120"
+enabled      = true
+cpu_warning  = 92.0
 disk_warning = 80.0
 
 ##
@@ -31,11 +31,11 @@ WHISPARR_API_KEY=[[WHISPARR__API]]
 [[stack]]
 name = "core"
 [stack.config]
-server = "pbox"
+server      = "pbox"
 auto_update = true
 git_account = "cwelsys"
-repo = "cwelsys/stacks"
-file_paths = ["core.yaml"]
+repo        = "cwelsys/stacks"
+file_paths  = ["core.yaml"]
 
 ##
 
@@ -46,12 +46,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps/discord"
-file_paths = [
-  "membarr.yaml",
-  "muse.yaml",
-  "redbot.yaml",
-  "requestarr.yaml"
-]
+file_paths = ["membarr.yaml", "muse.yaml", "redbot.yaml", "requestarr.yaml"]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
 GEOAPIFY_API=[[GEOAPIFY__API]]
@@ -89,12 +84,7 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/consume"
-file_paths = [
-  "book.yaml",
-  "jellyfin.yaml",
-  "stash.yaml",
-  "game.yaml"
-]
+file_paths = ["book.yaml", "jellyfin.yaml", "stash.yaml", "game.yaml"]
 environment = """
 HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
 JELLYPG_PASS=[[JELLYSTAT__POSTGRES]]
@@ -128,7 +118,7 @@ file_paths = [
   "scrutiny.yaml",
   "speed.yaml",
   "homepage.yaml",
-  "exportarr.yaml"
+  "exportarr.yaml",
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -193,11 +183,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = [
-  "external.yaml",
-  "internal.yaml",
-  "kop.yaml"
-]
+file_paths = ["external.yaml", "internal.yaml", "kop.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -219,18 +205,20 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
 file_paths = [
+  "slop.yaml",
   "nextcloud.yaml",
   "searxng.yaml",
   "monkey.yaml",
   "immich.yaml",
   "umami.yaml",
   "it-tools.yaml",
-  "linkding.yaml"
+  "linkding.yaml",
 ]
 environment = """
 IMMICH_PG_PASS=[[IMMICH__POSTGRES]]
 UMAMI_APP_SECRET=[[UMAMI__SECRET]]
 UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
+OWUI_JWT=[[OPENWEBUI__JWT]]
 """
 
 ##
@@ -248,7 +236,7 @@ file_paths = [
   "ftp.yaml",
   "rdesk.yaml",
   "backrest.yaml",
-  "atvsl.yaml"
+  "atvsl.yaml",
 ]
 environment = """
 TS_AUTHKEY=[[TAILSCALE__PSOCK]]
@@ -265,24 +253,24 @@ OBSI_LS_PW=[[COUCHDB__PASSWORD]]
 [[repo]]
 name = "stacks"
 [repo.config]
-server = "pbox"
-builder = "local"
+server      = "pbox"
+builder     = "local"
 git_account = "cwelsys"
-repo = "cwelsys/stacks"
+repo        = "cwelsys/stacks"
 
 ##
 
 [[procedure]]
-name = "Global Auto Update"
-description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
-tags = ["system"]
+name            = "Global Auto Update"
+description     = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags            = ["system"]
 config.schedule = "Every day at 03:00"
 
 [[procedure.config.stage]]
 name = "Stage 1"
 enabled = true
 executions = [
-  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true },
 ]
 
 ##
@@ -290,7 +278,7 @@ executions = [
 [[builder]]
 name = "local"
 [builder.config]
-type = "Server"
+type             = "Server"
 params.server_id = "pbox"
 
 ##
@@ -298,7 +286,7 @@ params.server_id = "pbox"
 [[resource_sync]]
 name = "stacks"
 [resource_sync.config]
-repo = "cwelsys/stacks"
-git_account = "cwelsys"
+repo          = "cwelsys/stacks"
+git_account   = "cwelsys"
 resource_path = ["sync.toml"]
-managed = true
+managed       = true

@@ -1,0 +1,50 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - ollama:/root/.ollama
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  open-webui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - ${DOCKERM}/owui:/app/backend/data
+    depends_on:
+      - ollama
+    environment:
+      - 'OLLAMA_BASE_URL=http://ollama:11434'
+      - 'WEBUI_SECRET_KEY=${OWUI_JWT}'
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.open-webui.rule=Host(`slop.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.open-webui.loadbalancer.server.port=8000
+
+volumes:
+  ollama: {}
+  open-webui: {}
+networks:
+  internal:
+    external: true
