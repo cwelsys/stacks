@@ -40,7 +40,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.open-webui.rule=Host(`slop.${CASA}`)
       - traefik.docker.network=internal
-      - traefik.http.services.open-webui.loadbalancer.server.port=8000
+      - traefik.http.services.open-webui.loadbalancer.server.port=8080
 
 volumes:
   ollama: {}
