@@ -9,6 +9,9 @@ services:
       - internal
     volumes:
       - ollama:/root/.ollama
+    environment:
+      - OLLAMA_NUM_CTX=32768
+      - OLLAMA_FLASH_ATTENTION=1
     labels:
       - traefik.enable=true
       - traefik.http.routers.ollama.rule=Host(`ai.${CASA}`)
