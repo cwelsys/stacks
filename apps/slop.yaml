@@ -14,7 +14,7 @@ services:
       - OLLAMA_FLASH_ATTENTION=1
     labels:
       - traefik.enable=true
-      - traefik.http.routers.ollama.rule=Host(`ai.${CASA}`)
+      - traefik.http.routers.ollama.rule=Host(`slop.${CASA}`)
       - traefik.docker.network=internal
       - traefik.http.services.ollama.loadbalancer.server.port=11434
     runtime: nvidia
@@ -46,7 +46,7 @@ services:
       - host.docker.internal:host-gateway
     labels:
       - traefik.enable=true
-      - traefik.http.routers.open-webui.rule=Host(`slop.${CASA}`)
+      - traefik.http.routers.open-webui.rule=Host(`owui.${CASA}`)
       - traefik.docker.network=internal
       - traefik.http.services.open-webui.loadbalancer.server.port=8080
 
