@@ -113,12 +113,9 @@ run_directory = "monitor"
 file_paths = [
   "beszel.yaml",
   "dozzle.yaml",
-  "grafana.yaml",
-  "influx.yaml",
   "scrutiny.yaml",
   "speed.yaml",
   "homepage.yaml",
-  "exportarr.yaml",
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
