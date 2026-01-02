@@ -134,7 +134,7 @@ services:
       - traefik.http.services.suggestarr.loadbalancer.server.port=5000
 
   jellyseerr:
-    image: ghcr.io/hotio/jellyseerr
+    image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     restart: always
     environment:
