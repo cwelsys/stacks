@@ -10,7 +10,8 @@ services:
       - 'KOP_HOSTNAME=pbox-public'
       - 'BIND_IP=192.168.4.89'
     depends_on:
-      - kop-sockp
+      kop-sockp:
+        condition: service_healthy
     networks:
       - kop
       - default
@@ -24,7 +25,8 @@ services:
       - 'KOP_HOSTNAME=pbox-internal'
       - 'BIND_IP=192.168.4.89'
     depends_on:
-      - kop-sockp
+      kop-sockp:
+        condition: service_healthy
     networks:
       - kop
       - default
@@ -33,6 +35,12 @@ services:
     image: lscr.io/linuxserver/socket-proxy:latest
     networks:
       - default
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://localhost:2375/_ping']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     environment:
       - ALLOW_START=0
       - ALLOW_STOP=0
