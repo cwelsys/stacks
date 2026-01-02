@@ -108,12 +108,12 @@ services:
     container_name: komops
     image: ghcr.io/cwelsys/komops:latest
     network_mode: service:tailscale
-    command: ['sh', '-c', 'until wget -q --spider http://localhost:8420/heartbeat 2>/dev/null; do sleep 2; done; exec /app/komops -daemon']
+    command: ['sh', '-c', 'until wget -q --spider http://127.0.0.1:8420/heartbeat 2>/dev/null; do sleep 2; done; exec /app/komops -daemon']
     environment:
       KOMODO_HOST: 'http://pbox:9120'
       KOMODO_API_KEY: ${KOMO_API_KEY}
       KOMODO_API_SECRET: ${KOMO_API_SECRET}
-      OP_CONNECT_HOST: 'http://localhost:8420'
+      OP_CONNECT_HOST: 'http://127.0.0.1:8420'
       OP_SERVICE_ACCOUNT_TOKEN: ${OP_ACCESS_TOKEN}
       OP_VAULT: ${OP_VAULT_UUID}
       SYNC_INTERVAL: '3h'
