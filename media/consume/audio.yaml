@@ -26,13 +26,26 @@ services:
       - SLSKD_REMOTE_CONFIGURATION=true
     volumes:
       - ${DOCKERM}/slskd:/app
-      - ${RUST}/audio:/music
+      - ${RUST}/audio:/downloads
     restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.slskd.rule=Host(`slsk.${CASA}`)
       - traefik.http.services.slskd.loadbalancer.server.port=5030
       - traefik.docker.network=internal
+
+  soularr:
+    image: mrusse08/soularr:latest
+    container_name: soularr
+    hostname: soularr
+    user: 1000:1000
+    environment:
+      - TZ=${TZ}
+      - SCRIPT_INTERVAL=300
+    volumes:
+      - ${RUST}/audio:/downloads
+      - ${DOCKERM}/soularr:/data
+    restart: unless-stopped
 
   # lidify:
   #   image: thewicklowwolf/lidify:latest
