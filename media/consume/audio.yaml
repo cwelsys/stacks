@@ -49,24 +49,24 @@ services:
       - ${DOCKERM}/soularr:/data
     restart: unless-stopped
 
-  # lidify:
-  #   image: thewicklowwolf/lidify:latest
-  #   container_name: lidify
-  #   volumes:
-  #     - ${DOCKERM}:/lidify/config
-  #     - /etc/localtime:/etc/localtime:ro
-  #   restart: unless-stopped
-  #   networks:
-  #     - internal
-  #   environment:
-  #     - last_fm_api_key=<insert>
-  #     - last_fm_api_secret=<insert>
-  #     - mode=LastFM
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.lidify.rule=Host(`lidify.${CASA}`)
-  #     - traefik.http.services.lidify.loadbalancer.server.port=5000
-  #     - traefik.docker.network=internal
+  lidify:
+    image: thewicklowwolf/lidify:latest
+    container_name: lidify
+    volumes:
+      - ${DOCKERM}:/lidify/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    networks:
+      - internal
+    environment:
+      - last_fm_api_key=${LASTFM_API_KEY}
+      - last_fm_api_secret=${LASTFM_SECRET}
+      - mode=LastFM
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidify.rule=Host(`lidify.${CASA}`)
+      - traefik.http.services.lidify.loadbalancer.server.port=5000
+      - traefik.docker.network=internal
 
 
 networks:
