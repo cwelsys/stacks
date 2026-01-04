@@ -51,6 +51,34 @@ services:
     networks:
       - internal
 
+  lidarr:
+    image: lscr.io/linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:lidarr
+      - TP_COMMUNITY_THEME=true
+      - TP_THEME=catppuccin-mocha
+    volumes:
+      - ${DOCKERM}/lidarr/app:/config
+      - ${RUST}:/data
+      - ${DOCKERM}/lidarr/services.d:/custom-services.d
+      - ${DOCKERM}/lidarr/init.d:/custom-cont-init.d
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:8686/ping"]
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.lidarr.loadbalancer.server.port=8686
+    networks:
+      - internal
+
   readarr:
     image: ghcr.io/pennydreadful/bookshelf:hardcover
     container_name: readarr

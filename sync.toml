@@ -1,9 +1,9 @@
 [[server]]
 name = "pbox"
 [server.config]
-address      = "https://host.docker.internal:8120"
-enabled      = true
-cpu_warning  = 92.0
+address = "https://host.docker.internal:8120"
+enabled = true
+cpu_warning = 92.0
 disk_warning = 80.0
 
 ##
@@ -31,11 +31,11 @@ WHISPARR_API_KEY=[[WHISPARR__API]]
 [[stack]]
 name = "core"
 [stack.config]
-server      = "pbox"
+server = "pbox"
 auto_update = true
 git_account = "cwelsys"
-repo        = "cwelsys/stacks"
-file_paths  = ["core.yaml"]
+repo = "cwelsys/stacks"
+file_paths = ["core.yaml"]
 
 ##
 
@@ -84,7 +84,13 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media/consume"
-file_paths = ["book.yaml", "jellyfin.yaml", "stash.yaml", "game.yaml"]
+file_paths = [
+  "audio.yaml",
+  "book.yaml",
+  "jellyfin.yaml",
+  "stash.yaml",
+  "game.yaml",
+]
 environment = """
 HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
 JELLYPG_PASS=[[JELLYSTAT__POSTGRES]]
@@ -250,17 +256,17 @@ OBSI_LS_PW=[[COUCHDB__PASSWORD]]
 [[repo]]
 name = "stacks"
 [repo.config]
-server      = "pbox"
-builder     = "local"
+server = "pbox"
+builder = "local"
 git_account = "cwelsys"
-repo        = "cwelsys/stacks"
+repo = "cwelsys/stacks"
 
 ##
 
 [[procedure]]
-name            = "Global Auto Update"
-description     = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
-tags            = ["system"]
+name = "Global Auto Update"
+description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags = ["system"]
 config.schedule = "Every day at 03:00"
 
 [[procedure.config.stage]]
@@ -275,7 +281,7 @@ executions = [
 [[builder]]
 name = "local"
 [builder.config]
-type             = "Server"
+type = "Server"
 params.server_id = "pbox"
 
 ##
@@ -283,7 +289,7 @@ params.server_id = "pbox"
 [[resource_sync]]
 name = "stacks"
 [resource_sync.config]
-repo          = "cwelsys/stacks"
-git_account   = "cwelsys"
+repo = "cwelsys/stacks"
+git_account = "cwelsys"
 resource_path = ["sync.toml"]
-managed       = true
+managed = true

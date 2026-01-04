@@ -1,0 +1,60 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    networks:
+      - internal
+    user: 1000:1000
+    restart: unless-stopped
+    environment:
+    volumes:
+      - ${DOCKERM}/navidrome:/data
+      - ${RUST}/audio:/music:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.navidrome.rule=Host(`navi.${CASA}`)
+      - traefik.http.services.navidrome.loadbalancer.server.port=4533
+      - traefik.docker.network=internal
+  
+  slskd:
+    image: slskd/slskd
+    container_name: slskd
+    networks:
+      - internal
+    ports:
+      - "50300:50300"
+    environment:
+      - SLSKD_REMOTE_CONFIGURATION=true
+    volumes:
+      - ${DOCKERM}/slskd:/app
+      - ${RUST}/audio:/music
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.slskd.rule=Host(`slsk.${CASA}`)
+      - traefik.http.services.slskd.loadbalancer.server.port=5030
+      - traefik.docker.network=internal
+
+  # lidify:
+  #   image: thewicklowwolf/lidify:latest
+  #   container_name: lidify
+  #   volumes:
+  #     - ${DOCKERM}:/lidify/config
+  #     - /etc/localtime:/etc/localtime:ro
+  #   restart: unless-stopped
+  #   networks:
+  #     - internal
+  #   environment:
+  #     - last_fm_api_key=<insert>
+  #     - last_fm_api_secret=<insert>
+  #     - mode=LastFM
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.lidify.rule=Host(`lidify.${CASA}`)
+  #     - traefik.http.services.lidify.loadbalancer.server.port=5000
+  #     - traefik.docker.network=internal
+
+
+networks:
+  internal:
+    external: true
