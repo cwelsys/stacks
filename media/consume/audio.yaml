@@ -6,7 +6,6 @@ services:
       - internal
     user: 1000:1000
     restart: unless-stopped
-    environment:
     volumes:
       - ${DOCKERM}/navidrome:/data
       - ${RUST}/audio:/music:ro
