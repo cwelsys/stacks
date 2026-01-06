@@ -176,7 +176,7 @@ services:
     ports:
       - "5055:5055"
     volumes:
-      - ${DOCKERM}/jellyseerr:/config
+      - ${DOCKERM}/jellyseerr:/app/config
     labels:
       - traefik.enable=true
       - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
