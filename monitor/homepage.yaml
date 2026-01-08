@@ -85,8 +85,8 @@ services:
       - SERVICES=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - 2375:2375
+    # ports:
+    #   - 2375:2375
     restart: unless-stopped
     read_only: true
     tmpfs:
