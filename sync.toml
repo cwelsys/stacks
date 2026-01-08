@@ -237,18 +237,13 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "utils"
 file_paths = [
-  "tailscale.yaml",
+  "sock.yaml",
   "ftp.yaml",
   "rdesk.yaml",
   "backrest.yaml",
   "atvsl.yaml",
 ]
 environment = """
-TS_AUTHKEY=[[TAILSCALE__PSOCK]]
-OP_ACCESS_TOKEN=[[OP__ACCESS_TOKEN]]
-KOMO_API_KEY=[[KOMODO__API]]
-KOMO_API_SECRET=[[KOMODO__API_SECRET]]
-OP_VAULT_UUID=[[OP__UUID]]
 SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
 OBSI_LS_PW=[[COUCHDB__PASSWORD]]
 """
