@@ -162,7 +162,7 @@ services:
       - traefik.http.services.suggestarr.loadbalancer.server.port=5000
 
   seerr:
-    image: seerr/seerr
+    image: seerr/seerr:develop
     container_name: seerr
     restart: always
     environment:
