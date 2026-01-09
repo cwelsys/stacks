@@ -78,20 +78,20 @@ services:
       - ${RUST}/audio/explo:/data
       - ${RUST}/audio:/slskd
     environment:
-      - TZ=${TZ}
-      - LISTENBRAINZ_USER=cwel
-      - EXPLO_SYSTEM=subsonic
-      - SYSTEM_URL=http://navidrome:4533
-      - SYSTEM_USERNAME=cwel
-      - SYSTEM_PASSWORD=${NAVIDROME_PASS}
-      - DOWNLOAD_SERVICES=slskd
-      - SLSKD_URL=http://slskd:5030
-      - SLSKD_API_KEY=${SLSKD_API_KEY}
-      - MIGRATE_DOWNLOADS=true
-      - EXTENSIONS=flac,mp3
-      - MIN_BITRATE=256
-      - WEEKLY_EXPLORATION_SCHEDULE=15 00 * * 2
-      - WEEKLY_EXPLORATION_FLAGS=
+      TZ: ${TZ}
+      LISTENBRAINZ_USER: cwel
+      EXPLO_SYSTEM: subsonic
+      SYSTEM_URL: http://navidrome:4533
+      SYSTEM_USERNAME: cwel
+      SYSTEM_PASSWORD: ${NAVIDROME_PASS}
+      DOWNLOAD_SERVICES: slskd
+      SLSKD_URL: http://slskd:5030
+      SLSKD_API_KEY: ${SLSKD_API_KEY}
+      MIGRATE_DOWNLOADS: "true"
+      EXTENSIONS: flac,mp3
+      MIN_BITRATE: "256"
+      WEEKLY_EXPLORATION_SCHEDULE: "15 00 * * 2"
+      EXECUTE_ON_START: "true"
 
 networks:
   internal:
