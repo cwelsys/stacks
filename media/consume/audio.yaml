@@ -68,22 +68,6 @@ services:
       - traefik.http.services.lidify.loadbalancer.server.port=5000
       - traefik.docker.network=internal
 
-  seerr-music:
-    image: seerr/seerr:preview-music-support
-    container_name: seerr-music
-    restart: unless-stopped
-    environment:
-      - TZ=${TZ}
-    networks:
-      - internal
-    volumes:
-      - ${DOCKERM}/seerr-music:/app/config
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.seerr-music.rule=Host(`music.${CASA}`)
-      - traefik.http.services.seerr-music.loadbalancer.server.port=5055
-      - traefik.docker.network=internal
-
 networks:
   internal:
     external: true
