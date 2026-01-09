@@ -68,20 +68,20 @@ services:
       - traefik.http.services.lidify.loadbalancer.server.port=5000
       - traefik.docker.network=internal
 
-  explo:
-    image: ghcr.io/lumepart/explo:latest
-    container_name: explo
-    restart: unless-stopped
-    networks:
-      - internal
-    volumes:
-      - ${DOCKERM}/explo/.env:/opt/explo/.env
-      - ${RUST}/audio/explo:/data
-      - ${RUST}/audio:/slskd
-    environment:
-      - TZ=${TZ}
-      - WEEKLY_EXPLORATION_SCHEDULE=15 00 * * 2
-      - EXECUTE_ON_START=true
+  # explo:
+  #   image: ghcr.io/lumepart/explo:latest
+  #   container_name: explo
+  #   restart: unless-stopped
+  #   networks:
+  #     - internal
+  #   volumes:
+  #     - ${DOCKERM}/explo/.env:/opt/explo/.env
+  #     - ${RUST}/audio/explo:/data
+  #     - ${RUST}/audio:/slskd
+  #   environment:
+  #     - TZ=${TZ}
+  #     - WEEKLY_EXPLORATION_SCHEDULE=15 00 * * 2
+  #     - EXECUTE_ON_START=true
 
 networks:
   internal:
