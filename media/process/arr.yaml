@@ -161,9 +161,9 @@ services:
       - traefik.docker.network=internal
       - traefik.http.services.suggestarr.loadbalancer.server.port=5000
 
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
+  seerr:
+    image: seerr/seerr:preview-music-support
+    container_name: seerr
     restart: always
     environment:
       - TZ=${TZ}
@@ -176,12 +176,12 @@ services:
     ports:
       - "5055:5055"
     volumes:
-      - ${DOCKERM}/jellyseerr:/app/config
+      - ${DOCKERM}/seerr:/app/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyseerr.rule=Host(`req.${DOMAIN}`)
+      - traefik.http.routers.seerr.rule=Host(`req.${DOMAIN}`)
       - traefik.docker.network=public
-      - traefik.http.services.jellyseerr.loadbalancer.server.port=5055
+      - traefik.http.services.seerr.loadbalancer.server.port=5055
       - kop.namespace=public
 
   flaresolverr:
