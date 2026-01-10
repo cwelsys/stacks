@@ -52,7 +52,7 @@ services:
       - internal
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr
+    image: ghcr.io/hotio/lidarr:pr-plugins
     container_name: lidarr
     environment:
       - PUID=1000
