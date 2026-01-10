@@ -26,8 +26,9 @@ services:
       - SLSKD_REMOTE_CONFIGURATION=true
     volumes:
       - ${DOCKERM}/slskd:/app
-      - ${RUST}/audio:/downloads
-      - ${RUST}/audio/.dl:/incomplete
+      - ${RUST}/slsk:/downloads
+      - ${RUST}/slsk/.incomplete:/incomplete
+      - ${RUST}/audio:/library:ro
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -46,7 +47,7 @@ services:
       - TZ=${TZ}
       - SCRIPT_INTERVAL=300
     volumes:
-      - ${RUST}/audio:/downloads
+      - ${RUST}/slsk:/downloads
       - ${DOCKERM}/soularr:/data
     restart: unless-stopped
 
@@ -69,7 +70,8 @@ services:
       - ${DOCKERM}/soulsync/config:/app/config
       - ${DOCKERM}/soulsync/logs:/app/logs
       - ${DOCKERM}/soulsync/data:/app/data
-      - ${RUST}/audio:/music
+      - ${RUST}/slsk:/downloads
+      - ${RUST}/audio:/library
     restart: unless-stopped
     labels:
       - traefik.enable=true
