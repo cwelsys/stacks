@@ -272,7 +272,7 @@ services:
     #   - "8081:8081"
     volumes:
       - ${DOCKERM}/metube/config:/config:rw
-      - ${RUST}/stash:/downloads
+      - ${RUST}/tube:/downloads
     tmpfs:
       - /tmp
     labels:
