@@ -36,7 +36,12 @@ services:
       - traefik.http.services.slskd.loadbalancer.server.port=5030
       - traefik.docker.network=internal
 
-
+  pot-provider:
+    image: brainicism/bgutil-ytdlp-pot-provider
+    container_name: pot-provider
+    restart: unless-stopped
+    networks:
+      - internal
 
 networks:
   internal:
