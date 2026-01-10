@@ -51,53 +51,53 @@ services:
       - ${DOCKERM}/soularr:/data
     restart: unless-stopped
 
-  soulsync:
-    image: boulderbadgedad/soulsync:latest
-    container_name: soulsync
-    networks:
-      - internal
-    ports:
-      - "8888:8888"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - UMASK=022
-      - TZ=${TZ}
-      - FLASK_ENV=production
-      - PYTHONPATH=/app
-      - SOULSYNC_CONFIG_PATH=/app/config/config.json
-    volumes:
-      - ${DOCKERM}/soulsync/config:/app/config
-      - ${DOCKERM}/soulsync/logs:/app/logs
-      - ${DOCKERM}/soulsync/data:/app/data
-      - ${RUST}/slsk:/downloads
-      - ${RUST}/audio:/library
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.soulsync.rule=Host(`souls.${CASA}`)
-      - traefik.http.services.soulsync.loadbalancer.server.port=8008
-      - traefik.docker.network=internal
+  # soulsync:
+  #   image: boulderbadgedad/soulsync:latest
+  #   container_name: soulsync
+  #   networks:
+  #     - internal
+  #   ports:
+  #     - "8888:8888"
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - UMASK=022
+  #     - TZ=${TZ}
+  #     - FLASK_ENV=production
+  #     - PYTHONPATH=/app
+  #     - SOULSYNC_CONFIG_PATH=/app/config/config.json
+  #   volumes:
+  #     - ${DOCKERM}/soulsync/config:/app/config
+  #     - ${DOCKERM}/soulsync/logs:/app/logs
+  #     - ${DOCKERM}/soulsync/data:/app/data
+  #     - ${RUST}/slsk:/downloads
+  #     - ${RUST}/audio:/library
+  #   restart: unless-stopped
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.soulsync.rule=Host(`souls.${CASA}`)
+  #     - traefik.http.services.soulsync.loadbalancer.server.port=8008
+  #     - traefik.docker.network=internal
 
-  beets:
-    image: lscr.io/linuxserver/beets:latest
-    container_name: beets
-    networks:
-      - internal
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKERM}/beets:/config
-      - ${RUST}/audio:/music
-      - ${RUST}/slsk:/downloads
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.beets.rule=Host(`beets.${CASA}`)
-      - traefik.http.services.beets.loadbalancer.server.port=8337
-      - traefik.docker.network=internal
+  # beets:
+  #   image: lscr.io/linuxserver/beets:latest
+  #   container_name: beets
+  #   networks:
+  #     - internal
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=${TZ}
+  #   volumes:
+  #     - ${DOCKERM}/beets:/config
+  #     - ${RUST}/audio:/music
+  #     - ${RUST}/slsk:/downloads
+  #   restart: unless-stopped
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.beets.rule=Host(`beets.${CASA}`)
+  #     - traefik.http.services.beets.loadbalancer.server.port=8337
+  #     - traefik.docker.network=internal
 
   lidify:
     image: thewicklowwolf/lidify:latest
