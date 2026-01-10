@@ -57,8 +57,9 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+      - UMASK=002
       - TZ=${TZ}
-      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:lidarr
+      - TP_HOTIO=true
       - TP_COMMUNITY_THEME=true
       - TP_THEME=catppuccin-mocha
     volumes:
@@ -66,7 +67,7 @@ services:
       - ${RUST}:/data
       - ${DOCKERM}/lidarr/services.d:/custom-services.d
       - ${DOCKERM}/lidarr/init.d:/custom-cont-init.d
-    restart: always
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:8686/ping"]
       interval: 30s
