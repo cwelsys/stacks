@@ -27,6 +27,7 @@ services:
     volumes:
       - ${DOCKERM}/slskd:/app
       - ${RUST}/audio:/downloads
+      - ${RUST}/audio/.dl:/incomplete
     restart: unless-stopped
     labels:
       - traefik.enable=true
