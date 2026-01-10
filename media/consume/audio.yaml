@@ -18,6 +18,7 @@ services:
   slskd:
     image: slskd/slskd
     container_name: slskd
+    user: "1000:1000"
     networks:
       - internal
     ports:
@@ -26,8 +27,7 @@ services:
       - SLSKD_REMOTE_CONFIGURATION=true
     volumes:
       - ${DOCKERM}/slskd:/app
-      - ${RUST}/slsk:/downloads
-      - ${RUST}/slsk/.incomplete:/incomplete
+      - ${RUST}/slsk:/data/slsk
       - ${RUST}/audio:/library:ro
     restart: unless-stopped
     labels:
