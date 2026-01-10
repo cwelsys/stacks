@@ -52,14 +52,13 @@ services:
       - internal
 
   lidarr:
-    image: ghcr.io/hotio/lidarr:pr-plugins
+    image: ghcr.io/linuxserver-labs/prarr:lidarr-plugins
     container_name: lidarr
     environment:
       - PUID=1000
       - PGID=1000
-      - UMASK=002
       - TZ=${TZ}
-      - TP_HOTIO=true
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:lidarr
       - TP_COMMUNITY_THEME=true
       - TP_THEME=catppuccin-mocha
     volumes:
