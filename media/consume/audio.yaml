@@ -47,16 +47,27 @@ services:
     image: chevron7locked/lidify:latest
     container_name: lidify
     restart: unless-stopped
+    environment:
+      - REDIS_URL=redis://lidify-redis:6379
     volumes:
       - ${DOCKERM}/lidify:/data
       - ${RUST}/audio:/music:ro
     networks:
       - internal
+    depends_on:
+      - lidify-redis
     labels:
       - traefik.enable=true
       - traefik.http.routers.lidify.rule=Host(`lidify.${CASA}`)
       - traefik.http.services.lidify.loadbalancer.server.port=3030
       - traefik.docker.network=internal
+
+  lidify-redis:
+    image: redis:alpine
+    container_name: lidify-redis
+    restart: unless-stopped
+    networks:
+      - internal
 
 networks:
   internal:
