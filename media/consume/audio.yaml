@@ -50,6 +50,31 @@ services:
       - ${DOCKERM}/soularr:/data
     restart: unless-stopped
 
+  soulsync:
+    image: boulderbadgedad/soulsync:latest
+    container_name: soulsync
+    networks:
+      - internal
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+      - TZ=${TZ}
+      - FLASK_ENV=production
+      - PYTHONPATH=/app
+      - SOULSYNC_CONFIG_PATH=/app/config/config.json
+    volumes:
+      - ${DOCKERM}/soulsync/config:/app/config
+      - ${DOCKERM}/soulsync/logs:/app/logs
+      - ${DOCKERM}/soulsync/data:/app/data
+      - ${RUST}/audio:/music
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.soulsync.rule=Host(`souls.${CASA}`)
+      - traefik.http.services.soulsync.loadbalancer.server.port=8008
+      - traefik.docker.network=internal
+
   lidify:
     image: thewicklowwolf/lidify:latest
     container_name: lidify
