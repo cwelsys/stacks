@@ -79,6 +79,26 @@ services:
       - traefik.http.services.soulsync.loadbalancer.server.port=8008
       - traefik.docker.network=internal
 
+  beets:
+    image: lscr.io/linuxserver/beets:latest
+    container_name: beets
+    networks:
+      - internal
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERM}/beets:/config
+      - ${RUST}/audio:/music
+      - ${RUST}/slsk:/downloads
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.beets.rule=Host(`beets.${CASA}`)
+      - traefik.http.services.beets.loadbalancer.server.port=8337
+      - traefik.docker.network=internal
+
   lidify:
     image: thewicklowwolf/lidify:latest
     container_name: lidify
