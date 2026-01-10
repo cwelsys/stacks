@@ -64,8 +64,8 @@ services:
     volumes:
       - ${DOCKERM}/lidarr/app:/config
       - ${RUST}:/data
-      - ${DOCKERM}/lidarr/services.d:/custom-services.d
-      - ${DOCKERM}/lidarr/init.d:/custom-cont-init.d
+      # - ${DOCKERM}/lidarr/services.d:/custom-services.d
+      # - ${DOCKERM}/lidarr/init.d:/custom-cont-init.d
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://127.0.0.1:8686/ping"]
