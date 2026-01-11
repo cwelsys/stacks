@@ -52,6 +52,7 @@ services:
     volumes:
       - ${DOCKERM}/lidify:/data
       - ${RUST}/audio:/music:ro
+      - ${RUST}/slsk:/downloads
     networks:
       - internal
     extra_hosts:
