@@ -65,6 +65,7 @@ services:
       - ${DOCKERM}/lidarr/app:/config
       - ${DOCKERM}/lidarr/cache:/c-cache
       - ${RUST}:/data
+      - ${DOCKERM}/lidarr/scripts:/scripts
       # - ${DOCKERM}/lidarr/services.d:/custom-services.d
       # - ${DOCKERM}/lidarr/init.d:/custom-cont-init.d
     restart: unless-stopped
