@@ -43,6 +43,19 @@ services:
     networks:
       - internal
 
+  soularr:
+    image: mrusse08/soularr:latest
+    container_name: soularr
+    hostname: soularr
+    user: 1000:1000
+    environment:
+      - TZ=Etc/UTC
+      - SCRIPT_INTERVAL=300
+    volumes:
+      - ${RUST}/slsk:/data/slsk
+      - ${DOCKERM}/soularr:/data
+    restart: unless-stopped
+
   # lidify:
   #   image: chevron7locked/lidify:latest
   #   container_name: lidify
