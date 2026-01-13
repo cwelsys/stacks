@@ -51,7 +51,7 @@ services:
     networks:
       - internal
     environment:
-      - TZ=Etc/UTC
+      - TZ=${TZ}
       - SCRIPT_INTERVAL=300
     volumes:
       - ${RUST}/slsk:/data/slsk
