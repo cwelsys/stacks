@@ -7,7 +7,7 @@ services:
     volumes:
       - ${RUST}/book:/books
       - ${RUST}/book/audio:/audiobooks
-      - ${RUST}/audio:/podcasts
+      - ${RUST}/audio/podcast:/podcasts
       - ${DOCKERM}/audiobookshelf:/config
       - ${DOCKERM}/audiobookshelf/metadata:/metadata
     restart: unless-stopped
