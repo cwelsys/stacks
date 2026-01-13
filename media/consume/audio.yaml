@@ -48,6 +48,8 @@ services:
     container_name: soularr
     hostname: soularr
     user: 1000:1000
+    networks:
+      - internal
     environment:
       - TZ=Etc/UTC
       - SCRIPT_INTERVAL=300
