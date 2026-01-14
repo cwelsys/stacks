@@ -44,7 +44,6 @@ services:
       - internal
 
   soularr:
-    build: /home/cwel/src/soularr
     image: soularr:local
     container_name: soularr
     hostname: soularr
