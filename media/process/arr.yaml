@@ -52,7 +52,8 @@ services:
       - internal
 
   lidarr:
-    image: ghcr.io/linuxserver-labs/prarr:lidarr-plugins
+    # image: ghcr.io/linuxserver-labs/prarr:lidarr-plugins
+    image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
     environment:
       - PUID=1000
@@ -63,9 +64,9 @@ services:
       - TP_THEME=catppuccin-mocha
     volumes:
       - ${DOCKERM}/lidarr/app:/config
-      - ${DOCKERM}/lidarr/cache:/c-cache
+      # - ${DOCKERM}/lidarr/cache:/c-cache
       - ${RUST}:/data
-      - ${DOCKERM}/lidarr/scripts:/scripts
+      # - ${DOCKERM}/lidarr/scripts:/scripts
       # - ${DOCKERM}/lidarr/services.d:/custom-services.d
       # - ${DOCKERM}/lidarr/init.d:/custom-cont-init.d
     restart: unless-stopped
