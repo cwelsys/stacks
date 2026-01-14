@@ -44,7 +44,8 @@ services:
       - internal
 
   soularr:
-    image: mrusse08/soularr:latest
+    build: /home/cwel/src/soularr
+    image: soularr:local
     container_name: soularr
     hostname: soularr
     user: 1000:1000
@@ -55,6 +56,7 @@ services:
       - SCRIPT_INTERVAL=300
     volumes:
       - ${RUST}/slsk:/data/slsk
+      - ${RUST}/audio:/data/audio
       - ${DOCKERM}/soularr:/data
     restart: unless-stopped
 
