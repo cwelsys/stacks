@@ -47,6 +47,7 @@ services:
     image: soularr:local
     container_name: soularr
     hostname: soularr
+    pull_policy: never
     user: 1000:1000
     networks:
       - internal
