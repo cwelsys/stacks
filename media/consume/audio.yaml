@@ -54,10 +54,12 @@ services:
     environment:
       - TZ=${TZ}
       - SCRIPT_INTERVAL=300
+      - BEETSDIR=/data/beets
     volumes:
       - ${RUST}/slsk:/data/slsk
       - ${RUST}/audio:/data/audio
       - ${DOCKERM}/soularr:/data
+      - ${DOCKERM}/soularr/beets:/data/beets
     restart: unless-stopped
 
   # lidify:
