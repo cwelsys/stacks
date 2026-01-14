@@ -54,7 +54,7 @@ services:
       - TZ=${TZ}
       - SCRIPT_INTERVAL=300
     volumes:
-      - ${RUST}/slsk:/data/slsk
+      - ${RUST}/slsk/complete:/data/slsk
       - ${DOCKERM}/soularr:/data
     restart: unless-stopped
 
