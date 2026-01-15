@@ -43,24 +43,34 @@ services:
     networks:
       - internal
 
-  soularr:
-    image: soularr:local
-    container_name: soularr
-    hostname: soularr
-    pull_policy: never
-    user: 1000:1000
-    networks:
-      - internal
-    environment:
-      - TZ=${TZ}
-      - SCRIPT_INTERVAL=300
-      - BEETSDIR=/data/beets
-    volumes:
-      - ${RUST}/slsk:/data/slsk
-      - ${RUST}/audio:/data/audio
-      - ${DOCKERM}/soularr:/data
-      - ${DOCKERM}/soularr/beets:/data/beets
-    restart: unless-stopped
+  # soularr:
+  #   image: soularr:local
+  #   container_name: soularr
+  #   hostname: soularr
+  #   pull_policy: never
+  #   user: 1000:1000
+  #   networks:
+  #     - internal
+  #   environment:
+  #     - TZ=${TZ}
+  #     - SCRIPT_INTERVAL=300
+  #     - BEETSDIR=/data/beets
+  #   volumes:
+  #     - ${RUST}/slsk:/data/slsk
+  #     - ${RUST}/audio:/data/audio
+  #     - ${DOCKERM}/soularr:/data
+  #     - ${DOCKERM}/soularr/beets:/data/beets
+  #   restart: unless-stopped
+
+beets:
+  image: lscr.io/linuxserver/beets:latest
+  container_name: beets
+  environment:
+    - PUID=1000
+    - PGID=1000
+  volumes:
+    - ${DOCKERM}/beets:/config
+    - ${RUST}:/data
 
   # lidify:
   #   image: chevron7locked/lidify:latest
