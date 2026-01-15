@@ -62,15 +62,17 @@ services:
   #     - ${DOCKERM}/soularr/beets:/data/beets
   #   restart: unless-stopped
 
-beets:
-  image: lscr.io/linuxserver/beets:latest
-  container_name: beets
-  environment:
-    - PUID=1000
-    - PGID=1000
-  volumes:
-    - ${DOCKERM}/beets:/config
-    - ${RUST}:/data
+  beets:
+    image: lscr.io/linuxserver/beets:latest
+    container_name: beets
+    networks:
+      - internal
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${DOCKERM}/beets:/config
+      - ${RUST}:/data
 
   # lidify:
   #   image: chevron7locked/lidify:latest
