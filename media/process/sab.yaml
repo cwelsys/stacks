@@ -11,7 +11,7 @@ services:
       - TP_THEME=catppuccin-mocha
     volumes:
       - ${DOCKERM}/sabnzbd:/config
-      # - ${DOCKERM}/sabnzbd/custom:/custom-cont-init.d
+      - ${DOCKERM}/sabnzbd/custom:/custom-cont-init.d
       - ${RUST}:/data
     restart: always
     labels:
