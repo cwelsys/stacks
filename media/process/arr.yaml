@@ -64,7 +64,7 @@ services:
       - TP_THEME=catppuccin-mocha
     volumes:
       - ${DOCKERM}/lidarr/app:/config
-      # - ${DOCKERM}/lidarr/cache:/c-cache
+      - ${DOCKERM}/lidarr/cache:/boof
       - ${RUST}:/data
       # - ${DOCKERM}/lidarr/scripts:/scripts
       - ${DOCKERM}/lidarr/services.d:/custom-services.d
