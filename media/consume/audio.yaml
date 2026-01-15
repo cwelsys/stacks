@@ -36,12 +36,12 @@ services:
       - traefik.http.services.slskd.loadbalancer.server.port=5030
       - traefik.docker.network=internal
 
-  pot-provider:
-    image: brainicism/bgutil-ytdlp-pot-provider
-    container_name: pot-provider
-    restart: unless-stopped
-    networks:
-      - internal
+  # pot-provider:
+  #   image: brainicism/bgutil-ytdlp-pot-provider
+  #   container_name: pot-provider
+  #   restart: unless-stopped
+  #   networks:
+  #     - internal
 
   # soularr:
   #   image: soularr:local
@@ -62,22 +62,22 @@ services:
   #     - ${DOCKERM}/soularr/beets:/data/beets
   #   restart: unless-stopped
 
-  beets:
-    image: lscr.io/linuxserver/beets:latest
-    container_name: beets
-    networks:
-      - internal
-    environment:
-      - PUID=1000
-      - PGID=1000
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
-    volumes:
-      - ${DOCKERM}/beets:/config
-      - ${RUST}:/data
-
+  # beets:
+  #   image: lscr.io/linuxserver/beets:latest
+  #   container_name: beets
+  #   networks:
+  #     - internal
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #   ulimits:
+  #     nofile:
+  #       soft: 65536
+  #       hard: 65536
+  #   volumes:
+  #     - ${DOCKERM}/beets:/config
+  #     - ${RUST}:/data
+  #
   # lidify:
   #   image: chevron7locked/lidify:latest
   #   container_name: lidify
