@@ -4,7 +4,7 @@ services:
     container_name: immich
     volumes:
       - ${FLASH}/image:/usr/src/app/upload
-      - ${FLASH}/nextcloud/Photos:/mnt/photos:ro
+      - ${FLASH}/nextcloud/Photos:/mnt/photos
       - /etc/localtime:/etc/localtime:ro
     environment:
       - NODE_ENV=production
@@ -36,7 +36,7 @@ services:
     container_name: immich-ml
     volumes:
       - ${FLASH}/image:/usr/src/app/upload
-      - ${FLASH}/nextcloud/Photos:/mnt/photos:ro
+      - ${FLASH}/nextcloud/Photos:/mnt/photos
       - cache:/cache
     environment:
       - NODE_ENV=production
