@@ -283,6 +283,25 @@ services:
       - traefik.http.services.metube.loadbalancer.server.port=8081
       - traefik.docker.network=internal
 
+  playerr:
+    image: maikboarder/playerr:latest
+    container_name: playerr
+    # ports:
+    #   - "2727:2727"
+    networks:
+      - internal
+    volumes:
+      - ${DOCKERM}/playerr:/app/config
+      - ${RUST}:/data
+      - PUID=1000
+      - PGID=1000
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.playerr.rule=Host(`gamr.${CASA}`)
+      - traefik.http.services.playerr.loadbalancer.server.port=2727
+      - traefik.docker.network=internal
+
 networks:
   internal:
     external: true
