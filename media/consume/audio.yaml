@@ -36,22 +36,22 @@ services:
       - traefik.http.services.slskd.loadbalancer.server.port=5030
       - traefik.docker.network=internal
 
-  explo:
-    image: ghcr.io/lumepart/explo:latest
-    restart: unless-stopped
-    container_name: explo
-    networks:
-      - internal
-    volumes:
-      - ${DOCKERM}/explo/.env:/opt/explo/.env
-      - ${RUST}/audio/explo:/data/
-      - ${RUST}/slsk:/slskd/
-      - /var/lib/mpd/playlists:/var/lib/mpd/playlists
-    environment:
-      - TZ=${TZ} 
-      - WEEKLY_EXPLORATION_SCHEDULE=15 00 * * 2 
-      - WEEKLY_EXPLORATION_FLAGS= 
-      # - EXECUTE_ON_START=true
+  # explo:
+  #   image: ghcr.io/lumepart/explo:latest
+  #   restart: unless-stopped
+  #   container_name: explo
+  #   networks:
+  #     - internal
+  #   volumes:
+  #     - ${DOCKERM}/explo/.env:/opt/explo/.env
+  #     - ${RUST}/audio/explo:/data/
+  #     - ${RUST}/slsk:/slskd/
+  #     - /var/lib/mpd/playlists:/var/lib/mpd/playlists
+  #   environment:
+  #     - TZ=${TZ}
+  #     - WEEKLY_EXPLORATION_SCHEDULE=15 00 * * 2
+  #     - WEEKLY_EXPLORATION_FLAGS=
+  #     # - EXECUTE_ON_START=true
 
 networks:
   internal:
