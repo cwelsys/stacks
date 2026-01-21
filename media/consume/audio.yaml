@@ -40,7 +40,6 @@ services:
     image: ghcr.io/lumepart/explo:latest
     restart: unless-stopped
     container_name: explo
-    user: "1000:1000"
     networks:
       - internal
     volumes:
