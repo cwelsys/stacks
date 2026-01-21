@@ -36,68 +36,23 @@ services:
       - traefik.http.services.slskd.loadbalancer.server.port=5030
       - traefik.docker.network=internal
 
-  # pot-provider:
-  #   image: brainicism/bgutil-ytdlp-pot-provider
-  #   container_name: pot-provider
-  #   restart: unless-stopped
-  #   networks:
-  #     - internal
-
-  # soularr:
-  #   image: soularr:local
-  #   container_name: soularr
-  #   hostname: soularr
-  #   pull_policy: never
-  #   user: 1000:1000
-  #   networks:
-  #     - internal
-  #   environment:
-  #     - TZ=${TZ}
-  #     - SCRIPT_INTERVAL=300
-  #     - BEETSDIR=/data/beets
-  #   volumes:
-  #     - ${RUST}/slsk:/data/slsk
-  #     - ${RUST}/audio:/data/audio
-  #     - ${DOCKERM}/soularr:/data
-  #     - ${DOCKERM}/soularr/beets:/data/beets
-  #   restart: unless-stopped
-
-  # beets:
-  #   image: lscr.io/linuxserver/beets:latest
-  #   container_name: beets
-  #   networks:
-  #     - internal
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #   ulimits:
-  #     nofile:
-  #       soft: 65536
-  #       hard: 65536
-  #   volumes:
-  #     - ${DOCKERM}/beets:/config
-  #     - ${RUST}:/data
-  #
-  # lidify:
-  #   image: chevron7locked/lidify:latest
-  #   container_name: lidify
-  #   restart: unless-stopped
-  #   environment:
-  #     - TZ=${TZ}
-  #   volumes:
-  #     - ${DOCKERM}/lidify:/data
-  #     - ${RUST}/audio:/music:ro
-  #     - ${RUST}/slsk:/downloads
-  #   networks:
-  #     - internal
-  #   extra_hosts:
-  #     - "host.docker.internal:host-gateway"
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.http.routers.lidify.rule=Host(`lidify.${CASA}`)
-  #     - traefik.http.services.lidify.loadbalancer.server.port=3030
-  #     - traefik.docker.network=internal
-
+  explo:
+    image: ghcr.io/lumepart/explo:latest
+    restart: unless-stopped
+    container_name: explo
+    user: "1000:1000"
+    networks:
+      - internal
+    volumes:
+      - ${DOCKERM}/explo/.env:/opt/explo/.env
+      - ${RUST}/audio/explo:/data/
+      - ${RUST}/slsk:/slskd/
+      - /var/lib/mpd/playlists:/var/lib/mpd/playlists
+    environment:
+      - TZ=${TZ} 
+      - WEEKLY_EXPLORATION_SCHEDULE=15 00 * * 2 
+      - WEEKLY_EXPLORATION_FLAGS= 
+      # - EXECUTE_ON_START=true
 
 networks:
   internal:
