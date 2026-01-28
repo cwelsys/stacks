@@ -52,8 +52,8 @@ services:
       - internal
 
   lidarr:
-    image: ghcr.io/linuxserver-labs/prarr:lidarr-plugins
-    # image: lscr.io/linuxserver/lidarr:latest
+    image: lscr.io/linuxserver/lidarr:nightly
+    # image: ghcr.io/linuxserver-labs/prarr:lidarr-plugins
     container_name: lidarr
     environment:
       - PUID=1000
