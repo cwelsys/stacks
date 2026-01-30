@@ -173,7 +173,6 @@ services:
       - PUID=1000
       - PGID=1000
       - UMASK=002
-      - DISABLE_FRAME_GUARD=true
     networks:
       - public
       - internal
@@ -186,7 +185,6 @@ services:
       - traefik.http.routers.seerr.rule=Host(`req.${DOMAIN}`)
       - traefik.docker.network=public
       - traefik.http.services.seerr.loadbalancer.server.port=5055
-      - traefik.http.routers.seerr.middlewares=seerr-iframe@file
       - kop.namespace=public
 
   flaresolverr:
