@@ -85,33 +85,6 @@ services:
     networks:
       - stack
 
-  db-backup:
-    container_name: immich-db-backup
-    image: tiredofit/db-backup
-    restart: unless-stopped
-    networks:
-      - stack
-    volumes:
-      - ${DOCKERM}/dumps/immich:/backup
-    environment:
-      - TIMEZONE=${TZ}
-      - CONTAINER_NAME=immich-db-backup
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      # - DEBUG_MODE=TRUE
-
-      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
-
-      - DB01_TYPE=postgres
-      - DB01_HOST=immich-db
-      - DB01_NAME=immich
-      - DB01_USER=immich
-      - DB01_PASS=${IMMICH_PG_PASS}
-
 networks:
   internal:
     external: true

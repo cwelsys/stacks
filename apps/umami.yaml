@@ -46,33 +46,6 @@ services:
       timeout: 5s
       retries: 5
 
-  db-backup:
-    container_name: umami-db-backup
-    image: tiredofit/db-backup
-    restart: unless-stopped
-    networks:
-      - stack
-    volumes:
-      - ${DOCKERM}/dumps/umami:/backup
-    environment:
-      - TIMEZONE=${TZ}
-      - CONTAINER_NAME=umami-db-backup
-      - CONTAINER_ENABLE_MONITORING=FALSE
-      # - DEBUG_MODE=TRUE
-
-      - BACKUP_JOB_CONCURRENCY=1 # Only run one job at a time
-      - DEFAULT_CHECKSUM=NONE # Don't create checksums
-      - DEFAULT_COMPRESSION=ZSTD # Compress all with ZSTD
-      - DEFAULT_BACKUP_INTERVAL=1440 # Backup every 1440 minutes
-      - DEFAULT_BACKUP_BEGIN=2330 # Start backing up at 11:30
-      - DEFAULT_CLEANUP_TIME=8640 # Cleanup backups after a week
-
-      - DB01_TYPE=postgres
-      - DB01_HOST=db
-      - DB01_NAME=umami
-      - DB01_USER=umami
-      - DB01_PASS=${UMAMI_DB_PASSWORD}
-
 networks:
   internal:
     external: true
