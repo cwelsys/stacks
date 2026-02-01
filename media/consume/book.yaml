@@ -2,6 +2,7 @@ services:
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
     container_name: audiobookshelf
+    user: "1000:1000"
     networks:
       - internal
     volumes:
