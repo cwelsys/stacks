@@ -46,7 +46,12 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps/discord"
-file_paths = ["membarr.yaml", "muse.yaml", "redbot.yaml", "requestarr.yaml"]
+file_paths = [
+  "membarr.yaml",
+  "muse.yaml",
+  "redbot.yaml",
+  "requestarr.yaml"
+]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
 GEOAPIFY_API=[[GEOAPIFY__API]]
@@ -89,7 +94,7 @@ file_paths = [
   "book.yaml",
   "jellyfin.yaml",
   "stash.yaml",
-  "game.yaml",
+  "game.yaml"
 ]
 environment = """
 HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
@@ -125,7 +130,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "speed.yaml",
-  "homepage.yaml",
+  "homepage.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -190,7 +195,11 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = ["external.yaml", "internal.yaml", "kop.yaml"]
+file_paths = [
+  "external.yaml",
+  "internal.yaml",
+  "kop.yaml"
+]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -219,8 +228,9 @@ file_paths = [
   "immich.yaml",
   "umami.yaml",
   "it-tools.yaml",
-  "linkding.yaml",
+  "linkding.yaml"
 ]
+ignore_services = ["holdup"]
 environment = """
 IMMICH_PG_PASS=[[IMMICH__POSTGRES]]
 UMAMI_APP_SECRET=[[UMAMI__SECRET]]
@@ -243,7 +253,7 @@ file_paths = [
   "ftp.yaml",
   "rdesk.yaml",
   "backrest.yaml",
-  "atvsl.yaml",
+  "atvsl.yaml"
 ]
 environment = """
 SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
@@ -272,7 +282,7 @@ config.schedule = "Every day at 03:00"
 name = "Stage 1"
 enabled = true
 executions = [
-  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true },
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
 ]
 
 ##
