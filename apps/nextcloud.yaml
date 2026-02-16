@@ -3,16 +3,9 @@ volumes:
     name: nextcloud_aio_mastercontainer
 
 services:
-  holdup:
-    image: busybox:latest
-    command: sh -c "until nslookup ghcr.io >/dev/null 2>&1; do sleep 2; done"
-    restart: "no"
-
   nextcloud:
-    depends_on:
-      holdup:
-        condition: service_completed_successfully
     image: nextcloud/all-in-one:latest
+    entrypoint: ["/bin/sh", "-c", "until curl -sf https://ghcr.io/v2/ >/dev/null; do echo 'Waiting for ghcr.io...'; sleep 5; done; exec /start.sh"]
     restart: unless-stopped
     container_name: nextcloud-aio-mastercontainer
     network_mode: bridge
