@@ -182,11 +182,11 @@ services:
       - ${DOCKERM}/seerr:/app/config
     labels:
       - traefik.enable=true
+      - traefik.public=true
       - traefik.http.routers.seerr.rule=Host(`req.${DOMAIN}`)
       - traefik.docker.network=public
       - traefik.http.services.seerr.loadbalancer.server.port=5055
       - traefik.http.routers.seerr.middlewares=seerr-iframe@file
-      - kop.namespace=public
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest

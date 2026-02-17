@@ -22,10 +22,10 @@ services:
       retries: 10
     labels:
       - traefik.enable=true
+      - traefik.public=true
       - traefik.http.routers.jellyfin.rule=Host(`jelly.${DOMAIN}`)
       - traefik.docker.network=public
       - traefik.http.services.jellyfin.loadbalancer.server.port=8096
-      - kop.namespace=public
     networks:
       - public
       - internal
