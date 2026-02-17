@@ -110,8 +110,6 @@ services:
       # - "8086:8080/tcp"
     restart: 'always'
     volumes:
-      - /var/log/messages:/var/log/messages:ro
-      - /var/log/secure:/var/log/secure:ro
       - /var/log/traefik/external:/var/log/traefik:ro
       - ${DOCKERM}/crowdsec/config:/etc/crowdsec
       - ${DOCKERM}/crowdsec/data:/var/lib/crowdsec/data
