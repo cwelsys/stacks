@@ -197,8 +197,7 @@ repo = "cwelsys/stacks"
 run_directory = "network"
 file_paths = [
   "external.yaml",
-  "internal.yaml",
-  "kop.yaml"
+  "internal.yaml"
 ]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]

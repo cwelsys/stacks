@@ -5,8 +5,6 @@ services:
     networks:
       - traefik
       - internal
-    depends_on:
-      - int-redis
     restart: unless-stopped
     ports:
       - 80:80
@@ -52,22 +50,8 @@ services:
       # command to determine the id of the container running Traefik:
       TRAEFIK_CONTAINER_ID_COMMAND: docker ps --no-trunc --quiet --filter label=org.opencontainers.image.title=Traefik
 
-  int-redis:
-    restart: always
-    image: redis:7-alpine
-    container_name: int-redis
-    ports:
-      - 6379:6379
-    networks:
-      - traefik
-      - kop
-    healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
-
 networks:
   traefik:
     external: true
   internal:
-    external: true
-  kop:
     external: true

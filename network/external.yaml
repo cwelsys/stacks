@@ -8,8 +8,6 @@ services:
       - traefik
       - crowdsec
       - internal
-    depends_on:
-      - ext-redis
     ports:
       # - "80:80"
       # - "443:443"
@@ -29,7 +27,6 @@ services:
       traefik.enable: true
       traefik.http.routers.traefik-dashboard-external.rule: Host(`traefike.${CASA}`)
       traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 8080
-      kop.traefik-dashboard-external.bind.ip: '192.168.4.89'
       traefik.docker.network: internal
 
   ext-logrotate:
@@ -55,18 +52,6 @@ services:
       CRON_LOG_LEVEL: 8 # see https://unix.stackexchange.com/a/414010/378036
       # command to determine the id of the container running Traefik:
       TRAEFIK_CONTAINER_ID_COMMAND: docker ps --no-trunc --quiet --filter label=org.opencontainers.image.title=Traefik
-
-  ext-redis:
-    restart: always
-    image: redis:7-alpine
-    container_name: ext-redis
-    ports:
-      - '6380:6379'
-    networks:
-      - traefik
-      - kop
-    healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
 
   cloudflare_tunnel:
     container_name: cf-tunnel
@@ -139,6 +124,4 @@ networks:
   crowdsec:
     external: true
   internal:
-    external: true
-  kop:
     external: true
