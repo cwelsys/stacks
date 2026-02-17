@@ -98,7 +98,7 @@ services:
       - crowdsec
       - internal
     environment:
-      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching
+      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching LePresidente/jellyfin LePresidente/jellyseerr
       - 'DISABLE_SCENARIOS=crowdsecurity/http-bad-user-agent'
       - 'CUSTOM_HOSTNAME=pbox'
       - 'GID=1000'
@@ -111,6 +111,8 @@ services:
     restart: 'always'
     volumes:
       - /var/log/traefik/external:/var/log/traefik:ro
+      - ${DOCKERM}/jellyfin/log:/var/log/jellyfin:ro
+      - ${DOCKERM}/seerr/logs:/var/log/seerr:ro
       - ${DOCKERM}/crowdsec/config:/etc/crowdsec
       - ${DOCKERM}/crowdsec/data:/var/lib/crowdsec/data
       - ${DOCKERM}/crowdsec/logs:/var/log/crowdsec
