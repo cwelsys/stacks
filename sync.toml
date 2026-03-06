@@ -182,6 +182,7 @@ STEAMGRID_API_KEY=[[STEAMGRID__API]]
 KAVITA_API_KEY=[[KAVITA__API]]
 ABS_API_KEY=[[AUDIOBOOKSHELF__API]]
 READARR_API_KEY=[[READARR__API]]
+SLSKD_API_KEY=[[SLSK__API]]
 """
 
 ##
@@ -195,10 +196,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "network"
-file_paths = [
-  "external.yaml",
-  "internal.yaml"
-]
+file_paths = ["external.yaml", "internal.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
