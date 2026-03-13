@@ -6,16 +6,20 @@
 
 services:
   mongo:
-    image: mongo
+    image: mongo:8
     container_name: komo-mongo
     labels:
       - komodo.skip
-    command: --quiet --wiredTigerCacheSizeGB 0.25
+    command: --quiet --wiredTigerCacheSizeGB 1
     restart: unless-stopped
     networks:
       - stack
     logging:
       driver: local
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
     # ports:
     #   - 27017:27017
     volumes:
