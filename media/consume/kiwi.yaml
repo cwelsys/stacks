@@ -7,11 +7,9 @@ services:
       - internal
     volumes:
       - ${BRICK}/wiki:/data
-    command:
-      - '*.zim'
     labels:
       - traefik.enable=true
-      - traefik.http.routers.kiwi.rule=Host('wiki.${CASA}')
+      - traefik.http.routers.kiwi.rule=Host(`wiki.${CASA}`)
       - traefik.http.services.kiwi.loadbalancer.server.port=8080
       - traefik.docker.network=internal
 
