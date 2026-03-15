@@ -88,6 +88,7 @@ file_paths = [
   "audio.yaml",
   "book.yaml",
   "jellyfin.yaml",
+  "kiwi.yaml",
   "stash.yaml",
   "game.yaml",
 ]
@@ -295,4 +296,3 @@ repo = "cwelsys/stacks"
 git_account = "cwelsys"
 resource_path = ["sync.toml"]
 managed = true
-
