@@ -7,6 +7,8 @@ services:
       - internal
     volumes:
       - ${BRICK}/wiki:/data
+    command:
+      - '*.zim'
     labels:
       - traefik.enable=true
       - traefik.http.routers.kiwi.rule=Host(`wiki.${CASA}`)
