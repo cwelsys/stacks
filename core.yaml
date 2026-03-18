@@ -6,12 +6,14 @@
 
 services:
   mongo:
-    image: mongo:8
+    image: mongo
     container_name: komo-mongo
     labels:
-      - komodo.skip
-    command: --quiet --wiredTigerCacheSizeGB 1
+      komodo.skip:
+    command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
+    environment:
+      GLIBC_TUNABLES: glibc.cpu.x86_shstk=off
     networks:
       - stack
     logging:
@@ -24,6 +26,7 @@ services:
     #   - 27017:27017
     volumes:
       - ${DOCKERM}/komodo:/data/db
+      - ${DOCKERM}/komodo/configdb:/data/configdb
 
   core:
     image: ghcr.io/moghtech/komodo-core:latest

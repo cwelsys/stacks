@@ -32,7 +32,7 @@ WHISPARR_API_KEY=[[WHISPARR__API]]
 name = "core"
 [stack.config]
 server = "pbox"
-auto_update = true
+auto_update = false
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 file_paths = ["core.yaml"]
