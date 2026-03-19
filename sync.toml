@@ -32,7 +32,7 @@ WHISPARR_API_KEY=[[WHISPARR__API]]
 name = "core"
 [stack.config]
 server = "pbox"
-auto_update = false
+project_name = "stacks"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 file_paths = ["core.yaml"]
@@ -46,7 +46,12 @@ server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps/discord"
-file_paths = ["membarr.yaml", "muse.yaml", "redbot.yaml", "requestarr.yaml"]
+file_paths = [
+  "membarr.yaml",
+  "muse.yaml",
+  "redbot.yaml",
+  "requestarr.yaml"
+]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
 GEOAPIFY_API=[[GEOAPIFY__API]]
@@ -90,7 +95,7 @@ file_paths = [
   "jellyfin.yaml",
   "kiwi.yaml",
   "stash.yaml",
-  "game.yaml",
+  "game.yaml"
 ]
 environment = """
 HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
@@ -126,7 +131,7 @@ file_paths = [
   "dozzle.yaml",
   "scrutiny.yaml",
   "speed.yaml",
-  "homepage.yaml",
+  "homepage.yaml"
 ]
 environment = """
 INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
@@ -222,7 +227,7 @@ file_paths = [
   "immich.yaml",
   "umami.yaml",
   "it-tools.yaml",
-  "linkding.yaml",
+  "linkding.yaml"
 ]
 ignore_services = ["holdup"]
 environment = """
@@ -247,7 +252,7 @@ file_paths = [
   "ftp.yaml",
   "rdesk.yaml",
   "backrest.yaml",
-  "atvsl.yaml",
+  "atvsl.yaml"
 ]
 environment = """
 SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
@@ -276,7 +281,7 @@ config.schedule = "Every day at 03:00"
 name = "Stage 1"
 enabled = true
 executions = [
-  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true },
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
 ]
 
 ##
