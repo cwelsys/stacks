@@ -5,8 +5,7 @@ volumes:
 services:
   nextcloud:
     image: nextcloud/all-in-one:latest
-    entrypoint: ["/bin/sh", "-c", "until curl -so /dev/null --max-time 10 --connect-timeout 5 https://ghcr.io/v2/; do echo 'Waiting for ghcr.io...'; sleep 5; done; exec /start.sh"]
-    restart: unless-stopped
+    restart: "no"
     container_name: nextcloud-aio-mastercontainer
     network_mode: bridge
     volumes:
