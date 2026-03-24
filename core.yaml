@@ -29,8 +29,9 @@ services:
       - ${DOCKERM}/komodo/configdb:/data/configdb
 
   core:
-    image: ghcr.io/moghtech/komodo-core:latest
+    image: ghcr.io/moghtech/komodo-core:2
     container_name: komodo
+    init: true
     networks:
       - internal
       - public
@@ -51,10 +52,14 @@ services:
     ports:
       - 9120:9120
     volumes:
+      - keys:/config/keys
       - ${DOCKERM}/core.config.toml:/config/config.toml
       - ${DOCKERM}/dumps/komodo:/backups
     extra_hosts:
       - host.docker.internal:host-gateway
+
+volumes:
+  keys:
 
 networks:
   internal:
