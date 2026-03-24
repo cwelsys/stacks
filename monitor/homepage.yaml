@@ -5,6 +5,7 @@ services:
     networks:
       - internal
       - traefik
+      - nextcloud-aio
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=${CASA}
       - HOMEPAGE_VAR_LOCAL_DOMAIN=${CASA}
@@ -112,4 +113,6 @@ networks:
   internal:
     external: true
   traefik:
+    external: true
+  nextcloud-aio:
     external: true
