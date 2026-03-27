@@ -1,17 +1,16 @@
 services:
   qbittorrent:
-    image: ghcr.io/hotio/qbittorrent
+    image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-      - WEBUI_PORTS=8080/tcp,8080/udp
+      - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     volumes:
       - ${DOCKERM}/qbit:/config
       - ${RUST}/tor:/data/tor
       # - ${RUST}/game:/game
-      - ${DOCKERM}/qbit/vuetorrent:/vuetorrent
     restart: always
     healthcheck:
       test: ['CMD-SHELL', 'curl -sf https://api.ipify.org || exit 1']
