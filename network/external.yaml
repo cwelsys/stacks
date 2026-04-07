@@ -93,12 +93,13 @@ services:
 
   crowdsec:
     container_name: crowdsec
-    image: 'crowdsecurity/crowdsec:latest'
+    image: 'crowdsecurity/crowdsec:v1.7.7'
     networks:
       - crowdsec
       - internal
     environment:
       - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching LePresidente/jellyfin LePresidente/jellyseerr
+      - APPSEC_RULES=crowdsecurity/base-config
       - 'DISABLE_SCENARIOS=crowdsecurity/http-bad-user-agent'
       - 'CUSTOM_HOSTNAME=pbox'
       - 'GID=1000'
