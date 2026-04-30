@@ -4,7 +4,7 @@ volumes:
 
 services:
   nextcloud:
-    image: nextcloud/all-in-one:latest
+    image: nextcloud/all-in-one:beta
     restart: "no"
     container_name: nextcloud-aio-mastercontainer
     network_mode: bridge
