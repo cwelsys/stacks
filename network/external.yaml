@@ -98,7 +98,7 @@ services:
       - crowdsec
       - internal
     environment:
-      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching LePresidente/jellyfin LePresidente/jellyseerr LePresidente/nextcloud
+      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching LePresidente/jellyfin LePresidente/jellyseerr crowdsecurity/nextcloud
       - APPSEC_RULES=crowdsecurity/base-config
       - 'DISABLE_SCENARIOS=crowdsecurity/http-bad-user-agent'
       - 'CUSTOM_HOSTNAME=pbox'
