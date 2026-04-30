@@ -98,7 +98,7 @@ services:
       - crowdsec
       - internal
     environment:
-      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching LePresidente/jellyfin LePresidente/jellyseerr
+      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/base-http-scenarios crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching LePresidente/jellyfin LePresidente/jellyseerr LePresidente/nextcloud
       - APPSEC_RULES=crowdsecurity/base-config
       - 'DISABLE_SCENARIOS=crowdsecurity/http-bad-user-agent'
       - 'CUSTOM_HOSTNAME=pbox'
@@ -114,6 +114,7 @@ services:
       - /var/log/traefik/external:/var/log/traefik:ro
       - ${DOCKERM}/jellyfin/log:/var/log/jellyfin:ro
       - ${DOCKERM}/seerr/logs:/var/log/seerr:ro
+      - /mnt/bool/ncdata/nextcloud.log:/var/log/nextcloud/nextcloud.log:ro
       - ${DOCKERM}/crowdsec/config:/etc/crowdsec
       - ${DOCKERM}/crowdsec/data:/var/lib/crowdsec/data
       - ${DOCKERM}/crowdsec/logs:/var/log/crowdsec
