@@ -38,6 +38,7 @@ services:
 
   lrcget:
     image: lrcget-cli:synced-only
+    pull_policy: never
     container_name: lrcget
     user: "1000:1000"
     networks:
