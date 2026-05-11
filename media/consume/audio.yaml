@@ -37,7 +37,6 @@ services:
       - traefik.docker.network=internal
 
   lrcget:
-    build: /home/cwel/src/lrcget-cli
     image: lrcget-cli:synced-only
     container_name: lrcget
     user: "1000:1000"
