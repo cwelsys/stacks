@@ -65,7 +65,6 @@ services:
     volumes:
       - ${DOCKERM}/lidarr/app:/config
       - ${RUST}:/data
-      - /opt/arr:/opt/arr:ro
       - ${DOCKERM}/lidarr/services.d:/custom-services.d
       - ${DOCKERM}/lidarr/init.d:/custom-cont-init.d
     restart: unless-stopped
@@ -282,7 +281,6 @@ services:
       - traefik.http.routers.metube.rule=Host(`tube.${CASA}`)
       - traefik.http.services.metube.loadbalancer.server.port=8081
       - traefik.docker.network=internal
-
   # playerr:
   #   image: maikboarder/playerr:latest
   #   container_name: playerr
