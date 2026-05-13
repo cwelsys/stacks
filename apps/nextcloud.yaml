@@ -19,4 +19,12 @@ services:
       NEXTCLOUD_DATADIR: /mnt/bool/ncdata
       NEXTCLOUD_ADDITIONAL_PHP_EXTENSIONS: imagick
       NEXTCLOUD_ADDITIONAL_APKS: imagemagick
-      NEXTCLOUD_ENABLE_DRI_DEVICE: true
+      # NEXTCLOUD_ENABLE_DRI_DEVICE: true
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
