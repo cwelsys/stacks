@@ -36,24 +36,6 @@ services:
       - traefik.http.services.slskd.loadbalancer.server.port=5030
       - traefik.docker.network=internal
 
-  lrcget:
-    image: lrcget-cli:synced-only
-    pull_policy: never
-    container_name: lrcget
-    user: "1000:1000"
-    networks:
-      - internal
-    restart: unless-stopped
-    volumes:
-      - ${DOCKERM}/lrcget:/data
-      - ${RUST}/audio:/audio
-    environment:
-      - LRCGET_DATABASE_PATH=/data/lrcget.db
-      - LRCGET_SKIP_TRACKS_WITH_SYNCED_LYRICS=true
-      - LRCGET_TRY_EMBED_LYRICS=false
-      - RUST_LOG=info
-    command: ["watch", "/audio", "--initial-scan"]
-
 networks:
   internal:
     external: true
