@@ -7,7 +7,7 @@ services:
       - internal
     volumes:
       - ${RUST}/book:/books
-      - ${RUST}/book/audio:/audiobooks
+      - ${RUST}/audio/book:/audiobooks
       - ${RUST}/audio/podcast:/podcasts
       - ${DOCKERM}/audiobookshelf:/config
       - ${DOCKERM}/audiobookshelf/metadata:/metadata
@@ -18,52 +18,25 @@ services:
       - traefik.http.services.audiobookshelf.loadbalancer.server.port=80
       - traefik.docker.network=internal
 
-  calibre-web:
-    image: crocodilestick/calibre-web-automated:latest
-    container_name: cweb
-    networks:
-      - internal
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-      - HARDCOVER_TOKEN=${HARDCOVER_TOKEN}
-    volumes:
-      - ${DOCKERM}/cweb:/config
-      - ${RUST}/book/ing:/cwa-book-ingest
-      - ${RUST}/book:/calibre-library
-      - ${DOCKERM}/cweb/plugs:/config/.config/calibre/plugins
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.cweb.rule=Host(`cweb.${CASA}`)
-      - traefik.http.services.cweb.loadbalancer.server.port=8083
-      - traefik.docker.network=internal
-
-  cweb-dl:
-    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest
-    container_name: cweb-dl
+  shelfmark:
+    image: ghcr.io/calibrain/shelfmark:latest
+    container_name: shelfmark
+    user: "1000:1000"
     networks:
       - internal
     environment:
       FLASK_PORT: 8084
-      LOG_LEVEL: info
-      BOOK_LANGUAGE: en
-      USE_BOOK_TITLE: true
       TZ: ${TZ}
-      APP_ENV: prod
-      UID: 1000
-      GID: 1000
-      CWA_DB_PATH: /auth/app.db
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.cweb-dl.rule=Host(`cwebdl.${CASA}`)
-      - traefik.http.services.cweb-dl.loadbalancer.server.port=8084
+      - traefik.http.routers.shelfmark.rule=Host(`shelf.${CASA}`)
+      - traefik.http.services.shelfmark.loadbalancer.server.port=8084
       - traefik.docker.network=internal
     volumes:
-      - ${RUST}/book/ing:/cwa-book-ingest
-      - ${DOCKERM}/cweb/app.db:/auth/app.db:ro
+      - ${DOCKERM}/shelfmark:/config
+      - ${RUST}/book:/book
+      - ${RUST}/audio/book:/audiobook
 
 networks:
   internal:

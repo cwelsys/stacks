@@ -80,25 +80,6 @@ services:
     networks:
       - internal
 
-  readarr:
-    image: ghcr.io/pennydreadful/bookshelf:hardcover
-    container_name: readarr
-    environment:
-      - PUID=1000
-      - PGID=1001
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKERM}/readarr:/config
-      - ${RUST}:/data
-    restart: unless-stopped
-    networks:
-      - internal
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=internal
-      - traefik.http.routers.readarr.rule=Host(`readarr.${CASA}`)
-      - traefik.http.services.readarr.loadbalancer.server.port=8787
-
   whisparr:
     container_name: whisparr
     image: ghcr.io/hotio/whisparr:v3

@@ -6,9 +6,11 @@ services:
       - internal
     user: 1000:1000
     restart: unless-stopped
+    environment:
+      - ND_MUSICFOLDER=/music
     volumes:
       - ${DOCKERM}/navidrome:/data
-      - ${RUST}/audio:/audio:ro
+      - ${RUST}/audio/music:/music:ro
     labels:
       - traefik.enable=true
       - traefik.http.routers.navidrome.rule=Host(`navi.${CASA}`)
@@ -28,7 +30,7 @@ services:
     volumes:
       - ${DOCKERM}/slskd:/app
       - ${RUST}/slsk:/data/slsk
-      - ${RUST}/audio:/library:ro
+      - ${RUST}/audio/music:/library:ro
     restart: unless-stopped
     labels:
       - traefik.enable=true
