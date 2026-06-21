@@ -1,6 +1,6 @@
 services:
   kiwix-serve:
-    image: ghcr.io/kiwix/kiwix-serve:latest
+    image: ghcr.io/kiwix/kiwix-serve
     container_name: kiwix
     restart: unless-stopped
     networks:
