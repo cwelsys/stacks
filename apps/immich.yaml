@@ -1,13 +1,12 @@
 services:
   immich-server:
-    image: altran1502/immich-server:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     container_name: immich
     volumes:
       - ${FLASH}/image:/usr/src/app/upload
       - ${FLASH}/nextcloud/Photos:/mnt/photos
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - NODE_ENV=production
       - TZ=${TZ}
       - DB_USERNAME=immich
       - DB_PASSWORD=${IMMICH_PG_PASS}
@@ -32,14 +31,13 @@ services:
       - traefik.docker.network=internal
 
   immich-machine-learning:
-    image: altran1502/immich-machine-learning:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
     container_name: immich-ml
     volumes:
       - ${FLASH}/image:/usr/src/app/upload
       - ${FLASH}/nextcloud/Photos:/mnt/photos
       - cache:/cache
     environment:
-      - NODE_ENV=production
       - TZ=${TZ}
       - DB_DATABASE_NAME=immich
       - DB_USERNAME=immich
@@ -55,7 +53,7 @@ services:
       - stack
 
   immich-redis:
-    image: docker.io/valkey/valkey:8-bookworm
+    image: docker.io/valkey/valkey:9@sha256:4963247afc4cd33c7d3b2d2816b9f7f8eeebab148d29056c2ca4d7cbc966f2d9
     container_name: immich-redis
     restart: unless-stopped
     healthcheck:
@@ -64,7 +62,7 @@ services:
       - stack
 
   immich-db:
-    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
     container_name: immich-db
     environment:
       POSTGRES_PASSWORD: ${IMMICH_PG_PASS}
@@ -82,6 +80,7 @@ services:
       interval: 5m
       start_interval: 30s
       start_period: 5m
+    shm_size: 128mb
     networks:
       - stack
 
