@@ -1,0 +1,19 @@
+services:
+  bit-site:
+    container_name: bit-site
+    image: wordpress:php8.3-apache
+    volumes:
+      - ${DOCKERM}/bit-site:/var/www/html
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.public=true
+      - traefik.http.routers.bit-site.rule=Host(`bit.${CASA}`)
+      - traefik.http.services.bit-site.loadbalancer.server.port=80
+      - traefik.docker.network=internal
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
