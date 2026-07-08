@@ -12,3 +12,7 @@ services:
       - traefik.http.routers.dozzle.rule=Host(`logs.${CASA}`)
       - traefik.http.services.dozzle.loadbalancer.server.port=8080
       - traefik.docker.network=internal
+
+networks:
+  internal:
+    external: true
