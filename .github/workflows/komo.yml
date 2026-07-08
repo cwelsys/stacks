@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Extract stack names
         id: komodo_stacks
@@ -39,9 +39,11 @@ jobs:
             in_stack=0
           }
 
-          is_stack_section && /name *= *"[^"]*"/ && in_stack {
-            match($0, /name *= *"([^"]*)"/, matches)
-            name=matches[1]
+          is_stack_section && /^name *= *"[^"]*"/ && in_stack {
+            line=$0
+            sub(/^[^"]*"/, "", line)
+            sub(/".*/, "", line)
+            name=line
           }
 
           is_stack_section && /webhook_enabled *= *false/ && in_stack {
@@ -83,11 +85,13 @@ jobs:
 
           # Get all existing webhooks - GitHub API path
           echo "Fetching all existing webhooks..."
-          HOOKS_RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.WEBHOOK_PAT }}" \
-            "https://api.github.com/repos/${{ github.repository }}/hooks")
+          HOOKS_RESPONSE=$(curl -s -w "\n%{http_code}" -H "Authorization: Bearer ${{ secrets.WEBHOOK_PAT }}" \
+            "https://api.github.com/repos/${{ github.repository }}/hooks?per_page=100")
+          HOOKS_STATUS=$(echo "$HOOKS_RESPONSE" | tail -n1)
+          HOOKS_RESPONSE=$(echo "$HOOKS_RESPONSE" | sed '$ d')
 
-          if [ $? -ne 0 ]; then
-            echo "⚠️ Failed to fetch existing webhooks"
+          if [ "$HOOKS_STATUS" != "200" ]; then
+            echo "⚠️ Failed to fetch existing webhooks (status: $HOOKS_STATUS)"
             exit 1
           fi
 
