@@ -6,76 +6,52 @@ enabled = true
 cpu_warning = 92.0
 disk_warning = 80.0
 
-##
+# ============================================================
+# media
+# ============================================================
 
 [[stack]]
 name = "arr"
+tags = ["media", "arr", "public"]
 [stack.config]
 server = "pbox"
 poll_for_updates = true
 auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "media/process"
+run_directory = "media"
 file_paths = ["arr.yaml"]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
 RADARR_API_KEY=[[RADARR__API]]
-LIDARR_API_KEY=[[LIDARR__API]]
-PROWLARR_API_KEY=[[PROWLARR__API]]
-WHISPARR_API_KEY=[[WHISPARR__API]]
 """
 
 ##
 
 [[stack]]
-name = "core"
+name = "sab"
+tags = ["media", "download"]
 [stack.config]
 server = "pbox"
-project_name = "stacks"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-file_paths = ["core.yaml"]
+run_directory = "media"
+file_paths = ["sab.yaml"]
 
 ##
 
 [[stack]]
-name = "discord"
+name = "tortun"
+tags = ["media", "download", "vpn"]
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "apps/discord"
-file_paths = [
-  "membarr.yaml",
-  "muse.yaml",
-  "redbot.yaml",
-  "requestarr.yaml"
-]
-environment = """
-GOOGLE_API=[[GOOGLE__API]]
-GEOAPIFY_API=[[GEOAPIFY__API]]
-REDBOT_TOKEN=[[DISCORD__REDBOT]]
-MUSE_TOKEN=[[DISCORD__MUSE]]
-MEMBARR_TOKEN=[[DISCORD__MEMBARR]]
-DOPLARR_TOKEN=[[DISCORD__DOPLARR]]
-JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
-"""
-
-##
-
-[[stack]]
-name = "downs"
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "media/process"
-file_paths = ["sab.yaml", "tortun.yaml"]
+run_directory = "media"
+file_paths = ["tortun.yaml"]
 environment = """
 QBIT_USERNAME=admin
 QBIT_PASSWORD=[[QBITTORRENT__PASSWORD]]
-SABNZBD_API_KEY=[[SABNZBD__API]]
 WIREGUARD_PRIVATE_KEY=[[PROTON__WIREGUARD]]
 GLUETUN_APIKEY=[[GLUETUN__API]]
 """
@@ -83,24 +59,55 @@ GLUETUN_APIKEY=[[GLUETUN__API]]
 ##
 
 [[stack]]
-name = "media"
+name = "jellyfin"
+tags = ["media", "public"]
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "media/consume"
-file_paths = [
-  "audio.yaml",
-  "book.yaml",
-  "jellyfin.yaml",
-  "kiwi.yaml",
-  "stash.yaml",
-  "game.yaml"
-]
+run_directory = "media"
+file_paths = ["jellyfin.yaml"]
 environment = """
-HARDCOVER_TOKEN=[[CALIBRE__HCAPI]]
 JELLYPG_PASS=[[JELLYSTAT__POSTGRES]]
 JELLYS_JWT=[[JELLYSTAT__JWT]]
+"""
+
+##
+
+[[stack]]
+name = "audio"
+tags = ["media"]
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["audio.yaml"]
+
+##
+
+[[stack]]
+name = "book"
+tags = ["media"]
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["book.yaml"]
+
+##
+
+[[stack]]
+name = "game"
+tags = ["media"]
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["game.yaml"]
+environment = """
 ROMM_DB_PW=[[ROMM__ROMMDB]]
 MARIADB_PW=[[ROMM__MARIADB]]
 ROMM_AUTH=[[ROMM__AUTH]]
@@ -109,109 +116,39 @@ RETROC_API_KEY=[[ROMM__RETRO_CHIEV]]
 STEAMGRID_API_KEY=[[STEAMGRID__API]]
 IGDB_CLIENT_ID=[[ROMM__IGDB_ID]]
 IGDB_CLIENT_SECRET=[[ROMM__IGDB_SECRET]]
-LASTFM_API_KEY=[[LASTFM__API]]
-LASTFM_SECRET=[[LASTFM__SECRET]]
-NAVIDROME_PASS=[[NAVIDROME__PASS]]
-SLSKD_API_KEY=[[SLSK__API]]
 """
 
 ##
 
 [[stack]]
-name = "monitor"
+name = "kiwi"
+tags = ["media"]
 [stack.config]
 server = "pbox"
-poll_for_updates = true
-auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "monitor"
-file_paths = [
-  "beszel.yaml",
-  "dozzle.yaml",
-  "scrutiny.yaml",
-  "speed.yaml",
-  "homepage.yaml"
-]
-environment = """
-INFLUXDB_PASS=[[TRAEFIK__INFLUXDB_PASS]]
-INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
-BESZEL_KEY=[[BESZEL__KEY]]
-SPEED_API=[[SPEEDTEST__API]]
-SONARR_API_KEY=[[SONARR__API]]
-RADARR_API_KEY=[[RADARR__API]]
-PROWLARR_API_KEY=[[PROWLARR__API]]
-SABNZBD_API_KEY=[[SABNZBD__API]]
-QBIT_PASSWORD=[[QBITTORRENT__PASSWORD]]
-OPENWEATHERMAP_TOKEN=[[OPENWEATHERMAP__API]]
-HP_LOC_LABEL=[[HOMEPAGE__LOCATION]]
-HP_LOC_LAT=[[HOMEPAGE__LAT]]
-HP_LOC_LONG=[[HOMEPAGE__LONG]]
-TS_API=[[TAILSCALE__API]]
-CLOUDFLARE_API=[[CLOUDFLARE__API]]
-CLOUDFLARE_ACC_ID=[[CLOUDFLARE__ACCOUNT]]
-TUNNEL_ID=[[CLOUDFLARE__TUNNEL_ID]]
-CROWDSEC_PASS=[[CROWDSEC__API]]
-LIDARR_API_KEY=[[LIDARR__API]]
-WHISPARR_API_KEY=[[WHISPARR__API]]
-BAZARR_API_KEY=[[BAZARR__API]]
-JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
-TAUTULLI_API_KEY=[[TAUTULLI__API]]
-PLEX_API_KEY=[[PLEX__API]]
-PROTON_ICAL=[[PROTON__ICAL]]
-AUTHENTIK_API=[[AUTHENTIK__API]]
-FINNHUB_TOKEN=[[FINNHUB__API]]
-CALIBRE_PASS=[[CALIBRE__PASSWORD]]
-GLUETUN_API_KEY=[[GLUETUN__API]]
-HOMEASS_API_KEY=[[HOMEASSISTANT__API]]
-GRAFANA_PASS=[[GRAFANA__API]]
-JELLYFIN_API_KEY=[[JELLYFIN__API]]
-STASH_API_KEY=[[STASH__API]]
-TECHNITIUM_API_KEY=[[TECHNITIUM__API]]
-IMMICH_API_KEY=[[IMMICH__API]]
-MEALIE_API_KEY=[[MEALIE__API]]
-BESZEL_PW=[[BESZEL__PASSWORD]]
-NEXTCLOUD_PW=[[NEXTCLOUD__PASSWORD]]
-NEXTCLOUD_API_KEY=[[NEXTCLOUD__TOKEN]]
-GITEA_API_KEY=[[GIT__PAT]]
-NEXTDNS_API_KEY=[[NEXTDNS__API]]
-KOMO_API_KEY=[[KOMODO__API]]
-KOMO_API_SECRET=[[KOMODO__API_SECRET]]
-FRESHRSS_API_KEY=[[FRESHRSS__API]]
-AUTOBRR_API_KEY=[[AUTOBRR__API]]
-STEAMGRID_API_KEY=[[STEAMGRID__API]]
-KAVITA_API_KEY=[[KAVITA__API]]
-ABS_API_KEY=[[AUDIOBOOKSHELF__API]]
-READARR_API_KEY=[[READARR__API]]
-SLSKD_API_KEY=[[SLSK__API]]
-UPTIMEROBOT_API_KEY=[[UPTIMEROBOT__API]]
-"""
+run_directory = "media"
+file_paths = ["kiwi.yaml"]
 
 ##
 
 [[stack]]
-name = "proxy"
+name = "stash"
+tags = ["media"]
 [stack.config]
 server = "pbox"
-poll_for_updates = true
-auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "network"
-file_paths = ["external.yaml", "internal.yaml"]
-environment = """
-CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
-INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
-CF_TRAEFIK_TUNNEL_TOKEN=[[CLOUDFLARE__TUNNEL]]
-CS_TRAEFIK_BOUNCER_KEY=[[CROWDSEC__BOUNCER]]
-BOUNCER_HOST=crowdsec:8080
+run_directory = "media"
+file_paths = ["stash.yaml"]
 
-"""
-
-##
+# ============================================================
+# apps
+# ============================================================
 
 [[stack]]
-name = "services"
+name = "nextcloud"
+tags = ["apps", "files", "public"]
 [stack.config]
 server = "pbox"
 poll_for_updates = true
@@ -219,47 +156,415 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
-file_paths = [
-  "slop.yaml",
-  "nextcloud.yaml",
-  "searxng.yaml",
-  "monkey.yaml",
-  "immich.yaml",
-  "umami.yaml",
-  "it-tools.yaml",
-  "linkding.yaml",
-  "bit-site.yaml"
-]
-ignore_services = ["holdup"]
+file_paths = ["nextcloud.yaml"]
+
+##
+
+[[stack]]
+name = "immich"
+tags = ["apps", "photos"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["immich.yaml"]
 environment = """
 IMMICH_PG_PASS=[[IMMICH__POSTGRES]]
-UMAMI_APP_SECRET=[[UMAMI__SECRET]]
-UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
+"""
+
+##
+
+[[stack]]
+name = "ftp"
+tags = ["apps", "files"]
+[stack.config]
+server = "pbox"
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["ftp.yaml"]
+environment = """
+SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
+"""
+
+##
+
+[[stack]]
+name = "searxng"
+tags = ["apps"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["searxng.yaml"]
+
+##
+
+[[stack]]
+name = "it-tools"
+tags = ["apps"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["it-tools.yaml"]
+
+##
+
+[[stack]]
+name = "linkding"
+tags = ["apps"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["linkding.yaml"]
+
+##
+
+[[stack]]
+name = "monkey"
+tags = ["apps"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["monkey.yaml"]
+
+##
+
+[[stack]]
+name = "slop"
+tags = ["apps", "ai"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["slop.yaml"]
+environment = """
 OWUI_JWT=[[OPENWEBUI__JWT]]
 """
 
 ##
 
 [[stack]]
-name = "utils"
+name = "umami"
+tags = ["apps", "analytics", "public"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["umami.yaml"]
+environment = """
+UMAMI_APP_SECRET=[[UMAMI__SECRET]]
+UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
+"""
+
+##
+
+[[stack]]
+name = "bit-site"
+tags = ["apps", "temp", "public"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["bit-site.yaml"]
+
+# ============================================================
+# infra
+# ============================================================
+
+[[stack]]
+name = "external"
+tags = ["infra", "proxy", "public"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "infra"
+file_paths = ["external.yaml"]
+environment = """
+CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
+INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
+CF_TRAEFIK_TUNNEL_TOKEN=[[CLOUDFLARE__TUNNEL]]
+CS_TRAEFIK_BOUNCER_KEY=[[CROWDSEC__BOUNCER]]
+BOUNCER_HOST=crowdsec:8080
+"""
+
+##
+
+[[stack]]
+name = "internal"
+tags = ["infra", "proxy"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "infra"
+file_paths = ["internal.yaml"]
+environment = """
+CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
+INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
+"""
+
+##
+
+[[stack]]
+name = "core"
+tags = ["infra", "public"]
+[stack.config]
+server = "pbox"
+project_name = "stacks"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "infra"
+file_paths = ["core.yaml"]
+
+##
+
+[[stack]]
+name = "sock"
+tags = ["infra"]
 [stack.config]
 server = "pbox"
 auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
-run_directory = "utils"
-file_paths = [
-  "sock.yaml",
-  "ftp.yaml",
-  "rdesk.yaml",
-  "backrest.yaml"
-]
+run_directory = "infra"
+file_paths = ["sock.yaml"]
+
+##
+
+[[stack]]
+name = "backrest"
+tags = ["infra", "backup"]
+[stack.config]
+server = "pbox"
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "infra"
+file_paths = ["backrest.yaml"]
+
+# ============================================================
+# monitor
+# ============================================================
+
+[[stack]]
+name = "beszel"
+tags = ["monitor"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["beszel.yaml"]
 environment = """
-SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
-OBSI_LS_PW=[[COUCHDB__PASSWORD]]
+BESZEL_KEY=[[BESZEL__KEY]]
 """
 
 ##
+
+[[stack]]
+name = "dozzle"
+tags = ["monitor"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["dozzle.yaml"]
+
+##
+
+[[stack]]
+name = "scrutiny"
+tags = ["monitor"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["scrutiny.yaml"]
+
+##
+
+[[stack]]
+name = "speed"
+tags = ["monitor"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["speed.yaml"]
+environment = """
+SPEED_API=[[SPEEDTEST__API]]
+"""
+
+##
+
+[[stack]]
+name = "homepage"
+tags = ["monitor"]
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["homepage.yaml"]
+environment = """
+ABS_API_KEY=[[AUDIOBOOKSHELF__API]]
+AUTHENTIK_API=[[AUTHENTIK__API]]
+AUTOBRR_API_KEY=[[AUTOBRR__API]]
+BAZARR_API_KEY=[[BAZARR__API]]
+BESZEL_PW=[[BESZEL__PASSWORD]]
+CALIBRE_PASS=[[CALIBRE__PASSWORD]]
+CLOUDFLARE_ACC_ID=[[CLOUDFLARE__ACCOUNT]]
+CLOUDFLARE_API=[[CLOUDFLARE__API]]
+CROWDSEC_PASS=[[CROWDSEC__API]]
+FINNHUB_TOKEN=[[FINNHUB__API]]
+FRESHRSS_API_KEY=[[FRESHRSS__API]]
+GITEA_API_KEY=[[GIT__PAT]]
+GLUETUN_API_KEY=[[GLUETUN__API]]
+GRAFANA_PASS=[[GRAFANA__API]]
+HOMEASS_API_KEY=[[HOMEASSISTANT__API]]
+HP_LOC_LABEL=[[HOMEPAGE__LOCATION]]
+HP_LOC_LAT=[[HOMEPAGE__LAT]]
+HP_LOC_LONG=[[HOMEPAGE__LONG]]
+IMMICH_API_KEY=[[IMMICH__API]]
+JELLYFIN_API_KEY=[[JELLYFIN__API]]
+JELLYSEERR_API_KEY=[[JELLYSEERR__API]]
+KAVITA_API_KEY=[[KAVITA__API]]
+KOMO_API_KEY=[[KOMODO__API]]
+KOMO_API_SECRET=[[KOMODO__API_SECRET]]
+LIDARR_API_KEY=[[LIDARR__API]]
+MEALIE_API_KEY=[[MEALIE__API]]
+NEXTCLOUD_API_KEY=[[NEXTCLOUD__TOKEN]]
+NEXTCLOUD_PW=[[NEXTCLOUD__PASSWORD]]
+NEXTDNS_API_KEY=[[NEXTDNS__API]]
+OPENWEATHERMAP_TOKEN=[[OPENWEATHERMAP__API]]
+PLEX_API_KEY=[[PLEX__API]]
+PROTON_ICAL=[[PROTON__ICAL]]
+PROWLARR_API_KEY=[[PROWLARR__API]]
+QBIT_PASSWORD=[[QBITTORRENT__PASSWORD]]
+RADARR_API_KEY=[[RADARR__API]]
+READARR_API_KEY=[[READARR__API]]
+SABNZBD_API_KEY=[[SABNZBD__API]]
+SLSKD_API_KEY=[[SLSK__API]]
+SONARR_API_KEY=[[SONARR__API]]
+STASH_API_KEY=[[STASH__API]]
+TAUTULLI_API_KEY=[[TAUTULLI__API]]
+TECHNITIUM_API_KEY=[[TECHNITIUM__API]]
+TS_API=[[TAILSCALE__API]]
+TUNNEL_ID=[[CLOUDFLARE__TUNNEL_ID]]
+UPTIMEROBOT_API_KEY=[[UPTIMEROBOT__API]]
+WHISPARR_API_KEY=[[WHISPARR__API]]
+"""
+
+# ============================================================
+# bots
+# ============================================================
+
+[[stack]]
+name = "membarr"
+tags = ["bots", "discord"]
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "bots"
+file_paths = ["membarr.yaml"]
+environment = """
+MEMBARR_TOKEN=[[DISCORD__MEMBARR]]
+"""
+
+##
+
+[[stack]]
+name = "muse"
+tags = ["bots", "discord"]
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "bots"
+file_paths = ["muse.yaml"]
+environment = """
+GOOGLE_API=[[GOOGLE__API]]
+MUSE_TOKEN=[[DISCORD__MUSE]]
+"""
+
+##
+
+[[stack]]
+name = "redbot"
+tags = ["bots", "discord"]
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "bots"
+file_paths = ["redbot.yaml"]
+environment = """
+REDBOT_TOKEN=[[DISCORD__REDBOT]]
+"""
+
+##
+
+[[stack]]
+name = "requestarr"
+tags = ["bots", "discord"]
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "bots"
+file_paths = ["requestarr.yaml"]
+
+# ============================================================
+# non-stack resources
+# ============================================================
 
 [[repo]]
 name = "stacks"
@@ -298,6 +603,3 @@ params.server = "pbox"
 name = "stacks"
 [resource_sync.config]
 repo = "cwelsys/stacks"
-git_account = "cwelsys"
-resource_path = ["sync.toml"]
-managed = true
