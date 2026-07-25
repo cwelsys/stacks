@@ -29,7 +29,7 @@ services:
       - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
       - COUCHDB_DATABASE=obsidiannotes
     volumes:
-      - ${DOCKERM}/livesync/init.sh:/init.sh:ro
+      - ${DOCKERM}/obisync/init.sh:/init.sh:ro
     entrypoint: ["sh", "/init.sh"]
     networks:
       - internal
