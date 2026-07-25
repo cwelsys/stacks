@@ -1,0 +1,39 @@
+services:
+  couchdb:
+    container_name: obisync
+    image: couchdb:latest
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    volumes:
+      - ${DOCKERM}/obisync/data:/opt/couchdb/data
+      - ${DOCKERM}/obisync/etc:/opt/couchdb/etc/local.d
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.obisync.rule=Host(`obisync.${CASA}`)
+      - traefik.http.services.obisync.loadbalancer.server.port=5984
+      - traefik.docker.network=internal
+    networks:
+      - internal
+
+  couchdb-init:
+    container_name: obisync-init
+    image: curlimages/curl:latest
+    restart: "no"
+    depends_on:
+      - couchdb
+    environment:
+      - COUCHDB_INTERNAL_URL=http://couchdb:5984
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+      - COUCHDB_DATABASE=obsidiannotes
+    volumes:
+      - ${DOCKERM}/livesync/init.sh:/init.sh:ro
+    entrypoint: ["sh", "/init.sh"]
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true

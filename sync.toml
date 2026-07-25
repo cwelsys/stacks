@@ -352,6 +352,25 @@ file_paths = ["linkding.yaml"]
 ##
 
 [[stack]]
+name = "obisync"
+tags = ["apps"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["obisync.yaml"]
+environment = """
+COUCHDB_USER=[[OBISYNC__USER]]
+COUCHDB_PASSWORD=[[OBISYNC__PASS]]
+"""
+
+##
+
+[[stack]]
 name = "membarr"
 tags = ["bots", "discord"]
 deploy = true
@@ -607,7 +626,7 @@ config.schedule = "Every day at 03:00"
 name = "Stage 1"
 enabled = true
 executions = [
-  { execution.type = "GlobalAutoUpdate", execution.params.skip_auto_update = false, enabled = true }
+  { execution.type = "GlobalAutoUpdate", execution.params.skip_auto_update = false, enabled = true },
 ]
 
 ##
