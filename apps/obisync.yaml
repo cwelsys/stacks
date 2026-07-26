@@ -34,6 +34,20 @@ services:
     networks:
       - internal
 
+  cli:
+    container_name: obisync-cli
+    image: ghcr.io/vrtmrz/livesync-cli:latest
+    restart: unless-stopped
+    user: 1000:1000
+    depends_on:
+      - couchdb
+    volumes:
+      - ${DOCKERM}/obisync-cli:/data
+      - /home/cwel/.local/share/notes:/vault
+    command: ["--vault", "/vault", "daemon"]
+    networks:
+      - internal
+
 networks:
   internal:
     external: true
