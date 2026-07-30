@@ -55,6 +55,11 @@ services:
       - keys:/config/keys
       - ${DOCKERM}/core.config.toml:/config/config.toml
       - ${DOCKERM}/dumps/komodo:/backups
+      - ${DOCKERM}/core/icons/favicon.svg:/app/ui/favicon.svg:ro
+      - ${DOCKERM}/core/icons/favicon.ico:/app/ui/favicon.ico:ro
+      - ${DOCKERM}/core/icons/apple-touch-icon.png:/app/ui/apple-touch-icon.png:ro
+      - ${DOCKERM}/core/icons/mogh-192x192.png:/app/ui/mogh-192x192.png:ro
+      - ${DOCKERM}/core/icons/mogh-512x512.png:/app/ui/mogh-512x512.png:ro
     extra_hosts:
       - host.docker.internal:host-gateway
 
