@@ -106,7 +106,7 @@ tags = ["infra", "public"]
 deploy = true
 [stack.config]
 server = "pbox"
-project_name = "stacks"
+project_name = "infra"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "infra"
@@ -636,7 +636,7 @@ executions = [
 name = "local"
 [builder.config]
 type = "Server"
-params.server = "pbox"
+params.servers = ["pbox"]
 
 ##
 
