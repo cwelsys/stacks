@@ -130,15 +130,15 @@ services:
       - internal
 
   bazarr:
-    image: lscr.io/linuxserver/bazaar:latest
+    image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:bazarr
-      - TP_COMMUNITY_THEME=true
-      - TP_THEME=catppuccin-mocha
+      # - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:bazarr
+      # - TP_COMMUNITY_THEME=true
+      # - TP_THEME=catppuccin-mocha
     volumes:
       - ${DOCKERM}/bazarr:/config
       - ${RUST}:/data
