@@ -129,6 +129,32 @@ services:
     networks:
       - internal
 
+  bazarr:
+    image: lscr.io/linuxserver/bazaar:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:bazarr
+      - TP_COMMUNITY_THEME=true
+      - TP_THEME=catppuccin-mocha
+    volumes:
+      - ${DOCKERM}/bazarr:/config
+      - ${RUST}:/data
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:6767/ping"]
+      interval: 30s
+      retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bazarr.rule=Host(`bazarr.${CASA}`)
+      - traefik.docker.network=internal
+      - traefik.http.services.bazarr.loadbalancer.server.port=6767
+    networks:
+      - internal
+
   suggestarr:
     image: ciuse99/suggestarr:latest
     container_name: SuggestArr
