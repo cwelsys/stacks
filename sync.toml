@@ -192,6 +192,22 @@ IGDB_CLIENT_SECRET=[[ROMM__IGDB_SECRET]]
 ##
 
 [[stack]]
+name = "git"
+tags = ["infra", "public"]
+deploy = true
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "infra"
+file_paths = ["git.yaml"]
+environment = """
+FORGEJO_DB_PASS=[[FORGEJO__POSTGRES]]
+"""
+
+##
+
+[[stack]]
 name = "homepage"
 tags = ["monitor"]
 deploy = true
