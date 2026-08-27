@@ -56,7 +56,7 @@ services:
       POSTGRES_USER: forgejo
       POSTGRES_PASSWORD: ${FORGEJO_DB_PASS}
     volumes:
-      - ${DOCKERM}/forgejo/db:/var/lib/postgresql/data
+      - ${DOCKERM}/forgejo/db:/var/lib/postgresql
     networks:
       - stack
     healthcheck:
