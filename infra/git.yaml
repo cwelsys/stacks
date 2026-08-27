@@ -22,6 +22,8 @@ services:
       FORGEJO__service__DISABLE_REGISTRATION: true
       FORGEJO__service__DEFAULT_KEEP_EMAIL_PRIVATE: true
       FORGEJO__repository__DEFAULT_PRIVATE: private
+      FORGEJO__repository__ENABLE_PUSH_CREATE_USER: true
+      FORGEJO__repository__ENABLE_PUSH_CREATE_ORG: true
       FORGEJO__actions__ENABLED: true
       FORGEJO__actions__DEFAULT_ACTIONS_URL: github
       FORGEJO__security__INSTALL_LOCK: true
