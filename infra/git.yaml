@@ -1,0 +1,113 @@
+services:
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:16
+    container_name: forgejo
+    restart: unless-stopped
+    environment:
+      USER_UID: 1000
+      USER_GID: 1000
+      TZ: ${TZ}
+      FORGEJO__server__DOMAIN: git.${DOMAIN}
+      FORGEJO__server__ROOT_URL: https://git.${DOMAIN}/
+      FORGEJO__server__SSH_DOMAIN: git.${DOMAIN}
+      FORGEJO__server__SSH_PORT: 2222
+      FORGEJO__server__SSH_LISTEN_PORT: 22
+      FORGEJO__server__HTTP_PORT: 3000
+      FORGEJO__server__LFS_START_SERVER: true
+      FORGEJO__database__DB_TYPE: postgres
+      FORGEJO__database__HOST: forgejo-db:5432
+      FORGEJO__database__NAME: forgejo
+      FORGEJO__database__USER: forgejo
+      FORGEJO__database__PASSWD: ${FORGEJO_DB_PASS}
+      FORGEJO__service__DISABLE_REGISTRATION: true
+      FORGEJO__service__DEFAULT_KEEP_EMAIL_PRIVATE: true
+      FORGEJO__repository__DEFAULT_PRIVATE: private
+      FORGEJO__actions__ENABLED: true
+      FORGEJO__actions__DEFAULT_ACTIONS_URL: github
+      FORGEJO__security__INSTALL_LOCK: true
+      FORGEJO__log__MODE: file
+      FORGEJO__log__LEVEL: Info
+    volumes:
+      - ${DOCKERM}/forgejo/data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 2222:22
+    networks:
+      - internal
+      - public
+      - stack
+    depends_on:
+      forgejo-db:
+        condition: service_healthy
+    labels:
+      - traefik.enable=true
+      - traefik.public=true
+      - traefik.http.routers.forgejo.rule=Host(`git.${DOMAIN}`)
+      - traefik.http.services.forgejo.loadbalancer.server.port=3000
+      - traefik.docker.network=internal
+
+  forgejo-db:
+    image: postgres:18-alpine
+    container_name: forgejo-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: forgejo
+      POSTGRES_USER: forgejo
+      POSTGRES_PASSWORD: ${FORGEJO_DB_PASS}
+    volumes:
+      - ${DOCKERM}/forgejo/db:/var/lib/postgresql/data
+    networks:
+      - stack
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  forgejo-runner:
+    image: code.forgejo.org/forgejo/runner:13
+    container_name: forgejo-runner
+    restart: unless-stopped
+    user: 1000:1000
+    working_dir: /data
+    command: forgejo-runner daemon -c /data/config.yml
+    environment:
+      DOCKER_HOST: tcp://host.docker.internal:2375
+      TZ: ${TZ}
+    volumes:
+      - ${DOCKERM}/forgejo/runner:/data
+    networks:
+      - internal
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    depends_on:
+      - forgejo
+
+  forgejo-dump:
+    image: prodrigestivill/postgres-backup-local:18
+    container_name: forgejo-dump
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST: forgejo-db
+      POSTGRES_DB: forgejo
+      POSTGRES_USER: forgejo
+      POSTGRES_PASSWORD: ${FORGEJO_DB_PASS}
+      SCHEDULE: '@daily'
+      BACKUP_KEEP_DAYS: 14
+      TZ: ${TZ}
+    volumes:
+      - ${DOCKERM}/dumps/forgejo:/backups
+    networks:
+      - stack
+    depends_on:
+      forgejo-db:
+        condition: service_healthy
+
+networks:
+  internal:
+    external: true
+  public:
+    external: true
+  stack:
+    internal: true
