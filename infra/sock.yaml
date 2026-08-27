@@ -5,6 +5,8 @@ services:
     ports:
       - '2375:2375'
     environment:
+      - ALLOW_ARCHIVE=1
+      - ALLOW_LOGS=1
       - ALLOW_START=1
       - ALLOW_STOP=1
       - ALLOW_RESTARTS=1
