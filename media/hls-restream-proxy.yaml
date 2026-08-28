@@ -17,8 +17,16 @@ services:
       - HLS_UPSTREAM_M3U_TTL=300
       # Serve the extractor's XMLTV guide at /streamed.xml for Jellyfin.
       - HLS_XMLTV_FILE=/data/streamed.xml
+      # Advertise client-reachable channel URLs (via Traefik) instead of the
+      # docker-internal "hls-proxy" hostname the clients can't resolve.
+      - HLS_PUBLIC_URL=http://hls-proxy.${CASA}
     volumes:
       - ${DOCKERM}/hls-restream-proxy:/data:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.hls-proxy.rule=Host(`hls-proxy.${CASA}`)
+      - traefik.http.services.hls-proxy.loadbalancer.server.port=8089
+      - traefik.docker.network=internal
     healthcheck:
       test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8089/health']
       interval: 30s
