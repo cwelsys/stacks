@@ -416,21 +416,6 @@ MUSE_TOKEN=[[DISCORD__MUSE]]
 ##
 
 [[stack]]
-name = "ntfy"
-tags = ["monitor"]
-deploy = true
-[stack.config]
-server = "pbox"
-poll_for_updates = true
-auto_update = true
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "monitor"
-file_paths = ["ntfy.yaml"]
-
-##
-
-[[stack]]
 name = "nextcloud"
 tags = ["apps", "files", "public"]
 deploy = true
@@ -442,6 +427,21 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
 file_paths = ["nextcloud.yaml"]
+
+##
+
+[[stack]]
+name = "ntfy"
+tags = ["monitor"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["ntfy.yaml"]
 
 ##
 
@@ -635,19 +635,6 @@ environment = """
 UMAMI_APP_SECRET=[[UMAMI__SECRET]]
 UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 """
-
-##
-
-[[stack]]
-name = "hls-restream-proxy"
-tags = ["media", "iptv", "livetv"]
-deploy = true
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "media"
-file_paths = ["hls-restream-proxy.yaml"]
 
 ##
 
