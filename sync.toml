@@ -416,6 +416,21 @@ MUSE_TOKEN=[[DISCORD__MUSE]]
 ##
 
 [[stack]]
+name = "ntfy"
+tags = ["monitor"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["ntfy.yaml"]
+
+##
+
+[[stack]]
 name = "nextcloud"
 tags = ["apps", "files", "public"]
 deploy = true

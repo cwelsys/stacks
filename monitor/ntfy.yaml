@@ -1,0 +1,41 @@
+services:
+  ntfy:
+    container_name: ntfy
+    image: binwiederhier/ntfy:latest
+    command: serve
+    user: 1000:1000
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      NTFY_BASE_URL: https://ntfy.${CASA}
+      NTFY_BEHIND_PROXY: true
+      NTFY_LISTEN_HTTP: :8080
+      NTFY_CACHE_FILE: /var/cache/ntfy/cache.db
+      NTFY_CACHE_DURATION: 12h
+      NTFY_ATTACHMENT_CACHE_DIR: /var/cache/ntfy/attachments
+      NTFY_AUTH_FILE: /var/lib/ntfy/user.db
+      NTFY_AUTH_DEFAULT_ACCESS: deny-all
+      NTFY_ENABLE_LOGIN: true
+      NTFY_ENABLE_SIGNUP: false
+    volumes:
+      - ${DOCKERM}/ntfy/cache:/var/cache/ntfy
+      - ${DOCKERM}/ntfy/lib:/var/lib/ntfy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -q --tries=1 -O - http://localhost:8080/v1/health | grep -Eo '"healthy"\s*:\s*true'
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ntfy.rule=Host(`ntfy.${CASA}`)
+      - traefik.http.services.ntfy.loadbalancer.server.port=8080
+      - traefik.docker.network=internal
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
