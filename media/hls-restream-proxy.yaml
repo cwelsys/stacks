@@ -38,6 +38,8 @@ services:
     container_name: hls-streamed
     pull_policy: never
     restart: unless-stopped
+    healthcheck:
+      disable: true
     entrypoint: ["python3", "streamed.py"]
     command: ["--loop"]
     # Root so it can seed /data on first deploy (writes 644 files that the
