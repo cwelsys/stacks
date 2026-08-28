@@ -17,7 +17,6 @@ services:
       NTFY_AUTH_DEFAULT_ACCESS: deny-all
       NTFY_ENABLE_LOGIN: true
       NTFY_ENABLE_SIGNUP: false
-      NTFY_UPSTREAM_BASE_URL: https://ntfy.sh
     volumes:
       - ${DOCKERM}/ntfy/cache:/var/cache/ntfy
       - ${DOCKERM}/ntfy/lib:/var/lib/ntfy
