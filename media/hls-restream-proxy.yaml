@@ -19,7 +19,7 @@ services:
       - HLS_XMLTV_FILE=/data/streamed.xml
       # Advertise client-reachable channel URLs (via Traefik) instead of the
       # docker-internal "hls-proxy" hostname the clients can't resolve.
-      - HLS_PUBLIC_URL=http://hls-proxy.${CASA}
+      - HLS_PUBLIC_URL=https://hls-proxy.${CASA}
     volumes:
       - ${DOCKERM}/hls-restream-proxy:/data:ro
     labels:
