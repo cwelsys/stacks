@@ -1,0 +1,52 @@
+services:
+  hls-proxy:
+    image: hls-restream-proxy:local
+    container_name: hls-proxy
+    restart: unless-stopped
+    networks:
+      - internal
+    environment:
+      - TZ=${TZ}
+      - HLS_PROXY_PORT=8089
+      - HLS_PROXY_BIND=0.0.0.0
+      # Ingest the extractor's channel list and inject the Referer the streamed
+      # m3u8 host (cdn*.zohanayaan.com) requires on every segment fetch.
+      - HLS_UPSTREAM_M3U_URL=file:///data/streamed.m3u
+      - HLS_UPSTREAM_M3U_REFERER=https://exposestrat.com/
+      - HLS_UPSTREAM_M3U_TTL=300
+      # Serve the extractor's XMLTV guide at /streamed.xml for Jellyfin.
+      - HLS_XMLTV_FILE=/data/streamed.xml
+    volumes:
+      - ${DOCKERM}/hls-restream-proxy:/data:ro
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8089/health']
+      interval: 30s
+      timeout: 3s
+      retries: 5
+
+  streamed:
+    image: hls-restream-proxy:local
+    container_name: hls-streamed
+    restart: unless-stopped
+    entrypoint: ["python3", "streamed.py"]
+    command: ["--loop"]
+    # Root so it can seed /data on first deploy (writes 644 files that the
+    # hls-proxy container reads via :ro mount).
+    user: "0:0"
+    networks:
+      - internal
+    environment:
+      - TZ=${TZ}
+      - STREAMED_MATCHES=live               # live | today | all | sport
+      # - STREAMED_SPORTS=football,basketball
+      - STREAMED_MAX_STREAMS_PER_MATCH=3
+      - STREAMED_INTERVAL=300               # seconds between refreshes
+      - STREAMED_M3U_OUTPUT=/data/streamed.m3u
+      - STREAMED_XMLTV_OUTPUT=/data/streamed.xml
+      # - STREAMED_VALIDATE=1               # probe each m3u8 before including
+    volumes:
+      - ${DOCKERM}/hls-restream-proxy:/data
+
+networks:
+  internal:
+    external: true

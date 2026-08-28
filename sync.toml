@@ -638,6 +638,19 @@ UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 
 ##
 
+[[stack]]
+name = "hls-restream-proxy"
+tags = ["media", "iptv", "livetv"]
+deploy = true
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["hls-restream-proxy.yaml"]
+
+##
+
 [[repo]]
 name = "stacks"
 [repo.config]
