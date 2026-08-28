@@ -3,6 +3,7 @@ services:
     image: hls-restream-proxy:local
     container_name: hls-proxy
     restart: unless-stopped
+    pull-policy: never
     networks:
       - internal
     environment:
@@ -27,6 +28,7 @@ services:
   streamed:
     image: hls-restream-proxy:local
     container_name: hls-streamed
+    pull-policy: never
     restart: unless-stopped
     entrypoint: ["python3", "streamed.py"]
     command: ["--loop"]
