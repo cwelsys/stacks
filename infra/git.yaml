@@ -7,6 +7,7 @@ services:
       USER_UID: 1000
       USER_GID: 1000
       TZ: ${TZ}
+      FORGEJO____APP_NAME: The Shed
       FORGEJO__server__DOMAIN: git.${DOMAIN}
       FORGEJO__server__ROOT_URL: https://git.${DOMAIN}/
       FORGEJO__server__SSH_DOMAIN: git.${DOMAIN}
