@@ -23,7 +23,7 @@ services:
       FORGEJO__database__PASSWD: ${FORGEJO_DB_PASS}
       FORGEJO__service__DISABLE_REGISTRATION: true
       FORGEJO__service__DEFAULT_KEEP_EMAIL_PRIVATE: true
-      FORGEJO__repository__DEFAULT_PRIVATE: private
+      FORGEJO__repository__DEFAULT_PRIVATE: last
       FORGEJO__repository__ENABLE_PUSH_CREATE_USER: true
       FORGEJO__repository__ENABLE_PUSH_CREATE_ORG: true
       FORGEJO__actions__ENABLED: true
@@ -64,7 +64,7 @@ services:
     networks:
       - stack
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -97,7 +97,7 @@ services:
       POSTGRES_DB: forgejo
       POSTGRES_USER: forgejo
       POSTGRES_PASSWORD: ${FORGEJO_DB_PASS}
-      SCHEDULE: '@daily'
+      SCHEDULE: "@daily"
       BACKUP_KEEP_DAYS: 14
       TZ: ${TZ}
     volumes:
