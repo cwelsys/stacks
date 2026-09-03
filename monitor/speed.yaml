@@ -10,7 +10,7 @@ services:
       - PGID=1000
       - APP_KEY=${SPEED_API}
       - DB_CONNECTION=sqlite
-      - SPEEDTEST_SCHEDULE= 7 */3 * * *
+      - SPEEDTEST_SCHEDULE=7 */3 * * *
       - APP_TIMEZONE=${TZ}
       - APP_URL=https://speed.${CASA}
       - ASSET_URL=https://speed.${CASA}
