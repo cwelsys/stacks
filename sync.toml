@@ -663,6 +663,27 @@ executions = [
 
 ##
 
+[[procedure]]
+name = "deploy-on-push"
+description = "Webhook target for repo pushes. Syncs resources, then redeploys any Stack whose files changed."
+tags = ["system"]
+
+[[procedure.config.stage]]
+name = "Sync"
+enabled = true
+executions = [
+  { execution.type = "RunSync", execution.params.sync = "stacks", enabled = true }
+]
+
+[[procedure.config.stage]]
+name = "Deploy changed"
+enabled = true
+executions = [
+  { execution.type = "BatchDeployStackIfChanged", execution.params.pattern = "*", enabled = true }
+]
+
+##
+
 [[builder]]
 name = "local"
 [builder.config]
