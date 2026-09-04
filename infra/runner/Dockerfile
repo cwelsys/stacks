@@ -8,8 +8,8 @@ RUN pacman -Syu --noconfirm --needed --quiet git jq nodejs sudo \
  && install -d -o builder -g builder /repo
 
 USER builder
-RUN git clone -q https://aur.archlinux.org/paru-bin.git /tmp/paru \
- && cd /tmp/paru && makepkg -si --noconfirm && rm -rf /tmp/paru ~/.cache
+RUN git clone -q https://aur.archlinux.org/paru.git /tmp/paru \
+ && cd /tmp/paru && makepkg -sir --noconfirm && rm -rf /tmp/paru ~/.cache
 
 USER root
 RUN sed -i 's/^#LocalRepo$/LocalRepo/' /etc/paru.conf \
