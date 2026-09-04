@@ -637,6 +637,19 @@ repo = "cwelsys/stacks"
 
 ##
 
+[[build]]
+name = "archlinux"
+description = "Forgejo runner image for cwel/pkg: base-devel, paru with a local repo, git, jq, node."
+tags = ["infra"]
+[build.config]
+builder = "local"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+build_path = "infra/runner"
+image_name = "git.cwel.sh/cwel/archlinux"
+
+##
+
 [[procedure]]
 name = "Global Auto Update"
 description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
@@ -662,6 +675,13 @@ name = "Sync"
 enabled = true
 executions = [
   { execution.type = "RunSync", execution.params.sync = "stacks", enabled = true }
+]
+
+[[procedure.config.stage]]
+name = "Build"
+enabled = true
+executions = [
+  { execution.type = "RunBuild", execution.params.build = "archlinux", enabled = true }
 ]
 
 [[procedure.config.stage]]
