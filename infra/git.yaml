@@ -26,8 +26,7 @@ services:
       FORGEJO__repository__DEFAULT_PRIVATE: last
       FORGEJO__repository__ENABLE_PUSH_CREATE_USER: true
       FORGEJO__repository__ENABLE_PUSH_CREATE_ORG: true
-      FORGEJO__actions__ENABLED: true
-      FORGEJO__actions__DEFAULT_ACTIONS_URL: github
+      FORGEJO__actions__ENABLED: false
       FORGEJO__webhook__ALLOWED_HOST_LIST: external,loopback,private
       FORGEJO__security__INSTALL_LOCK: true
       FORGEJO__log__MODE: file
@@ -69,25 +68,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
-  forgejo-runner:
-    image: code.forgejo.org/forgejo/runner:13
-    container_name: forgejo-runner
-    restart: unless-stopped
-    user: 1000:1000
-    working_dir: /data
-    command: forgejo-runner daemon -c /data/config.yml
-    environment:
-      DOCKER_HOST: tcp://host.docker.internal:2375
-      TZ: ${TZ}
-    volumes:
-      - ${DOCKERM}/forgejo/runner:/data
-    networks:
-      - internal
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    depends_on:
-      - forgejo
 
   woodpecker:
     image: woodpeckerci/woodpecker-server:v3
