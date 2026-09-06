@@ -1,6 +1,6 @@
 FROM archlinux:base-devel
 
-RUN pacman -Syu --noconfirm --needed --quiet git jq nodejs sudo \
+RUN pacman -Syu --noconfirm --needed --quiet git jq nodejs pacman-contrib sudo \
  && pacman -Scc --noconfirm \
  && sed -i 's/^#MAKEFLAGS=.*/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf \
  && useradd -m builder \

@@ -28,6 +28,7 @@ services:
       FORGEJO__repository__ENABLE_PUSH_CREATE_ORG: true
       FORGEJO__actions__ENABLED: true
       FORGEJO__actions__DEFAULT_ACTIONS_URL: github
+      FORGEJO__webhook__ALLOWED_HOST_LIST: external,loopback,private
       FORGEJO__security__INSTALL_LOCK: true
       FORGEJO__log__MODE: file
       FORGEJO__log__LEVEL: Info
@@ -87,6 +88,53 @@ services:
       - host.docker.internal:host-gateway
     depends_on:
       - forgejo
+
+  woodpecker:
+    image: woodpeckerci/woodpecker-server:v3
+    container_name: woodpecker
+    restart: unless-stopped
+    environment:
+      WOODPECKER_HOST: https://ci.${DOMAIN}
+      WOODPECKER_OPEN: false
+      WOODPECKER_ADMIN: cwel
+      WOODPECKER_FORGEJO: true
+      WOODPECKER_FORGEJO_URL: https://git.${DOMAIN}
+      WOODPECKER_FORGEJO_CLIENT: ${WOODPECKER_CLIENT}
+      WOODPECKER_FORGEJO_SECRET: ${WOODPECKER_SECRET}
+      WOODPECKER_AGENT_SECRET: ${WOODPECKER_AGENT}
+      TZ: ${TZ}
+    volumes:
+      - ${DOCKERM}/woodpecker/server:/var/lib/woodpecker
+    networks:
+      - internal
+      - public
+    depends_on:
+      - forgejo
+    labels:
+      - traefik.enable=true
+      - traefik.public=true
+      - traefik.http.routers.woodpecker.rule=Host(`ci.${DOMAIN}`)
+      - traefik.http.services.woodpecker.loadbalancer.server.port=8000
+      - traefik.docker.network=internal
+
+  woodpecker-agent:
+    image: woodpeckerci/woodpecker-agent:v3
+    container_name: woodpecker-agent
+    restart: unless-stopped
+    environment:
+      WOODPECKER_SERVER: woodpecker:9000
+      WOODPECKER_AGENT_SECRET: ${WOODPECKER_AGENT}
+      WOODPECKER_MAX_WORKFLOWS: 1
+      WOODPECKER_BACKEND_DOCKER_HOST: tcp://host.docker.internal:2375
+      TZ: ${TZ}
+    volumes:
+      - ${DOCKERM}/woodpecker/agent:/etc/woodpecker
+    networks:
+      - internal
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    depends_on:
+      - woodpecker
 
   forgejo-dump:
     image: prodrigestivill/postgres-backup-local:18

@@ -203,6 +203,9 @@ run_directory = "infra"
 file_paths = ["git.yaml"]
 environment = """
 FORGEJO_DB_PASS=[[FORGEJO__POSTGRES]]
+WOODPECKER_CLIENT=[[WOODPECKER__CLIENT]]
+WOODPECKER_SECRET=[[WOODPECKER__SECRET]]
+WOODPECKER_AGENT=[[WOODPECKER__AGENT]]
 """
 
 ##
