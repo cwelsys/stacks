@@ -94,7 +94,7 @@ services:
     container_name: woodpecker
     restart: unless-stopped
     environment:
-      WOODPECKER_HOST: https://ci.${DOMAIN}
+      WOODPECKER_HOST: https://ci.${CASA}
       WOODPECKER_OPEN: false
       WOODPECKER_ADMIN: cwel
       WOODPECKER_FORGEJO: true
@@ -102,18 +102,17 @@ services:
       WOODPECKER_FORGEJO_CLIENT: ${WOODPECKER_CLIENT}
       WOODPECKER_FORGEJO_SECRET: ${WOODPECKER_SECRET}
       WOODPECKER_AGENT_SECRET: ${WOODPECKER_AGENT}
+      WOODPECKER_GRPC_SECRET: ${WOODPECKER_GRPC}
       TZ: ${TZ}
     volumes:
       - ${DOCKERM}/woodpecker/server:/var/lib/woodpecker
     networks:
       - internal
-      - public
     depends_on:
       - forgejo
     labels:
       - traefik.enable=true
-      - traefik.public=true
-      - traefik.http.routers.woodpecker.rule=Host(`ci.${DOMAIN}`)
+      - traefik.http.routers.woodpecker.rule=Host(`ci.${CASA}`)
       - traefik.http.services.woodpecker.loadbalancer.server.port=8000
       - traefik.docker.network=internal
 
