@@ -1,0 +1,25 @@
+services:
+  game-thumbs:
+    image: ghcr.io/sethwv/game-thumbs:latest
+    container_name: game-thumbs
+    hostname: game-thumbs
+    restart: unless-stopped
+    expose:
+      - 3000
+    environment:
+      - NODE_ENV=production
+      - RATE_LIMIT_PER_MINUTE=60
+      - TRUST_PROXY=1
+    volumes:
+      - ${DOCKERM}/game-thumbs/cache:/app/.cache
+    networks:
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.game-thumbs.rule=Host(`gamethumbs.${CASA}`)
+      - traefik.http.services.game-thumbs.loadbalancer.server.port=3000
+      - traefik.docker.network=internal
+
+networks:
+  internal:
+    external: true

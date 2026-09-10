@@ -192,6 +192,21 @@ IGDB_CLIENT_SECRET=[[ROMM__IGDB_SECRET]]
 ##
 
 [[stack]]
+name = "game-thumbs"
+tags = ["media"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["game-thumbs.yaml"]
+
+##
+
+[[stack]]
 name = "git"
 tags = ["infra", "public"]
 deploy = true
