@@ -12,9 +12,7 @@ services:
       - ${RUST}:/data
     ports:
       - 8096:8096
-      - 8920:8920 #optional
-      - 7359:7359/udp #optional
-      - 1901:1901/udp #optional
+      - 7359:7359/udp
     restart: always
     healthcheck:
       test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8096/health']
