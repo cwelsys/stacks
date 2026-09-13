@@ -328,6 +328,7 @@ file_paths = [ "jellyfin.yaml" ]
 environment = """
 JELLYPG_PASS=[[JELLYSTAT__POSTGRES]]
 JELLYS_JWT=[[JELLYSTAT__JWT]]
+MEILI_KEY=[[JELLFIN__MEILI]]
 """
 
 ##
@@ -718,4 +719,3 @@ repo          = "cwelsys/stacks"
 git_account   = "cwelsys"
 resource_path = [ "sync.toml" ]
 managed       = true
-

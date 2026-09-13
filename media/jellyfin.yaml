@@ -7,6 +7,8 @@ services:
       - PGID=1000
       - TZ=${TZ}
       - JELLYFIN_PublishedServerUrl=jelly.${DOMAIN}
+      - MEILI_URL=http://meilisearch:7700
+      - MEILI_MASTER_KEY=${MEILI_KEY}
     volumes:
       - ${DOCKERM}/jellyfin:/config
       - ${RUST}:/data
@@ -15,7 +17,7 @@ services:
       - 7359:7359/udp
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://127.0.0.1:8096/health']
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:8096/health"]
       interval: 30s
       retries: 10
     labels:
@@ -27,6 +29,7 @@ services:
     networks:
       - public
       - internal
+      - stack
     runtime: nvidia
     deploy:
       resources:
@@ -36,8 +39,21 @@ services:
               count: all
               capabilities: [gpu]
 
+  meilisearch:
+    image: "getmeili/meilisearch:latest"
+    container_name: meilisearch
+    restart: unless-stopped
+    networks:
+      - stack
+    environment:
+      MEILI_ENV: production
+      MEILI_NO_ANALYTICS: "true"
+      MEILI_MASTER_KEY: ${MEILI_KEY}
+    volumes:
+      - ${DOCKERM}/meilisearch:/meili_data
+
   jellystat-db:
-    image: 'postgres:15.2'
+    image: "postgres:15.2"
     shm_size: 1gb
     container_name: jellystat-db
     restart: unless-stopped
@@ -50,7 +66,7 @@ services:
       - ${DOCKERM}/jellystat/data:/var/lib/postgresql/data
 
   jellystat:
-    image: 'cyfershepard/jellystat:latest'
+    image: "cyfershepard/jellystat:latest"
     container_name: jellystat
     restart: unless-stopped
     networks:
