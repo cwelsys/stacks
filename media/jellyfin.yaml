@@ -6,7 +6,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-      - JELLYFIN_PublishedServerUrl=jellyfin.${DOMAIN}
+      - JELLYFIN_PublishedServerUrl=jelly.${DOMAIN}
     volumes:
       - ${DOCKERM}/jellyfin:/config
       - ${RUST}:/data
