@@ -689,13 +689,6 @@ executions = [
 ]
 
 [[procedure.config.stage]]
-name = "Build"
-enabled = true
-executions = [
-  { execution.type = "RunBuild", execution.params.build = "archlinux", enabled = true },
-]
-
-[[procedure.config.stage]]
 name = "Deploy changed"
 enabled = true
 executions = [
