@@ -10,8 +10,9 @@ services:
     volumes:
       - ollama:/root/.ollama
     environment:
-      - OLLAMA_NUM_CTX=32768
+      - OLLAMA_CONTEXT_LENGTH=32768
       - OLLAMA_FLASH_ATTENTION=1
+      - OLLAMA_NO_CLOUD=1
     labels:
       - traefik.enable=true
       - traefik.http.routers.ollama.rule=Host(`slop.${CASA}`)
@@ -26,33 +27,8 @@ services:
               count: all
               capabilities: [gpu]
 
-  open-webui:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: ghcr.io/open-webui/open-webui:main
-    container_name: open-webui
-    restart: unless-stopped
-    networks:
-      - internal
-    volumes:
-      - ${DOCKERM}/owui:/app/backend/data
-    depends_on:
-      - ollama
-    environment:
-      - 'OLLAMA_BASE_URL=http://ollama:11434'
-      - 'WEBUI_SECRET_KEY=${OWUI_JWT}'
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.open-webui.rule=Host(`owui.${CASA}`)
-      - traefik.docker.network=internal
-      - traefik.http.services.open-webui.loadbalancer.server.port=8080
-
 volumes:
   ollama: {}
-  open-webui: {}
 networks:
   internal:
     external: true

@@ -543,9 +543,6 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
 file_paths = [ "slop.yaml" ]
-environment = """
-OWUI_JWT=[[OPENWEBUI__JWT]]
-"""
 
 ##
 
