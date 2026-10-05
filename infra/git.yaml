@@ -104,14 +104,13 @@ services:
       WOODPECKER_SERVER: woodpecker:9000
       WOODPECKER_AGENT_SECRET: ${WOODPECKER_AGENT}
       WOODPECKER_MAX_WORKFLOWS: 1
-      WOODPECKER_BACKEND_DOCKER_HOST: tcp://host.docker.internal:2375
+      WOODPECKER_BACKEND_DOCKER_HOST: tcp://psock:2375
       TZ: ${TZ}
     volumes:
       - ${DOCKERM}/woodpecker/agent:/etc/woodpecker
     networks:
       - internal
-    extra_hosts:
-      - host.docker.internal:host-gateway
+      - sock
     depends_on:
       - woodpecker
 
@@ -142,3 +141,5 @@ networks:
     external: true
   stack:
     internal: true
+  sock:
+    external: true
