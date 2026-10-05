@@ -4,10 +4,11 @@ services:
     image: traefik:latest
     restart: always
     networks:
-      - public
-      - traefik
-      - crowdsec
-      - internal
+      public:
+      traefik:
+      crowdsec:
+      internal:
+        ipv4_address: 172.20.0.250
     ports:
       # - "80:80"
       # - "443:443"
