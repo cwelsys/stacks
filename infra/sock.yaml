@@ -2,8 +2,8 @@ services:
   psock:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: psock
-    ports:
-      - '2375:2375'
+    networks:
+      - sock
     environment:
       - ALLOW_ARCHIVE=1
       - ALLOW_LOGS=1
@@ -40,3 +40,8 @@ services:
     read_only: true
     tmpfs:
       - /run
+
+networks:
+  sock:
+    name: sock
+    internal: true
