@@ -25,7 +25,7 @@ services:
     environment:
       - DYNAMIC_CONFIG=true
       - HOSTNAME=mc.iplawsolutions.com
-      - ALLOW_NEW_ACCOUNTS=true
+      # - ALLOW_NEW_ACCOUNTS=true
       - ALLOW_PLUGINS=false
       - WEBRTC=false
       - TZ=${TZ}
