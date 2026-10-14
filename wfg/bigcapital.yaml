@@ -23,6 +23,11 @@ services:
       GOTENBERG_URL: http://gotenberg:3000
       GOTENBERG_DOCS_URL: http://bigcapital:3000/public/
       CLICKHOUSE_ENABLED: 'false'
+      MAIL_HOST: mail
+      MAIL_PORT: 587
+      MAIL_SECURE: 'false'
+      MAIL_FROM_NAME: WFG Books
+      MAIL_FROM_ADDRESS: books@iplawsolutions.com
       S3_REGION: garage
       S3_ACCESS_KEY_ID: ${BIGCAPITAL_S3_KEY}
       S3_SECRET_ACCESS_KEY: ${BIGCAPITAL_S3_SECRET}
@@ -111,6 +116,18 @@ services:
       db:
         condition: service_healthy
 
+  mail:
+    image: smtp2graph/smtp2graph:v1.1.5
+    container_name: bigcapital-mail
+    configs:
+      - source: smtp2graph
+        target: /data/config.yml
+    volumes:
+      - ${DOCKERM}/bigcapital/mail/client.key:/data/client.key:ro
+    networks:
+      - stack
+    restart: unless-stopped
+
   redis:
     image: redis:6.2
     container_name: bigcapital-redis
@@ -144,6 +161,20 @@ services:
     restart: unless-stopped
 
 configs:
+  smtp2graph:
+    content: |
+      send:
+        appReg:
+          tenant: 7a3e3d10-f17a-4a7d-b84d-9e6035631207
+          id: 1ce7fe5c-aa29-491f-8163-69a2ca0188c8
+          certificate:
+            thumbprint: 1131A83F373B614C654C3986C3E24A17318EB9DB
+            privateKeyPath: client.key
+        forceMailbox: books@iplawsolutions.com
+      receive:
+        port: 587
+        allowedFrom:
+          - books@iplawsolutions.com
   garage:
     content: |
       metadata_dir = "/var/lib/garage/meta"
