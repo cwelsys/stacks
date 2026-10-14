@@ -126,6 +126,7 @@ services:
       - ${DOCKERM}/bigcapital/mail/client.key:/data/client.key:ro
     networks:
       - stack
+      - egress
     restart: unless-stopped
 
   redis:
@@ -197,3 +198,4 @@ networks:
     external: true
   stack:
     internal: true
+  egress: {}
