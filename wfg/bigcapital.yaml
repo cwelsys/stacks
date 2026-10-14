@@ -30,7 +30,6 @@ services:
       S3_BUCKET: bigcapital
       S3_FORCE_PATH_STYLE: 'true'
     networks:
-      - internal
       - stack
       - wfg
     depends_on:
@@ -51,7 +50,6 @@ services:
     image: bigcapitalhq/webapp:v0.15.43
     container_name: bigcapital-web
     networks:
-      - internal
       - wfg
     restart: unless-stopped
     labels:
@@ -92,30 +90,25 @@ services:
       retries: 20
 
   dump:
-    image: mariadb:10.2
+    image: fradelg/mysql-cron-backup:1.15.0
     container_name: bigcapital-dump
-    entrypoint: ['/bin/sh', '-c']
-    command:
-      - |
-        while true; do
-          f=/dumps/bigcapital-$$(date +%Y%m%d-%H%M).sql.gz
-          if mysqldump -h db -uroot --all-databases --single-transaction --routines --events > /dumps/.partial.sql; then
-            gzip -c /dumps/.partial.sql > "$$f.tmp" && mv "$$f.tmp" "$$f"
-          fi
-          rm -f /dumps/.partial.sql
-          find /dumps -name 'bigcapital-*.sql.gz' -mtime +14 -delete
-          sleep 86400
-        done
+    restart: unless-stopped
     environment:
-      MYSQL_PWD: ${BIGCAPITAL_DB_ROOT_PASSWORD}
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASS: ${BIGCAPITAL_DB_ROOT_PASSWORD}
+      MYSQLDUMP_OPTS: --single-transaction --routines --events
+      CRON_TIME: 0 3 * * *
+      MAX_BACKUPS: 14
+      INIT_BACKUP: 1
+      TZ: ${TZ}
     volumes:
-      - ${DOCKERM}/bigcapital/dumps:/dumps
+      - ${DOCKERM}/dumps/bigcapital:/backup
     networks:
       - stack
     depends_on:
       db:
         condition: service_healthy
-    restart: unless-stopped
 
   redis:
     image: redis:6.2
@@ -149,38 +142,7 @@ services:
       - stack
     restart: unless-stopped
 
-  ts:
-    image: tailscale/tailscale:latest
-    container_name: bigcapital-ts
-    hostname: books
-    environment:
-      - TS_AUTHKEY=${BIGCAPITAL_TSKEY}
-      - TS_EXTRA_ARGS=--advertise-tags=tag:container
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_SERVE_CONFIG=/etc/serve.json
-    configs:
-      - source: serve
-        target: /etc/serve.json
-    volumes:
-      - ${DOCKERM}/bigcapital/ts:/var/lib/tailscale
-    networks:
-      - internal
-    restart: unless-stopped
-
 configs:
-  serve:
-    content: |
-      {
-        "TCP": { "443": { "HTTPS": true } },
-        "Web": {
-          "$${TS_CERT_DOMAIN}:443": {
-            "Handlers": {
-              "/": { "Proxy": "http://bigcapital-web:80" },
-              "/api/": { "Proxy": "http://bigcapital:3000/api/" }
-            }
-          }
-        }
-      }
   garage:
     content: |
       metadata_dir = "/var/lib/garage/meta"
@@ -198,8 +160,6 @@ configs:
       api_bind_addr = "[::]:3903"
 
 networks:
-  internal:
-    external: true
   wfg:
     external: true
   stack:
