@@ -91,6 +91,32 @@ services:
       timeout: 5s
       retries: 20
 
+  dump:
+    image: mariadb:10.2
+    container_name: bigcapital-dump
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        while true; do
+          f=/dumps/bigcapital-$$(date +%Y%m%d-%H%M).sql.gz
+          if mysqldump -h db -uroot --all-databases --single-transaction --routines --events > /dumps/.partial.sql; then
+            gzip -c /dumps/.partial.sql > "$$f.tmp" && mv "$$f.tmp" "$$f"
+          fi
+          rm -f /dumps/.partial.sql
+          find /dumps -name 'bigcapital-*.sql.gz' -mtime +14 -delete
+          sleep 86400
+        done
+    environment:
+      MYSQL_PWD: ${BIGCAPITAL_DB_ROOT_PASSWORD}
+    volumes:
+      - ${DOCKERM}/bigcapital/dumps:/dumps
+    networks:
+      - stack
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
   redis:
     image: redis:6.2
     container_name: bigcapital-redis
