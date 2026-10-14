@@ -98,6 +98,7 @@ services:
       MYSQL_USER: root
       MYSQL_PASS: ${BIGCAPITAL_DB_ROOT_PASSWORD}
       MYSQLDUMP_OPTS: --single-transaction --routines --events
+      MYSQL_SSL_OPTS: --skip-ssl
       CRON_TIME: 0 3 * * *
       MAX_BACKUPS: 14
       INIT_BACKUP: 1
