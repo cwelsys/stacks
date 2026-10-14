@@ -73,6 +73,28 @@ BESZEL_KEY=[[BESZEL__KEY]]
 ##
 
 [[stack]]
+name   = "bigcapital"
+tags   = [ "wfg" ]
+deploy = true
+[stack.config]
+server        = "pbox"
+git_account   = "cwelsys"
+repo          = "cwelsys/stacks"
+run_directory = "wfg"
+file_paths    = [ "bigcapital.yaml" ]
+environment = """
+BIGCAPITAL_JWT_SECRET=[[BIGCAPITAL__JWT]]
+BIGCAPITAL_DB_ROOT_PASSWORD=[[BIGCAPITAL__MYSQL_ROOT]]
+BIGCAPITAL_GARAGE_RPC=[[BIGCAPITAL__GARAGE_RPC]]
+BIGCAPITAL_GARAGE_ADMIN=[[BIGCAPITAL__GARAGE_ADMIN]]
+BIGCAPITAL_S3_KEY=[[BIGCAPITAL__S3_KEY]]
+BIGCAPITAL_S3_SECRET=[[BIGCAPITAL__S3_SECRET]]
+BIGCAPITAL_TSKEY=[[BIGCAPITAL__TSKEY]]
+"""
+
+##
+
+[[stack]]
 name   = "book"
 tags   = [ "media" ]
 deploy = true
@@ -443,6 +465,26 @@ file_paths       = [ "nextcloud.yaml" ]
 ##
 
 [[stack]]
+name   = "ninja"
+tags   = [ "wfg" ]
+deploy = true
+[stack.config]
+server        = "pbox"
+git_account   = "cwelsys"
+repo          = "cwelsys/stacks"
+run_directory = "wfg"
+file_paths    = [ "ninja.yaml" ]
+environment = """
+NINJA_APP_KEY=[[INVOICE_NINJA__KEY]]
+NINJA_DB_PASSWORD=[[INVOICE_NINJA__MYSQL]]
+NINJA_DB_ROOT_PASSWORD=[[INVOICE_NINJA__MYSQL_ROOT]]
+NINJA_PASSWORD=[[INVOICE_NINJA__PASSWORD]]
+NINJA_TSKEY=[[BIGCAPITAL__TSKEY]]
+"""
+
+##
+
+[[stack]]
 name   = "ntfy"
 tags   = [ "monitor" ]
 deploy = true
@@ -643,6 +685,24 @@ file_paths = [ "umami.yaml" ]
 environment = """
 UMAMI_APP_SECRET=[[UMAMI__SECRET]]
 UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
+"""
+
+##
+
+[[stack]]
+name   = "wfg-gateway"
+tags   = [ "wfg" ]
+deploy = true
+[stack.config]
+server        = "pbox"
+project_name  = "gateway"
+git_account   = "cwelsys"
+repo          = "cwelsys/stacks"
+run_directory = "wfg"
+file_paths    = [ "gateway.yaml" ]
+environment = """
+WFG_TSKEY=[[BIGCAPITAL__TSKEY]]
+CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 """
 
 ##

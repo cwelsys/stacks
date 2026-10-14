@@ -1,0 +1,180 @@
+x-db: &db
+  DB_HOST: db
+  DB_USER: root
+  DB_PASSWORD: ${BIGCAPITAL_DB_ROOT_PASSWORD}
+  DB_CHARSET: utf8
+  SYSTEM_DB_NAME: bigcapital_system
+  TENANT_DB_NAME_PERFIX: bigcapital_tenant_
+
+services:
+  bigcapital:
+    image: bigcapitalhq/server:v0.15.43
+    container_name: bigcapital
+    environment:
+      <<: *db
+      APP_JWT_SECRET: ${BIGCAPITAL_JWT_SECRET}
+      BASE_URL: https://books.iplawsolutions.com
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      QUEUE_HOST: redis
+      QUEUE_PORT: 6379
+      SIGNUP_DISABLED: 'true'
+      SIGNUP_EMAIL_CONFIRMATION: 'false'
+      GOTENBERG_URL: http://gotenberg:3000
+      GOTENBERG_DOCS_URL: http://bigcapital:3000/public/
+      CLICKHOUSE_ENABLED: 'false'
+      S3_REGION: garage
+      S3_ACCESS_KEY_ID: ${BIGCAPITAL_S3_KEY}
+      S3_SECRET_ACCESS_KEY: ${BIGCAPITAL_S3_SECRET}
+      S3_ENDPOINT: http://garage:3900
+      S3_BUCKET: bigcapital
+      S3_FORCE_PATH_STYLE: 'true'
+    networks:
+      - internal
+      - stack
+      - wfg
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+      garage:
+        condition: service_started
+    restart: unless-stopped
+    labels:
+      - traefik.wfg=true
+      - traefik.http.routers.bigcapital-api.rule=Host(`books.iplawsolutions.com`) && PathPrefix(`/api`)
+      - traefik.http.routers.bigcapital-api.service=bigcapital-api
+      - traefik.http.services.bigcapital-api.loadbalancer.server.port=3000
+
+  web:
+    image: bigcapitalhq/webapp:v0.15.43
+    container_name: bigcapital-web
+    networks:
+      - internal
+      - wfg
+    restart: unless-stopped
+    labels:
+      - traefik.wfg=true
+      - traefik.http.routers.bigcapital.rule=Host(`books.iplawsolutions.com`)
+      - traefik.http.routers.bigcapital.service=bigcapital
+      - traefik.http.services.bigcapital.loadbalancer.server.port=80
+
+  migrate:
+    image: bigcapitalhq/server:v0.15.43
+    container_name: bigcapital-migrate
+    working_dir: /app/packages/server
+    command: sh -c "node dist/cli.js system:migrate:latest && node dist/cli.js tenants:migrate:latest"
+    environment:
+      <<: *db
+    networks:
+      - stack
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+
+  db:
+    image: mariadb:10.2
+    container_name: bigcapital-db
+    environment:
+      MYSQL_DATABASE: bigcapital_system
+      MYSQL_ROOT_PASSWORD: ${BIGCAPITAL_DB_ROOT_PASSWORD}
+    volumes:
+      - ${DOCKERM}/bigcapital/db:/var/lib/mysql
+    networks:
+      - stack
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD}']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:6.2
+    container_name: bigcapital-redis
+    volumes:
+      - ${DOCKERM}/bigcapital/redis:/data
+    networks:
+      - stack
+    restart: unless-stopped
+
+  gotenberg:
+    image: gotenberg/gotenberg:7
+    container_name: bigcapital-gotenberg
+    networks:
+      - stack
+    restart: unless-stopped
+
+  garage:
+    image: dxflrs/garage:v1.3.1
+    container_name: bigcapital-garage
+    environment:
+      GARAGE_CONFIG_FILE: /etc/garage.toml
+      GARAGE_RPC_SECRET: ${BIGCAPITAL_GARAGE_RPC}
+      GARAGE_ADMIN_TOKEN: ${BIGCAPITAL_GARAGE_ADMIN}
+    configs:
+      - source: garage
+        target: /etc/garage.toml
+    volumes:
+      - ${DOCKERM}/bigcapital/garage:/var/lib/garage
+    networks:
+      - stack
+    restart: unless-stopped
+
+  ts:
+    image: tailscale/tailscale:latest
+    container_name: bigcapital-ts
+    hostname: books
+    environment:
+      - TS_AUTHKEY=${BIGCAPITAL_TSKEY}
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/etc/serve.json
+    configs:
+      - source: serve
+        target: /etc/serve.json
+    volumes:
+      - ${DOCKERM}/bigcapital/ts:/var/lib/tailscale
+    networks:
+      - internal
+    restart: unless-stopped
+
+configs:
+  serve:
+    content: |
+      {
+        "TCP": { "443": { "HTTPS": true } },
+        "Web": {
+          "$${TS_CERT_DOMAIN}:443": {
+            "Handlers": {
+              "/": { "Proxy": "http://bigcapital-web:80" },
+              "/api/": { "Proxy": "http://bigcapital:3000/api/" }
+            }
+          }
+        }
+      }
+  garage:
+    content: |
+      metadata_dir = "/var/lib/garage/meta"
+      data_dir = "/var/lib/garage/data"
+      db_engine = "sqlite"
+      block_size = 1048576
+      replication_mode = "none"
+      rpc_bind_addr = "[::]:3901"
+
+      [s3_api]
+      s3_region = "garage"
+      api_bind_addr = "[::]:3900"
+
+      [admin]
+      api_bind_addr = "[::]:3903"
+
+networks:
+  internal:
+    external: true
+  wfg:
+    external: true
+  stack:
+    internal: true
