@@ -4,6 +4,7 @@ services:
     container_name: meshcentral
     environment:
       - DYNAMIC_CONFIG=false
+      - INSTALL_STYLISHUI=true
       - TZ=${TZ}
     volumes:
       - ${DOCKERM}/mesh/data:/opt/meshcentral/meshcentral-data
