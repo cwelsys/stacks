@@ -13,6 +13,7 @@ services:
       - ${FLASH}:${FLASH}
       - ${RUST}:${RUST}
       - ${BRICK}:${BRICK}
+      - /mnt/wfg:/mnt/wfg:rslave
       - /opt:/userdata/opt
       - /home:/userdata/home
       - /etc:/userdata/etc
