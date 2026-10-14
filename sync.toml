@@ -411,9 +411,6 @@ git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "wfg"
 file_paths = ["mesh.yaml"]
-environment = """
-TS_MESH_AUTHKEY=[[MESH_CENTRAL__TSKEY]]
-"""
 
 ##
 

@@ -1,36 +1,22 @@
 services:
-  wfg-mesh:
-    image: tailscale/tailscale:latest
-    container_name: wfg-mesh
-    hostname: meshcentral
-    environment:
-      - TS_AUTHKEY=${TS_MESH_AUTHKEY}
-      - TS_EXTRA_ARGS=--advertise-tags=tag:container --reset
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_USERSPACE=false
-    volumes:
-      - ${DOCKERM}/mesh/ts:/var/lib/tailscale
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - net_admin
-    restart: unless-stopped
-
   meshcentral:
     image: ghcr.io/ylianst/meshcentral:latest-slim
     container_name: meshcentral
-    network_mode: service:wfg-mesh
-    depends_on:
-      - wfg-mesh
     environment:
-      - DYNAMIC_CONFIG=true
-      - HOSTNAME=mc.iplawsolutions.com
-      # - ALLOW_NEW_ACCOUNTS=true
-      - ALLOW_PLUGINS=false
-      - WEBRTC=false
+      - DYNAMIC_CONFIG=false
       - TZ=${TZ}
     volumes:
       - ${DOCKERM}/mesh/data:/opt/meshcentral/meshcentral-data
       - ${DOCKERM}/mesh/files:/opt/meshcentral/meshcentral-files
       - ${DOCKERM}/mesh/backups:/opt/meshcentral/meshcentral-backups
+    networks:
+      - wfg
     restart: unless-stopped
+    labels:
+      - traefik.wfg=true
+      - traefik.http.routers.mesh.rule=Host(`mc.iplawsolutions.com`)
+      - traefik.http.services.mesh.loadbalancer.server.port=4430
+
+networks:
+  wfg:
+    external: true
