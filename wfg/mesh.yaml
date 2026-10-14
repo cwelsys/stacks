@@ -5,6 +5,7 @@ services:
     environment:
       - DYNAMIC_CONFIG=false
       - INSTALL_STYLISHUI=true
+      - STYLISHUI_FORCE_LATEST=true
       - TZ=${TZ}
     volumes:
       - ${DOCKERM}/mesh/data:/opt/meshcentral/meshcentral-data
