@@ -1,16 +1,16 @@
 [[server]]
 name = "pbox"
 [server.config]
-address      = "https://host.docker.internal:8120"
-enabled      = true
-cpu_warning  = 92.0
+address = "https://host.docker.internal:8120"
+enabled = true
+cpu_warning = 92.0
 disk_warning = 80.0
 
 ##
 
 [[stack]]
-name   = "arr"
-tags   = [ "media", "arr", "public" ]
+name = "arr"
+tags = ["media", "arr", "public"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -19,7 +19,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [ "arr.yaml" ]
+file_paths = ["arr.yaml"]
 environment = """
 SONARR_API_KEY=[[SONARR__API]]
 RADARR_API_KEY=[[RADARR__API]]
@@ -28,35 +28,35 @@ RADARR_API_KEY=[[RADARR__API]]
 ##
 
 [[stack]]
-name   = "audio"
-tags   = [ "media" ]
+name = "audio"
+tags = ["media"]
 deploy = true
 [stack.config]
-server        = "pbox"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths    = [ "audio.yaml" ]
+file_paths = ["audio.yaml"]
 
 ##
 
 [[stack]]
-name   = "backrest"
-tags   = [ "infra", "backup" ]
+name = "backrest"
+tags = ["infra", "backup"]
 deploy = true
 [stack.config]
-server        = "pbox"
-auto_update   = true
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
+server = "pbox"
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "infra"
-file_paths    = [ "backrest.yaml" ]
+file_paths = ["backrest.yaml"]
 
 ##
 
 [[stack]]
-name   = "beszel"
-tags   = [ "monitor" ]
+name = "beszel"
+tags = ["monitor"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -65,7 +65,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "monitor"
-file_paths = [ "beszel.yaml" ]
+file_paths = ["beszel.yaml"]
 environment = """
 BESZEL_KEY=[[BESZEL__KEY]]
 """
@@ -73,15 +73,16 @@ BESZEL_KEY=[[BESZEL__KEY]]
 ##
 
 [[stack]]
-name   = "bigcapital"
-tags   = [ "wfg" ]
+name = "bigcapital"
+tags = ["wfg"]
 deploy = true
 [stack.config]
-server        = "pbox"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "wfg"
-file_paths    = [ "bigcapital.yaml" ]
+file_paths = ["bigcapital.yaml"]
+ignore_services = ["migrate"]
 environment = """
 BIGCAPITAL_JWT_SECRET=[[BIGCAPITAL__JWT]]
 BIGCAPITAL_DB_ROOT_PASSWORD=[[BIGCAPITAL__MYSQL_ROOT]]
@@ -95,50 +96,50 @@ BIGCAPITAL_TSKEY=[[BIGCAPITAL__TSKEY]]
 ##
 
 [[stack]]
-name   = "book"
-tags   = [ "media" ]
+name = "book"
+tags = ["media"]
 deploy = true
 [stack.config]
-server        = "pbox"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths    = [ "book.yaml" ]
+file_paths = ["book.yaml"]
 
 ##
 
 [[stack]]
-name   = "core"
-tags   = [ "infra", "public" ]
+name = "core"
+tags = ["infra", "public"]
 deploy = true
 [stack.config]
-server        = "pbox"
-project_name  = "infra"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
+server = "pbox"
+project_name = "infra"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "infra"
-file_paths    = [ "core.yaml" ]
+file_paths = ["core.yaml"]
 
 ##
 
 [[stack]]
-name   = "dozzle"
-tags   = [ "monitor" ]
+name = "dozzle"
+tags = ["monitor"]
 deploy = true
 [stack.config]
-server           = "pbox"
+server = "pbox"
 poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "monitor"
-file_paths       = [ "dozzle.yaml" ]
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["dozzle.yaml"]
 
 ##
 
 [[stack]]
-name   = "external"
-tags   = [ "infra", "proxy", "public" ]
+name = "external"
+tags = ["infra", "proxy", "public"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -147,7 +148,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "infra"
-file_paths = [ "external.yaml" ]
+file_paths = ["external.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -159,8 +160,8 @@ BOUNCER_HOST=crowdsec:8080
 ##
 
 [[stack]]
-name   = "ftp"
-tags   = [ "apps", "files" ]
+name = "ftp"
+tags = ["apps", "files"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -168,7 +169,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
-file_paths = [ "ftp.yaml" ]
+file_paths = ["ftp.yaml"]
 environment = """
 SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
 """
@@ -176,15 +177,15 @@ SFTPGO_DB_PASS=[[SFTPGO__PASSWORD]]
 ##
 
 [[stack]]
-name   = "game"
-tags   = [ "media" ]
+name = "game"
+tags = ["media"]
 deploy = true
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [ "game.yaml" ]
+file_paths = ["game.yaml"]
 environment = """
 ROMM_DB_PW=[[ROMM__ROMMDB]]
 MARIADB_PW=[[ROMM__MARIADB]]
@@ -199,30 +200,30 @@ IGDB_CLIENT_SECRET=[[ROMM__IGDB_SECRET]]
 ##
 
 [[stack]]
-name   = "game-thumbs"
-tags   = [ "media" ]
+name = "game-thumbs"
+tags = ["media"]
 deploy = true
 [stack.config]
-server           = "pbox"
+server = "pbox"
 poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "media"
-file_paths       = [ "game-thumbs.yaml" ]
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["game-thumbs.yaml"]
 
 ##
 
 [[stack]]
-name   = "git"
-tags   = [ "infra", "public" ]
+name = "git"
+tags = ["infra", "public"]
 deploy = true
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "infra"
-file_paths = [ "git.yaml" ]
+file_paths = ["git.yaml"]
 environment = """
 FORGEJO_DB_PASS=[[FORGEJO__POSTGRES]]
 WOODPECKER_CLIENT=[[WOODPECKER__CLIENT]]
@@ -234,8 +235,8 @@ WOODPECKER_GRPC=[[WOODPECKER__GRPC]]
 ##
 
 [[stack]]
-name   = "homepage"
-tags   = [ "monitor" ]
+name = "homepage"
+tags = ["monitor"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -244,7 +245,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "monitor"
-file_paths = [ "homepage.yaml" ]
+file_paths = ["homepage.yaml"]
 environment = """
 ABS_API_KEY=[[AUDIOBOOKSHELF__API]]
 BAZARR_API_KEY=[[BAZARR__API]]
@@ -286,8 +287,8 @@ WHISPARR_API_KEY=[[WHISPARR__API]]
 ##
 
 [[stack]]
-name   = "immich"
-tags   = [ "apps", "photos" ]
+name = "immich"
+tags = ["apps", "photos"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -296,7 +297,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
-file_paths = [ "immich.yaml" ]
+file_paths = ["immich.yaml"]
 environment = """
 IMMICH_PG_PASS=[[IMMICH__POSTGRES]]
 """
@@ -304,8 +305,8 @@ IMMICH_PG_PASS=[[IMMICH__POSTGRES]]
 ##
 
 [[stack]]
-name   = "internal"
-tags   = [ "infra", "proxy" ]
+name = "internal"
+tags = ["infra", "proxy"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -314,7 +315,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "infra"
-file_paths = [ "internal.yaml" ]
+file_paths = ["internal.yaml"]
 environment = """
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
@@ -323,30 +324,30 @@ INFLUXDB_TOKEN=[[TRAEFIK__INFLUXDB_TOKEN]]
 ##
 
 [[stack]]
-name   = "it-tools"
-tags   = [ "apps" ]
+name = "it-tools"
+tags = ["apps"]
 deploy = true
 [stack.config]
-server           = "pbox"
+server = "pbox"
 poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "apps"
-file_paths       = [ "it-tools.yaml" ]
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["it-tools.yaml"]
 
 ##
 
 [[stack]]
-name   = "jellyfin"
-tags   = [ "media", "public" ]
+name = "jellyfin"
+tags = ["media", "public"]
 deploy = true
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [ "jellyfin.yaml" ]
+file_paths = ["jellyfin.yaml"]
 environment = """
 JELLYPG_PASS=[[JELLYSTAT__POSTGRES]]
 JELLYS_JWT=[[JELLYSTAT__JWT]]
@@ -356,43 +357,43 @@ MEILI_KEY=[[JELLFIN__MEILI]]
 ##
 
 [[stack]]
-name   = "kiwi"
-tags   = [ "media" ]
+name = "kiwi"
+tags = ["media"]
 deploy = true
 [stack.config]
-server        = "pbox"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths    = [ "kiwi.yaml" ]
+file_paths = ["kiwi.yaml"]
 
 ##
 
 [[stack]]
-name   = "linkding"
-tags   = [ "apps" ]
+name = "linkding"
+tags = ["apps"]
 deploy = true
 [stack.config]
-server           = "pbox"
+server = "pbox"
 poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "apps"
-file_paths       = [ "linkding.yaml" ]
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["linkding.yaml"]
 
 ##
 
 [[stack]]
-name   = "membarr"
-tags   = [ "bots", "discord" ]
+name = "membarr"
+tags = ["bots", "discord"]
 deploy = true
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "bots"
-file_paths = [ "membarr.yaml" ]
+file_paths = ["membarr.yaml"]
 environment = """
 MEMBARR_TOKEN=[[DISCORD__MEMBARR]]
 """
@@ -400,17 +401,17 @@ MEMBARR_TOKEN=[[DISCORD__MEMBARR]]
 ##
 
 [[stack]]
-name   = "mesh"
-tags   = [ "wfg" ]
+name = "mesh"
+tags = ["wfg"]
 deploy = true
 [stack.config]
-server           = "pbox"
+server = "pbox"
 poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "wfg"
-file_paths       = [ "mesh.yaml" ]
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "wfg"
+file_paths = ["mesh.yaml"]
 environment = """
 TS_MESH_AUTHKEY=[[MESH_CENTRAL__TSKEY]]
 """
@@ -418,30 +419,30 @@ TS_MESH_AUTHKEY=[[MESH_CENTRAL__TSKEY]]
 ##
 
 [[stack]]
-name   = "monkey"
-tags   = [ "apps" ]
+name = "monkey"
+tags = ["apps"]
 deploy = true
 [stack.config]
-server           = "pbox"
+server = "pbox"
 poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "apps"
-file_paths       = [ "monkey.yaml" ]
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["monkey.yaml"]
 
 ##
 
 [[stack]]
-name   = "muse"
-tags   = [ "bots", "discord" ]
+name = "muse"
+tags = ["bots", "discord"]
 deploy = true
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "bots"
-file_paths = [ "muse.yaml" ]
+file_paths = ["muse.yaml"]
 environment = """
 GOOGLE_API=[[GOOGLE__API]]
 MUSE_TOKEN=[[DISCORD__MUSE]]
@@ -450,30 +451,30 @@ MUSE_TOKEN=[[DISCORD__MUSE]]
 ##
 
 [[stack]]
-name   = "nextcloud"
-tags   = [ "apps", "files", "public" ]
+name = "nextcloud"
+tags = ["apps", "files", "public"]
 deploy = true
 [stack.config]
-server           = "pbox"
+server = "pbox"
 poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "apps"
-file_paths       = [ "nextcloud.yaml" ]
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["nextcloud.yaml"]
 
 ##
 
 [[stack]]
-name   = "ninja"
-tags   = [ "wfg" ]
+name = "ninja"
+tags = ["wfg"]
 deploy = true
 [stack.config]
-server        = "pbox"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "wfg"
-file_paths    = [ "ninja.yaml" ]
+file_paths = ["ninja.yaml"]
 environment = """
 NINJA_APP_KEY=[[INVOICE_NINJA__KEY]]
 NINJA_DB_PASSWORD=[[INVOICE_NINJA__MYSQL]]
@@ -485,144 +486,8 @@ NINJA_TSKEY=[[BIGCAPITAL__TSKEY]]
 ##
 
 [[stack]]
-name   = "ntfy"
-tags   = [ "monitor" ]
-deploy = true
-[stack.config]
-server           = "pbox"
-poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "monitor"
-file_paths       = [ "ntfy.yaml" ]
-
-##
-
-[[stack]]
-name   = "obisync"
-tags   = [ "apps" ]
-deploy = true
-[stack.config]
-server = "pbox"
-poll_for_updates = true
-auto_update = true
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "apps"
-file_paths = [ "obisync.yaml" ]
-ignore_services = [ "couchdb-init" ]
-environment = """
-COUCHDB_USER=[[OBISYNC__USER]]
-COUCHDB_PASSWORD=[[OBISYNC__PASS]]
-"""
-
-##
-
-[[stack]]
-name   = "redbot"
-tags   = [ "bots", "discord" ]
-deploy = true
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "bots"
-file_paths = [ "redbot.yaml" ]
-environment = """
-REDBOT_TOKEN=[[DISCORD__REDBOT]]
-"""
-
-##
-
-[[stack]]
-name   = "requestarr"
-tags   = [ "bots", "discord" ]
-deploy = true
-[stack.config]
-server        = "pbox"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
-run_directory = "bots"
-file_paths    = [ "requestarr.yaml" ]
-
-##
-
-[[stack]]
-name   = "sab"
-tags   = [ "media", "download" ]
-deploy = true
-[stack.config]
-server        = "pbox"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
-run_directory = "media"
-file_paths    = [ "sab.yaml" ]
-
-##
-
-[[stack]]
-name   = "scrutiny"
-tags   = [ "monitor" ]
-deploy = true
-[stack.config]
-server           = "pbox"
-poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "monitor"
-file_paths       = [ "scrutiny.yaml" ]
-
-##
-
-[[stack]]
-name   = "searxng"
-tags   = [ "apps" ]
-deploy = true
-[stack.config]
-server           = "pbox"
-poll_for_updates = true
-auto_update      = true
-git_account      = "cwelsys"
-repo             = "cwelsys/stacks"
-run_directory    = "apps"
-file_paths       = [ "searxng.yaml" ]
-
-##
-
-[[stack]]
-name   = "slop"
-tags   = [ "apps", "ai" ]
-deploy = true
-[stack.config]
-server = "pbox"
-poll_for_updates = true
-auto_update = true
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "apps"
-file_paths = [ "slop.yaml" ]
-
-##
-
-[[stack]]
-name   = "sock"
-tags   = [ "infra" ]
-deploy = true
-[stack.config]
-server        = "pbox"
-auto_update   = true
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
-run_directory = "infra"
-file_paths    = [ "sock.yaml" ]
-
-##
-
-[[stack]]
-name   = "speed"
-tags   = [ "monitor" ]
+name = "ntfy"
+tags = ["monitor"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -631,7 +496,143 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "monitor"
-file_paths = [ "speed.yaml" ]
+file_paths = ["ntfy.yaml"]
+
+##
+
+[[stack]]
+name = "obisync"
+tags = ["apps"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["obisync.yaml"]
+ignore_services = ["couchdb-init"]
+environment = """
+COUCHDB_USER=[[OBISYNC__USER]]
+COUCHDB_PASSWORD=[[OBISYNC__PASS]]
+"""
+
+##
+
+[[stack]]
+name = "redbot"
+tags = ["bots", "discord"]
+deploy = true
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "bots"
+file_paths = ["redbot.yaml"]
+environment = """
+REDBOT_TOKEN=[[DISCORD__REDBOT]]
+"""
+
+##
+
+[[stack]]
+name = "requestarr"
+tags = ["bots", "discord"]
+deploy = true
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "bots"
+file_paths = ["requestarr.yaml"]
+
+##
+
+[[stack]]
+name = "sab"
+tags = ["media", "download"]
+deploy = true
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["sab.yaml"]
+
+##
+
+[[stack]]
+name = "scrutiny"
+tags = ["monitor"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["scrutiny.yaml"]
+
+##
+
+[[stack]]
+name = "searxng"
+tags = ["apps"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["searxng.yaml"]
+
+##
+
+[[stack]]
+name = "slop"
+tags = ["apps", "ai"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "apps"
+file_paths = ["slop.yaml"]
+
+##
+
+[[stack]]
+name = "sock"
+tags = ["infra"]
+deploy = true
+[stack.config]
+server = "pbox"
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "infra"
+file_paths = ["sock.yaml"]
+
+##
+
+[[stack]]
+name = "speed"
+tags = ["monitor"]
+deploy = true
+[stack.config]
+server = "pbox"
+poll_for_updates = true
+auto_update = true
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "monitor"
+file_paths = ["speed.yaml"]
 environment = """
 SPEED_API=[[SPEEDTEST__API]]
 """
@@ -639,28 +640,28 @@ SPEED_API=[[SPEEDTEST__API]]
 ##
 
 [[stack]]
-name   = "stash"
-tags   = [ "media" ]
-deploy = true
-[stack.config]
-server        = "pbox"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
-run_directory = "media"
-file_paths    = [ "stash.yaml" ]
-
-##
-
-[[stack]]
-name   = "tortun"
-tags   = [ "media", "download", "vpn" ]
+name = "stash"
+tags = ["media"]
 deploy = true
 [stack.config]
 server = "pbox"
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "media"
-file_paths = [ "tortun.yaml" ]
+file_paths = ["stash.yaml"]
+
+##
+
+[[stack]]
+name = "tortun"
+tags = ["media", "download", "vpn"]
+deploy = true
+[stack.config]
+server = "pbox"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
+run_directory = "media"
+file_paths = ["tortun.yaml"]
 environment = """
 QBIT_USERNAME=admin
 QBIT_PASSWORD=[[QBITTORRENT__PASSWORD]]
@@ -671,8 +672,8 @@ GLUETUN_APIKEY=[[GLUETUN__API]]
 ##
 
 [[stack]]
-name   = "umami"
-tags   = [ "apps", "analytics", "public" ]
+name = "umami"
+tags = ["apps", "analytics", "public"]
 deploy = true
 [stack.config]
 server = "pbox"
@@ -681,7 +682,7 @@ auto_update = true
 git_account = "cwelsys"
 repo = "cwelsys/stacks"
 run_directory = "apps"
-file_paths = [ "umami.yaml" ]
+file_paths = ["umami.yaml"]
 environment = """
 UMAMI_APP_SECRET=[[UMAMI__SECRET]]
 UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
@@ -690,16 +691,16 @@ UMAMI_DB_PASSWORD=[[UMAMI__POSTGRES]]
 ##
 
 [[stack]]
-name   = "wfg-gateway"
-tags   = [ "wfg" ]
+name = "wfg-gateway"
+tags = ["wfg"]
 deploy = true
 [stack.config]
-server        = "pbox"
-project_name  = "gateway"
-git_account   = "cwelsys"
-repo          = "cwelsys/stacks"
+server = "pbox"
+project_name = "gateway"
+git_account = "cwelsys"
+repo = "cwelsys/stacks"
 run_directory = "wfg"
-file_paths    = [ "gateway.yaml" ]
+file_paths = ["gateway.yaml"]
 environment = """
 WFG_TSKEY=[[BIGCAPITAL__TSKEY]]
 CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
@@ -707,67 +708,64 @@ CF_DNS_API_TOKEN=[[CLOUDFLARE__API]]
 
 ##
 
-[[repo]]
-name = "stacks"
-[repo.config]
-server      = "pbox"
-builder     = "local"
+[[build]]
+name = "archlinux"
+description = "Woodpecker build image for cwel/pkg: base-devel, paru with a local repo, git, jq, node."
+tags = ["infra"]
+[build.config]
+builder = "local"
+image_name = "archlinux"
 git_account = "cwelsys"
-repo        = "cwelsys/stacks"
+repo = "cwelsys/stacks"
+build_path = "infra/runner"
+image_registry = [
+  { domain = "git.cwel.sh", account = "cwel" }
+]
 
 ##
 
-[[build]]
-name        = "archlinux"
-description = "Woodpecker build image for cwel/pkg: base-devel, paru with a local repo, git, jq, node."
-tags        = [ "infra" ]
-[build.config]
-builder     = "local"
+[[repo]]
+name = "stacks"
+[repo.config]
+server = "pbox"
+builder = "local"
 git_account = "cwelsys"
-repo        = "cwelsys/stacks"
-build_path  = "infra/runner"
-image_name  = "archlinux"
-
-# Without a registry domain Komodo tags image_name verbatim and never pushes,
-# so the image only ever existed in pbox's local image cache.
-[[build.config.image_registry]]
-domain  = "git.cwel.sh"
-account = "cwel"
+repo = "cwelsys/stacks"
 
 ##
 
 [[procedure]]
-name            = "Global Auto Update"
-description     = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
-tags            = [ "system" ]
+name = "Global Auto Update"
+description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags = ["system"]
 config.schedule = "Every day at 03:37"
 
 [[procedure.config.stage]]
 name = "Stage 1"
 enabled = true
 executions = [
-  { execution.type = "GlobalAutoUpdate", execution.params.skip_auto_update = false, enabled = true },
+  { execution.type = "GlobalAutoUpdate", execution.params.skip_auto_update = false, enabled = true }
 ]
 
 ##
 
 [[procedure]]
-name        = "deploy-on-push"
+name = "deploy-on-push"
 description = "Webhook target for repo pushes. Syncs resources, then redeploys any Stack whose files changed."
-tags        = [ "system" ]
+tags = ["system"]
 
 [[procedure.config.stage]]
 name = "Sync"
 enabled = true
 executions = [
-  { execution.type = "RunSync", execution.params.sync = "stacks", enabled = true },
+  { execution.type = "RunSync", execution.params.sync = "stacks", enabled = true }
 ]
 
 [[procedure.config.stage]]
 name = "Deploy changed"
 enabled = true
 executions = [
-  { execution.type = "BatchDeployStackIfChanged", execution.params.pattern = "*", enabled = true },
+  { execution.type = "BatchDeployStackIfChanged", execution.params.pattern = "*", execution.params.tags = [], enabled = true }
 ]
 
 ##
@@ -775,15 +773,15 @@ executions = [
 [[builder]]
 name = "local"
 [builder.config]
-type           = "Server"
-params.servers = [ "pbox" ]
+type = "Server"
+params.servers = ["pbox"]
 
 ##
 
 [[resource_sync]]
 name = "stacks"
 [resource_sync.config]
-repo          = "cwelsys/stacks"
-git_account   = "cwelsys"
-resource_path = [ "sync.toml" ]
-managed       = true
+repo = "cwelsys/stacks"
+git_account = "cwelsys"
+resource_path = ["sync.toml"]
+managed = true
