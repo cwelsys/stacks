@@ -163,6 +163,7 @@ services:
 configs:
   smtp2graph:
     content: |
+      mode: full
       send:
         appReg:
           tenant: 7a3e3d10-f17a-4a7d-b84d-9e6035631207
