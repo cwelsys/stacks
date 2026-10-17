@@ -22,6 +22,7 @@ services:
       SIGNUP_EMAIL_CONFIRMATION: 'false'
       THROTTLE_GLOBAL_LIMIT: '6000'
       THROTTLE_GLOBAL_TTL: '60000'
+      THROTTLE_AUTH_LIMIT: '6000'
       GOTENBERG_URL: http://gotenberg:3000
       GOTENBERG_DOCS_URL: http://bigcapital:3000/public/
       CLICKHOUSE_ENABLED: 'false'
