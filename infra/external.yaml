@@ -111,7 +111,13 @@ services:
       - /var/log/traefik/external:/var/log/traefik:ro
       - ${DOCKERM}/jellyfin/log:/var/log/jellyfin:ro
       - ${DOCKERM}/seerr/logs:/var/log/seerr:ro
-      - /mnt/bool/ncdata/nextcloud.log:/var/log/nextcloud/nextcloud.log:ro
+      - type: volume
+        source: nextcloud_aio_nextcloud
+        target: /var/log/nextcloud
+        read_only: true
+        volume:
+          subpath: data
+          nocopy: true
       - ${DOCKERM}/crowdsec/config:/etc/crowdsec
       - ${DOCKERM}/crowdsec/data:/var/lib/crowdsec/data
       - ${DOCKERM}/crowdsec/logs:/var/log/crowdsec
@@ -124,4 +130,8 @@ networks:
   crowdsec:
     external: true
   internal:
+    external: true
+
+volumes:
+  nextcloud_aio_nextcloud:
     external: true
