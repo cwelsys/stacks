@@ -464,26 +464,6 @@ file_paths = ["nextcloud.yaml"]
 ##
 
 [[stack]]
-name = "ninja"
-tags = ["wfg"]
-deploy = true
-[stack.config]
-server = "pbox"
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "wfg"
-file_paths = ["ninja.yaml"]
-environment = """
-NINJA_APP_KEY=[[INVOICE_NINJA__KEY]]
-NINJA_DB_PASSWORD=[[INVOICE_NINJA__MYSQL]]
-NINJA_DB_ROOT_PASSWORD=[[INVOICE_NINJA__MYSQL_ROOT]]
-NINJA_PASSWORD=[[INVOICE_NINJA__PASSWORD]]
-NINJA_TSKEY=[[BIGCAPITAL__TSKEY]]
-"""
-
-##
-
-[[stack]]
 name = "ntfy"
 tags = ["monitor"]
 deploy = true
