@@ -261,7 +261,6 @@ HOMEASS_API_KEY=[[HOMEASSISTANT__API]]
 HP_LOC_LABEL=[[HOMEPAGE__LOCATION]]
 HP_LOC_LAT=[[HOMEPAGE__LAT]]
 HP_LOC_LONG=[[HOMEPAGE__LONG]]
-IMMICH_API_KEY=[[IMMICH__API]]
 JELLYFIN_API_KEY=[[JELLYFIN__API]]
 SEERR_API_KEY=[[SEERR__API]]
 KOMO_API_KEY=[[KOMODO__API]]
@@ -283,24 +282,6 @@ TS_API=[[TAILSCALE__API]]
 TUNNEL_ID=[[CLOUDFLARE__TUNNEL_ID]]
 UPTIMEROBOT_API_KEY=[[UPTIMEROBOT__API]]
 WHISPARR_API_KEY=[[WHISPARR__API]]
-"""
-
-##
-
-[[stack]]
-name = "immich"
-tags = ["apps", "photos"]
-deploy = true
-[stack.config]
-server = "pbox"
-poll_for_updates = true
-auto_update = true
-git_account = "cwelsys"
-repo = "cwelsys/stacks"
-run_directory = "apps"
-file_paths = ["immich.yaml"]
-environment = """
-IMMICH_PG_PASS=[[IMMICH__POSTGRES]]
 """
 
 ##
